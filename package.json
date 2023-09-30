@@ -1,0 +1,58 @@
+{
+  "name": "root",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "workspaces": [
+    "libraries/*",
+    "services/*"
+  ],
+  "scripts": {
+    "build": "yarn lerna run build",
+    "build:watch": "yarn tsc -b -w",
+    "clean": "yarn lerna run clean",
+    "mrproper": "yarn clean; yarn lerna clean -y; yarn rimraf .build-cache node_modules",
+    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json && yarn lerna run sort-json-files",
+    "update-references": "yarn update-ts-references && yarn sortjson tsconfig.base.json tsconfig.json {libraries,services}/*/tsconfig.json && yarn prettier -w tsconfig.base.json tsconfig.json {libraries,services}/*/tsconfig.json",
+    "prisma-push": "(cd libraries/mysql/prisma/ && npx prisma db push --accept-data-loss)",
+    "prisma-pull": "(cd libraries/mysql/prisma/ && npx prisma db pull)",
+    "prisma-generate-client": "(cd libraries/mysql/prisma/ && npx prisma generate)",
+    "update-r2db": "(cd helper-scripts && ./update-r2db-docker-init-files.sh)",
+    "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
+    "start:all": "yarn lerna run start --include-dependencies --parallel --stream -- -- -r .env"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "yarn commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "dependencies": {
+    "tsx": "^3.12.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13",
+    "@commitlint/config-conventional": "^13",
+    "@jest/types": "^27.0.6",
+    "@types/lodash": "^4",
+    "@types/node": "^14",
+    "@types/node-fetch": "^2",
+    "esbuild": "^0.19.2",
+    "esbuild-plugin-copy": "^2.1",
+    "husky": "^7.0.1",
+    "jest": "26.6.0",
+    "jest-config": "^27",
+    "json-sort-cli": "^1",
+    "lerna": "^6",
+    "lodash": "^4",
+    "node-fetch": "^2",
+    "prettier": "^2",
+    "rimraf": "^3",
+    "source-map-support": "^0.5.19",
+    "ts-jest": "^27",
+    "typescript": "^4",
+    "update-ts-references": "^2"
+  },
+  "engines": {
+    "node": ">= 14"
+  },
+  "packageManager": "yarn@3.1.1"
+}

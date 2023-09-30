@@ -1,0 +1,126 @@
+{
+  "start": {
+    "header": "Профессиональный клининг",
+    "headerText": "- гарантия качества\n- фиксированная цена\n- частные и коммерческие объекты\n- подготовленные специалисты",
+    "productCatchWord": "Innovative features",
+    "productPoint1": "Real-time applications",
+    "productPoint2": "Marketplace for services",
+    "productPoint3": "Micropayments",
+    "productText": "Connect your real-time IoT objects and add functionality via external services. Develop programable services and offer them in the IoT marketplace. Use integrated micro-payments and generate revenues.",
+    "readMore": "Read more",
+    "signup": "Оформить заказ",
+    "join": "Join today and discover innovative features",
+    "discover": "Другие детали",
+    "prodVal1": {
+      "title": "Flexibility",
+      "text": "Easy and secure registration, instant feedback and interaction of the IoT objects. Widgets for visualization of complex historic data. Advanced functions, like timer, alerts and analytics are available to users."
+    },
+    "prodVal2": {
+      "title": "Scalability",
+      "text": "As an autonomous service, REMROB is suitable for simple as well as complex projects. Various scenarios due to flexible IoT models. Scalable to any number of registered objects. Built-in internationalization."
+    },
+    "prodVal3": {
+      "title": "Development",
+      "text": "REMROB provides development tools. Developers can combine local and cloud environments to develop IoT models, widgets and services. The created artifacts can be tested using integrated simulator."
+    }
+  },
+  "form": {
+    "login": {
+      "header": "LOGIN",
+      "email": "Email",
+      "password": "Password",
+      "button": "Sign in"
+    },
+    "reset": {
+      "header": "RESET PASSWORD",
+      "subHeader": "Enter your email",
+      "email": "Enter your email",
+      "button": "Reset"
+    },
+    "resetConfirm": {
+      "header": "RESET PASSWORD",
+      "subHeader": "Enter your new password",
+      "password1": "New password",
+      "password2": "Repeat password",
+      "success": "Password has been succesfully reset",
+      "error400": "Incorrect credentials",
+      "error404": "Invalid reset token",
+      "button": "Reset"
+    },
+    "signup": {
+      "header": "SIGNUP",
+      "subHeader": "Enter your account data",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "promocode": "Promocode",
+      "button": "Sign up"
+    },
+    "signupConfirmation": {
+      "header": "SIGNUP",
+      "subHeader": "Signup confirmation",
+      "button": "Sign up"
+    }
+  },
+  "login": {
+    "header": "Login"
+  },
+  "signup": {
+    "header": "Sign up"
+  },
+  "signupConfirm": {
+    "header": "Signup confirmation"
+  },
+  "reset": {
+    "header": "Reset password"
+  },
+  "about": {
+    "pageHeader": "About REMROB",
+    "definition": "REMROB is a virtual IoT hub hosted and operated in the cloud that provides the functionality of a traditional IoT hub in a virtualized environment. It acts as a centralized hub or gateway for managing and controlling IoT devices, data, and communication within an IoT ecosystem. It provides the same functionality as a traditional IoT hub but eliminates the need for private users and  organizations to set up and manage their own physical infrastructure.",
+
+    "list1_label": "IoT service for regular use\nand development",
+    "list1_text": "REMROB connects and manages IoT objects - internet-capable Things, Devices and Systems. The service offers unique features for simple and complex projects from alerts to sophisticated visualizations. The features are available to non-technical users in a user friendly web interface. Advanced users get additional tools to create new widgets, configure new IoT models and simulate IoT objects.",
+
+    "list2_section": "Innovative base functions",
+    "list2_subHeader": "Base functions are available to all users. To use these functions no technical knowledge is required.",
+    "list2_point1": "Monitor and control IoT objects in real-time",
+    "list2_point2": "Use alerts, timers and other functions",
+    "list2_point3": "Analyze historical data using widgets",
+    "list2_point4": "Create user groups, give access to objects and widgets",
+    "list2_point5": "Share information and snapshots with other users",
+
+    "list3_section": "Development",
+    "list3_subHeader": "REMROB provides a set of tools for development of IoT objects and widgets targeted at the users with technical skills.",
+    "list3_point1a": "Configure models that define attributes and features of real IoT objects",
+    "list3_point1b": "Define scenarios and relations between users and providers",
+    "list3_point1c": "Create ranges to limit the number of activated IoT objects",
+    "list3_point2a": "Create widgets - advanced visualizations - using widget developer",
+    "list3_point2b": "Code locally with full access to online data without any plugin or driver",
+    "list3_point2c": "Associate widgets with models and access data from active objects",
+
+    "list4_section": "Operator functions",
+    "list4_subHeader": "Sometimes technical users need information from IoT objects used by others. Operator functions help to access aggregated information and execute pre-defined actions.",
+    "list4_point1": "See statistics of activate IoT objects across models",
+    "list4_point2": "Monitor and execute bulk actions pre-defined in models",
+    "list4_point3": "Change specific parameters and settings defined by developer",
+    "list4_point4": "Simulate all available functionality using a built-in simulator",
+
+    "listRealtimeHeader": "Real-time",
+    "listRealtimeText": "REMROB enables real-time integration of different hardware projects and provides a service for monitoring, control and analysis of home, industrial or mobile objects. It offers most possible security and flexibility. Doesn't matter which hardware you use or how complex your projects are. You are free to create your own solutions, not worrying about front and back end. You can scale out your hardware, because REMROB offers a unique model-based serialization.",
+    "listMultimediaHeader": "Multi-media",
+    "listMultimediaText": "The activated objects can be accessed via different media: PC, laptop, tablet or mobile. Further features of REMROB are functions like timers, alerts and data visualization of data using widgets.",
+    "listBenefitsHeader": "Benefits",
+    "listBenefitsText": "Using REMROB your benefits are",
+
+    "listBenefitsText1": "easy activation like plug&play",
+    "listBenefitsText2": "no additional server or boxes needed",
+    "listBenefitsText3": "no port forwarding and no dynDNS service required",
+    "listBenefitsText4": "real-time control and historical data analysis",
+    "listBenefitsText5": "cross-manufacturer functions like timers, alerts and actor/sensor rules"
+  },
+  "contact": {
+    "itemHeader": "Contact",
+    "generalQuestions": "General questions",
+    "technicalSupport": "Technical support"
+  }
+}

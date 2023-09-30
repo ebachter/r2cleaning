@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "Gruntfuggly.todo-tree",
+    "alefragnani.Bookmarks",
+    "vivaxy.vscode-conventional-commits",
+    "tomoki1207.selectline-statusbar",
+    "wayou.vscode-todo-highlight",
+    "ms-azuretools.vscode-docker",
+    "foxundermoon.shell-format",
+    "esbenp.prettier-vscode"
+  ]
+}

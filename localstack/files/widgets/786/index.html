@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <script src="html2canvas.min.js"></script>
+    <script>
+      let sharedObjectUserData;
+      const objectId = 247;
+
+      function receiveMessage(msg) {
+        // Do we trust the sender of this message?
+        // if (event.origin !== "http://example.com:8080")
+        if (msg.data.type === 'objectsMasterData') {
+          sharedObjectUserData = msg.data.data[objectId].object_configuration;
+          const myTbody = document
+            .getElementById('myTable')
+            .getElementsByTagName('tbody')[0];
+          while (myTbody.rows.length > 0) {
+            myTbody.deleteRow(0);
+          }
+          msg.data.data[247]?.object_configuration?.forEach((obj) => {
+            console.log('###', obj.appliance_id, obj.leistung_avg, obj.name);
+
+            const newRow = myTbody.insertRow();
+            newRow.insertCell().append(obj.appliance_id);
+            //newRow.insertCell().append("New data 2").setAttribute('contentEditable', 'true');
+
+            const cell2 = newRow.insertCell();
+            cell2.setAttribute('contentEditable', 'true');
+            cell2.innerHTML = obj.leistung_avg;
+            const cell3 = newRow.insertCell();
+            cell3.setAttribute('contentEditable', 'true');
+            cell3.innerHTML = obj.name;
+          });
+        }
+
+        if (msg.data.type === 'shared') {
+          let erkannt = '';
+          msg.data.data.erkannt.forEach((val) => {
+            erkannt += '<div>' + val + '</div>';
+          });
+          const div1 = document.getElementById('devicesErkannt');
+          div1.innerHTML = erkannt;
+
+          let suggested = '';
+          msg.data.data.vorschlag.forEach((val) => {
+            suggested += '<div>' + val + '</div>';
+          });
+          const div2 = document.getElementById('devicesSuggested');
+          div2.innerHTML = suggested;
+        }
+        //   return;
+        //    var paragraph = document.getElementById("p");
+        //    paragraph.innerHTML += '<br>'+ JSON.stringify(msg.data);
+        // console.log(`Message from main window`, msg);
+
+        // event.source.postMessage({ objectid: 1, actorid: 2, taskid: 3 }, event.origin);
+      }
+
+      window.addEventListener('message', receiveMessage, false);
+
+      /* const updatedSharedData = () => {
+        console.log('objectMasterDataUpdate');
+        // window.parent.postMessage({ type: "updateObjectStore", objectId: 239, data: { myDevices: ['Bügeleisen, Fernsehen, Heizung'] } }, '*');
+        window.parent.postMessage(
+          {
+            type: 'objectMasterDataUpdate',
+            objectId: 239,
+            data: {myDevices: ['Bügeleisen, Fernsehen, Heizung']},
+          },
+          '*',
+        );
+      }; */
+
+      /* const btnClick = (taskid) => {
+      console.log({ objectid: 60, actorid: 20, taskid })
+      window.parent.postMessage({ objectid: 60, actorid: 20, taskid }, '*');
+    }
+
+    const loadCloudData = () => {
+      const msg = { oper: 'loadCloudData', objectid: 60, cloudkey: 'key1', from: '2018-03-02T23:01:41Z', to: '2020-06-02T17:57:19Z' };
+      console.log('loadCloudData', msg)
+      window.parent.postMessage(msg, 'http://localhost:3000');
+    } */
+
+      const btnClick = () => {
+        console.log('###', sharedObjectUserData);
+        const newObjectMaterData = JSON.parse(
+          JSON.stringify(sharedObjectUserData),
+        );
+        const table = document
+          .getElementById('myTable')
+          .getElementsByTagName('tbody')[0];
+
+        for (let r = 0, n = table.rows.length; r < n; r++) {
+          newObjectMaterData[r].leistung_avg = table.rows[r].cells[1].innerText;
+          newObjectMaterData[r].name = table.rows[r].cells[2].innerText;
+          // for (let c = 0, m = table.rows[r].cells.length; c < m; c++) {
+          //     console.log(table.rows[r].cells[c].innerHTML);
+          // }
+        }
+        // console.log({ objectid: 60, actorid: 20 })
+        /*  console.log('newObjectMaterData', newObjectMaterData);
+        window.parent.postMessage(
+          {type: 'objectMasterDataUpdate', objectId, data: newObjectMaterData},
+          '*',
+        ); */
+      };
+      // ////////////////////////////////////////////////////////////////////////////////////
+      function report() {
+        let node = document.querySelector('body');
+        html2canvas(node).then(function (canvas) {
+          window.parent.postMessage(
+            {type: 'screenshot', data: canvas.toDataURL()},
+            '*',
+          );
+          // document.body.appendChild(canvas);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    NILM 2
+    <br /><br />
+    <table border="3" id="myTable">
+      <thead>
+        <tr>
+          <td>Appliance ID</td>
+          <td>Power Wt</td>
+          <td>Name</td>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <br />
+    <button type="button" onclick="report()" style="float: right">
+      Take screenshot
+    </button>
+    <br />
+    <br />
+    <button onclick="btnClick(30)">Update</button>
+    <!--    
+  <br><br>
+  <div><b>Erkannt:</b></div>
+  <div id="devicesErkannt">---</div>
+  <br><br>
+  <div><b>Suggested:</b></div>
+  <div id="devicesSuggested">---</div>
+  <br>
+  <p id="p">Incoming messages:</p>
+  <br>
+  <img src="751.png" alt="Smiley face" height="42" width="42"> 
+  <br>
+  <br>
+  <button type="button" onclick="updatedSharedData()">Update shared data</button>
+  -->
+    <!-- <button onclick="btnClick(30)">Switch on</button> 
+  <button onclick="btnClick(50)">Switch off</button>  -->
+    <br />
+    <br />
+    <!-- <button onclick="loadCloudData()">Load cloud dat</button>  -->
+    <br />
+    <br />
+  </body>
+</html>

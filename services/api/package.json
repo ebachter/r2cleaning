@@ -1,0 +1,85 @@
+{
+  "name": "@remrob/api",
+  "version": "0.2.0",
+  "description": "API of the REMROB ecosystem",
+  "keywords": [
+    "remrob",
+    "service",
+    "api"
+  ],
+  "homepage": "https://bitbucket.org/remrob/r2ecosystem",
+  "repository": "https://bitbucket.org/remrob/r2ecosystem",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "email": "bakhtarov@remrob.com",
+    "name": "Emir Bakhtarov"
+  },
+  "contributors": [
+    {
+      "email": "gelamu@gmail.com",
+      "name": "Muslim Idris"
+    }
+  ],
+  "main": "dist/server.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean; yarn tsc -b",
+    "clean": "yarn rimraf dist ../../.build-cache/services-api.tsbuildinfo",
+    "prepack": "yarn build",
+    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json",
+    "start": "nodemon --delay 3 src/server.ts"
+  },
+  "dependencies": {
+    "@remrob/aws": "^0.0.0",
+    "@remrob/log": "^0.0.2",
+    "@remrob/mysql": "^0.0.2",
+    "@remrob/shuttle": "^0.0.2",
+    "@remrob/t800": "^0.0.2",
+    "@remrob/utils": "^1.0.0",
+    "@trpc/server": "^10.9.0",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "express": "^4.16.2",
+    "express-bearer-token": "^2.1.1",
+    "extract-zip": "^2.0.1",
+    "helmet": "^3.23.0",
+    "js-base64": "^2.5.0",
+    "jsonschema": "^1.2.6",
+    "mime": "^2.4.7",
+    "mqtt": "^4.3.7",
+    "request": "^2.88.2",
+    "serialize-error": "^2.1.0",
+    "socket.io": "^4.5.4",
+    "superjson": "^1.12.2",
+    "uuid": "^8.2.0",
+    "web-push": "^3.5.0",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.0",
+    "@types/helmet": "0.0.43",
+    "@types/mime": "^2.0.3",
+    "@types/node": "^18",
+    "@types/redis": "^2.8.31",
+    "@types/request": "^2.48.1",
+    "@types/uuid": "^8.0.0",
+    "@types/web-push": "^3.3.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "json-sort-cli": "^1",
+    "nodemon": "^2.0.22",
+    "prettier": "^2",
+    "rimraf": "^3",
+    "supertest": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^1.1.1",
+    "tslint": "^5.17.0",
+    "typescript": "^4"
+  }
+}

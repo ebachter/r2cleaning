@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "tsBuildInfoFile": "../../.build-cache/log.tsbuildinfo"
+  },
+  "extends": "../../tsconfig.base.json",
+  "include": ["./src/**/*"],
+  "references": [
+    {
+      "path": "../shuttle"
+    }
+  ]
+}

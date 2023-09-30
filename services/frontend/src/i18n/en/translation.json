@@ -1,0 +1,89 @@
+{
+  "popupObjectGoToObject": "Go to object",
+
+  "dialogWidgetAddHeader": "Upload new widget",
+  "opsPopupWidgetAddSuccessContent": "New widget {{widgetid}} successfully created.",
+  "opsPopupWidgetAddErrorContent": "An error occurred while uploading the widget.",
+
+  "popupModelDelHeader": "Terminate model",
+  "popupModelDelContent": "Do you really want to terminate Model {{modelid}}?\nIt will be permanently deleted once it has no active objects.",
+
+  "showDialogErrorBody": "An error has occured",
+
+  "popupUserAccountDeleteHeader": "Delete account",
+  "popupUserAccountDeleteText": "This operation will permanently delete you REMROB account! To confirm please enter your password.",
+  "popupUserAccountDeletePassword": "Password",
+  "popupUserAccountDeleteConfirm": "Permanently delete",
+
+  "popupObjectRegisterHeader": "Register object",
+  "popupObjectRegisterText": "Please enter the IoT Object data for registration.",
+  "popupObjectRegisterModelid": "Model ID",
+  "popupObjectRegisterSerialnr": "Serial Nr",
+  "popupObjectRegisterPassword": "Password",
+  "popupObjectRegisterButton": "Register",
+  "popupObjectRegisterSuccess": "Object {{objectId}}. {{name}} is succesfully registered",
+  "popupObjectRegisterError": "There was an error during the registration.",
+
+  "dialogCreateModelHeader": "Create model",
+  "dialogCreateModelBody": "Model {{modelid}} has been succesfully created. You will be forwarded to the new model after closing this message.",
+
+  "pages_ext_login_header": "Login",
+  "dialogCancelButton": "Cancel",
+  "dialogCloseButton": "Close",
+  "dialogBookmarkDelHeader": "Widget bookmark delete",
+  "dialogBookmarkDelContent1": "Do you want to detach the widget {{widgetid}} from the application area?",
+  "dialogBookmarkAddHeader": "Add widget",
+  "dialogBookmarkAddContent1": "Do you want to add the widget {{widgetid}} to your application area?",
+  "dialogReloginHeader": "Relogin",
+  "dialogReloginContent": "Your seesion has expired. Please login again.",
+  "dialogWidgetDelHeader": "Terminate widget",
+  "dialogWidgetDelContent1": "Do you really want to terminate widget template {{widgetId}}?",
+  "popupWidgetGoToWidget": "Go to widget settings",
+
+  "dialogDelButtonTextConfirm": "Delete",
+  "dialogTermButtonTextConfirm": "Terminate",
+  "dialogAddButtonTextConfirm": "Add",
+  "dialogOperationInProgress": "Operation is in progress",
+  "dialogOperationSuccess": "Operation is completed",
+  "dialogOperationError": "An error has occured",
+
+  "app": {
+    "objects": {
+      "provisions": {
+        "header": "Delete provision",
+        "info": "Do you really want to delete the provisioned object?"
+      }
+    }
+  },
+
+  "topic": {
+    "create": {
+      "header": "Create project",
+      "info": "Enter details of new project",
+      "name": "Project name",
+      "descr": "Summary",
+      "color": "Color",
+      "success": "Project successfully created.",
+      "error": "Ops, there was an error"
+    },
+    "delete": {
+      "header": "Delete project",
+      "info": "Do you really want to delete this project?"
+    }
+  },
+
+  "model": {
+    "create": {
+      "header": "Create model",
+      "success": "Model {{modelid}} has been successfully created",
+      "error": "An error occurred while creating the model ({{status}}).",
+      "gotoButton": "Go to model"
+    }
+  },
+
+  "button": {
+    "create": "Create",
+    "repeat": "Repeat",
+    "delete": "Delete"
+  }
+}

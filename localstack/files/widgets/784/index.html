@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+
+    <script>
+      function receiveMessage(msg) {
+        // Do we trust the sender of this message?
+        // if (event.origin !== "http://example.com:8080")
+        //   return;
+        var paragraph = document.getElementById('p');
+        paragraph.innerHTML += '<br>' + JSON.stringify(msg.data);
+        // console.log(`Message from main window`, msg);
+
+        // event.source.postMessage({ objectid: 1, actorid: 2, taskid: 3 }, event.origin);
+      }
+
+      window.addEventListener('message', receiveMessage, false);
+
+      const btnClick = (taskid) => {
+        console.log({objectid: 60, actorid: 20, taskid});
+        window.parent.postMessage({objectid: 60, actorid: 20, taskid}, '*');
+      };
+
+      const loadCloudData = () => {
+        const msg = {
+          oper: 'loadCloudData',
+          objectid: 60,
+          cloudkey: 'key1',
+          from: '2018-03-02T23:01:41Z',
+          to: '2020-06-02T17:57:19Z',
+        };
+        console.log('loadCloudData', msg);
+        window.parent.postMessage(msg, 'http://localhost:3000');
+      };
+    </script>
+  </head>
+  <body>
+    Heute ist ein gutes Wetter!
+    <br /><br />
+    <p id="p">This is some text</p>
+    <br />
+    <img src="751.png" alt="Smiley face" height="42" width="42" />
+    <br />
+    <br />
+    <button onclick="btnClick(30)">Switch on</button>
+    <button onclick="btnClick(50)">Switch off</button>
+    <br />
+    <br />
+    <button onclick="loadCloudData()">Load cloud dat</button>
+    <br />
+    <br />
+  </body>
+</html>

@@ -1,0 +1,74 @@
+version: '3.8'
+
+networks:
+  cleaning:
+    name: cleaning
+    driver: bridge
+    attachable: true
+
+volumes:
+  db:
+    labels:
+      - cleaning
+      - database
+      - mysql
+
+services:
+  localstack:
+    container_name: 'localstack_cl'
+    # higher versions > 0.14.2 deprecated s3 persistance
+    # alternative Min.IO ??? https://github.com/localstack/localstack/issues/1175
+    image: localstack/localstack:0.14.2
+    networks:
+      cleaning:
+        aliases:
+          - localstack.cleaning
+    environment:
+      - SERVICES=lambda,s3
+      # cloudwatch,events,dynamodb,iam,cloudformation,
+      #- LAMBDA_EXECUTOR=docker_reuse
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEF_REGION=eu-central-1
+      #- DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      #- PORT_WEB_UI=8080
+      - LAMBDA_DOCKER_NETWORK=cleaning
+      - KINESIS_PROVIDER=kinesalite
+      - LOCALSTACK_HOSTNAME=localstack.cleaning
+      - EDGE_PORT=4566
+      - LS_LOG=error
+    env_file: .env
+    ports:
+      - '4566:4566'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./localstack:/tmp/localstack/data
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - '3306:3306'
+    networks:
+      cleaning:
+        aliases:
+          - db.cleaning
+    env_file: .env
+    volumes:
+      - ./docker/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - db:/var/lib/mysql
+    cap_add:
+      - SYS_NICE # CAP_SYS_NICE to avoid “mbind: Operation not permitted” errors
+
+  redis:
+    image: redis/redis-stack-server:latest
+    ports:
+      - '6379:6379'
+    networks:
+      cleaning:
+        aliases:
+          - redis.cleaning

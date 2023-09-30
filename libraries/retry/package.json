@@ -1,0 +1,30 @@
+{
+  "name": "@remrob/retry",
+  "version": "0.0.2",
+  "description": "A small helper for custom retry strategies for failed operations",
+  "keywords": [
+    "retry"
+  ],
+  "homepage": "https://bitbucket.org/remrob/r2ecosystem",
+  "repository": "https://bitbucket.org/remrob/r2ecosystem",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Muslim Idris <gelamu@gmail.com>",
+  "main": "dist/retry.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean; yarn tsc -b",
+    "clean": "yarn rimraf dist ../../.build-cache/retry.tsbuildinfo",
+    "prepack": "yarn build",
+    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+  },
+  "devDependencies": {
+    "@types/node": "^14",
+    "json-sort-cli": "^1",
+    "prettier": "^2",
+    "rimraf": "^3",
+    "typescript": "^4"
+  }
+}

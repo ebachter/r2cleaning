@@ -1,0 +1,653 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./pclient"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "rhel-openssl-1.0.x"]
+  // "rhel-openssl-1.0.x" -> for AWS Lambda
+}
+
+generator json {
+  provider     = "prisma-json-types-generator"
+  namespace    = "PrismaJson"
+  clientOutput = "./pclient"
+}
+
+datasource r2db {
+  provider = "mysql"
+  url      = env("R2DB_DATABASE_URL_LOCAL")
+}
+
+model contacts {
+  contact_id                         Int       @id @default(autoincrement())
+  requestor_fk                       Int
+  contact_fk                         Int
+  request_date                       DateTime  @r2db.Timestamp(0)
+  confirm_date                       DateTime  @default(now()) @r2db.Timestamp(0)
+  rejected_at                        DateTime? @r2db.DateTime(0)
+  users_contacts_contact_fkTousers   users     @relation("contacts_contact_fkTousers", fields: [contact_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_2693190e5a99e58e7ac1d3f0914")
+  users_contacts_requestor_fkTousers users     @relation("contacts_requestor_fkTousers", fields: [requestor_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_fd5273cb90cd212a74124e38df5")
+
+  @@unique([requestor_fk, contact_fk], map: "uq_contact")
+  @@index([contact_fk], map: "fk_contacts2_user_id")
+  @@index([requestor_fk], map: "fk_contacts_user_id")
+}
+
+model models {
+  model_id                                                          Int                         @id @default(autoincrement())
+  user_fk                                                           Int
+  icon                                                              String                      @default("no_icon.png") @r2db.VarChar(100)
+  bound_contract_fk                                                 Int?
+  model_name_en                                                     String                      @r2db.VarChar(100)
+  model_name_de                                                     String                      @r2db.VarChar(100)
+  model_descr_en                                                    String?                     @r2db.VarChar(300)
+  model_descr_de                                                    String?                     @r2db.VarChar(300)
+  /// [Models_JsonModelFull]
+  json_model_full                                                   Json
+  jsonModelFull_backup                                              Json?
+  contract_type_fk                                                  Int?
+  terminated_at                                                     DateTime?                   @r2db.DateTime(0)
+  json_model_en                                                     Json?
+  json_model_de                                                     Json?
+  is_externally_registerable                                        Int                         @default(0) @r2db.TinyInt
+  is_sensor_data_logging                                            Int                         @default(0) @r2db.TinyInt
+  created_at                                                        DateTime                    @default(now()) @r2db.DateTime(0)
+  webhook_url                                                       String?                     @r2db.VarChar(250)
+  webhook_script                                                    String?                     @r2db.VarChar(10000)
+  webhook_actors                                                    Int                         @default(0) @r2db.TinyInt
+  webhook_sensors                                                   Int                         @default(0) @r2db.TinyInt
+  webhook_params___                                                 Json?
+  ext_service_fk                                                    Int?
+  /// [Models_ExtServiceData]
+  ext_service_data                                                  Json?
+  /// [Models_ExtServiceMapping]
+  ext_service_mapping                                               Json?
+  object_configuration_initial                                      Json?
+  /// [Models_MappingIn]
+  mapping_in                                                        Json
+  /// [Models_MappingOut]
+  mapping_out                                                       Json
+  /// [Models_InitialCommands]
+  initial_commands                                                  Json
+  contracts_templates_contracts_templatesTomodels_bound_contract_fk services_templates?         @relation("contracts_templatesTomodels_bound_contract_fk", fields: [bound_contract_fk], references: [service_template_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_2f1462c9f471ce60326999bf976")
+  contracts_templates_contracts_templatesTomodels_contract_type_fk  services_templates?         @relation("contracts_templatesTomodels_contract_type_fk", fields: [contract_type_fk], references: [service_template_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_61e70948d8294504521eebad90b")
+  users                                                             users                       @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_bf435fe5809dbabc5d72775ab35")
+  objects                                                           objects[]
+  objects_provisions                                                objects_provisions[]
+  objects_reservations                                              objects_reservations[]
+  services_templates_models                                         services_templates_models[]
+  widgets_templates_models                                          widgets_templates_models[]
+
+  @@index([user_fk], map: "fk_mdls_userid_idx")
+  @@index([bound_contract_fk], map: "fk_models_bound_conract_idx")
+  @@index([contract_type_fk], map: "fk_models_contract_type_id_idx")
+}
+
+model objects {
+  object_id                                                                Int                         @id @default(autoincrement())
+  mqtt_client_id                                                           String                      @unique(map: "uq_objects_mqttclientid") @r2db.VarChar(200)
+  mqtt_user_name                                                           String                      @r2db.VarChar(100)
+  model_fk                                                                 Int
+  keyhash                                                                  String                      @r2db.VarChar(64)
+  user_fk                                                                  Int
+  object_name                                                              String                      @r2db.VarChar(100)
+  email                                                                    String?                     @r2db.VarChar(50)
+  created_at                                                               DateTime                    @default(now()) @r2db.DateTime(0)
+  modified_at                                                              DateTime                    @default(now()) @r2db.DateTime(0)
+  project_fk                                                               Int?
+  publicly_accessible_data                                                 Json?
+  features                                                                 Json?
+  live_object_online                                                       Int                         @default(0) @r2db.TinyInt
+  free_provisioned_slaves_amount                                           Int?
+  is_provision_master                                                      Int                         @default(0) @r2db.TinyInt
+  shared_external_object_data                                              Json
+  object_configuration                                                     Json?
+  /// [Objects_Alerts]
+  alerts                                                                   Json?
+  connected_at                                                             DateTime?                   @r2db.DateTime(0)
+  disconnected_at                                                          DateTime?                   @r2db.DateTime(0)
+  terminated_at                                                            DateTime?                   @r2db.DateTime(0)
+  projects                                                                 projects?                   @relation(fields: [project_fk], references: [project_id], onUpdate: NoAction, map: "FK_9ab249eab34d1979319f06b6120")
+  models                                                                   models                      @relation(fields: [model_fk], references: [model_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_a926c99bb40f7c679c4e09bcacf")
+  users                                                                    users                       @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_b2b6d9fe85086f626331cf83aa1")
+  objects_actions_actors_objects_actions_actors_actor_object_fkToobjects   objects_actions_actors[]    @relation("objects_actions_actors_actor_object_fkToobjects")
+  objects_actions_actors_objects_actions_actors_reactor_object_fkToobjects objects_actions_actors[]    @relation("objects_actions_actors_reactor_object_fkToobjects")
+  objects_actions_sensors_objectsToobjects_actions_sensors_object_fk       objects_actions_sensors[]   @relation("objectsToobjects_actions_sensors_object_fk")
+  objects_geo                                                              objects_geo?
+  objects_provisions                                                       objects_provisions[]
+  objects_timers                                                           objects_timers[]
+  services                                                                 services[]
+  widgets_templates_objects                                                widgets_templates_objects[]
+
+  @@unique([model_fk, mqtt_client_id], map: "uq_objects_ix")
+  @@index([project_fk], map: "fk_topicid_idx")
+  @@index([model_fk], map: "ix_Objects_modelid")
+  @@index([user_fk], map: "ix_Objects_userid")
+}
+
+model objects_actions_actors {
+  object_action_switch_id                                   Int      @id @unique(map: "gridid_UNIQUE") @default(autoincrement())
+  user_fk                                                   Int?
+  actor_object_fk                                           Int
+  actor_model_id___                                         Int?
+  actor_switch_id                                           String   @r2db.VarChar(45)
+  actor_state_id                                            String   @r2db.VarChar(45)
+  reactor_object_fk                                         Int
+  reactor_model_id___                                       Int?
+  reactor_switch_id                                         String   @r2db.VarChar(45)
+  reactor_task_id                                           String   @r2db.VarChar(45)
+  created_at                                                DateTime @default(now()) @r2db.DateTime(0)
+  objects_objects_actions_actors_actor_object_fkToobjects   objects  @relation("objects_actions_actors_actor_object_fkToobjects", fields: [actor_object_fk], references: [object_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_object_action_switch1")
+  objects_objects_actions_actors_reactor_object_fkToobjects objects  @relation("objects_actions_actors_reactor_object_fkToobjects", fields: [reactor_object_fk], references: [object_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_object_action_switch2")
+
+  @@index([actor_object_fk], map: "fk_object_action_switch1")
+  @@index([reactor_object_fk], map: "fk_object_action_switch2_idx")
+}
+
+model objects_actions_sensors {
+  object_action_sensor_id                            Int                          @id @unique(map: "limitid_UNIQUE") @default(autoincrement())
+  user_fk                                            Int
+  object_fk                                          Int
+  sensor_id                                          String                       @r2db.VarChar(45)
+  sign                                               objects_actions_sensors_sign
+  value                                              Int
+  action_object_fk                                   Int
+  action_actor_id                                    String                       @r2db.VarChar(45)
+  action_task_id                                     String                       @r2db.VarChar(45)
+  created_at                                         DateTime                     @default(now()) @r2db.DateTime(0)
+  users                                              users                        @relation(fields: [user_fk], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_6f758d907c60597351128b901a1")
+  objects_objectsToobjects_actions_sensors_object_fk objects                      @relation("objectsToobjects_actions_sensors_object_fk", fields: [object_fk], references: [object_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_d76d6db56008abd8d2424ba94c5")
+
+  @@unique([object_fk, sensor_id, sign], map: "senor_action_uq")
+  @@index([action_object_fk], map: "obj_fns_actn_obj_idx")
+  @@index([user_fk], map: "obj_fns_uid")
+}
+
+model objects_geo {
+  geo_id    Int                  @id @default(autoincrement())
+  object_fk Int                  @unique(map: "IDX_101f7bc75995aa72e748470a9b")
+  geo       Unsupported("point")
+  objects   objects              @relation(fields: [object_fk], references: [object_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_101f7bc75995aa72e748470a9b1")
+
+  @@index([object_fk], map: "fk_objects_geo_user_id")
+}
+
+model objects_provisions {
+  provision_id         Int     @id @default(autoincrement())
+  user_fk              Int
+  master_object_fk     Int
+  slave_mqtt_client_id String  @unique(map: "uq_provision_mqttClientId") @r2db.VarChar(200)
+  slave_mqtt_user_name String? @r2db.VarChar(100)
+  slave_password       String  @r2db.VarChar(200)
+  slave_model_fk       Int
+  label                String  @r2db.VarChar(45)
+  objects              objects @relation(fields: [master_object_fk], references: [object_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_482847348c8062fcd0b6e75d5ef")
+  users                users   @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_be0bec737ccd02a049c6d8f0a45")
+  models               models  @relation(fields: [slave_model_fk], references: [model_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_obj_provisions_modelid")
+
+  @@index([master_object_fk], map: "fk_provision_object_id")
+  @@index([user_fk], map: "fk_provision_user_id")
+  @@index([slave_model_fk], map: "fk_obj_provisions_modelid_idx")
+}
+
+model objects_timers {
+  timer_id               Int                      @id @default(autoincrement())
+  user_fk                Int?
+  object_fk              Int
+  switch_id              String                   @r2db.VarChar(45)
+  task_id                String                   @r2db.VarChar(45)
+  time_zone              String                   @r2db.VarChar(100)
+  gmt_diff               Int
+  orig_date_from         DateTime                 @r2db.DateTime(0)
+  orig_date_to           DateTime                 @r2db.DateTime(0)
+  orig_time              DateTime                 @r2db.Time(0)
+  orig_mon               Boolean
+  orig_tue               Boolean
+  orig_wed               Boolean
+  orig_thu               Boolean
+  orig_fri               Boolean
+  orig_sat               Boolean
+  orig_sun               Boolean
+  utc_date_from          String                   @r2db.VarChar(40)
+  utc_date_to            String                   @r2db.VarChar(40)
+  utc_time               DateTime?                @r2db.Time(0)
+  utc_mon                Boolean?
+  utc_tue                Boolean?
+  utc_wed                Boolean?
+  utc_thu                Boolean?
+  utc_fri                Boolean?
+  utc_sat                Boolean?
+  utc_sun                Boolean?
+  expired                Boolean                  @default(false)
+  objects                objects                  @relation(fields: [object_fk], references: [object_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_a06f7f574e206cb77636625c2cb")
+  users                  users?                   @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_timer_user_fk")
+  objects_timers_history objects_timers_history[]
+
+  @@unique([object_fk, orig_date_from], map: "uq_timer")
+  @@index([utc_date_from], map: "ix_virtual_col")
+  @@index([user_fk], map: "fk_timer_user_fk")
+}
+
+model objects_tmp {
+  object_id    String  @r2db.VarChar(45)
+  modelid      Int
+  objectid     Int
+  key          String  @r2db.VarChar(256)
+  user         String  @r2db.VarChar(45)
+  userid       Int
+  name         String  @r2db.VarChar(100)
+  email        String  @r2db.VarChar(50)
+  public       Boolean @default(true)
+  surrogate_id Int     @id @default(autoincrement())
+}
+
+model users {
+  user_id                                                      Int                          @id @unique(map: "user_id_UNIQUE") @default(autoincrement())
+  username                                                     String                       @unique(map: "IDX_fe0bb3f6520ee0469504521e71") @r2db.VarChar(45)
+  name                                                         String                       @r2db.VarChar(45)
+  email                                                        String                       @unique(map: "IDX_97672ac88f789774dd47f7c8be") @r2db.VarChar(80)
+  bio                                                          String                       @default("I am the champion of robotics") @r2db.VarChar(500)
+  refreshToken                                                 String?                      @r2db.VarChar(45)
+  password                                                     String?                      @r2db.VarChar(100)
+  language                                                     users_language
+  timezone                                                     String                       @default("UTC") @r2db.VarChar(100)
+  user_image_hash                                              String                       @r2db.VarChar(45)
+  clients                                                      Json?
+  user_active                                                  Int                          @default(1) @r2db.TinyInt
+  balance                                                      Decimal                      @default(0.00) @r2db.Decimal(10, 2)
+  plan                                                         users_plan                   @default(basic)
+  services_amount                                              Int                          @default(0)
+  created_at                                                   DateTime                     @default(now()) @r2db.DateTime(0)
+  terminated_at                                                DateTime?                    @r2db.DateTime(0)
+  contacts_contacts_contact_fkTousers                          contacts[]                   @relation("contacts_contact_fkTousers")
+  contacts_contacts_requestor_fkTousers                        contacts[]                   @relation("contacts_requestor_fkTousers")
+  contacts_requests_contacts_requests_requestor_user_fkTousers contacts_requests[]          @relation("contacts_requests_requestor_user_fkTousers")
+  contacts_requests_contacts_requests_confirmer_user_fkTousers contacts_requests[]          @relation("contacts_requests_confirmer_user_fkTousers")
+  models                                                       models[]
+  objects                                                      objects[]
+  objects_actions_sensors                                      objects_actions_sensors[]
+  objects_provisions                                           objects_provisions[]
+  objects_reservations                                         objects_reservations[]
+  objects_timers                                               objects_timers[]
+  projects                                                     projects[]
+  projects_chats                                               projects_chats[]
+  projects_users                                               projects_users[]
+  services                                                     services[]
+  services_templates                                           services_templates[]
+  services_templates_parties                                   services_templates_parties[]
+  users_activity                                               users_activity[]
+  widgets                                                      widgets[]
+  widgets_templates                                            widgets_templates[]
+}
+
+model users_activity {
+  user_fk              Int
+  fingerprint          String?   @r2db.VarChar(45)
+  websocket_key        String?   @unique(map: "IDX_8518d71dc620c40cd136934838") @r2db.VarChar(100)
+  surrogate_id         Int       @id @default(autoincrement())
+  last_connected_at    DateTime? @r2db.DateTime(0)
+  last_disconnected_at DateTime? @r2db.DateTime(0)
+  users                users     @relation(fields: [user_fk], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_cccbc81399f9aeaba4407dcbc38")
+
+  @@index([user_fk], map: "users_activity_userfk_ix")
+}
+
+model users_new {
+  temp_id      String             @unique(map: "IDX_cbc3b9b5fdfac34af81deea841") @r2db.VarChar(80)
+  email        String             @unique(map: "IDX_bfca748f04c4f27660d2aa7d84") @r2db.VarChar(80)
+  password     String             @r2db.VarChar(100)
+  name         String             @r2db.VarChar(100)
+  language     users_new_language
+  timezone     String             @r2db.VarChar(45)
+  created_at   DateTime           @default(now()) @r2db.Timestamp(0)
+  attempts     Int                @default(0)
+  surrogate_id Int                @id @default(autoincrement())
+}
+
+model users_reset_password {
+  temp_id    String   @unique(map: "IDX_c37329ea19c5896b274985b376") @r2db.VarChar(50)
+  email      String   @id @unique(map: "email_UNIQUE") @r2db.VarChar(80)
+  counter    Int      @default(0)
+  created_at DateTime @default(now()) @r2db.Timestamp(0)
+}
+
+model objects_reservations {
+  mqtt_client_id            String                      @id @r2db.VarChar(200)
+  model_fk                  Int
+  user_fk                   Int
+  created_at                DateTime                    @default(now()) @r2db.DateTime(0)
+  models                    models                      @relation(fields: [model_fk], references: [model_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_reservations_modelid")
+  users                     users                       @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_reservations_userid")
+  widgets_templates_objects widgets_templates_objects[]
+
+  @@index([model_fk], map: "fk_reservations_modelid")
+  @@index([user_fk], map: "fk_reservations_userid")
+}
+
+model services_templates_parties {
+  service_template_party_id Int                             @id @default(autoincrement())
+  service_template_fk       Int
+  user_fk                   Int
+  role                      services_templates_parties_role
+  activation_percent        Decimal?                        @r2db.Decimal(5, 2)
+  subscription_percent      Decimal?                        @r2db.Decimal(5, 2)
+  sensor_percent            Decimal?                        @r2db.Decimal(5, 2)
+  object_data_access        Int                             @default(0) @r2db.TinyInt
+  object_control            Int                             @default(0) @r2db.TinyInt
+  services_templates        services_templates              @relation(fields: [service_template_fk], references: [service_template_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_3b0741055060dd737b6d1c0316f")
+  users                     users                           @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_fde7effbc14fd9a276f99095899")
+
+  @@index([service_template_fk], map: "fk_contract_type_parties__contract_type_id_idx")
+  @@index([user_fk], map: "fk_contract_type_parties__users_userid_idx")
+}
+
+model services_templates {
+  service_template_id                                  Int                                        @id @default(autoincrement())
+  user_fk                                              Int
+  color_avatar_background                              String                                     @r2db.VarChar(15)
+  service_template_name                                String                                     @r2db.VarChar(45)
+  contract_terms                                       String                                     @r2db.VarChar(500)
+  currency                                             services_templates_currency?
+  contract_period_days                                 Int?
+  automatic_extension                                  Int                                        @default(0) @r2db.TinyInt
+  activation_payment                                   Decimal                                    @default(0.00) @r2db.Decimal(10, 2)
+  subscription_value                                   Decimal                                    @default(0.00) @r2db.Decimal(10, 2)
+  subscription_frequency                               services_templates_subscription_frequency?
+  add_objects_dynamically___                           Int                                        @default(0) @r2db.TinyInt
+  multiple_objects___                                  Int                                        @default(0) @r2db.TinyInt
+  r2comission                                          Decimal                                    @default(1.10) @r2db.Decimal(3, 2)
+  export_data                                          Json?
+  /// [ServicesTemplates_ActivationConfiguration]
+  activation_configuration                             Json
+  function_code_schedule                               String?                                    @r2db.Text
+  function_code_activation                             String?                                    @r2db.Text
+  created_at                                           DateTime                                   @default(now()) @r2db.Timestamp(0)
+  updated_at                                           DateTime                                   @default(now()) @r2db.Timestamp(0)
+  terminated_at                                        DateTime?                                  @r2db.DateTime(0)
+  models_contracts_templatesTomodels_bound_contract_fk models[]                                   @relation("contracts_templatesTomodels_bound_contract_fk")
+  models_contracts_templatesTomodels_contract_type_fk  models[]                                   @relation("contracts_templatesTomodels_contract_type_fk")
+  services                                             services[]
+  users                                                users                                      @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_bae4b1b44d600f9e3043cdff973")
+  services_templates_models                            services_templates_models[]
+  services_templates_parties                           services_templates_parties[]
+
+  @@index([user_fk], map: "fk_conract_userid")
+}
+
+model services_transactions {
+  service_transaction_id Int       @id @default(autoincrement())
+  contract_fk            Int
+  object_fk              Int
+  balance_from_original  Int
+  balance_to_original    Int
+  transfer_value         Decimal   @r2db.Decimal(10, 2)
+  executed_at            DateTime  @r2db.DateTime(0)
+  next_payment_at        DateTime? @r2db.DateTime(0)
+  service_template_fk    Int
+  user_from              Int
+  user_to                Int
+  comment                String?   @r2db.VarChar(250)
+  services_active        services  @relation(fields: [contract_fk], references: [service_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_08c7e38afebcc507085267dfb06")
+
+  @@index([contract_fk], map: "contracts_transactions_FK")
+}
+
+model projects_users {
+  project_user_id Int      @id @default(autoincrement())
+  project_fk      Int
+  user_fk         Int
+  access_control  Boolean
+  users           users    @relation(fields: [user_fk], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_6f9b5aec6418fb30495fb627438")
+  projects        projects @relation(fields: [project_fk], references: [project_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_904fac823264da0db66dffc3233")
+
+  @@index([project_fk], map: "fk_topic_user_id_idx")
+  @@index([user_fk], map: "fk_topic_user_id_idx1")
+}
+
+model widgets_templates {
+  widget_template_id        Int                         @id @default(autoincrement())
+  version                   Int                         @default(1)
+  user_fk                   Int                         @default(0)
+  is_public                 Boolean                     @default(false)
+  activation_fee            Decimal                     @default(0.00) @r2db.Decimal(10, 2)
+  monthly_fee               Decimal                     @default(0.00) @r2db.Decimal(10, 2)
+  currency                  widgets_templates_currency?
+  name_en                   String                      @r2db.VarChar(45)
+  name_de                   String                      @r2db.VarChar(45)
+  descr_en                  String                      @r2db.VarChar(200)
+  descr_de                  String                      @r2db.VarChar(200)
+  icon_color                String                      @default("#FF0000") @r2db.VarChar(15)
+  created_at                DateTime                    @default(now()) @r2db.DateTime(0)
+  terminated_at             DateTime?                   @r2db.DateTime(0)
+  widgets                   widgets[]
+  users                     users                       @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_2f6c40f473d4373a7f6298b8ff4")
+  widgets_templates_models  widgets_templates_models[]
+  widgets_templates_objects widgets_templates_objects[]
+
+  @@index([user_fk], map: "fk_Users_userid_idx")
+}
+
+model widgets {
+  widget_id          Int               @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  user_fk            Int
+  widget_template_fk Int
+  object_fk          String?           @r2db.VarChar(45)
+  name               String            @r2db.VarChar(100)
+  project_fk         Int?
+  users              users             @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_44d42f374c2dfabadde070fa93c")
+  widgets_templates  widgets_templates @relation(fields: [widget_template_fk], references: [widget_template_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_844284939930e083fdb4a9e6108")
+  projects           projects?         @relation(fields: [project_fk], references: [project_id], onUpdate: NoAction, map: "FK_widget_project")
+
+  @@unique([user_fk, widget_template_fk], map: "widget_user_unique")
+  @@index([project_fk], map: "FK_widget_project_idx")
+  @@index([widget_template_fk], map: "fk_widgetid_idx")
+  @@index([user_fk], map: "ix_Wbookmark_userid")
+}
+
+model services {
+  service_id            Int                     @id @default(autoincrement())
+  user_fk               Int
+  object_fk             Int
+  service_template_fk   Int
+  contract_accepted_at  DateTime?               @r2db.DateTime(0)
+  latest_payment_at     DateTime?               @r2db.DateTime(0)
+  next_payment_at       DateTime?               @r2db.DateTime(0)
+  latest_sensor_value   Decimal?                @r2db.Decimal(12, 2)
+  terminated_at         DateTime?               @r2db.DateTime(0)
+  created_at            DateTime                @default(now()) @r2db.Timestamp(0)
+  updated_at            DateTime                @default(now()) @r2db.Timestamp(0)
+  objects               objects                 @relation(fields: [object_fk], references: [object_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5e82f70712c7fd9548c5071aadd")
+  services_templates    services_templates      @relation(fields: [service_template_fk], references: [service_template_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_77fa55618d4f957cd3a138afad1")
+  users                 users                   @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_9c875624c6889a9d927df01b4b4")
+  services_transactions services_transactions[]
+
+  @@unique([object_fk, service_template_fk], map: "uq_contracts")
+  @@index([service_template_fk], map: "fk_contract_type_id_idx")
+  @@index([user_fk], map: "fk_contracts_users_userid_idx")
+}
+
+model widgets_templates_models {
+  widgets_models_id  Int               @id @default(autoincrement())
+  widget_template_fk Int
+  model_fk           Int
+  widgets_templates  widgets_templates @relation(fields: [widget_template_fk], references: [widget_template_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_2721ee80bd0c8933095904be6b5")
+  models             models            @relation(fields: [model_fk], references: [model_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_bbf9a7b3b82f8746f7d94f59221")
+
+  @@unique([widget_template_fk, model_fk], map: "widgetid_modelid_UNIQUE")
+  @@index([model_fk], map: "fk_widgets_models_modelid_idx")
+}
+
+model projects_chats {
+  message_id Int      @id @default(autoincrement())
+  project_fk Int
+  text       String   @r2db.VarChar(200)
+  user_fk    Int
+  created_at DateTime @default(now()) @r2db.DateTime(0)
+  chat_image String?  @r2db.LongText
+  users      users    @relation(fields: [user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_badb96f0396670bf43c5553463f")
+  projects   projects @relation(fields: [project_fk], references: [project_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_c610d0791e0092a9caff2c1b058")
+
+  @@index([project_fk], map: "fk_chat_topicid_idx")
+  @@index([user_fk], map: "fk_chat_user_id")
+}
+
+model widgets_templates_objects {
+  widget_object_id           Int                   @id @default(autoincrement())
+  widget_template_fk         Int
+  mqtt_client_fk             String                @r2db.VarChar(200)
+  mqtt_client_id_reservation String?               @r2db.VarChar(200)
+  mqtt_client_id_object      String?               @r2db.VarChar(200)
+  widgets_templates          widgets_templates     @relation(fields: [widget_template_fk], references: [widget_template_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_645bdb6ceb5a4db3dd08417fd95")
+  objects                    objects?              @relation(fields: [mqtt_client_id_object], references: [mqtt_client_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_widobj_objs_mqtt")
+  objects_reservations       objects_reservations? @relation(fields: [mqtt_client_id_reservation], references: [mqtt_client_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_widobj_reservs_mqtt")
+
+  @@index([mqtt_client_id_object], map: "FK_widobj_objs_mqtt")
+  @@index([mqtt_client_id_reservation], map: "FK_widobj_reservs_mqtt_idx")
+  @@index([widget_template_fk], map: "wop_widget_key")
+}
+
+model contacts_requests {
+  contact_request_id                               Int      @id @default(autoincrement())
+  requestor_user_fk                                Int
+  confirmer_user_fk                                Int
+  request_date                                     DateTime @default(now()) @r2db.DateTime(0)
+  users_contacts_requests_requestor_user_fkTousers users    @relation("contacts_requests_requestor_user_fkTousers", fields: [requestor_user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_7761396d6951d8b4d4e155b897b")
+  users_contacts_requests_confirmer_user_fkTousers users    @relation("contacts_requests_confirmer_user_fkTousers", fields: [confirmer_user_fk], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_7f217d86ceb23e8ccd51312d956")
+
+  @@unique([requestor_user_fk, confirmer_user_fk], map: "uq_network_request")
+  @@index([confirmer_user_fk], map: "network_confirmer_fk")
+}
+
+model projects {
+  project_id     Int              @id @default(autoincrement())
+  name           String           @r2db.VarChar(45)
+  color          String           @r2db.VarChar(45)
+  descr          String           @r2db.VarChar(200)
+  type           projects_type    @default(private)
+  user_fk        Int
+  objects        objects[]
+  users          users            @relation(fields: [user_fk], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "FK_9d915a28f25043fa28e73e1b52f")
+  projects_chats projects_chats[]
+  projects_users projects_users[]
+  widgets        widgets[]
+
+  @@index([user_fk], map: "fk_user_id")
+}
+
+model services_templates_models {
+  service_template_fk  Int
+  model_fk             Int
+  mapping              Json
+  is_bound_service     Boolean            @default(false)
+  sensor_id            String?            @r2db.VarChar(45)
+  sensor_multiplicator Decimal            @default(0.00) @r2db.Decimal(8, 2)
+  models               models             @relation(fields: [model_fk], references: [model_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_models")
+  services_templates   services_templates @relation(fields: [service_template_fk], references: [service_template_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_services_templates")
+
+  @@unique([service_template_fk, model_fk], map: "uq_services_templates_models")
+  @@index([model_fk], map: "fk_models")
+}
+
+model objects_timers_history {
+  sid            Int            @id @default(autoincrement())
+  timer_fk       Int
+  processed_at   DateTime       @r2db.DateTime(0)
+  objects_timers objects_timers @relation(fields: [timer_fk], references: [timer_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_timer_history_timerId")
+
+  @@index([timer_fk], map: "fk_timer_history_timerId")
+}
+
+model log_cloud_store {
+  cloud_store_id Int      @id @default(0)
+  user_id        Int
+  object_id      Int?
+  model_id       Int
+  mqtt_client_id String   @r2db.VarChar(200)
+  data_store     String   @r2db.VarChar(45)
+  created_at     DateTime @r2db.DateTime(0)
+  created_iso    String   @r2db.VarChar(45)
+  value          String   @r2db.VarChar(200)
+  duplicate2016  String?  @r2db.VarChar(45)
+  id             String?  @map("_id") @r2db.VarChar(45)
+  key            String?  @r2db.VarChar(45)
+  timestamp      String?  @r2db.VarChar(45)
+  filters        String?  @r2db.VarChar(45)
+  v              String?  @map("__v") @r2db.VarChar(45)
+  date           String?  @r2db.VarChar(45)
+}
+
+model log_objects_sensors {
+  log_objects_sensors_id Int      @id @default(autoincrement())
+  user_id                Int
+  model_id               Int
+  object_id              Int
+  sensor_id              String   @r2db.VarChar(45)
+  value                  String?  @r2db.VarChar(45)
+  inserted_at            DateTime @default(now()) @r2db.DateTime(0)
+}
+
+model log_timeline {
+  timeline_id Int                    @id @default(0)
+  user_fk     Int
+  operation   log_timeline_operation
+  /// [LogTimeline_data]
+  data        Json
+  created_at  DateTime               @default(now()) @r2db.DateTime(0)
+}
+
+enum users_new_language {
+  en
+  de
+}
+
+enum users_language {
+  en
+  de
+}
+
+enum users_plan {
+  basic
+  professional
+}
+
+enum services_templates_parties_role {
+  servicer
+  provider
+  insurer
+  producer
+}
+
+enum services_templates_currency {
+  EUR
+  USD
+}
+
+enum services_templates_subscription_frequency {
+  minute
+  hour
+  day
+  week
+  month
+  quarter
+  year
+}
+
+enum objects_actions_sensors_sign {
+  greater
+  less
+}
+
+enum widgets_templates_currency {
+  eur
+  usd
+}
+
+enum projects_type {
+  private
+  public
+}
+
+enum log_timeline_operation {
+  userRegistration
+  pairingSuccess
+  objectOfflineAlert
+  sensorLimitReached
+}

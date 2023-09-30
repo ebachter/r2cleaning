@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <script src="html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+      function formatISO(date) {
+        const dt = new Date(date);
+        const yy = dt.getFullYear().toString();
+        const mm = ('0' + (dt.getMonth() + 1)).slice(-2);
+        const dd = ('0' + dt.getDate()).slice(-2);
+        const hh = dt.getHours().toString();
+        const mi = dt.getMinutes().toString();
+        return `${yy}-${mm}-${dd} ${hh}:${mi}`;
+      }
+
+      function reduceArray(arr) {
+        while (arr.length > 10) {
+          arr.shift();
+        }
+        return arr;
+      }
+
+      function receiveMessage(msg) {
+        console.log('+++', msg.data);
+        const paragraph = document.getElementById('p');
+        if (msg.data.oper === 'updateCloudData') {
+          const [value1, value2, value3] = msg.data.value.split(';');
+          myChart.data.datasets[0].data.push(value1);
+          myChart.data.datasets[0].data = reduceArray(
+            myChart.data.datasets[0].data,
+          );
+          myChart.data.datasets[1].data.push(value2);
+          myChart.data.datasets[1].data = reduceArray(
+            myChart.data.datasets[1].data,
+          );
+          myChart.data.datasets[2].data.push(value3);
+          myChart.data.datasets[2].data = reduceArray(
+            myChart.data.datasets[2].data,
+          );
+          myChart.data.labels.push(formatISO(msg.data.date));
+          myChart.data.labels = reduceArray(myChart.data.labels);
+          myChart.update();
+        }
+
+        if (msg.data.oper === 'loadCloudData') {
+          const values1 = [];
+          const values2 = [];
+          const values3 = [];
+          msg.data.data.forEach(({value}) => {
+            const [sensor1, sensor2, sensor3] = value.split(';');
+            values1.push(parseInt(sensor1));
+            values2.push(parseInt(sensor2));
+            values3.push(parseInt(sensor3));
+          });
+          const dates = msg.data.data.map(({date}) => formatISO(date));
+
+          myChart.data.datasets[0].data = reduceArray(values1);
+          myChart.data.datasets[1].data = reduceArray(values2);
+          myChart.data.datasets[2].data = reduceArray(values3);
+          myChart.data.labels = reduceArray(dates);
+          myChart.update();
+
+          // paragraph.innerHTML += '<br>'+ JSON.stringify(values);
+          // paragraph.innerHTML += '<br>'+ JSON.stringify(dates);
+          // paragraph.innerHTML += '<br>'+ JSON.stringify(msg.data);
+        }
+      }
+
+      window.addEventListener('message', receiveMessage, false);
+
+      const loadCloudData = () => {
+        const d = new Date();
+        const n = d.toISOString().split('.')[0] + 'Z';
+
+        // const msg = { oper: 'loadCloudData', objectid: 93, cloudkey: 'key1', from: '2018-03-02T23:01:41Z', to: n };
+        const msg = {
+          oper: 'loadCloudData',
+          objectid: 232,
+          cloudkey: 'bat_temp_hum',
+          from: '2018-03-02T23:01:41Z',
+          to: n,
+        };
+        console.log('loadCloudData', msg);
+        window.parent.postMessage(msg, '*'); // http://localhost:3000
+      };
+
+      window.onload = loadCloudData;
+
+      // ////////////////////////////////////////////////////////////////////////////////////
+      function report() {
+        let node = document.querySelector('body');
+        html2canvas(node).then(function (canvas) {
+          window.parent.postMessage(
+            {type: 'screenshot', data: canvas.toDataURL()},
+            '*',
+          );
+          // document.body.appendChild(canvas);
+        });
+      }
+    </script>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        border: 0;
+        /* overflow: hidden;  Disable scrollbars */
+        display: block; /* No floating content on sides */
+      }
+    </style>
+  </head>
+
+  <body>
+    Hello Green Bag !!!
+    <canvas
+      id="myChart"
+      width="100%"
+      height="70%"
+      style="margin: 0 auto; max-width: 600px"
+    ></canvas>
+    <script src="./chart.js"></script>
+    <script>
+      function changeChart(item, val) {
+        // console.log(myChart.data.datasets[0].data[2])
+        // console.log(item, val)
+
+        myChart.data.datasets[0].data[item] = parseInt(val);
+        myChart.update();
+      }
+    </script>
+
+    <br />
+    <br />
+    <button type="button" onclick="report()" style="float: right">
+      Take screenshot
+    </button>
+    <br />
+    <br />
+  </body>
+</html>

@@ -1,0 +1,66 @@
+/*
+provider "aws" {
+  region                      = "ap-southeast-2"
+  access_key                  = "fake"
+  secret_key                  = "fake"
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+
+  endpoints {
+    dynamodb = "http://localhost:4566"
+    lambda   = "http://localhost:4566"
+    kinesis  = "http://localhost:4566"
+
+    cloudwatch        = "http://localhost:4566"
+    cloudwatchevents  = "http://localhost:4566"
+    iam               = "http://localhost:4566"
+    sts               = "http://localhost:4566"
+  }
+}
+
+data "archive_file" "lambda_zip" {
+    type          = "zip"
+    # source_file   = "../jobs/index.js"
+    source_dir  = "../jobs/lambda_function/"
+    output_path   = "../jobs/lambda_function.zip"
+}
+
+
+resource "aws_lambda_function" "check_foo" {
+    filename = "../jobs/lambda_function.zip"
+    function_name = "test_lambda"
+    role = "arn:aws:iam::424242:role/something"
+    handler = "index.handler"
+    source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
+    runtime          = "nodejs14.x"
+
+  environment {
+    variables = {
+      MYSQL_HOST          = "db"
+      MYSQL_USER          = "remrob"
+      MYSQL_PASSWORD      = "soeinmisst"
+      MYSQL_ROOT_PASSWORD = "soeinmisst"
+    }
+  }
+}
+
+resource "aws_cloudwatch_event_rule" "every_five_minutes" {
+    name = "every-five-minutes"
+    description = "Fires every five minutes"
+    schedule_expression = "rate(1 minute)"
+}
+
+resource "aws_cloudwatch_event_target" "check_foo_every_five_minutes" {
+    rule = "${aws_cloudwatch_event_rule.every_five_minutes.name}"
+    target_id = "check_foo"
+    arn = "${aws_lambda_function.check_foo.arn}"
+}*/
+
+/* resource "aws_lambda_permission" "allow_cloudwatch_to_call_check_foo" {
+    statement_id = "AllowExecutionFromCloudWatch"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.check_foo.function_name}"
+    principal = "events.amazonaws.com"
+    source_arn = "${aws_cloudwatch_event_rule.every_five_minutes.arn}"
+}*/

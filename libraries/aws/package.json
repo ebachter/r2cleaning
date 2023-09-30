@@ -1,0 +1,39 @@
+{
+  "name": "@remrob/aws",
+  "version": "0.0.0",
+  "description": "Shared AWS library",
+  "keywords": [
+    "aws",
+    "s3"
+  ],
+  "homepage": "https://bitbucket.org/remrob/r2ecosystem",
+  "repository": "https://bitbucket.org/remrob/r2ecosystem",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Emir Bakhtarov <bakhtarov@remrob.com>",
+  "main": "dist/aws.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean; yarn tsc -b",
+    "clean": "yarn rimraf dist ../../.build-cache/aws.tsbuildinfo",
+    "prepack": "yarn build",
+    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.374.0",
+    "@aws-sdk/client-ses": "^3.370.0",
+    "@aws-sdk/lib-storage": "^3.374.0",
+    "@remrob/log": "^0.0.2",
+    "@remrob/shuttle": "^0.0.2",
+    "aws-sdk": "^2.379.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14",
+    "json-sort-cli": "^1",
+    "prettier": "^2",
+    "rimraf": "^3",
+    "typescript": "^4"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "libraries/aws"
+    },
+    {
+      "path": "libraries/log"
+    },
+    {
+      "path": "libraries/mysql"
+    },
+    {
+      "path": "libraries/retry"
+    },
+    {
+      "path": "libraries/shuttle"
+    },
+    {
+      "path": "libraries/t800"
+    },
+    {
+      "path": "libraries/utils"
+    },
+    {
+      "path": "services/api"
+    },
+    {
+      "path": "services/frontend"
+    },
+    {
+      "path": "services/jobs"
+    },
+    {
+      "path": "services/sample"
+    }
+  ]
+}

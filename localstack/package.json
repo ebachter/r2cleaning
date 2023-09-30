@@ -1,0 +1,43 @@
+{
+  "name": "@remrob/localstack",
+  "version": "0.0.1",
+  "description": "AWS local development of the REMROB ecosystem",
+  "keywords": [
+    "remrob",
+    "service",
+    "localstack"
+  ],
+  "homepage": "https://bitbucket.org/remrob/r2ecosystem",
+  "repository": "https://bitbucket.org/remrob/r2ecosystem",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "email": "bakhtarov@remrob.com",
+    "name": "Emir Bakhtarov"
+  },
+  "main": "service.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean; yarn tsc -b",
+    "clean": "yarn rimraf dist ../../.build-cache/services-sample.tsbuildinfo",
+    "prepack": "yarn build",
+    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.53.1",
+    "@remrob/log": "^0.0.2",
+    "@remrob/shuttle": "^0.0.2",
+    "@remrob/t800": "^0.0.2",
+    "fastify": "^3.19.2",
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "@types/node": "^14",
+    "json-sort-cli": "^1",
+    "prettier": "^2",
+    "rimraf": "^3",
+    "typescript": "^4"
+  }
+}
