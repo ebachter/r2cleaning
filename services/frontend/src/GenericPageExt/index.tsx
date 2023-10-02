@@ -16,7 +16,7 @@ import {
   // CustomTypoSubtitle1,
   CustomTypoTitle,
 } from './CustomTypo';
-import {Fragment} from 'react';
+import {Fragment, createElement} from 'react';
 import {Box} from '@mui/system';
 import AuthForm from './ExtPageForm';
 
@@ -225,6 +225,12 @@ const GenericPageExt = ({
                 </Fragment>
               );
             }
+
+            if (type === 'customComponent') {
+              const {value} = sectionData;
+              return createElement(value, {key: i});
+            }
+
             throw Error('Unknown element');
           })}
         </Grid>

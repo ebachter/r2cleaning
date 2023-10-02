@@ -50,6 +50,7 @@ type Sections =
       path: string;
       icons_bottom?: {label: string; path: string}[];
     }
-  | {type: 'label_text'; label: string; text: string};
+  | {type: 'label_text'; label: string; text: string}
+  | {type: 'customComponent'; value: () => JSX.Element};
 
 export type ExtPageType = Sections[];
