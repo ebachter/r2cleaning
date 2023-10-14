@@ -11,6 +11,7 @@ import {servicesReducers} from './sliceServices';
 import {userReducers} from './sliceUser';
 import {searchUsersReducers} from './sliceSearch';
 import {liveDataReducers} from './sliceLiveData';
+import {cleaningReducers} from './sliceCleaning';
 
 // WHITELIST
 const persistConfig = {
@@ -44,6 +45,7 @@ export default function createReducer() {
     user: userReducers,
     search: searchUsersReducers,
     live: liveDataReducers,
+    cleaning: cleaningReducers,
   });
 
   type RootReducer = ReturnType<typeof rootReducer>;

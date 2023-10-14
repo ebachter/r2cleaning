@@ -1,0 +1,53 @@
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from '@mui/material';
+import {Cleaning} from '../../../types/typesCleaning';
+import {objectTypes} from './shared';
+import {useAppSelector} from '../../../hooks/hooksRedux';
+import {setObjectType} from '../../../redux/sliceCleaning';
+
+export default function ObjectType() {
+  const objectType = useAppSelector((state) => state.cleaning.objectType);
+
+  return (
+    <>
+      <FormControl sx={{mt: 5, ml: 1}}>
+        <FormLabel>Тип объекта</FormLabel>
+        <RadioGroup
+          row
+          value={objectType}
+          onChange={(e) => {
+            setObjectType(e.target.value as Cleaning['objectType']);
+            console.log('onChange', e.target.value);
+          }}
+        >
+          {objectTypes.map(({id, label}, i) => {
+            console.log(id, i);
+            return (
+              <FormControlLabel
+                key={i}
+                value={id}
+                control={<Radio />}
+                label={label}
+              />
+            );
+          })}
+        </RadioGroup>
+
+        {/* <FormControl sx={{mt: 5, ml: 1}}>
+  <FormLabel>Локация объекта</FormLabel>
+</FormControl> */}
+        {/* <OrderAppartmentSex /> */}
+      </FormControl>
+      <FormControl sx={{mt: 5, ml: 1}}>
+        <FormLabel>Адрес</FormLabel>
+        <TextField size="small" variant="outlined" />
+      </FormControl>
+    </>
+  );
+}

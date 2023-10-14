@@ -7,52 +7,35 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import {FormControl, FormLabel} from '@mui/material';
-import OrderAppartmentSex from './OrderSex';
-import OrderObjectType from './OrderObjectType';
-import {ObjectTypes} from '../../../types/typesCleaning';
-import OrderAppartment from './appartment/OrderAppartment';
+import {FormControl, FormLabel, TextField} from '@mui/material';
+// import OrderAppartmentSex from './OrderSex';
+import OrderObjectType from './ObjectTypeSelect';
+import OrderAppartment from './appartment';
 import OrderEntrance from './OrderEntrance';
 import OrderHouse from './OrderHouse';
+import {useAppSelector} from '../../../hooks/hooksRedux';
 
 export default function VerticalLinearStepper() {
-  const [objectType, setObjectType] = React.useState<ObjectTypes>('appartment');
+  const objectType = useAppSelector((state) => state.cleaning.objectType);
 
   const steps = [
     {
       label: 'Тип объекта',
-      content: () => (
-        <>
-          <FormControl sx={{mt: 5, ml: 1}}>
-            <FormLabel>Локация объекта</FormLabel>
-          </FormControl>
-          <OrderAppartmentSex />
-          <FormControl sx={{mt: 5, ml: 1}}>
-            <FormLabel>Тип объекта</FormLabel>
-            <OrderObjectType
-              objectType={objectType}
-              setObjectType={setObjectType}
-            />
-          </FormControl>
-        </>
-      ),
+      content: () => <OrderObjectType />,
     },
     {
       label: 'Детали объекта',
       content:
         objectType === 'appartment'
-          ? () => (
-              <OrderAppartment
-                objectType={objectType}
-                setObjectType={setObjectType}
-              />
-            )
+          ? OrderAppartment
+          : objectType === 'house'
+          ? () => <OrderHouse />
           : objectType === 'entrance'
           ? () => <OrderEntrance />
           : () => <OrderHouse />,
     },
     {
-      label: 'Create an ad',
+      label: 'Ревью и заказ',
       content: () => (
         <>
           <FormControl sx={{mt: 5, ml: 1}}>
@@ -63,7 +46,6 @@ export default function VerticalLinearStepper() {
       ),
     },
   ];
-  console.log('############');
 
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -93,9 +75,12 @@ export default function VerticalLinearStepper() {
             >
               {step.label}
             </StepLabel>
-            <StepContent>
+            <StepContent TransitionProps={{unmountOnExit: false}}>
               {/* <Typography>{step.description}</Typography> */}
-              {React.createElement(step.content)}
+              {/* {index === 0 && activeStep !== 0 && (
+                <div>{objectTypes.find((o) => (o.id = objectType))?.label}</div>
+              )} */}
+              {React.createElement(step.content, {objectType})}
               <Box sx={{mb: 2}}>
                 <div>
                   <Button
@@ -103,14 +88,14 @@ export default function VerticalLinearStepper() {
                     onClick={handleNext}
                     sx={{mt: 2, mr: 1}}
                   >
-                    {index === steps.length - 1 ? 'Finish' : 'Continue'}
+                    {index === steps.length - 1 ? 'Заказать' : 'Продолжить'}
                   </Button>
                   <Button
                     disabled={index === 0}
                     onClick={handleBack}
                     sx={{mt: 1, mr: 1}}
                   >
-                    Back
+                    Назад
                   </Button>
                 </div>
               </Box>

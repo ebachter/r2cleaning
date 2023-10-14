@@ -1,1 +1,3 @@
-export type ObjectTypes = 'appartment' | 'entrance' | 'house' | 'office';
+export type Cleaning = {
+  objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
+};

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {useImmer} from 'use-immer';
+import {prices} from '../../../../prices';
 
 type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
@@ -36,7 +37,7 @@ export default function IndeterminateCheckbox() {
   return (
     <div>
       <FormControlLabel
-        label="Выбрать"
+        label="Выбрать все"
         name="all"
         control={
           <Checkbox
@@ -52,19 +53,19 @@ export default function IndeterminateCheckbox() {
       />
       <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
         <FormControlLabel
-          label="Мойка"
+          label={`Мойка (${prices.house.kitchen.sink}р.)`}
           name="sink"
           control={<Checkbox checked={state.sink} onChange={handleChange} />}
         />
         <FormControlLabel
-          label="Холодильник"
+          label={`Холодильник (${prices.house.kitchen.refrigerator}р.)`}
           name="refrigerator"
           control={
             <Checkbox checked={state.refrigerator} onChange={handleChange} />
           }
         />
         <FormControlLabel
-          label="Печь"
+          label={`Печь (${prices.house.kitchen.oven}р.)`}
           name="oven"
           control={<Checkbox checked={state.oven} onChange={handleChange} />}
         />

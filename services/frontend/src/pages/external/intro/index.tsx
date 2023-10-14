@@ -24,7 +24,7 @@ function Home() {
   return (
     <div>
       <Helmet>
-        <title>Remote Robotics</title>
+        <title>Cleaning TECH</title>
       </Helmet>
       <AppAppBar />
       <ProductHero />

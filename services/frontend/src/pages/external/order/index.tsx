@@ -17,43 +17,6 @@ const OrderPage = () => {
             text: 'Оформление заказа',
           },
 
-          /* {
-            type: 'customComponent',
-            value: () => (
-              <FormControl sx={{mt: 5, ml: 1}}>
-                <FormLabel>Локация объекта</FormLabel>
-              </FormControl>
-            ),
-          }, */
-
-          /* {
-            type: 'customComponent',
-            value: () => <OrderAppartmentSex />,
-          }, */
-
-          /* {
-            type: 'customComponent',
-            value: () => (
-              <FormControl sx={{mt: 5, ml: 1}}>
-                <FormLabel>Тип объекта</FormLabel>
-                <OrderObjectType
-                  objectType={objectType}
-                  setObjectType={setObjectType}
-                />
-              </FormControl>
-            ),
-          }, */
-
-          /* {
-            type: 'customComponent',
-            value:
-              objectType === 'appartment'
-                ? OrderAppartment
-                : objectType === 'entrance'
-                ? OrderEntrance
-                : OrderHouse,
-          }, */
-
           {
             type: 'customComponent',
             value: () => <OrderAppartmentStepper />,

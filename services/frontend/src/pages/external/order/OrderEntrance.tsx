@@ -1,8 +1,10 @@
 import {FormControl, FormLabel, Slider} from '@mui/material';
+import ComponentObjectType from './componentObjectType';
 
 export default function () {
   return (
     <>
+      <ComponentObjectType />
       <FormControl sx={{mt: 5, ml: 1}}>
         <FormLabel>Площадь</FormLabel>
         <Slider
