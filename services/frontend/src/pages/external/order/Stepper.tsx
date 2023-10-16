@@ -39,7 +39,7 @@ export default function VerticalLinearStepper() {
       content: () => (
         <>
           <FormControl sx={{mt: 5, ml: 1}}>
-            <FormLabel>Стоимость</FormLabel>
+            <FormLabel>Сумма:</FormLabel>
             <FormLabel>5000 руб.</FormLabel>
           </FormControl>
         </>

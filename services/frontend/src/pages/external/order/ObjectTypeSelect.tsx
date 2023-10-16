@@ -23,7 +23,6 @@ export default function ObjectType() {
           value={objectType}
           onChange={(e) => {
             setObjectType(e.target.value as Cleaning['objectType']);
-            console.log('onChange', e.target.value);
           }}
         >
           {objectTypes.map(({id, label}, i) => {

@@ -4,10 +4,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {prices} from '../../../../prices';
+import {useAppSelector} from '../../../../hooks/hooksRedux';
+import {setRoomNumberOfAppartment} from '../../../../redux/sliceCleaning';
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -16,9 +17,12 @@ export default function BasicMenu() {
     setAnchorEl(null);
   };
   const handleMenuItemClick = (index: number) => {
-    setSelectedIndex(index);
+    setRoomNumberOfAppartment(index);
     setAnchorEl(null);
   };
+  const numberOfRooms = useAppSelector(
+    (state) => state.cleaning.options.appartment.numberOfRooms,
+  );
 
   return (
     <div>
@@ -29,7 +33,7 @@ export default function BasicMenu() {
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        {selectedIndex}
+        {numberOfRooms}
       </Button>
       <Menu
         id="basic-menu"
@@ -43,7 +47,7 @@ export default function BasicMenu() {
         {[1, 2, 3, 4, 5, 6, 7].map((option) => (
           <MenuItem
             key={option}
-            selected={option === selectedIndex}
+            selected={option === numberOfRooms}
             onClick={() => handleMenuItemClick(option)}
           >
             {option}
