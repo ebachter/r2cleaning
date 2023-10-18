@@ -2,8 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import {useImmer} from 'use-immer';
-import {prices} from '../../../../prices';
+// import {prices} from '../../../../prices';
 import {useAppSelector} from '../../../../hooks/hooksRedux';
 import {setKitchenOfAppartment} from '../../../../redux/sliceCleaning';
 import {store} from '../../../../redux/store';
@@ -11,30 +10,29 @@ import {store} from '../../../../redux/store';
 type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
 export default function IndeterminateCheckbox() {
-  const state = useAppSelector(
+  const appartment = useAppSelector(
     (state) => state.cleaning.options.appartment.kitchen,
   );
   const {dispatch} = store;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newState = {
-      ...state,
-      [event.target.name as TypesKitchen]: event.target.checked,
-    };
+    const newState = structuredClone(appartment);
+    newState[event.target.name as TypesKitchen].value = event.target.checked;
     dispatch(setKitchenOfAppartment(newState));
   };
 
   const handleAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newState = {...state};
+    const newState = structuredClone(appartment);
     const indeterminate = [
-      newState.oven,
-      newState.refrigerator,
-      newState.sink,
+      newState.oven.value,
+      newState.refrigerator.value,
+      newState.sink.value,
     ].some((v) => v === true);
-    newState.all = indeterminate ? false : event.target.checked;
-    newState.oven = indeterminate ? false : event.target.checked;
-    newState.refrigerator = indeterminate ? false : event.target.checked;
-    newState.sink = indeterminate ? false : event.target.checked;
+
+    newState.all.value = indeterminate ? false : event.target.checked;
+    newState.oven.value = indeterminate ? false : event.target.checked;
+    newState.refrigerator.value = indeterminate ? false : event.target.checked;
+    newState.sink.value = indeterminate ? false : event.target.checked;
     setKitchenOfAppartment(newState);
   };
 
@@ -45,10 +43,20 @@ export default function IndeterminateCheckbox() {
         name="all"
         control={
           <Checkbox
-            checked={state.sink && state.refrigerator && state.oven}
+            checked={
+              appartment.sink.value &&
+              appartment.refrigerator.value &&
+              appartment.oven.value
+            }
             indeterminate={
-              (!(state.sink && state.refrigerator && state.oven) &&
-                (state.sink || state.refrigerator || state.oven)) ||
+              (!(
+                appartment.sink.value &&
+                appartment.refrigerator.value &&
+                appartment.oven.value
+              ) &&
+                (appartment.sink.value ||
+                  appartment.refrigerator.value ||
+                  appartment.oven.value)) ||
               undefined
             }
             onChange={handleAllChange}
@@ -57,21 +65,28 @@ export default function IndeterminateCheckbox() {
       />
       <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
         <FormControlLabel
-          label={`Мойка (${prices.house.kitchen.sink}р.)`}
+          label={`Мойка (${appartment.sink.price}р.)`}
           name="sink"
-          control={<Checkbox checked={state.sink} onChange={handleChange} />}
-        />
-        <FormControlLabel
-          label={`Холодильник (${prices.house.kitchen.refrigerator}р.)`}
-          name="refrigerator"
           control={
-            <Checkbox checked={state.refrigerator} onChange={handleChange} />
+            <Checkbox checked={appartment.sink.value} onChange={handleChange} />
           }
         />
         <FormControlLabel
-          label={`Печь (${prices.house.kitchen.oven}р.)`}
+          label={`Холодильник (${appartment.refrigerator.price}р.)`}
+          name="refrigerator"
+          control={
+            <Checkbox
+              checked={appartment.refrigerator.value}
+              onChange={handleChange}
+            />
+          }
+        />
+        <FormControlLabel
+          label={`Печь (${appartment.oven.price}р.)`}
           name="oven"
-          control={<Checkbox checked={state.oven} onChange={handleChange} />}
+          control={
+            <Checkbox checked={appartment.oven.value} onChange={handleChange} />
+          }
         />
       </Box>
     </div>

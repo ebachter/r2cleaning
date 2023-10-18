@@ -11,14 +11,14 @@ const initialState: Cleaning = {
   objectType: 'appartment',
   options: {
     appartment: {
-      numberOfRooms: 1,
+      numberOfRooms: {number: 1, price: 2000},
       kitchen: {
-        all: false,
-        sink: false,
-        refrigerator: false,
-        oven: false,
+        all: {value: false, price: 1500},
+        sink: {value: false, price: 500},
+        refrigerator: {value: false, price: 500},
+        oven: {value: false, price: 500},
       },
-      bathroom: false,
+      bathroom: {value: false, price: 1000},
     },
   },
 };
@@ -31,7 +31,7 @@ const slice = createSlice({
       state.objectType = action.payload;
     },
     setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
-      state.options.appartment.numberOfRooms = action.payload;
+      state.options.appartment.numberOfRooms.number = action.payload;
     },
     setKitchenOfAppartment: (
       state,
@@ -40,7 +40,7 @@ const slice = createSlice({
       state.options.appartment.kitchen = action.payload;
     },
     setBathroomOfAppartment: (state, action: PayloadAction<boolean>) => {
-      state.options.appartment.bathroom = action.payload;
+      state.options.appartment.bathroom.value = action.payload;
     },
   },
 });

@@ -38,10 +38,18 @@ export default function VerticalLinearStepper() {
       label: 'Ревью и заказ',
       content: () => (
         <>
-          <FormControl sx={{mt: 5, ml: 1}}>
-            <FormLabel>Сумма:</FormLabel>
-            <FormLabel>5000 руб.</FormLabel>
-          </FormControl>
+          <div>
+            <FormControl sx={{mt: 5, ml: 1}}>
+              <FormLabel>Адрес</FormLabel>
+              <TextField size="small" variant="outlined" />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl sx={{mt: 5, ml: 1}}>
+              <FormLabel>Сумма:</FormLabel>
+              <FormLabel>5000 руб.</FormLabel>
+            </FormControl>
+          </div>
         </>
       ),
     },

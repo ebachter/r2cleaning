@@ -8,8 +8,7 @@ export default function ComponentObjectType() {
     <>
       <div>
         <Typography variant="caption">
-          Тип объекта: {objectType}{' '}
-          {objectTypes.find((o) => o.id === objectType)?.label}
+          Тип объекта: {objectTypes.find((o) => o.id === objectType)?.label}
         </Typography>
       </div>
     </>

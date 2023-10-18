@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {useImmer} from 'use-immer';
-import {prices} from '../../../../prices';
 import {setBathroomOfAppartment} from '../../../../redux/sliceCleaning';
 import {useAppSelector} from '../../../../hooks/hooksRedux';
 
@@ -18,8 +17,8 @@ export default function IndeterminateCheckbox() {
   return (
     <div>
       <FormControlLabel
-        label={`Выбрать (${prices.house.bathroom}р.)`}
-        control={<Checkbox checked={bathroom} onChange={handleChange} />}
+        label={`Выбрать (${bathroom.price}р.)`}
+        control={<Checkbox checked={bathroom.value} onChange={handleChange} />}
       />
     </div>
   );

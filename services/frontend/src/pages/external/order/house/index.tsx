@@ -2,14 +2,17 @@ import {FormControl, FormLabel} from '@mui/material';
 import OrderAppartmentRooms from './OrderAppartmentRooms';
 import Kitchen from './Kitchen';
 import Bathroom from './Bathroom';
-import {prices} from '../../../../prices';
+import {useAppSelector} from '../../../../hooks/hooksRedux';
 
 export default function OrderAppartment() {
+  const numberOfRooms = useAppSelector(
+    (state) => state.cleaning.options.appartment.numberOfRooms,
+  );
   return (
     <>
       <div>
         <FormControl sx={{mt: 5, ml: 1}}>
-          <FormLabel>Количество комнат (x{prices.house.room}р.)</FormLabel>
+          <FormLabel>Количество комнат (x{numberOfRooms.price}р.)</FormLabel>
           <OrderAppartmentRooms />
         </FormControl>
       </div>

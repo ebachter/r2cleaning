@@ -26,7 +26,6 @@ export default function ObjectType() {
           }}
         >
           {objectTypes.map(({id, label}, i) => {
-            console.log(id, i);
             return (
               <FormControlLabel
                 key={i}
@@ -39,13 +38,9 @@ export default function ObjectType() {
         </RadioGroup>
 
         {/* <FormControl sx={{mt: 5, ml: 1}}>
-  <FormLabel>Локация объекта</FormLabel>
-</FormControl> */}
+              <FormLabel>Локация объекта</FormLabel>
+            </FormControl> */}
         {/* <OrderAppartmentSex /> */}
-      </FormControl>
-      <FormControl sx={{mt: 5, ml: 1}}>
-        <FormLabel>Адрес</FormLabel>
-        <TextField size="small" variant="outlined" />
       </FormControl>
     </>
   );

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {useImmer} from 'use-immer';
-import {prices} from '../../../../prices';
+import {useAppSelector} from '../../../../hooks/hooksRedux';
 
 type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
@@ -14,6 +14,10 @@ export default function IndeterminateCheckbox() {
     refrigerator: false,
     oven: false,
   });
+
+  const appartment = useAppSelector(
+    (state) => state.cleaning.options.appartment.kitchen,
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState((draft) => {
@@ -53,21 +57,28 @@ export default function IndeterminateCheckbox() {
       />
       <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
         <FormControlLabel
-          label={`Мойка (${prices.house.kitchen.sink}р.)`}
+          label={`Мойка (${appartment.sink.price}р.)`}
           name="sink"
-          control={<Checkbox checked={state.sink} onChange={handleChange} />}
-        />
-        <FormControlLabel
-          label={`Холодильник (${prices.house.kitchen.refrigerator}р.)`}
-          name="refrigerator"
           control={
-            <Checkbox checked={state.refrigerator} onChange={handleChange} />
+            <Checkbox checked={appartment.sink.value} onChange={handleChange} />
           }
         />
         <FormControlLabel
-          label={`Печь (${prices.house.kitchen.oven}р.)`}
+          label={`Холодильник (${appartment.refrigerator.price}р.)`}
+          name="refrigerator"
+          control={
+            <Checkbox
+              checked={appartment.refrigerator.value}
+              onChange={handleChange}
+            />
+          }
+        />
+        <FormControlLabel
+          label={`Печь (${appartment.oven.price}р.)`}
           name="oven"
-          control={<Checkbox checked={state.oven} onChange={handleChange} />}
+          control={
+            <Checkbox checked={appartment.oven.value} onChange={handleChange} />
+          }
         />
       </Box>
     </div>
