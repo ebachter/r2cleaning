@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-// import {Session} from '../types/typeSession';
 import {store} from './store';
 import {Cleaning} from '../types/typesCleaning';
 

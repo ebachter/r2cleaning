@@ -14,6 +14,8 @@ import OrderAppartment from './appartment';
 import OrderEntrance from './OrderEntrance';
 import OrderHouse from './OrderHouse';
 import {useAppSelector} from '../../../hooks/hooksRedux';
+import StepperSum from './StepperSum';
+import SelectCity from './review/SelectCity';
 
 export default function VerticalLinearStepper() {
   const objectType = useAppSelector((state) => state.cleaning.objectType);
@@ -39,15 +41,15 @@ export default function VerticalLinearStepper() {
       content: () => (
         <>
           <div>
-            <FormControl sx={{mt: 5, ml: 1}}>
-              <FormLabel>Адрес</FormLabel>
-              <TextField size="small" variant="outlined" />
-            </FormControl>
+            <StepperSum />
           </div>
           <div>
-            <FormControl sx={{mt: 5, ml: 1}}>
-              <FormLabel>Сумма:</FormLabel>
-              <FormLabel>5000 руб.</FormLabel>
+            <SelectCity />
+          </div>
+          <div>
+            <FormControl sx={{mt: 3, ml: 1, mb: 2}}>
+              <FormLabel>Адрес</FormLabel>
+              <TextField size="small" variant="outlined" />
             </FormControl>
           </div>
         </>
