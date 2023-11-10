@@ -93,13 +93,34 @@ export default function VerticalLinearStepper() {
               {React.createElement(step.content, {objectType})}
               <Box sx={{mb: 2}}>
                 <div>
-                  <Button
+                  {index === steps.length - 1 ? (
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        window.location.href =
+                          'https://chat.whatsapp.com/GrRR0WBGbPG03bMv6xzHWR';
+                        handleNext();
+                      }}
+                      sx={{mt: 2, mr: 1}}
+                    >
+                      Заказать
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      sx={{mt: 2, mr: 1}}
+                    >
+                      Продолжить
+                    </Button>
+                  )}
+                  {/* <Button
                     variant="contained"
                     onClick={handleNext}
                     sx={{mt: 2, mr: 1}}
                   >
                     {index === steps.length - 1 ? 'Заказать' : 'Продолжить'}
-                  </Button>
+                  </Button> */}
                   <Button
                     disabled={index === 0}
                     onClick={handleBack}

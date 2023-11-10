@@ -12,7 +12,7 @@ const OrderPage = () => {
         content={[
           {
             type: 'header_image',
-            path: '/images/extAbout/features.header.jpg',
+            path: '/cleaning.order.header.jpg',
             responsive: true,
             text: 'Оформление заказа',
           },
