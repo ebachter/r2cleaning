@@ -68,7 +68,7 @@ function AppAppBar() {
             {smUpHidden && (
               <>
                 {[
-                  {label: 'About', link: '/about'},
+                  // {label: 'About', link: '/about'},
                   {label: 'Заказ', link: '/order'},
                 ].map((o, i) => (
                   <Button

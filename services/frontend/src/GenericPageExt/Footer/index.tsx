@@ -17,7 +17,7 @@ const items: {
 }[] = [
   {url: '/', label: 'Home'},
   {url: '/login', label: 'Login'},
-  {url: '/about', label: 'About'},
+  // {url: '/about', label: 'About'},
   {url: '/contact', trans: 'contact'},
 ];
 
