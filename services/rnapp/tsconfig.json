@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "../app/dist",
+    "rootDir": "../app/src",
+    "tsBuildInfoFile": "../../.build-cache/services-sample.tsbuildinfo"
+  },
+  "extends": "../../tsconfig.base.json",
+  "include": ["../app/src/**/*"],
+  "references": [
+    {
+      "path": "../../libraries/log"
+    },
+    {
+      "path": "../../libraries/shuttle"
+    },
+    {
+      "path": "../../libraries/t800"
+    }
+  ]
+}

@@ -33,6 +33,9 @@
       "path": "services/jobs"
     },
     {
+      "path": "services/app"
+    },
+    {
       "path": "services/sample"
     }
   ]
