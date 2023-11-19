@@ -18,6 +18,7 @@
     "prisma-generate-client": "(cd libraries/mysql/prisma/ && npx prisma generate)",
     "update-r2db": "(cd helper-scripts && ./update-r2db-docker-init-files.sh)",
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
+    "start:rn": "(cd services/nativeapp && yarn startrn)",
     "start:all": "yarn lerna run start --include-dependencies --parallel --stream -- -- -r .env"
   },
   "husky": {
