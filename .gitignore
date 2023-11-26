@@ -32,6 +32,7 @@ coverage/
 .env.*
 
 services/frontend/build/
+services/nativeapp/.expo
 
 localstack/recorded_api_calls.json
 localstack/terraform/.terraform

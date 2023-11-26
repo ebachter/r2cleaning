@@ -3,6 +3,8 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {setMessage} from '../redux/initSlice';
 import {ImageBackground} from 'react-native';
+import * as React from 'react';
+import {Button as Button2} from 'react-native-paper';
 
 /* const BgImage = () => (
   <Image
@@ -103,10 +105,15 @@ export default function HomeScreen({navigation}) {
             <Text style={{color: 'white', fontSize: 20, marginBottom: 30}}>
               {'- подготовленные специалисты'}
             </Text>
-            <Button
-              title="Заказ"
+
+            <Button2
+              icon="file-sign"
+              mode="contained"
               onPress={() => navigation.navigate('Order')}
-            />
+              style={{minWidth: 150}}
+            >
+              Заказ
+            </Button2>
           </View>
         </ImageBackground>
       </View>
