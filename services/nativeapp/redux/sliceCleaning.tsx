@@ -45,23 +45,4 @@ const slice = createSlice({
 });
 
 export const cleaningReducers = slice.reducer;
-
-// export const {setObjectType} = slice.actions;
-
-export const setObjectType = (
-  ...args: Parameters<typeof slice.actions.setObjectType>
-) => store.dispatch(slice.actions.setObjectType(...args));
-
-export const setRoomNumberOfAppartment = (
-  ...args: Parameters<typeof slice.actions.setRoomNumberOfAppartment>
-) => store.dispatch(slice.actions.setRoomNumberOfAppartment(...args));
-
-export const setKitchenOfAppartment = (
-  ...args: Parameters<typeof slice.actions.setKitchenOfAppartment>
-) => store.dispatch(slice.actions.setKitchenOfAppartment(...args));
-
-export const setBathroomOfAppartment = (
-  ...args: Parameters<typeof slice.actions.setBathroomOfAppartment>
-) => store.dispatch(slice.actions.setBathroomOfAppartment(...args));
-
-// export const setKitchenOfAppartment = slice.actions.setKitchenOfAppartment;
+export const cleaningActions = slice.actions;

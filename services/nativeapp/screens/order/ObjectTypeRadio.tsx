@@ -4,8 +4,8 @@ import {useAppSelector} from '../../redux/store';
 import {objectTypes} from '../../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import {setObjectType} from '../../redux/sliceCleaning';
 import {Cleaning} from '../../types/typesCleaning';
+import {setObjectType} from '../../redux/functionsDispatch';
 
 const ObjectTypeRadio = () => {
   const objectType = useAppSelector((state) => state.cleaning.objectType);
