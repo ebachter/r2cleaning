@@ -1,14 +1,16 @@
 import * as React from 'react';
-import {Button, View, Text, StyleSheet, ImageBackground} from 'react-native';
-import {useAppSelector} from '../../redux/store';
-import MenuComponent from './MenuComponent';
-import {ObjectTypeRadio} from './ObjectTypeRadio';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  ScrollView,
+} from 'react-native';
+import OrderStepper from './OrderStepper';
 
-export default function OrderScreen({navigation}) {
-  const {message} = useAppSelector((state) => state.message);
-
+export default function OrderScreen() {
   return (
-    <View
+    <ScrollView
       style={{
         width: '100%',
         minHeight: 500,
@@ -41,20 +43,10 @@ export default function OrderScreen({navigation}) {
         </ImageBackground>
       </View>
 
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Заказ</Text>
-
-        <Button
-          title="Go to Home..."
-          onPress={() => navigation.navigate('Home')}
-        />
-        <Text style={{marginTop: 5}}>Redux msg: {message}</Text>
-      </View>
-      <ObjectTypeRadio />
       <View>
-        <MenuComponent />
+        <OrderStepper />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
