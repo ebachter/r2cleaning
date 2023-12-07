@@ -8,6 +8,8 @@ import {Button} from 'react-native-paper';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import MenuComponent from './MenuComponent';
+import ObjectDetails from './ObjectDetails';
+import OrderSummary from './OrderSummary';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -50,7 +52,7 @@ const steps = [
 
 export default function OrderStepper() {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [currentPage, setCurrentPage] = React.useState<number>(0);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   const onStepPress = (position: number) => {
     console.log('onStepPress', position);
@@ -111,16 +113,15 @@ export default function OrderStepper() {
       </View>
 
       <View style={styles.page}>
-        <Text>{steps[currentPage]?.label || currentPage}</Text>
+        {/* <Text>{steps[currentPage]?.label || currentPage}</Text> */}
         <View>
           {currentPage === 0 ? (
             <ObjectTypeRadio />
-          ) : (
-            <View>
-              <Text>{currentPage}</Text>
-              <MenuComponent />
-            </View>
-          )}
+          ) : currentPage === 1 ? (
+            <ObjectDetails />
+          ) : currentPage === 2 ? (
+            <OrderSummary />
+          ) : null}
         </View>
       </View>
 

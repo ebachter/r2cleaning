@@ -6,7 +6,7 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native';
-import OrderStepper from './OrderStepper';
+import OrderStepper from './Stepper';
 
 export default function OrderScreen() {
   return (

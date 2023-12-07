@@ -2,7 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
-import OrderScreen from './screens/order/order';
+import OrderScreen from './screens/order';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
@@ -37,14 +37,14 @@ export default function App() {
                 }
               }
             >
-              <Stack.Screen name="Home" component={HomeScreen} />
-              {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
-              <Stack.Screen name="Details" component={DetailsScreen} />
               <Stack.Screen
                 name="Order"
                 component={OrderScreen}
                 options={{title: 'Заказ'}}
               />
+              <Stack.Screen name="Home" component={HomeScreen} />
+              {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
+              <Stack.Screen name="Details" component={DetailsScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </ApplicationProvider>
