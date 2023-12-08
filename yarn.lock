@@ -3476,6 +3476,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bacons/react-views@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@bacons/react-views@npm:1.1.3"
+  peerDependencies:
+    react-native: "*"
+  checksum: 13664e7635007c34c9a0c46bf27aedffeb9e555cab2c243cd00abcc7b3475208084afd4d2bf21bd5e19f4799778c5efa154f01c2d976e0843edda8aa092b8a3b
+  languageName: node
+  linkType: hard
+
 "@bcoe/v8-coverage@npm:^0.2.3":
   version: 0.2.3
   resolution: "@bcoe/v8-coverage@npm:0.2.3"
@@ -4762,6 +4771,18 @@ __metadata:
     resolve-from: ^5.0.0
     sucrase: ^3.20.0
   checksum: 7b54e08598e2673320a1647ce0f2ab8735cf15f3ea406b2d37b2fed96c7d66f6be9ca10aa622b7a1a7530168627c568f92d2060b8d22a639aaf758a21fb6f03b
+  languageName: node
+  linkType: hard
+
+"@expo/metro-runtime@npm:^2.2.16":
+  version: 2.2.16
+  resolution: "@expo/metro-runtime@npm:2.2.16"
+  dependencies:
+    "@bacons/react-views": ^1.1.3
+    qs: ^6.10.3
+  peerDependencies:
+    react-native: "*"
+  checksum: 60827fc9cae93c7b92578a0c0ac62f5ae57155c800eeb8ee75cf15a8f6167d20e864ebcc7cf4fccf2f815592151af98442f063480e7589b59679c3d58994a535
   languageName: node
   linkType: hard
 
@@ -22989,6 +23010,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.0
     "@eva-design/material": ^2.2.0
+    "@expo/metro-runtime": ^2.2.16
     "@expo/vector-icons": ^13.0.0
     "@expo/webpack-config": ^19.0.0
     "@react-navigation/native": ^6.1.9
@@ -26025,7 +26047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.5.1":
+"qs@npm:^6.10.3, qs@npm:^6.5.1":
   version: 6.11.2
   resolution: "qs@npm:6.11.2"
   dependencies:

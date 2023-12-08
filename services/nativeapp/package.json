@@ -31,7 +31,8 @@
     "uuid": "3.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@expo/metro-runtime": "^2.2.16"
   },
   "private": true
 }
