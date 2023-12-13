@@ -19,7 +19,7 @@ export default function OrderScreen() {
     >
       <View style={[styles.container, {alignItems: 'center'}]}>
         <ImageBackground
-          source={require('../../assets/cleaning.order.header.jpg')}
+          source={require('../assets/cleaning.order.header.jpg')}
           style={{
             flex: 1,
             flexDirection: 'column',

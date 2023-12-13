@@ -3,13 +3,15 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import {Ionicons, MaterialIcons} from '@expo/vector-icons';
-import {ObjectTypeRadio} from './ObjectTypeRadio';
+import {ObjectTypeRadio} from './OrderObjectTypes';
 import {Button} from 'react-native-paper';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import MenuComponent from './MenuComponent';
-import ObjectDetails from './ObjectDetails';
+// import ObjectDetails from './ObjectDetails';
 import OrderSummary from './OrderSummary';
+import {useAppSelector} from '../redux/store';
+import Appartment from './OrderDetails/appartment';
+import House from './OrderDetails/house';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -51,6 +53,7 @@ const steps = [
 ];
 
 export default function OrderStepper() {
+  const objectType = useAppSelector((state) => state.cleaning.objectType);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
@@ -118,7 +121,12 @@ export default function OrderStepper() {
           {currentPage === 0 ? (
             <ObjectTypeRadio />
           ) : currentPage === 1 ? (
-            <ObjectDetails />
+            // ObjectDetails
+            objectType === 'appartment' ? (
+              <Appartment />
+            ) : objectType === 'house' ? (
+              <House />
+            ) : null
           ) : currentPage === 2 ? (
             <OrderSummary />
           ) : null}

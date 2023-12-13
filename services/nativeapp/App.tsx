@@ -2,7 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
-import OrderScreen from './screens/order';
+import OrderScreen from './screens';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';

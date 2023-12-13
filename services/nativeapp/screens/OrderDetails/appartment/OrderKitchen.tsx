@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {CheckBox} from '@ui-kitten/components';
-import {store, useAppSelector} from '../../redux/store';
-import {setKitchenOfAppartment} from '../../redux/functionsDispatch';
+import {store, useAppSelector} from '../../../redux/store';
+import {setKitchenOfAppartment} from '../../../redux/functionsDispatch';
 import {ReactElement} from 'react';
 
 type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';

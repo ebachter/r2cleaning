@@ -1,12 +1,12 @@
 import {Text, View} from 'react-native';
-import ComponentObjectType from './componentObjectType';
+import ComponentObjectType from '../componentObjectType';
 import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import {useState} from 'react';
 import {OrderKitchen} from './OrderKitchen';
 
 const data = ['1', '2', '3'];
 
-export default function ObjectDetails() {
+export default function House() {
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
     new IndexPath(0),
   );

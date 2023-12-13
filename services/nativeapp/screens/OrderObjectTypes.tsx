@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text} from '@ui-kitten/components';
-import {useAppSelector} from '../../redux/store';
-import {objectTypes} from '../../shared';
+import {useAppSelector} from '../redux/store';
+import {objectTypes} from '../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import {Cleaning} from '../../types/typesCleaning';
-import {setObjectType} from '../../redux/functionsDispatch';
+import {Cleaning} from '../types/typesCleaning';
+import {setObjectType} from '../redux/functionsDispatch';
 
 const ObjectTypeRadio = () => {
   const objectType = useAppSelector((state) => state.cleaning.objectType);
