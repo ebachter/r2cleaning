@@ -16,3 +16,10 @@ export const setKitchenOfAppartment = (
 export const setBathroomOfAppartment = (
   ...args: Parameters<typeof cleaningActions.setBathroomOfAppartment>
 ) => store.dispatch(cleaningActions.setBathroomOfAppartment(...args));
+
+export const setAddress = (
+  ...args: Parameters<typeof cleaningActions.setAdress>
+) => store.dispatch(cleaningActions.setAdress(...args));
+
+export const setCity = (...args: Parameters<typeof cleaningActions.setCity>) =>
+  store.dispatch(cleaningActions.setCity(...args));

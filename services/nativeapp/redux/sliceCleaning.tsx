@@ -20,6 +20,10 @@ const initialState: Cleaning = {
       bathroom: {value: false, price: 1000},
     },
   },
+  order: {
+    city: null,
+    address: '',
+  },
 };
 
 const slice = createSlice({
@@ -40,6 +44,12 @@ const slice = createSlice({
     },
     setBathroomOfAppartment: (state, action: PayloadAction<boolean>) => {
       state.options.appartment.bathroom.value = action.payload;
+    },
+    setAdress: (state, action: PayloadAction<string>) => {
+      state.order.address = action.payload;
+    },
+    setCity: (state, action: PayloadAction<Cleaning['order']['city']>) => {
+      state.order.city = action.payload;
     },
   },
 });

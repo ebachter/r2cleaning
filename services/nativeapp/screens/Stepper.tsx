@@ -8,7 +8,7 @@ import {Button} from 'react-native-paper';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import ObjectDetails from './ObjectDetails';
-import OrderSummary from './OrderSummary';
+import OrderSummary from './OrderReview';
 import {useAppSelector} from '../redux/store';
 import Appartment from './OrderDetails/appartment';
 import House from './OrderDetails/house';
@@ -55,10 +55,9 @@ const steps = [
 export default function OrderStepper() {
   const objectType = useAppSelector((state) => state.cleaning.objectType);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [currentPage, setCurrentPage] = React.useState<number>(2);
 
   const onStepPress = (position: number) => {
-    console.log('onStepPress', position);
     setCurrentPage(position);
   };
 

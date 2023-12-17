@@ -8,7 +8,7 @@ import {Button} from 'react-native-paper';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import ObjectDetails from './ObjectDetails';
-import OrderSummary from '../OrderSummary';
+import OrderSummary from '../OrderReview';
 import {useAppSelector} from '../../redux/store';
 import Appartment from './appartment';
 import House from './house';

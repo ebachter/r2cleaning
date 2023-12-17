@@ -1,8 +1,9 @@
 import {View} from 'react-native';
 import {Text} from 'react-native-paper';
-import MenuComponent from './OrderDetails/MenuComponent';
-import {useAppSelector} from '../redux/store';
-import ComponentObjectType from './OrderDetails/componentObjectType';
+import City from './City';
+import {useAppSelector} from '../../redux/store';
+import ComponentObjectType from '../OrderDetails/componentObjectType';
+import AdressInput from './AdressInput';
 
 export default function OrderSummary() {
   const options = useAppSelector((state) => state.cleaning.options);
@@ -28,9 +29,12 @@ export default function OrderSummary() {
 
       <Text style={{marginTop: 20}}>Сумма:</Text>
       <Text style={{marginBottom: 10}}>{sum} руб.</Text>
-      <Text style={{marginTop: 20}}>Город:</Text>
-      <MenuComponent />
-      <Text style={{marginTop: 20}}>Адрес:</Text>
+
+      <Text style={{marginTop: 20, marginBottom: 10}}>Город:</Text>
+      <City />
+
+      <Text style={{marginTop: 20, marginBottom: 10}}>Адрес:</Text>
+      <AdressInput />
     </View>
   );
 }

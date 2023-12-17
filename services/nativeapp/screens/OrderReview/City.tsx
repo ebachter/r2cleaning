@@ -1,26 +1,34 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
+import {useAppSelector} from '../../redux/store';
+import {setCity} from '../../redux/functionsDispatch';
+import {Cleaning} from '../../types/typesCleaning';
 
-const ix = [
+const ix: {id: Cleaning['order']['city']; label: string}[] = [
   {id: 'grosny', label: 'Грозный'},
   {id: 'argun', label: 'Аргун'},
   {id: 'gudermes', label: 'Гудермес'},
 ];
 
 export const MenuComponent = (): React.ReactElement => {
-  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>(
-    new IndexPath(0),
-  );
+  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
+  const city = useAppSelector((state) => state.cleaning.order.city);
 
   return (
     <Layout style={styles.container} level="1">
       <Select
         selectedIndex={selectedIndex}
         onSelect={(index: IndexPath) => {
+          console.log(index, ix[index.row]);
           setSelectedIndex(index);
+          setCity(ix[index.row].id);
         }}
-        value={ix[selectedIndex.row].label}
+        value={
+          Number.isInteger(selectedIndex?.row)
+            ? ix[selectedIndex?.row].label
+            : 'Select city...'
+        }
       >
         {ix.map((v, i) => (
           <SelectItem key={i} title={v.label} />
@@ -32,7 +40,7 @@ export const MenuComponent = (): React.ReactElement => {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 128,
+    //minHeight: 128,
   },
 });
 

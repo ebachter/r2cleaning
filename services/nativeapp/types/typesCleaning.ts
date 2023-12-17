@@ -12,4 +12,8 @@ export type Cleaning = {
       bathroom: {value: boolean; price: number};
     };
   };
+  order: {
+    city: 'grosny' | 'argun' | 'gudermes';
+    address: string;
+  };
 };
