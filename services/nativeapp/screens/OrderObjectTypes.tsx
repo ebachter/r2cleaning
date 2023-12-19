@@ -8,12 +8,12 @@ import {Cleaning} from '../types/typesCleaning';
 import {setObjectType} from '../redux/functionsDispatch';
 
 const ObjectTypeRadio = () => {
-  const objectType = useAppSelector((state) => state.cleaning.objectType);
+  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
 
   return (
     <RadioButton.Group
       onValueChange={(newValue) => {
-        setObjectType(newValue as Cleaning['objectType']);
+        setObjectType(newValue as Cleaning['order']['objectType']);
       }}
       value={objectType}
     >

@@ -14,7 +14,7 @@ export const OrderBathroom = (): ReactElement => {
     setBathroomOfAppartment(event);
   };
   const bathroom = useAppSelector(
-    (state) => state.cleaning.options.appartment.bathroom,
+    (state) => state.cleaning.order.appartment.bathroom,
   );
 
   return (

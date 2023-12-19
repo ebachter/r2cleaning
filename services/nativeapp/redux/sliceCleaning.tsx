@@ -7,9 +7,10 @@ import {Cleaning} from '../types/typesCleaning';
 }; */
 
 const initialState: Cleaning = {
-  objectType: 'appartment',
-  options: {
+  // options: {},
+  order: {
     appartment: {
+      objectType: 'appartment',
       numberOfRooms: {number: 1, price: 2000},
       kitchen: {
         all: {value: false, price: 1500},
@@ -19,8 +20,7 @@ const initialState: Cleaning = {
       },
       bathroom: {value: false, price: 1000},
     },
-  },
-  order: {
+    objectType: 'appartment',
     city: null,
     address: '',
   },
@@ -30,20 +30,23 @@ const slice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setObjectType: (state, action: PayloadAction<Cleaning['objectType']>) => {
-      state.objectType = action.payload;
+    setObjectType: (
+      state,
+      action: PayloadAction<Cleaning['order']['objectType']>,
+    ) => {
+      state.order.objectType = action.payload;
     },
     setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
-      state.options.appartment.numberOfRooms.number = action.payload;
+      state.order.appartment.numberOfRooms.number = action.payload;
     },
     setKitchenOfAppartment: (
       state,
-      action: PayloadAction<Cleaning['options']['appartment']['kitchen']>,
+      action: PayloadAction<Cleaning['order']['appartment']['kitchen']>,
     ) => {
-      state.options.appartment.kitchen = action.payload;
+      state.order.appartment.kitchen = action.payload;
     },
     setBathroomOfAppartment: (state, action: PayloadAction<boolean>) => {
-      state.options.appartment.bathroom.value = action.payload;
+      state.order.appartment.bathroom.value = action.payload;
     },
     setAdress: (state, action: PayloadAction<string>) => {
       state.order.address = action.payload;

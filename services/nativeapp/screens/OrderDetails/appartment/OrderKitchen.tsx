@@ -8,7 +8,7 @@ type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
 export const OrderKitchen = (): ReactElement => {
   const appartment = useAppSelector(
-    (state) => state.cleaning.options.appartment.kitchen,
+    (state) => state.cleaning.order.appartment.kitchen,
   );
   const {dispatch} = store;
 

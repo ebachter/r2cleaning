@@ -6,20 +6,20 @@ import ComponentObjectType from '../OrderDetails/componentObjectType';
 import AdressInput from './AdressInput';
 
 export default function OrderSummary() {
-  const options = useAppSelector((state) => state.cleaning.options);
+  const order = useAppSelector((state) => state.cleaning.order);
   const sum =
-    options.appartment.numberOfRooms.number *
-      options.appartment.numberOfRooms.price +
-    (options.appartment.kitchen.oven.value
-      ? options.appartment.kitchen.oven.price
+    order.appartment.numberOfRooms.number *
+      order.appartment.numberOfRooms.price +
+    (order.appartment.kitchen.oven.value
+      ? order.appartment.kitchen.oven.price
       : 0) +
-    (options.appartment.kitchen.refrigerator.value
-      ? options.appartment.kitchen.refrigerator.price
+    (order.appartment.kitchen.refrigerator.value
+      ? order.appartment.kitchen.refrigerator.price
       : 0) +
-    (options.appartment.kitchen.sink.value
-      ? options.appartment.kitchen.sink.price
+    (order.appartment.kitchen.sink.value
+      ? order.appartment.kitchen.sink.price
       : 0) +
-    (options.appartment.bathroom.value ? options.appartment.bathroom.price : 0);
+    (order.appartment.bathroom.value ? order.appartment.bathroom.price : 0);
 
   return (
     <View>

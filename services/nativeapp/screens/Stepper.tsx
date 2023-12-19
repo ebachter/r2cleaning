@@ -53,9 +53,9 @@ const steps = [
 ];
 
 export default function OrderStepper() {
-  const objectType = useAppSelector((state) => state.cleaning.objectType);
+  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [currentPage, setCurrentPage] = React.useState<number>(2);
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);
@@ -153,20 +153,22 @@ export default function OrderStepper() {
           </Button>
         </View>
 
-        <View>
-          <Button
-            mode="contained"
-            onPress={() => {
-              console.log('Continue', currentPage);
-              if (currentPage < 2) setCurrentPage(currentPage + 1);
-            }}
-            style={{flex: 1, borderRadius: 5, marginRight: 10}}
-            compact={true}
-            labelStyle={{marginTop: 2, marginBottom: 2}}
-          >
-            Продолжить
-          </Button>
-        </View>
+        {currentPage < 2 && (
+          <View>
+            <Button
+              mode="contained"
+              onPress={() => {
+                console.log('Continue', currentPage);
+                if (currentPage < 2) setCurrentPage(currentPage + 1);
+              }}
+              style={{flex: 1, borderRadius: 5, marginRight: 10}}
+              compact={true}
+              labelStyle={{marginTop: 2, marginBottom: 2}}
+            >
+              Продолжить
+            </Button>
+          </View>
+        )}
       </View>
     </View>
   );
