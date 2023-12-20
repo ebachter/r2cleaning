@@ -4,9 +4,7 @@ import {useAppSelector} from '../../redux/store';
 import {objectTypes} from '../../shared';
 
 export default function ComponentObjectType() {
-  const objectType = useAppSelector(
-    (state) => state.cleaning.order.appartment.objectType,
-  );
+  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
   return (
     <>
       <Text>

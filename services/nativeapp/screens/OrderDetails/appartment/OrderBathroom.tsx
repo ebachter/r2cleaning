@@ -14,14 +14,14 @@ export const OrderBathroom = (): ReactElement => {
     setBathroomOfAppartment(event);
   };
   const bathroom = useAppSelector(
-    (state) => state.cleaning.order.appartment.bathroom,
+    (state) => state.cleaning.order.options.appartment.bathroom,
   );
 
   return (
     <>
       <CheckBox
         style={styles.group}
-        checked={bathroom.value}
+        checked={bathroom.include}
         onChange={handleChange}
       >
         {`Выбрать (${bathroom.price}р.)`}

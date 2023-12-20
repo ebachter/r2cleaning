@@ -1,45 +1,48 @@
 export type Cleaning = {
   // options: {};
   order: {
-    appartment: Appartment;
     objectType: 'appartment';
+    options: {
+      appartment: Appartment;
+      entrance: Entrance;
+      house: House;
+      office: Office;
+      fasade: Fasade;
+    };
     city: 'grosny' | 'argun' | 'gudermes';
     address: string;
   };
 };
 
+type Kitchen = {
+  all: {value: boolean; price: number};
+  sink: {value: boolean; price: number};
+  refrigerator: {value: boolean; price: number};
+  oven: {value: boolean; price: number};
+};
+
+type Bathroom = {include: boolean; area: number; price: number};
+
 type Appartment = {
-  objectType: 'appartment';
   numberOfRooms: {number: number; price: number};
-  kitchen: {
-    all: {value: boolean; price: number};
-    sink: {value: boolean; price: number};
-    refrigerator: {value: boolean; price: number};
-    oven: {value: boolean; price: number};
-  };
-  bathroom: {value: boolean; price: number};
+  kitchen: Kitchen;
+  bathroom: Bathroom;
 };
 
 type Entrance = {
-  objectType: 'entrance';
-  numberOfRooms: {number: number; price: number};
-  bathroom: {value: boolean; price: number};
+  numberOfFloors: {number: number; price: number};
 };
 
 type House = {
-  objectType: 'house';
   numberOfRooms: {number: number; price: number};
-  bathroom: {value: boolean; price: number};
+  kitchen: Kitchen;
+  bathroom: Bathroom;
 };
 
 type Office = {
-  objectType: 'office';
   numberOfRooms: {number: number; price: number};
-  bathroom: {value: boolean; price: number};
 };
 
 type Fasade = {
-  objectType: 'fasade';
-  numberOfRooms: {number: number; price: number};
-  bathroom: {value: boolean; price: number};
+  numberOfFloors: {number: number; price: number};
 };

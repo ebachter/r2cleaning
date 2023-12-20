@@ -6,21 +6,40 @@ import {Cleaning} from '../types/typesCleaning';
   objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
 }; */
 
+const kitchen = {
+  all: {value: false, price: 1500},
+  sink: {value: false, price: 500},
+  refrigerator: {value: false, price: 500},
+  oven: {value: false, price: 500},
+};
+
 const initialState: Cleaning = {
-  // options: {},
   order: {
-    appartment: {
-      objectType: 'appartment',
-      numberOfRooms: {number: 1, price: 2000},
-      kitchen: {
-        all: {value: false, price: 1500},
-        sink: {value: false, price: 500},
-        refrigerator: {value: false, price: 500},
-        oven: {value: false, price: 500},
-      },
-      bathroom: {value: false, price: 1000},
-    },
     objectType: 'appartment',
+    options: {
+      appartment: {
+        numberOfRooms: {number: 1, price: 2000},
+        kitchen,
+        bathroom: {include: false, area: 0, price: 1000},
+      },
+      entrance: {
+        numberOfFloors: {number: 0, price: 0},
+      },
+      house: {
+        numberOfRooms: {number: 0, price: 0},
+        kitchen,
+        bathroom: {include: false, area: 0, price: 1000},
+      },
+      office: {
+        numberOfRooms: {
+          number: 0,
+          price: 400,
+        },
+      },
+      fasade: {
+        numberOfFloors: {number: 0, price: 4000},
+      },
+    },
     city: null,
     address: '',
   },
@@ -37,16 +56,18 @@ const slice = createSlice({
       state.order.objectType = action.payload;
     },
     setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
-      state.order.appartment.numberOfRooms.number = action.payload;
+      state.order.options.appartment.numberOfRooms.number = action.payload;
     },
     setKitchenOfAppartment: (
       state,
-      action: PayloadAction<Cleaning['order']['appartment']['kitchen']>,
+      action: PayloadAction<
+        Cleaning['order']['options']['appartment']['kitchen']
+      >,
     ) => {
-      state.order.appartment.kitchen = action.payload;
+      state.order.options.appartment.kitchen = action.payload;
     },
     setBathroomOfAppartment: (state, action: PayloadAction<boolean>) => {
-      state.order.appartment.bathroom.value = action.payload;
+      state.order.options.appartment.bathroom.include = action.payload;
     },
     setAdress: (state, action: PayloadAction<string>) => {
       state.order.address = action.payload;

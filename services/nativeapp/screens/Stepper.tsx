@@ -65,7 +65,7 @@ export default function OrderStepper() {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */
   }
   const renderStepIndicator = (params: any) => {
-    console.log('params', params);
+    // console.log('params', params);
     return params.stepStatus === 'finished' ? (
       <Ionicons
         name="md-checkmark-circle"
