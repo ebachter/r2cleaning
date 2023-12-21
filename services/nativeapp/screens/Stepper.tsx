@@ -153,19 +153,55 @@ export default function OrderStepper() {
           </Button>
         </View>
 
-        {currentPage < 2 && (
+        {currentPage > 0 && (
           <View>
             <Button
               mode="contained"
               onPress={() => {
                 console.log('Continue', currentPage);
-                if (currentPage < 2) setCurrentPage(currentPage + 1);
+                // if (currentPage < 2)
+                setCurrentPage(currentPage - 1);
+              }}
+              style={{flex: 1, borderRadius: 5, marginRight: 10}}
+              compact={true}
+              labelStyle={{marginTop: 2, marginBottom: 2}}
+            >
+              Назад
+            </Button>
+          </View>
+        )}
+        {currentPage < 2 && (
+          <View>
+            <Button
+              mode="contained"
+              onPress={() => {
+                // console.log('Continue', currentPage);
+                // if (currentPage < 2)
+                setCurrentPage(currentPage + 1);
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}
               labelStyle={{marginTop: 2, marginBottom: 2}}
             >
               Продолжить
+            </Button>
+          </View>
+        )}
+        {currentPage === 2 && (
+          <View>
+            <Button
+              mode="contained"
+              onPress={() => {
+                // console.log('Continue', currentPage);
+                // if (currentPage < 2)
+                // setCurrentPage(currentPage + 1);
+                alert('+++');
+              }}
+              style={{flex: 1, borderRadius: 5, marginRight: 10}}
+              compact={true}
+              labelStyle={{marginTop: 2, marginBottom: 2}}
+            >
+              Заказать
             </Button>
           </View>
         )}
