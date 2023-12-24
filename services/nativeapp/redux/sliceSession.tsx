@@ -19,7 +19,4 @@ const slice = createSlice({
 });
 
 export const sessionReducers = slice.reducer;
-
-export const sessionSet = (
-  ...args: Parameters<typeof slice.actions.sessionSet>
-) => store.dispatch(slice.actions.sessionSet(...args));
+export const sessionActions = slice.actions;

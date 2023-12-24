@@ -21,17 +21,8 @@ config.resolver.disableHierarchicalLookup = true;
 
 config.resolver.blockList = exclusionList([/services\/frontend\/.*/]);
 
-config.resolver.sourceExts = [
-  'ts',
-  'tsx',
-  'mjs',
-  'js',
-  'jsx',
-  'json',
-  'cjs',
-  'scss',
-  'sass',
-  'css',
-];
+console.log('>>>', config.resolver.sourceExts);
+
+config.resolver.sourceExts = [...config.resolver.sourceExts, 'mjs'];
 
 module.exports = config;

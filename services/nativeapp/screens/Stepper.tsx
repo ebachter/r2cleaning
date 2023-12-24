@@ -13,7 +13,7 @@ import {useAppSelector} from '../redux/store';
 import Appartment from './OrderDetails/appartment';
 import House from './OrderDetails/house';
 import {trpcFunc} from '../trpc';
-import {sessionSet} from '../redux/sliceSession';
+import {sessionSet} from '../redux/functionsDispatch';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,

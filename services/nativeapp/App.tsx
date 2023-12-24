@@ -45,12 +45,12 @@ export default function App() {
                     }
                   }
                 >
+                  <Stack.Screen name="Home" component={HomeScreen} />
                   <Stack.Screen
                     name="Order"
                     component={OrderScreen}
                     options={{title: 'Заказ'}}
                   />
-                  <Stack.Screen name="Home" component={HomeScreen} />
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
                   <Stack.Screen name="Details" component={DetailsScreen} />
                 </Stack.Navigator>

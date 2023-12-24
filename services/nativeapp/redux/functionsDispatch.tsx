@@ -1,4 +1,5 @@
 import {cleaningActions} from './sliceCleaning';
+import {sessionActions} from './sliceSession';
 import {store} from './store';
 
 export const setObjectType = (
@@ -23,3 +24,8 @@ export const setAddress = (
 
 export const setCity = (...args: Parameters<typeof cleaningActions.setCity>) =>
   store.dispatch(cleaningActions.setCity(...args));
+
+// ///////////////////////////////////////////////
+export const sessionSet = (
+  ...args: Parameters<typeof sessionActions.sessionSet>
+) => store.dispatch(sessionActions.sessionSet(...args));
