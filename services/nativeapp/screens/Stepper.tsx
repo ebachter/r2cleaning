@@ -12,6 +12,8 @@ import OrderSummary from './OrderReview';
 import {useAppSelector} from '../redux/store';
 import Appartment from './OrderDetails/appartment';
 import House from './OrderDetails/house';
+import {trpcFunc} from '../trpc';
+import {sessionSet} from '../redux/sliceSession';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -191,11 +193,19 @@ export default function OrderStepper() {
           <View>
             <Button
               mode="contained"
-              onPress={() => {
+              onPress={async () => {
                 // console.log('Continue', currentPage);
                 // if (currentPage < 2)
                 // setCurrentPage(currentPage + 1);
-                alert('+++');
+                const data = await trpcFunc.extUserSessionCreate.mutate({
+                  email: 'user',
+                  password: '12345',
+                });
+                let sessionData = {
+                  sessionToken: data?.sessionToken || null,
+                  refreshToken: data?.refreshToken || null,
+                };
+                sessionSet(sessionData);
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}
