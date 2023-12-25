@@ -12,6 +12,9 @@
       "path": "libraries/mysql"
     },
     {
+      "path": "libraries/db"
+    },
+    {
       "path": "libraries/retry"
     },
     {
