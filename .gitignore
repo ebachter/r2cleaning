@@ -33,6 +33,7 @@ coverage/
 
 services/frontend/build/
 services/nativeapp/.expo
+data
 
 localstack/recorded_api_calls.json
 localstack/terraform/.terraform

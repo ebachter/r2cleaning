@@ -1,6 +1,10 @@
 // import log from '@remrob/log';
 // import {register} from '@remrob/shuttle';
 // import mysql from 'mysql2/promise';
+import 'reflect-metadata';
+
+import DataSource from './data-source';
+import {User} from './entity/User';
 
 const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 
@@ -11,4 +15,6 @@ const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
     'query' | 'info' | 'warn' | 'error'
   >; */
 
-export const test = {test: 123};
+export default DataSource;
+
+export {User};

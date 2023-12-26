@@ -24,6 +24,9 @@
     },
     {
       "path": "../../libraries/utils"
+    },
+    {
+      "path": "../../libraries/db"
     }
   ]
 }

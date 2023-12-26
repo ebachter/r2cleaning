@@ -13,6 +13,7 @@ import {
   sendEmailForSignup,
 } from '../../functions/functionsEmail';
 import log from '@remrob/log';
+import DataSource, {User} from '@remrob/db';
 
 type SessionReturn = {
   sessionToken?: string;
@@ -30,6 +31,10 @@ export const extUserAuthRouter = router({
     )
     .mutation(async ({ctx, input}): Promise<SessionReturn> => {
       const {email: username, password} = input;
+
+      const userTable = DataSource.getRepository(User);
+      const user2 = await userTable.find();
+      console.log('--user2--', JSON.stringify(user2));
 
       if (!username || !password) {
         return {error: {status: 401}};
