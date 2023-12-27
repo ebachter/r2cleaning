@@ -14,6 +14,7 @@ import {
 } from '../../functions/functionsEmail';
 import log from '@remrob/log';
 import DataSource, {User} from '@remrob/db';
+import {sendSMS} from '@remrob/aws';
 
 type SessionReturn = {
   sessionToken?: string;
@@ -35,6 +36,8 @@ export const extUserAuthRouter = router({
       const userTable = DataSource.getRepository(User);
       const user2 = await userTable.find();
       console.log('--user2--', JSON.stringify(user2));
+
+      await sendSMS();
 
       if (!username || !password) {
         return {error: {status: 401}};

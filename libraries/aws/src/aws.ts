@@ -11,6 +11,7 @@ import {
 } from '@aws-sdk/client-s3';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
 import {Upload} from '@aws-sdk/lib-storage';
+import {sendSMS} from './sms';
 
 let s3: S3Client, ses: SESClient;
 
@@ -24,6 +25,7 @@ export {
   DeleteObjectCommand,
   CopyObjectCommand,
   PutObjectCommand,
+  sendSMS,
 };
 
 register(async () => {
