@@ -6,12 +6,18 @@ import OrderScreen from './screens';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
-import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
+import {
+  ApplicationProvider,
+  IconRegistry,
+  Layout,
+  Text,
+} from '@ui-kitten/components';
 import * as material from '@eva-design/material';
 import {default as evaTheme} from './eva-custom-theme.json'; // <-- Import app theme
 import {trpcComp, trpcClientOptions} from './trpc';
 import {useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,36 +35,39 @@ export default function App() {
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
 
   return (
-    <Provider store={store}>
-      <trpcComp.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          <PaperProvider theme={paperTheme}>
-            <ApplicationProvider
-              {...material}
-              theme={{...material.light, ...evaTheme}}
-            >
-              <NavigationContainer>
-                <Stack.Navigator
-                  screenOptions={
-                    {
-                      // headerShown: false,
+    <>
+      <Provider store={store}>
+        <trpcComp.Provider client={trpcClient} queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <PaperProvider theme={paperTheme}>
+              <IconRegistry icons={EvaIconsPack} />
+              <ApplicationProvider
+                {...material}
+                theme={{...material.light, ...evaTheme}}
+              >
+                <NavigationContainer>
+                  <Stack.Navigator
+                    screenOptions={
+                      {
+                        // headerShown: false,
+                      }
                     }
-                  }
-                >
-                  <Stack.Screen name="Home" component={HomeScreen} />
-                  <Stack.Screen
-                    name="Order"
-                    component={OrderScreen}
-                    options={{title: 'Заказ'}}
-                  />
-                  {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
-                  <Stack.Screen name="Details" component={DetailsScreen} />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </ApplicationProvider>
-          </PaperProvider>
-        </QueryClientProvider>
-      </trpcComp.Provider>
-    </Provider>
+                  >
+                    <Stack.Screen
+                      name="Order"
+                      component={OrderScreen}
+                      options={{title: 'Заказ'}}
+                    />
+                    {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
+                    <Stack.Screen name="Home" component={HomeScreen} />
+                    <Stack.Screen name="Details" component={DetailsScreen} />
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </ApplicationProvider>
+            </PaperProvider>
+          </QueryClientProvider>
+        </trpcComp.Provider>
+      </Provider>
+    </>
   );
 }

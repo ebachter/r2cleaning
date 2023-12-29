@@ -56,8 +56,11 @@ const steps = [
 
 export default function OrderStepper() {
   const objectType = useAppSelector((state) => state.cleaning.order.objectType);
+  const phoneNumber = useAppSelector(
+    (state) => state.cleaning.order.review.phone,
+  );
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [currentPage, setCurrentPage] = React.useState<number>(0);
+  const [currentPage, setCurrentPage] = React.useState<number>(2);
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);
@@ -197,15 +200,14 @@ export default function OrderStepper() {
                 // console.log('Continue', currentPage);
                 // if (currentPage < 2)
                 // setCurrentPage(currentPage + 1);
-                const data = await trpcFunc.extUserSessionCreate.mutate({
-                  email: 'user',
-                  password: '12345',
+                const data = await trpcFunc.extUserSignupSMS.mutate({
+                  phone: phoneNumber,
                 });
-                let sessionData = {
+                /* let sessionData = {
                   sessionToken: data?.sessionToken || null,
                   refreshToken: data?.refreshToken || null,
                 };
-                sessionSet(sessionData);
+                sessionSet(sessionData); */
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}

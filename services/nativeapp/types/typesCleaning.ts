@@ -11,6 +11,9 @@ export type Cleaning = {
     };
     city: 'grosny' | 'argun' | 'gudermes';
     address: string;
+    review: {
+      phone: `+${number | ''}`;
+    };
   };
 };
 

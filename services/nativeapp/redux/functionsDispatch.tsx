@@ -25,6 +25,9 @@ export const setAddress = (
 export const setCity = (...args: Parameters<typeof cleaningActions.setCity>) =>
   store.dispatch(cleaningActions.setCity(...args));
 
+export const setPhone = (...args) =>
+  store.dispatch(cleaningActions.setPhone(...args));
+
 // ///////////////////////////////////////////////
 export const sessionSet = (
   ...args: Parameters<typeof sessionActions.sessionSet>

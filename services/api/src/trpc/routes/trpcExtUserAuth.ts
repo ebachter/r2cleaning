@@ -37,8 +37,6 @@ export const extUserAuthRouter = router({
       const user2 = await userTable.find();
       console.log('--user2--', JSON.stringify(user2));
 
-      await sendSMS();
-
       if (!username || !password) {
         return {error: {status: 401}};
       }
@@ -80,6 +78,25 @@ export const extUserAuthRouter = router({
       }); // sessionToken: 'r: Kt9wXIBWD0dNijNIq2u5rRllW',
 
       return {sessionToken, refreshToken};
+    }),
+
+  extUserSignupSMS: publicProcedure
+    .input(
+      z.object({
+        phone: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const {phone} = input;
+
+      let genCode = (Math.random() + 1)
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase();
+
+      const message = `Verification code: ${genCode}`;
+
+      await sendSMS(phone, message);
     }),
 
   extUserSignup: publicProcedure

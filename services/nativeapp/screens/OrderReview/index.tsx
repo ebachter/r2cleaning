@@ -4,6 +4,7 @@ import City from './City';
 import {useAppSelector} from '../../redux/store';
 import ComponentObjectType from '../OrderDetails/componentObjectType';
 import AdressInput from './AdressInput';
+import {PhoneNumberInput} from './PhoneNumberInput';
 
 export default function OrderSummary() {
   const order = useAppSelector((state) => state.cleaning.order);
@@ -37,6 +38,10 @@ export default function OrderSummary() {
 
       <Text style={{marginTop: 20, marginBottom: 10}}>Адрес:</Text>
       <AdressInput />
+
+      <View style={{marginTop: 20}}>
+        <PhoneNumberInput />
+      </View>
     </View>
   );
 }

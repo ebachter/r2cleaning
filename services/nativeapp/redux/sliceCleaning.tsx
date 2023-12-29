@@ -42,6 +42,9 @@ const initialState: Cleaning = {
     },
     city: null,
     address: '',
+    review: {
+      phone: '+',
+    },
   },
 };
 
@@ -74,6 +77,12 @@ const slice = createSlice({
     },
     setCity: (state, action: PayloadAction<Cleaning['order']['city']>) => {
       state.order.city = action.payload;
+    },
+    setPhone: (
+      state,
+      action: PayloadAction<Cleaning['order']['review']['phone']>,
+    ) => {
+      state.order.review.phone = action.payload;
     },
   },
 });
