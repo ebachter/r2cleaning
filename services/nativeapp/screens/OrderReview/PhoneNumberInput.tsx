@@ -5,6 +5,7 @@ import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
 import {useAppSelector} from '../../redux/store';
 import {setPhone} from '../../redux/functionsDispatch';
+import {trpcFunc} from '../../trpc';
 
 const AlertIcon = (props): IconElement => {
   const {marginRight, ...rest} = props;
@@ -17,9 +18,11 @@ const AlertIcon = (props): IconElement => {
 
 const PhoneNumberInput = (): React.ReactElement => {
   const [isPhoneValid, setPhoneValid] = useState(false);
+  const [veritionCode, setVeritionCode] = useState('');
   const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   );
+  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
 
   const renderIcon = (props): React.ReactElement => (
     <TouchableWithoutFeedback onPress={() => console.log('>>>')}>
@@ -39,7 +42,24 @@ const PhoneNumberInput = (): React.ReactElement => {
     );
   };
 
-  return (
+  return smsSent ? (
+    <Input
+      value={veritionCode}
+      label="Код верификации:"
+      placeholder="Введите код"
+      onChangeText={async (nextValue) => {
+        setVeritionCode(nextValue);
+        console.log(nextValue, nextValue.length);
+        if (nextValue.length === 6) {
+          const data = await trpcFunc.extUserSignupSMSverify.mutate({
+            phoneNumber,
+            verificationCode: nextValue,
+          });
+          console.log('isValid', data.isValid);
+        }
+      }}
+    />
+  ) : (
     <Input
       value={phoneNumber}
       label="Номер телефона:"

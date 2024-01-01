@@ -5,8 +5,9 @@ import 'reflect-metadata';
 
 import DataSource from './data-source';
 import {User} from './entity/User';
+import {Verification} from './entity/Verification';
 
-const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
+// const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 
 // log.info('Initializing connection pool...');
 
@@ -17,4 +18,4 @@ const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 
 export default DataSource;
 
-export {User};
+export {User, Verification};

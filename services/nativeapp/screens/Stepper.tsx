@@ -13,7 +13,7 @@ import {useAppSelector} from '../redux/store';
 import Appartment from './OrderDetails/appartment';
 import House from './OrderDetails/house';
 import {trpcFunc} from '../trpc';
-import {sessionSet} from '../redux/functionsDispatch';
+import {sessionSet, setOrder} from '../redux/functionsDispatch';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -65,6 +65,7 @@ export default function OrderStepper() {
   const onStepPress = (position: number) => {
     setCurrentPage(position);
   };
+  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */
@@ -192,7 +193,8 @@ export default function OrderStepper() {
             </Button>
           </View>
         )}
-        {currentPage === 2 && (
+
+        {currentPage === 2 && !smsSent && (
           <View>
             <Button
               mode="contained"
@@ -203,6 +205,9 @@ export default function OrderStepper() {
                 const data = await trpcFunc.extUserSignupSMS.mutate({
                   phone: phoneNumber,
                 });
+
+                setOrder({smsSent: true});
+
                 /* let sessionData = {
                   sessionToken: data?.sessionToken || null,
                   refreshToken: data?.refreshToken || null,

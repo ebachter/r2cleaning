@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 import {User} from './entity/User';
+import {Verification} from './entity/Verification';
 
 /* const AppDataSource = new DataSource({
   type: 'postgres',
@@ -17,7 +18,7 @@ import {User} from './entity/User';
 const AppDataSourceSqlite = new DataSource({
   type: 'sqlite',
   database: '../../data/cleaning.sqlite',
-  entities: [User],
+  entities: [User, Verification],
   synchronize: true,
   logging: false,
 });
@@ -30,6 +31,7 @@ AppDataSourceSqlite.initialize()
     // here you can start to work with your database
 
     await AppDataSourceSqlite.manager.clear(User);
+    await AppDataSourceSqlite.manager.clear(Verification);
     // await AppDataSourceSqlite.createQueryBuilder()
     //  .delete().from(User).execute();
 
@@ -48,4 +50,4 @@ AppDataSourceSqlite.initialize()
 
 export default AppDataSourceSqlite;
 
-export {User};
+// export {User, Verification};

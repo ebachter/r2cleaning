@@ -1,6 +1,8 @@
+import {PayloadAction} from '@reduxjs/toolkit';
 import {cleaningActions} from './sliceCleaning';
 import {sessionActions} from './sliceSession';
 import {store} from './store';
+import {Cleaning} from '../types/typesCleaning';
 
 export const setObjectType = (
   ...args: Parameters<typeof cleaningActions.setObjectType>
@@ -27,6 +29,9 @@ export const setCity = (...args: Parameters<typeof cleaningActions.setCity>) =>
 
 export const setPhone = (...args) =>
   store.dispatch(cleaningActions.setPhone(...args));
+
+export const setOrder = (args: Partial<Cleaning['order']>) =>
+  store.dispatch(cleaningActions.setOrder(args));
 
 // ///////////////////////////////////////////////
 export const sessionSet = (

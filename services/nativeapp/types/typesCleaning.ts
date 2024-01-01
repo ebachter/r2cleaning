@@ -14,6 +14,8 @@ export type Cleaning = {
     review: {
       phone: `+${number | ''}`;
     };
+
+    smsSent: boolean;
   };
 };
 

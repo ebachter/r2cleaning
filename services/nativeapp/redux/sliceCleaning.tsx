@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {store} from './store';
 import {Cleaning} from '../types/typesCleaning';
+import _ from 'lodash';
 
 /* type Cleaning = {
   objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
@@ -43,8 +44,9 @@ const initialState: Cleaning = {
     city: null,
     address: '',
     review: {
-      phone: '+',
+      phone: '+491633649875',
     },
+    smsSent: false,
   },
 };
 
@@ -83,6 +85,10 @@ const slice = createSlice({
       action: PayloadAction<Cleaning['order']['review']['phone']>,
     ) => {
       state.order.review.phone = action.payload;
+    },
+
+    setOrder: (state, action: PayloadAction<Partial<Cleaning['order']>>) => {
+      _.merge(state.order, action.payload);
     },
   },
 });

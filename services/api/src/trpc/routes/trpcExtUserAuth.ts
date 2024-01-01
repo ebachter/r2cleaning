@@ -13,8 +13,9 @@ import {
   sendEmailForSignup,
 } from '../../functions/functionsEmail';
 import log from '@remrob/log';
-import DataSource, {User} from '@remrob/db';
+import DataSource, {User, Verification} from '@remrob/db';
 import {sendSMS} from '@remrob/aws';
+import AppDataSourceSqlite from '@remrob/db';
 
 type SessionReturn = {
   sessionToken?: string;
@@ -80,6 +81,29 @@ export const extUserAuthRouter = router({
       return {sessionToken, refreshToken};
     }),
 
+  extUserSignupSMSverify: publicProcedure
+    .input(
+      z.object({
+        phoneNumber: z.string(),
+        verificationCode: z.string(),
+      }),
+    )
+    .output(
+      z.object({
+        isValid: z.boolean(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const {phoneNumber, verificationCode} = input;
+      console.log({verificationCode});
+      const data = await AppDataSourceSqlite.getRepository(Verification).find({
+        where: {phoneNumber, verificationID: verificationCode},
+      });
+      console.log('data', data);
+
+      return {isValid: data.length ? true : false};
+    }),
+
   extUserSignupSMS: publicProcedure
     .input(
       z.object({
@@ -89,13 +113,16 @@ export const extUserAuthRouter = router({
     .mutation(async ({ctx, input}) => {
       const {phone} = input;
 
-      let genCode = (Math.random() + 1)
-        .toString(36)
-        .substring(2, 8)
-        .toUpperCase();
+      let genCode = (Math.random() + 1).toString(36).substring(2, 8);
+      //.toUpperCase();
 
+      const verification = new Verification();
+      verification.phoneNumber = phone;
+      verification.verificationID = genCode;
+
+      console.log(verification);
+      await AppDataSourceSqlite.manager.save(verification);
       const message = `Verification code: ${genCode}`;
-
       await sendSMS(phone, message);
     }),
 
