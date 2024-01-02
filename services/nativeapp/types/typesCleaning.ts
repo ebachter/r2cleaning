@@ -17,6 +17,10 @@ export type Cleaning = {
 
     smsSent: boolean;
   };
+  modals: {
+    login: boolean;
+    signup: boolean;
+  };
 };
 
 type Kitchen = {

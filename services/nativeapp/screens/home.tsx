@@ -1,23 +1,13 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View, Button} from 'react-native';
-import {useAppDispatch, useAppSelector} from '../redux/store';
-import {setMessage} from '../redux/initSlice';
+// import {StatusBar} from 'expo-status-bar';
+import {StyleSheet, Text, View} from 'react-native';
 import {ImageBackground} from 'react-native';
 import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
-
-/* const BgImage = () => (
-  <Image
-    source={require('../assets/cl_start_bg.webp')}
-    style={{width: '100%', height: '40%'}}
-  />
-); */
-// const BgImage2 = () => <Image source={require('../assets/')} />;
+import {Button, Layout} from '@ui-kitten/components';
+import {setModals} from '../redux/functionsDispatch';
 
 export default function HomeScreen({navigation}) {
-  const dispatch = useAppDispatch();
-  const apiOrigin = process.env.EXPO_PUBLIC_API_ORIGIN;
-  const {message} = useAppSelector((state) => state.message);
+  // const apiOrigin = process.env.EXPO_PUBLIC_API_ORIGIN;
   return (
     <View
       style={{
@@ -119,19 +109,22 @@ export default function HomeScreen({navigation}) {
       </View>
 
       <View style={styles.container2}>
-        <Text>Home Screen</Text>
-
-        <Text>EXPO_PUBLIC_API_ORIGIN: {apiOrigin}</Text>
-        <StatusBar style="auto" />
-        <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('Details')}
-        />
-        <Text style={{marginTop: 5}}>Redux msg: {message}</Text>
-        <Button
-          title="Set new message"
-          onPress={() => dispatch(setMessage('New Message from Component'))}
-        />
+        <Layout style={styles.container3} level="1">
+          <Button
+            style={styles.button}
+            onPress={() => setModals({login: true})}
+          >
+            Войти
+          </Button>
+          <Button
+            appearance="outline"
+            style={styles.button}
+            onPress={() => setModals({signup: true})}
+          >
+            Создать
+          </Button>
+          {/*  onPress={() => navigation.navigate('Details')} */}
+        </Layout>
       </View>
 
       <View style={styles.container2}>
@@ -148,7 +141,6 @@ export default function HomeScreen({navigation}) {
           ]}
         />
       </View>
-      <Text>End</Text>
     </View>
   );
 }
@@ -164,6 +156,11 @@ const styles = StyleSheet.create({
     // textAlign: 'center',
     border: '2px solid green',
     maxWidth: 500,
+  },
+
+  container3: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   image: {
@@ -185,7 +182,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 8,
     backgroundColor: 'aliceblue',
-    minHeight: 200,
+    // minHeight: 200,
     alignItems: 'center',
+  },
+
+  button: {
+    margin: 2,
+    minWidth: 100,
   },
 });

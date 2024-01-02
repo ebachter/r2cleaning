@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {store} from './store';
 import {Cleaning} from '../types/typesCleaning';
 import _ from 'lodash';
 
@@ -48,6 +47,10 @@ const initialState: Cleaning = {
     },
     smsSent: false,
   },
+  modals: {
+    login: false,
+    signup: false,
+  },
 };
 
 const slice = createSlice({
@@ -89,6 +92,9 @@ const slice = createSlice({
 
     setOrder: (state, action: PayloadAction<Partial<Cleaning['order']>>) => {
       _.merge(state.order, action.payload);
+    },
+    setModals: (state, action: PayloadAction<Partial<Cleaning['modals']>>) => {
+      _.merge(state.modals, action.payload);
     },
   },
 });

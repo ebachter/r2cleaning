@@ -18,6 +18,8 @@ import {trpcComp, trpcClientOptions} from './trpc';
 import {useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import ModalLogin from './modals/Login';
+import ModalSignup from './modals/Signup';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,16 +55,19 @@ export default function App() {
                       }
                     }
                   >
+                    <Stack.Screen name="Home" component={HomeScreen} />
                     <Stack.Screen
                       name="Order"
                       component={OrderScreen}
                       options={{title: 'Заказ'}}
                     />
                     {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
-                    <Stack.Screen name="Home" component={HomeScreen} />
+
                     <Stack.Screen name="Details" component={DetailsScreen} />
                   </Stack.Navigator>
                 </NavigationContainer>
+                <ModalLogin />
+                <ModalSignup />
               </ApplicationProvider>
             </PaperProvider>
           </QueryClientProvider>
