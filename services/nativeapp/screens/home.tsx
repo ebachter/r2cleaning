@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
   },
 
   container2: {
-    flex: 1,
     marginTop: 8,
     backgroundColor: 'aliceblue',
     // minHeight: 200,
@@ -188,6 +187,6 @@ const styles = StyleSheet.create({
 
   button: {
     margin: 2,
-    minWidth: 100,
+    width: 100,
   },
 });

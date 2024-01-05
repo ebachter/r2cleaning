@@ -33,26 +33,17 @@ export default function ModalLogin() {
           <Button
             mode="contained"
             onPress={async () => {
-              // console.log('Continue', currentPage);
-              // if (currentPage < 2)
-              // setCurrentPage(currentPage + 1);
               const data = await trpcFunc.extUserSignupSMS.mutate({
                 phone: phoneNumber,
               });
 
               setOrder({smsSent: true});
-
-              /* let sessionData = {
-                  sessionToken: data?.sessionToken || null,
-                  refreshToken: data?.refreshToken || null,
-                };
-                sessionSet(sessionData); */
             }}
             style={{borderRadius: 5, marginTop: 20}}
             compact={true}
             labelStyle={{marginTop: 2, marginBottom: 2}}
           >
-            Войти- {Platform.OS}
+            Войти
           </Button>
         )}
       </Dialog.Content>
