@@ -3,12 +3,10 @@ import {cleaningReducers} from './sliceCleaning';
 import {sessionReducers} from './sliceSession';
 import {useDispatch, useSelector} from 'react-redux';
 import type {TypedUseSelectorHook} from 'react-redux';
+import rootReducer from './rootReducer';
 
 export const store = configureStore({
-  reducer: {
-    cleaning: cleaningReducers,
-    session: sessionReducers,
-  },
+  reducer: rootReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -42,6 +42,7 @@ AppDataSourceSqlite.initialize()
       user.age = 24;
       user.balance = 21.3;
       user.data = [{a: 1, b: 'qwer'}];
+      user.phoneNumber = '+491633649875';
       await AppDataSourceSqlite.manager.save(user);
       console.log('User created');
     }

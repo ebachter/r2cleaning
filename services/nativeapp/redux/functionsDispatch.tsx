@@ -3,6 +3,7 @@ import {cleaningActions} from './sliceCleaning';
 import {sessionActions} from './sliceSession';
 import {store} from './store';
 import {Cleaning} from '../types/typesCleaning';
+import {Session} from '../types/typeSession';
 
 export const setObjectType = (
   ...args: Parameters<typeof cleaningActions.setObjectType>

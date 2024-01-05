@@ -4,7 +4,7 @@ import {Icon, IconElement, Input, Text} from '@ui-kitten/components';
 import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
 import {useAppSelector} from '../../redux/store';
-import {setPhone} from '../../redux/functionsDispatch';
+import {sessionSet, setPhone} from '../../redux/functionsDispatch';
 import {trpcFunc} from '../../trpc';
 
 const AlertIcon = (props): IconElement => {
@@ -22,6 +22,8 @@ const PhoneNumberInput = (): React.ReactElement => {
   const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   );
+
+  const session = useAppSelector((state) => state.session.sessionToken);
   const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
 
   const renderIcon = (props): React.ReactElement => (
@@ -55,7 +57,9 @@ const PhoneNumberInput = (): React.ReactElement => {
             phoneNumber,
             verificationCode: nextValue,
           });
-          console.log('isValid', data.isValid);
+          if ('session' in data) {
+            sessionSet({sessionToken: data.session});
+          }
         }
       }}
     />

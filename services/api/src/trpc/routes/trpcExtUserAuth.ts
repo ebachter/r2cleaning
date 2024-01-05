@@ -89,19 +89,48 @@ export const extUserAuthRouter = router({
       }),
     )
     .output(
-      z.object({
-        isValid: z.boolean(),
-      }),
+      z
+        .object({
+          isValid: z.literal(false),
+        })
+        .or(z.object({isValid: z.literal(true), session: z.string()})),
     )
     .mutation(async ({ctx, input}) => {
       const {phoneNumber, verificationCode} = input;
       console.log({verificationCode});
-      const data = await AppDataSourceSqlite.getRepository(Verification).find({
+      const data = await AppDataSourceSqlite.getRepository(
+        Verification,
+      ).findOne({
         where: {phoneNumber, verificationID: verificationCode},
       });
       console.log('data', data);
+      if (!data) return {isValid: false};
 
-      return {isValid: data.length ? true : false};
+      const userData = await AppDataSourceSqlite.getRepository(User).findOne({
+        where: {phoneNumber: data.phoneNumber},
+      });
+
+      let sessionToken: string = '';
+      if (!userData) {
+        const user = new User();
+        user.phoneNumber = phoneNumber;
+        const newUser = await AppDataSourceSqlite.getRepository(User).save(
+          user,
+        );
+        sessionToken = createUserSessionToken({
+          userId: newUser.id,
+          lang: 'en',
+        });
+      } else {
+        sessionToken = createUserSessionToken({
+          userId: userData.id,
+          lang: 'en',
+        });
+      }
+
+      console.log('--userData--', userData);
+
+      return {isValid: true, session: sessionToken};
     }),
 
   extUserSignupSMS: publicProcedure

@@ -18,7 +18,7 @@ export default function ModalFullscreen() {
           icon="close"
           onPress={() => setModals({signup: false})}
         />
-        <Appbar.Content title="Создать" />
+        <Appbar.Content title="Регистрация" />
         <Button onPress={() => console.log('Save')}>Save</Button>
       </Appbar.Header>
       <Dialog.Content>

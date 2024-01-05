@@ -13,7 +13,7 @@ const slice = createSlice({
   reducers: {
     sessionSet: (state, action: PayloadAction<Session>) => {
       state.sessionToken = action.payload.sessionToken;
-      state.refreshToken = action.payload.refreshToken;
+      // state.refreshToken = action.payload.refreshToken;
     },
   },
 });

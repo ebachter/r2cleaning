@@ -1,10 +1,16 @@
-import {Modal} from 'react-native';
+import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppSelector} from '../redux/store';
-import {setModals} from '../redux/functionsDispatch';
+import {setModals, setOrder} from '../redux/functionsDispatch';
+import {PhoneNumberInput} from '../screens/OrderReview/PhoneNumberInput';
+import {trpcFunc} from '../trpc';
 
 export default function ModalLogin() {
   const visibleLogin = useAppSelector((state) => state.cleaning.modals.login);
+  const phoneNumber = useAppSelector(
+    (state) => state.cleaning.order.review.phone,
+  );
+  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
 
   return (
     <Modal
@@ -15,12 +21,50 @@ export default function ModalLogin() {
     >
       <Appbar.Header>
         <Appbar.Action icon="close" onPress={() => setModals({login: false})} />
-        <Appbar.Content title="Войти" />
+        <Appbar.Content title="Логин" />
         <Button onPress={() => console.log('Save')}>Save</Button>
       </Appbar.Header>
-      <Dialog.Content>
-        <Text variant="bodyMedium">This is simple dialog</Text>
+      <Dialog.Content style={styles.container}>
+        {/* <Text variant="bodyMedium" style={{marginTop: 20, marginBottom: 20}}>
+          Войти в Клининг.тек
+        </Text> */}
+        <PhoneNumberInput />
+        {!smsSent && (
+          <Button
+            mode="contained"
+            onPress={async () => {
+              // console.log('Continue', currentPage);
+              // if (currentPage < 2)
+              // setCurrentPage(currentPage + 1);
+              const data = await trpcFunc.extUserSignupSMS.mutate({
+                phone: phoneNumber,
+              });
+
+              setOrder({smsSent: true});
+
+              /* let sessionData = {
+                  sessionToken: data?.sessionToken || null,
+                  refreshToken: data?.refreshToken || null,
+                };
+                sessionSet(sessionData); */
+            }}
+            style={{borderRadius: 5, marginTop: 20}}
+            compact={true}
+            labelStyle={{marginTop: 2, marginBottom: 2}}
+          >
+            Войти- {Platform.OS}
+          </Button>
+        )}
       </Dialog.Content>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', //Centered horizontally
+    flex: 1,
+    backgroundColor: 'aliceblue',
+  },
+});

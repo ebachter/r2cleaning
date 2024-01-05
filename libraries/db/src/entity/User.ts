@@ -11,11 +11,14 @@ export class User {
   @Column()
   lastName!: string;
 
-  @Column()
+  @Column({nullable: true})
   age!: number;
 
-  @Column('double')
+  @Column('double', {default: 0})
   balance!: number;
+
+  @Column()
+  phoneNumber!: string;
 
   @Column('json', {nullable: true})
   data!: {a: number; b: string}[];
