@@ -40,4 +40,7 @@ export const setModals = (args: Partial<Cleaning['modals']>) =>
 // ///////////////////////////////////////////////
 export const sessionSet = (
   ...args: Parameters<typeof sessionActions.sessionSet>
-) => store.dispatch(sessionActions.sessionSet(...args));
+) => {
+  store.dispatch(sessionActions.sessionSet(...args));
+  setModals({login: false, signup: false});
+};

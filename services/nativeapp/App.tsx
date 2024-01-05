@@ -3,8 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
 import OrderScreen from './screens';
-import {Provider} from 'react-redux';
-import {store} from './redux/store';
+import {useAppSelector} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
 import {
   ApplicationProvider,
@@ -35,44 +34,46 @@ const paperTheme = {
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
+  const sessionToken = useAppSelector((state) => state.session.sessionToken);
 
+  console.log('--sessionToken--', sessionToken);
   return (
     <>
-      <Provider store={store}>
-        <trpcComp.Provider client={trpcClient} queryClient={queryClient}>
-          <QueryClientProvider client={queryClient}>
-            <PaperProvider theme={paperTheme}>
-              <IconRegistry icons={EvaIconsPack} />
-              <ApplicationProvider
-                {...material}
-                theme={{...material.light, ...evaTheme}}
-              >
-                <NavigationContainer>
-                  <Stack.Navigator
-                    screenOptions={
-                      {
-                        // headerShown: false,
-                      }
+      <trpcComp.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <PaperProvider theme={paperTheme}>
+            <IconRegistry icons={EvaIconsPack} />
+            <ApplicationProvider
+              {...material}
+              theme={{...material.light, ...evaTheme}}
+            >
+              <NavigationContainer>
+                <Stack.Navigator
+                  screenOptions={
+                    {
+                      // headerShown: false,
                     }
-                  >
-                    <Stack.Screen name="Home" component={HomeScreen} />
-                    <Stack.Screen
-                      name="Order"
-                      component={OrderScreen}
-                      options={{title: 'Заказ'}}
-                    />
-                    {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
-
-                    <Stack.Screen name="Details" component={DetailsScreen} />
-                  </Stack.Navigator>
-                </NavigationContainer>
-                <ModalLogin />
-                <ModalSignup />
-              </ApplicationProvider>
-            </PaperProvider>
-          </QueryClientProvider>
-        </trpcComp.Provider>
-      </Provider>
+                  }
+                >
+                  {sessionToken ? (
+                    <Stack.Screen name="Home" component={DetailsScreen} />
+                  ) : (
+                    <Stack.Screen name="Details" component={HomeScreen} />
+                  )}
+                  <Stack.Screen
+                    name="Order"
+                    component={OrderScreen}
+                    options={{title: 'Заказ'}}
+                  />
+                  {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
+                </Stack.Navigator>
+              </NavigationContainer>
+              <ModalLogin />
+              <ModalSignup />
+            </ApplicationProvider>
+          </PaperProvider>
+        </QueryClientProvider>
+      </trpcComp.Provider>
     </>
   );
 }

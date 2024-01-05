@@ -13,7 +13,7 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-const initialState: Cleaning = {
+export const initialStateCleaning: Cleaning = {
   order: {
     objectType: 'appartment',
     options: {
@@ -55,7 +55,7 @@ const initialState: Cleaning = {
 
 const slice = createSlice({
   name: 'session',
-  initialState,
+  initialState: initialStateCleaning,
   reducers: {
     setObjectType: (
       state,
