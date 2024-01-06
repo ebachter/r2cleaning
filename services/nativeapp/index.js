@@ -1,12 +1,16 @@
 import '@expo/metro-runtime';
 import {registerRootComponent} from 'expo';
-import {store} from './redux/store';
+import {persistor, store} from './redux/store';
 import {Provider} from 'react-redux';
 import App from './App';
+import {PersistGate} from 'redux-persist/integration/react';
+import {Text} from 'react-native-paper';
 
 const Root = () => (
   <Provider store={store}>
-    <App />
+    <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 );
 

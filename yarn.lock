@@ -24009,7 +24009,6 @@ __metadata:
     react-dom: 18.2.0
     react-native: 0.72.6
     react-native-country-flag: ^2.0.2
-    react-native-mmkv: ^2.11.0
     react-native-paper: ^5.11.2
     react-native-safe-area-context: ^4.7.4
     react-native-screens: ~3.22.0
@@ -27455,16 +27454,6 @@ __metadata:
     react: 16.5.0
     react-native-svg: ^9.4.0
   checksum: 01407b90e61b915b31ac416701cc1d1db12c0a58de6ee7704c89d51ab76ac87c0ae6d506cb2ae6958d525ba2e43d8b9f891177db9c0308a5f3fc8a43a53d9cce
-  languageName: node
-  linkType: hard
-
-"react-native-mmkv@npm:^2.11.0":
-  version: 2.11.0
-  resolution: "react-native-mmkv@npm:2.11.0"
-  peerDependencies:
-    react: "*"
-    react-native: ">=0.71.0"
-  checksum: 23ba624db8a4c530532aaab78705b58d1c9eefc3173dae3b1f86c8cb4d0e5abe3d175079c263251bfed406dc9f6ccda3657f138177916866ea0c0dc8fa3d2389
   languageName: node
   linkType: hard
 

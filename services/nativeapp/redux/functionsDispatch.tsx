@@ -43,4 +43,5 @@ export const sessionSet = (
 ) => {
   store.dispatch(sessionActions.sessionSet(...args));
   setModals({login: false, signup: false});
+  setOrder({smsSent: false});
 };

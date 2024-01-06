@@ -1,13 +1,22 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {cleaningReducers} from './sliceCleaning';
-import {sessionReducers} from './sliceSession';
 import {useDispatch, useSelector} from 'react-redux';
 import type {TypedUseSelectorHook} from 'react-redux';
 import rootReducer from './rootReducer';
+import {persistStore} from 'redux-persist';
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      // thunk: false,
+      /* serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      }, */
+      serializableCheck: false,
+    }),
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

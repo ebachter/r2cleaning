@@ -20,7 +20,13 @@ export default function ModalLogin() {
       visible={visibleLogin}
     >
       <Appbar.Header>
-        <Appbar.Action icon="close" onPress={() => setModals({login: false})} />
+        <Appbar.Action
+          icon="close"
+          onPress={() => {
+            setModals({login: false});
+            setOrder({smsSent: false});
+          }}
+        />
         <Appbar.Content title="Логин" />
         <Button onPress={() => console.log('Save')}>Save</Button>
       </Appbar.Header>

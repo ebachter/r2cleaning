@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Session} from '../types/typeSession';
-import {store} from './store';
 
 const initialState: Session = {
   sessionToken: null,
