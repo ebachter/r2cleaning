@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
@@ -31,6 +31,25 @@ const paperTheme = {
   },
 };
 
+type RootStackParamList = {
+  config: {
+    Home: string;
+  };
+};
+
+const config = {
+  screens: {
+    Home: '',
+    Order: 'order',
+    // Chat: 'feed/:sort',
+  },
+};
+
+const linking = {
+  prefixes: ['https://cleaning.tech'],
+  config,
+};
+
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
@@ -47,13 +66,11 @@ export default function App() {
               {...material}
               theme={{...material.light, ...evaTheme}}
             >
-              <NavigationContainer>
+              <NavigationContainer linking={linking}>
                 <Stack.Navigator
-                  screenOptions={
-                    {
-                      // headerShown: false,
-                    }
-                  }
+                  screenOptions={{
+                    headerShown: false,
+                  }}
                 >
                   {sessionToken ? (
                     <Stack.Screen name="Home" component={DetailsScreen} />
