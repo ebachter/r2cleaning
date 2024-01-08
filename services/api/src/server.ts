@@ -55,7 +55,7 @@ register(async () => {
   app.use(bearerToken());
   app.use(
     cors({
-      origin: [`${process.env.FRONTEND_ORIGIN}`, `${process.env.ORIGIN_EXPO}`],
+      origin: '*', // [`${process.env.FRONTEND_ORIGIN}`, `${process.env.ORIGIN_EXPO}`],
       methods: ['GET', 'POST'],
       credentials: true,
     }),
