@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 import {User} from './entity/User';
 import {Verification} from './entity/Verification';
+import {ObjectType, Order} from './entity/Order';
 
 /* const AppDataSource = new DataSource({
   type: 'postgres',
@@ -18,7 +19,7 @@ import {Verification} from './entity/Verification';
 const AppDataSourceSqlite = new DataSource({
   type: 'sqlite',
   database: '../../data/cleaning.sqlite',
-  entities: [User, Verification],
+  entities: [User, Verification, Order],
   synchronize: true,
   logging: false,
 });
@@ -32,6 +33,7 @@ AppDataSourceSqlite.initialize()
 
     await AppDataSourceSqlite.manager.clear(User);
     await AppDataSourceSqlite.manager.clear(Verification);
+    await AppDataSourceSqlite.manager.clear(Order);
     // await AppDataSourceSqlite.createQueryBuilder()
     //  .delete().from(User).execute();
 
@@ -45,6 +47,11 @@ AppDataSourceSqlite.initialize()
       user.phoneNumber = '+491633649875';
       await AppDataSourceSqlite.manager.save(user);
       console.log('User created');
+
+      const order = new Order();
+      order.objectType = ObjectType.grosny;
+      await AppDataSourceSqlite.manager.save(order);
+      console.log('Order created');
     }
   })
   .catch((error) => console.log(error));
