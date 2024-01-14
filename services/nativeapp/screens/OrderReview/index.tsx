@@ -1,10 +1,9 @@
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import City from './City';
 import {useAppSelector} from '../../redux/store';
 import ComponentObjectType from '../OrderDetails/componentObjectType';
 import AdressInput from './AdressInput';
-import {PhoneNumberInput} from './PhoneNumberInput';
 
 export default function OrderSummary() {
   const order = useAppSelector((state) => state.cleaning.order);
@@ -24,6 +23,9 @@ export default function OrderSummary() {
       ? order.options.appartment.bathroom.price
       : 0);
 
+  const orderCreated = useAppSelector(
+    (state) => state.cleaning.order.orderCreated,
+  );
   return (
     <View>
       <Text style={{marginBottom: 20}}>
@@ -38,10 +40,30 @@ export default function OrderSummary() {
 
       <Text style={{marginTop: 20, marginBottom: 10}}>Адрес:</Text>
       <AdressInput />
-
-      <View style={{marginTop: 20}}>
-        <PhoneNumberInput />
-      </View>
+      {orderCreated && (
+        <View style={{marginTop: 20}}>
+          <Text style={styles.captionText}>Order is succesfully created!</Text>
+        </View>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  captionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  captionIcon: {
+    width: 10,
+    height: 10,
+    marginRight: 5,
+  },
+  captionText: {
+    fontSize: 12,
+    fontWeight: '400',
+    // fontFamily: 'opensans-regular',
+    color: '#8F9BB3',
+  },
+});

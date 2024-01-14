@@ -1,8 +1,10 @@
 {
+  "strictNullChecks": true,
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "tsBuildInfoFile": "../../.build-cache/services-api.tsbuildinfo"
+    "tsBuildInfoFile": "../../.build-cache/services-api.tsbuildinfo",
+    "plugins": [{"transform": "typia/lib/transform"}]
   },
   "extends": "../../tsconfig.base.json",
   "include": ["./src/**/*", "service.js"],

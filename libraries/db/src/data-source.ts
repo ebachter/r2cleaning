@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 import {User} from './entity/User';
 import {Verification} from './entity/Verification';
-import {ObjectType, Order} from './entity/Order';
+import {Order} from './entity/Order';
 
 /* const AppDataSource = new DataSource({
   type: 'postgres',
@@ -49,7 +49,7 @@ AppDataSourceSqlite.initialize()
       console.log('User created');
 
       const order = new Order();
-      order.objectType = ObjectType.grosny;
+      order.objectType = 'flat';
       await AppDataSourceSqlite.manager.save(order);
       console.log('Order created');
     }

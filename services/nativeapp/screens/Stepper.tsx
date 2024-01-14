@@ -65,7 +65,9 @@ export default function OrderStepper() {
   const onStepPress = (position: number) => {
     setCurrentPage(position);
   };
-  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
+  const orderCreated = useAppSelector(
+    (state) => state.cleaning.order.orderCreated,
+  );
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */
@@ -194,7 +196,7 @@ export default function OrderStepper() {
           </View>
         )}
 
-        {currentPage === 2 && !smsSent && (
+        {currentPage === 2 && !orderCreated && (
           <View>
             <Button
               mode="contained"
@@ -202,11 +204,16 @@ export default function OrderStepper() {
                 // console.log('Continue', currentPage);
                 // if (currentPage < 2)
                 // setCurrentPage(currentPage + 1);
-                const data = await trpcFunc.extUserSignupSMS.mutate({
-                  phone: phoneNumber,
-                });
+                // const data = await trpcFunc.extUserSignupSMS.mutate({
+                //   phone: phoneNumber,
+                // });
 
-                setOrder({smsSent: true});
+                console.log('--createOrder 1--');
+                await trpcFunc.createOrder.mutate({
+                  objectType: 'flat',
+                });
+                console.log('--createOrder 2--');
+                setOrder({orderCreated: true});
 
                 /* let sessionData = {
                   sessionToken: data?.sessionToken || null,

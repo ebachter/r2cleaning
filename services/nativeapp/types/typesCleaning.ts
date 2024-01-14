@@ -16,6 +16,7 @@ export type Cleaning = {
     };
 
     smsSent: boolean;
+    orderCreated: boolean;
   };
   modals: {
     login: boolean;

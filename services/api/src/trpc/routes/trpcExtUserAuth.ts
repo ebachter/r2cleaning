@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {prisma} from '@remrob/mysql';
+import {prisma, TypeOrder} from '@remrob/mysql';
 import {router, publicProcedure} from '../middleware';
 import {v4 as uuidv4} from 'uuid';
 import {
@@ -16,6 +16,8 @@ import log from '@remrob/log';
 import DataSource, {User, Verification} from '@remrob/db';
 import {sendSMS} from '@remrob/aws';
 import AppDataSourceSqlite from '@remrob/db';
+import {Order} from '@remrob/db';
+import typia from 'typia';
 
 type SessionReturn = {
   sessionToken?: string;
@@ -131,6 +133,26 @@ export const extUserAuthRouter = router({
       console.log('--userData--', userData);
 
       return {isValid: true, session: sessionToken};
+    }),
+
+  createOrder: publicProcedure
+    .input(
+      // typia.createAssert<TypeOrder>(),
+      z.object({
+        objectType: z.enum(['flat', 'house', 'floor']),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const {objectType} = input;
+
+      const order = new Order();
+      order.objectType = objectType as TypeOrder['objectType'];
+
+      const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
+      // console.log('tableName', data);
+
+      const temp = await AppDataSourceSqlite.manager.save(order);
+      console.log('--temp--', temp);
     }),
 
   extUserSignupSMS: publicProcedure

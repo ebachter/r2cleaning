@@ -43,6 +43,12 @@ export default function ModalLogin() {
                 phone: phoneNumber,
               });
 
+              console.log('--createOrder 1--');
+              await trpcFunc.createOrder.mutate({
+                objectType: 'flat',
+              });
+              console.log('--createOrder 2--');
+
               setOrder({smsSent: true});
             }}
             style={{borderRadius: 5, marginTop: 20}}

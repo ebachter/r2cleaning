@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
-import {useAppSelector} from '../redux/store';
 import {Button} from '@ui-kitten/components';
 import {sessionSet} from '../redux/functionsDispatch';
 

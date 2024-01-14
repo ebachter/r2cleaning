@@ -46,6 +46,7 @@ export const initialStateCleaning: Cleaning = {
       phone: '+491633649875',
     },
     smsSent: false,
+    orderCreated: false,
   },
   modals: {
     login: false,

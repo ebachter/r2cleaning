@@ -13,6 +13,7 @@ export * from './types/typesUser';
 export * from './types/typesMisc';
 export * from './types/typesColor';
 export * from './types/typesMqtt';
+export * from './types/typesCleaning';
 export * from './queries/queriesMqttInitialLoads';
 
 const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;

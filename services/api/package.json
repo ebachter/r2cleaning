@@ -30,7 +30,8 @@
     "clean": "yarn rimraf dist ../../.build-cache/services-api.tsbuildinfo",
     "prepack": "yarn build",
     "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json",
-    "start": "nodemon --delay 3 src/server.ts"
+    "start": "nodemon --delay 3 src/server.ts",
+    "prepare": "ts-patch install && typia patch"
   },
   "dependencies": {
     "@remrob/aws": "^0.0.0",
@@ -55,6 +56,7 @@
     "serialize-error": "^2.1.0",
     "socket.io": "^4.5.4",
     "superjson": "^1.12.2",
+    "typia": "^5.3.9",
     "uuid": "^8.2.0",
     "web-push": "^3.5.0",
     "zod": "^3.20.2"
@@ -78,9 +80,10 @@
     "prettier": "^2",
     "rimraf": "^3",
     "supertest": "^3.0.0",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^1.1.1",
+    "ts-patch": "^3.1.2",
     "tslint": "^5.17.0",
-    "typescript": "^4"
+    "typescript": "^5.3.3"
   }
 }

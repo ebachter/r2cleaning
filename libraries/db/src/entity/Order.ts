@@ -1,10 +1,7 @@
 import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import {TypeOrder, ObjectTypeOptions} from '@remrob/mysql';
 
-export enum ObjectType {
-  grosny = 'Грозный',
-  argun = 'Аргун',
-  gudermes = 'Гудермес',
-}
+const obj: ObjectTypeOptions = ['flat', 'house', 'floor'];
 
 @Entity('orders')
 export class Order {
@@ -13,10 +10,10 @@ export class Order {
 
   @Column({
     type: 'simple-enum',
-    enum: ObjectType,
+    enum: obj,
     // default: ObjectType.Draft,
   })
-  objectType!: ObjectType;
+  objectType!: TypeOrder['objectType'];
 
   @Column('simple-json', {nullable: true})
   data!: {a: number; b: string}[];
