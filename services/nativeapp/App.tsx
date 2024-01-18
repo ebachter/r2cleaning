@@ -1,4 +1,8 @@
-import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
+import {
+  LinkingOptions,
+  NavigationContainer,
+  NavigationProp,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
@@ -19,8 +23,15 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
+import {RootStackParamList} from './types/typesNavigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+/* type RootStackParamList = {
+  Home: undefined;
+  Profile: { userId: string };
+  Feed: { sort: 'latest' | 'top' } | undefined;
+}; */
 
 const paperTheme = {
   ...DefaultTheme,
@@ -29,12 +40,6 @@ const paperTheme = {
     primary: '#3f51b5',
     secondary: '#FEC070',
   },
-};
-
-type RootStackParamList = {
-  config: {
-    Home: string;
-  };
 };
 
 const config = {
@@ -85,9 +90,9 @@ export default function App() {
                   />
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
                 </Stack.Navigator>
+                <ModalLogin />
+                <ModalSignup />
               </NavigationContainer>
-              <ModalLogin />
-              <ModalSignup />
             </ApplicationProvider>
           </PaperProvider>
         </QueryClientProvider>

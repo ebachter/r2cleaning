@@ -21,6 +21,7 @@ export type Cleaning = {
   modals: {
     login: boolean;
     signup: boolean;
+    forwardTo?: 'Order';
   };
 };
 

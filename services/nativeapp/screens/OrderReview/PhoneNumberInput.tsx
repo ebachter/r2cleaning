@@ -6,6 +6,8 @@ import {phone} from 'phone';
 import {useAppSelector} from '../../redux/store';
 import {sessionSet, setPhone} from '../../redux/functionsDispatch';
 import {trpcFunc} from '../../trpc';
+import {useNavigation} from '@react-navigation/native';
+import {type StackNavigation} from '../../types/typesNavigation';
 
 const AlertIcon = (props): IconElement => {
   const {marginRight, ...rest} = props;
@@ -25,6 +27,10 @@ const PhoneNumberInput = (): React.ReactElement => {
 
   const session = useAppSelector((state) => state.session.sessionToken);
   const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
+  const navigation = useNavigation<StackNavigation>();
+  const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
+
+  console.log('--forwardTo--', forwardTo);
 
   const renderIcon = (props): React.ReactElement => (
     <TouchableWithoutFeedback onPress={() => console.log('>>>')}>
@@ -51,7 +57,6 @@ const PhoneNumberInput = (): React.ReactElement => {
       placeholder="Введите код"
       onChangeText={async (nextValue) => {
         setVeritionCode(nextValue);
-        console.log(nextValue, nextValue.length);
         if (nextValue.length === 6) {
           const data = await trpcFunc.extUserSignupSMSverify.mutate({
             phoneNumber,
@@ -59,6 +64,7 @@ const PhoneNumberInput = (): React.ReactElement => {
           });
           if ('session' in data) {
             sessionSet({sessionToken: data.session});
+            if (forwardTo) navigation.navigate('Order');
           }
         }
       }}

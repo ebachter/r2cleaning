@@ -5,9 +5,11 @@ import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
 import {Button, Layout} from '@ui-kitten/components';
 import {setModals} from '../redux/functionsDispatch';
+import {useAppSelector} from '../redux/store';
 
 export default function HomeScreen({navigation}) {
   // const apiOrigin = process.env.EXPO_PUBLIC_API_ORIGIN;
+  const sessionToken = useAppSelector((state) => state.session.sessionToken);
   return (
     <View
       style={{
@@ -99,7 +101,11 @@ export default function HomeScreen({navigation}) {
             <Button2
               icon="file-sign"
               mode="contained"
-              onPress={() => navigation.navigate('Order')}
+              onPress={() =>
+                sessionToken
+                  ? navigation.navigate('Order')
+                  : setModals({login: true, forwardTo: 'Order'})
+              }
               style={{minWidth: 150}}
             >
               Заказ
