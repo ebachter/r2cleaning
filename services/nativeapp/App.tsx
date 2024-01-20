@@ -1,20 +1,11 @@
-import {
-  LinkingOptions,
-  NavigationContainer,
-  NavigationProp,
-} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
 import OrderScreen from './screens';
 import {useAppSelector} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
-import {
-  ApplicationProvider,
-  IconRegistry,
-  Layout,
-  Text,
-} from '@ui-kitten/components';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import * as material from '@eva-design/material';
 import {default as evaTheme} from './eva-custom-theme.json'; // <-- Import app theme
 import {trpcComp, trpcClientOptions} from './trpc';
@@ -24,14 +15,9 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import {RootStackParamList} from './types/typesNavigation';
+import AppHeader from './components/Header';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-/* type RootStackParamList = {
-  Home: undefined;
-  Profile: { userId: string };
-  Feed: { sort: 'latest' | 'top' } | undefined;
-}; */
 
 const paperTheme = {
   ...DefaultTheme,
@@ -62,6 +48,7 @@ export default function App() {
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
 
   console.log('--sessionToken--', sessionToken);
+
   return (
     <>
       <trpcComp.Provider client={trpcClient} queryClient={queryClient}>
@@ -74,19 +61,32 @@ export default function App() {
             >
               <NavigationContainer linking={linking}>
                 <Stack.Navigator
-                  screenOptions={{
+                /* screenOptions={{
                     headerShown: false,
-                  }}
+                  }} */
                 >
                   {sessionToken ? (
-                    <Stack.Screen name="Details" component={DetailsScreen} />
+                    <Stack.Screen
+                      name="Details"
+                      component={DetailsScreen}
+                      options={({navigation}) => {
+                        return {
+                          header: () => <AppHeader showBack={false} />,
+                        };
+                      }}
+                    />
                   ) : (
                     <Stack.Screen name="Home" component={HomeScreen} />
                   )}
                   <Stack.Screen
                     name="Order"
                     component={OrderScreen}
-                    options={{title: 'Заказ'}}
+                    // options={{title: 'Заказ'}}
+                    options={({navigation}) => {
+                      return {
+                        header: () => <AppHeader />,
+                      };
+                    }}
                   />
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
                 </Stack.Navigator>
