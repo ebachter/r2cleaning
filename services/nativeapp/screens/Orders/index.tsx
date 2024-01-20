@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {Button} from '@ui-kitten/components';
 // import Header from '../components/Header';
 
-export default function DetailsScreen({navigation}) {
+export default function OrdersScreen({navigation}) {
   // const {message} = useAppSelector((state) => state.message);
 
   return (
@@ -22,7 +22,7 @@ export default function DetailsScreen({navigation}) {
           paddingRight: 10,
         }}
       >
-        <Text>Details Screen</Text>
+        <Text>Orders list</Text>
 
         <Button
           style={{
@@ -42,7 +42,6 @@ export default function DetailsScreen({navigation}) {
             width: '100%',
           }}
           appearance="outline"
-          onPress={() => navigation.navigate('Orders')}
         >
           Активные заказы
         </Button>

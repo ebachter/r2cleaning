@@ -4,11 +4,11 @@ import {createTRPCProxyClient, httpBatchLink} from '@trpc/client';
 import superjson from 'superjson';
 import {getAppState} from './redux/store';
 
-console.log(
-  '>>>',
-  process.env.EXPO_PUBLIC_APP_API_HOST,
-  process.env.EXPO_PUBLIC_APP_API_PORT,
-);
+// console.log(
+//   '>>>',
+//   process.env.EXPO_PUBLIC_APP_API_HOST,
+//   process.env.EXPO_PUBLIC_APP_API_PORT,
+// );
 
 export const trpcClientOptions = {
   links: [

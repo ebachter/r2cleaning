@@ -33,6 +33,7 @@ export default function CustomNavigationBar({
   };
   const options2 = {
     Order: {title: 'Заказ'},
+    Orders: {title: 'Заказы'},
     Home: {title: 'Главная'},
     Details: {title: 'Главная'},
   };
@@ -58,7 +59,15 @@ export default function CustomNavigationBar({
   );
   return (
     <Appbar.Header>
-      {showBack && <Appbar.BackAction onPress={navigation.goBack} />}
+      {showBack && (
+        <Appbar.BackAction
+          onPress={
+            navigation.canGoBack()
+              ? navigation.goBack
+              : () => navigation.navigate('Details')
+          }
+        />
+      )}
       <Appbar.Content title={title} />
       <View>
         <OverflowMenu

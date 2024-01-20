@@ -16,6 +16,7 @@ import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import {RootStackParamList} from './types/typesNavigation';
 import AppHeader from './components/Header';
+import OrdersScreen from './screens/Orders';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -28,26 +29,21 @@ const paperTheme = {
   },
 };
 
-const config = {
+const linking = {
+  prefixes: ['https://cleaning.tech'],
   screens: {
     Home: '',
     Details: 'intro',
     Order: 'order',
+    Orders: 'orders',
     // Chat: 'feed/:sort',
   },
-};
-
-const linking = {
-  prefixes: ['https://cleaning.tech'],
-  config,
 };
 
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
-
-  console.log('--sessionToken--', sessionToken);
 
   return (
     <>
@@ -66,15 +62,26 @@ export default function App() {
                   }} */
                 >
                   {sessionToken ? (
-                    <Stack.Screen
-                      name="Details"
-                      component={DetailsScreen}
-                      options={({navigation}) => {
-                        return {
-                          header: () => <AppHeader showBack={false} />,
-                        };
-                      }}
-                    />
+                    <>
+                      <Stack.Screen
+                        name="Details"
+                        component={DetailsScreen}
+                        options={({navigation}) => {
+                          return {
+                            header: () => <AppHeader showBack={false} />,
+                          };
+                        }}
+                      />
+                      <Stack.Screen
+                        name="Orders"
+                        component={OrdersScreen}
+                        options={({navigation}) => {
+                          return {
+                            header: () => <AppHeader showBack={false} />,
+                          };
+                        }}
+                      />
+                    </>
                   ) : (
                     <Stack.Screen name="Home" component={HomeScreen} />
                   )}
