@@ -2,8 +2,8 @@ import {PayloadAction} from '@reduxjs/toolkit';
 import {cleaningActions} from './sliceCleaning';
 import {sessionActions} from './sliceSession';
 import {store} from './store';
-import {Cleaning} from '../types/typesCleaning';
 import {Session} from '../types/typeSession';
+import {Cleaning} from '@remrob/mysql';
 
 export const setObjectType = (
   ...args: Parameters<typeof cleaningActions.setObjectType>

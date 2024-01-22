@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Cleaning} from '../types/typesCleaning';
+import {Cleaning} from '@remrob/mysql';
 import _ from 'lodash';
 
 /* type Cleaning = {

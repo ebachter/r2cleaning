@@ -137,10 +137,10 @@ export const extUserAuthRouter = router({
 
   createOrder: publicProcedure
     .input(
-      // typia.createAssert<TypeOrder>(),
-      z.object({
+      typia.createAssert<TypeOrder>(),
+      /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
-      }),
+      }), */
     )
     .mutation(async ({ctx, input}) => {
       const {objectType} = input;
@@ -154,6 +154,13 @@ export const extUserAuthRouter = router({
       const temp = await AppDataSourceSqlite.manager.save(order);
       console.log('--temp--', temp);
     }),
+
+  loadOrders: publicProcedure.query(async ({ctx}) => {
+    const data = await AppDataSourceSqlite.getRepository(Order).find();
+    console.log('--temp--', data);
+
+    return data;
+  }),
 
   extUserSignupSMS: publicProcedure
     .input(

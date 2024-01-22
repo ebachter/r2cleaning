@@ -210,7 +210,7 @@ export default function OrderStepper() {
 
                 console.log('--createOrder 1--');
                 await trpcFunc.createOrder.mutate({
-                  objectType: 'flat',
+                  objectType,
                 });
                 console.log('--createOrder 2--');
                 setOrder({orderCreated: true});

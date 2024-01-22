@@ -77,7 +77,7 @@ export default function App() {
                         component={OrdersScreen}
                         options={({navigation}) => {
                           return {
-                            header: () => <AppHeader showBack={false} />,
+                            header: () => <AppHeader />,
                           };
                         }}
                       />

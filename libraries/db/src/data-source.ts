@@ -49,7 +49,7 @@ AppDataSourceSqlite.initialize()
       console.log('User created');
 
       const order = new Order();
-      order.objectType = 'flat';
+      order.objectType = 'appartment';
       await AppDataSourceSqlite.manager.save(order);
       console.log('Order created');
     }

@@ -1,7 +1,13 @@
 import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
 import {TypeOrder, ObjectTypeOptions} from '@remrob/mysql';
 
-const obj: ObjectTypeOptions = ['flat', 'house', 'floor'];
+const obj: ObjectTypeOptions = [
+  'house',
+  'appartment',
+  'entrance',
+  'office',
+  'fasade',
+];
 
 @Entity('orders')
 export class Order {
