@@ -82,7 +82,7 @@ export default function CustomNavigationBar({
           <MenuItem
             accessoryLeft={LogoutIcon}
             title="Выход"
-            onPress={() => () => sessionSet({sessionToken: null})}
+            onPress={() => sessionSet({sessionToken: null})}
           />
         </OverflowMenu>
       </View>
