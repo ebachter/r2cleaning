@@ -1,7 +1,7 @@
 import {getRedisClient, sharedObjectsGet} from '@remrob/mysql';
 import {verifyUserAuthToken} from '@remrob/utils';
 import {Namespace} from 'socket.io';
-import updateUserActivity from './updateUserActivity';
+// import updateUserActivity from './updateUserActivity';
 
 const mainio = (nspMain: Namespace) => {
   const redisClient = getRedisClient();
@@ -16,11 +16,18 @@ const mainio = (nspMain: Namespace) => {
   // const nsp = io.of('/chat');
 
   nspMain.on('connection', async (socket) => {
+    console.log('--connected--');
+    socket.emit('hello', {name: 'John'});
+    setTimeout(function () {
+      socket.emit('hello', {name: 'Wallca'});
+    }, 2000);
+
     let {sessionToken, fingerprint} = socket.handshake.auth as {
       sessionToken: string;
       fingerprint: string;
     };
     const sessionData = verifyUserAuthToken(sessionToken);
+    // console.log('--sessionToken--', sessionToken);
     if (!sessionData) {
       socket.disconnect(true);
       return;
@@ -49,15 +56,16 @@ const mainio = (nspMain: Namespace) => {
 
     socket.join(`toUser:${sessionData?.userid}`);
     socket.data.session = sessionData;
-    updateUserActivity(sessionData.userid, fingerprint, socket.id, 'connected');
+    // updateUserActivity(sessionData.userid, fingerprint, socket.id, 'connected');
 
-    socket.on('disconnect', (reason) => {
-      updateUserActivity(
+    socket.on('close', (reason) => {
+      console.log('--disconnected--');
+      /* updateUserActivity(
         sessionData.userid,
         fingerprint,
         socket.id,
         'disconnected',
-      );
+      ); */
     });
   });
 };

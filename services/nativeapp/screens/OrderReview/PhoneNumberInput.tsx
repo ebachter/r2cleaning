@@ -8,6 +8,7 @@ import {sessionSet, setPhone} from '../../redux/functionsDispatch';
 import {trpcFunc} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
 import {type StackNavigation} from '../../types/typesNavigation';
+import {connectMainSocket} from '../../sockets/ioMain';
 
 const AlertIcon = (props): IconElement => {
   const {marginRight, ...rest} = props;
@@ -64,6 +65,7 @@ const PhoneNumberInput = (): React.ReactElement => {
           });
           if ('session' in data) {
             sessionSet({sessionToken: data.session});
+            connectMainSocket();
             if (forwardTo) navigation.navigate('Order');
           }
         }

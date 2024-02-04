@@ -12,6 +12,7 @@ import {
   MenuItem,
   OverflowMenu,
 } from '@ui-kitten/components';
+import {disconnectMainSocket} from '../sockets/ioMain';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -82,7 +83,10 @@ export default function CustomNavigationBar({
           <MenuItem
             accessoryLeft={LogoutIcon}
             title="Выход"
-            onPress={() => sessionSet({sessionToken: null})}
+            onPress={() => {
+              sessionSet({sessionToken: null});
+              disconnectMainSocket();
+            }}
           />
         </OverflowMenu>
       </View>

@@ -1,4 +1,7 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/details';
 import HomeScreen from './screens/home';
@@ -17,8 +20,10 @@ import ModalSignup from './modals/Signup';
 import {RootStackParamList} from './types/typesNavigation';
 import AppHeader from './components/Header';
 import OrdersScreen from './screens/Orders';
+import {connectMainSocket} from './sockets/ioMain';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const protectedRoutes = ['Details', 'Order'];
 
 const paperTheme = {
   ...DefaultTheme,
@@ -31,12 +36,14 @@ const paperTheme = {
 
 const linking = {
   prefixes: ['https://cleaning.tech'],
-  screens: {
-    Home: '',
-    Details: 'intro',
-    Order: 'order',
-    Orders: 'orders',
-    // Chat: 'feed/:sort',
+  config: {
+    screens: {
+      Home: '',
+      Details: 'intro',
+      Order: 'order',
+      Orders: 'orders',
+      // Chat: 'feed/:sort',
+    },
   },
 };
 
@@ -44,6 +51,7 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
+  const navigationRef = useNavigationContainerRef();
 
   return (
     <>
@@ -55,7 +63,24 @@ export default function App() {
               {...material}
               theme={{...material.light, ...evaTheme}}
             >
-              <NavigationContainer linking={linking}>
+              <NavigationContainer
+                ref={navigationRef}
+                linking={linking}
+                /* onStateChange={async () => {
+                  const previousRouteName = routeNameRef.current;
+                  const currentRouteName = navigationRef.getCurrentRoute().name;
+                }} */
+                onReady={() => {
+                  // routeNameRef.current = navigationRef.getCurrentRoute().name;
+                  const currentRouteName = navigationRef.getCurrentRoute();
+
+                  if (
+                    protectedRoutes.includes(currentRouteName.name) &&
+                    sessionToken
+                  )
+                    connectMainSocket();
+                }}
+              >
                 <Stack.Navigator
                 /* screenOptions={{
                     headerShown: false,
@@ -81,20 +106,21 @@ export default function App() {
                           };
                         }}
                       />
+                      <Stack.Screen
+                        name="Order"
+                        component={OrderScreen}
+                        // options={{title: 'Заказ'}}
+                        options={({navigation}) => {
+                          return {
+                            header: () => <AppHeader />,
+                          };
+                        }}
+                      />
                     </>
                   ) : (
                     <Stack.Screen name="Home" component={HomeScreen} />
                   )}
-                  <Stack.Screen
-                    name="Order"
-                    component={OrderScreen}
-                    // options={{title: 'Заказ'}}
-                    options={({navigation}) => {
-                      return {
-                        header: () => <AppHeader />,
-                      };
-                    }}
-                  />
+
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
                 </Stack.Navigator>
                 <ModalLogin />
