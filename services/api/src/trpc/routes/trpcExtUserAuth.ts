@@ -171,8 +171,8 @@ export const extUserAuthRouter = router({
     .mutation(async ({ctx, input}) => {
       const {phone} = input;
 
-      let genCode = (Math.random() + 1).toString(36).substring(2, 8);
-      //.toUpperCase();
+      // let genCode = (Math.random() + 1).toString(36).substring(2, 8); //.toUpperCase();
+      let genCode = Math.floor(100000 + Math.random() * 900000).toString();
 
       const verification = new Verification();
       verification.phoneNumber = phone;

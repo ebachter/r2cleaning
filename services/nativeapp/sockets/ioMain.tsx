@@ -4,7 +4,7 @@ import {getAppState} from '../redux/store';
 // import {getFingerprint, setIframeFifo} from '../zustand/utils';
 // import {liveDataSet, liveObjectDisconnected} from '../redux/sliceLiveData';
 // import {callAppObjectsLoad, callProjectsLoad} from '../utils/trpcCalls';
-import {enqueueSnackbar} from 'notistack';
+// import {enqueueSnackbar} from 'notistack';
 
 let socket: Socket | null;
 
@@ -85,7 +85,8 @@ export const connectMainSocket = () => {
         // if (payload.commands.includes('reloadObjects')) callAppObjectsLoad();
         // if (payload.commands.includes('reloadProjects')) callProjectsLoad();
         if ('message' in payload) {
-          enqueueSnackbar(payload.message, {variant: 'info'});
+          //enqueueSnackbar(payload.message, {variant: 'info'});
+          console.log('iomsg', payload.message, {variant: 'info'});
         }
       }
       // setIframeFifo({payload, key: getKey()});
