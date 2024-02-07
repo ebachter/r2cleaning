@@ -7935,6 +7935,45 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@remrob/nativeapp@workspace:services/nativeapp":
+  version: 0.0.0-use.local
+  resolution: "@remrob/nativeapp@workspace:services/nativeapp"
+  dependencies:
+    "@babel/core": ^7.20.0
+    "@eva-design/material": ^2.2.0
+    "@expo/metro-runtime": ^2.2.16
+    "@expo/vector-icons": ^13.0.0
+    "@expo/webpack-config": ^19.0.0
+    "@react-native-async-storage/async-storage": ^1.21.0
+    "@react-native-picker/picker": ^2.6.1
+    "@react-navigation/native": ^6.1.9
+    "@react-navigation/native-stack": ^6.9.17
+    "@reduxjs/toolkit": ^1.9.7
+    "@remrob/api": ^0.2
+    "@trpc/client": ^10.44.1
+    "@trpc/react-query": ^10.9.0
+    "@trpc/server": ^10.9.0
+    "@ui-kitten/components": ^5.3.1
+    "@ui-kitten/eva-icons": ^5.3.1
+    expo: ~49.0.15
+    expo-status-bar: ~1.6.0
+    phone: ^3.1.41
+    react: 18.2.0
+    react-dom: 18.2.0
+    react-native: 0.72.6
+    react-native-country-flag: ^2.0.2
+    react-native-paper: ^5.11.2
+    react-native-safe-area-context: ^4.7.4
+    react-native-screens: ~3.22.0
+    react-native-step-indicator: ^1.0.3
+    react-native-svg: ^14.1.0
+    react-native-vector-icons: ^10.0.2
+    react-native-web: ~0.19.6
+    superjson: ^1.12.2
+    uuid: 3.4.0
+  languageName: unknown
+  linkType: soft
+
 "@remrob/retry@workspace:libraries/retry":
   version: 0.0.0-use.local
   resolution: "@remrob/retry@workspace:libraries/retry"
@@ -23998,45 +24037,6 @@ __metadata:
   checksum: 54d4166d6ef08db41252eb4e96d4109ebcb8029f0374f9db873bd91a1f896c32ec780d2a2ea65c0b2d7caf1f28d5e1ea33746a470f32146ac8bba821d80d38d8
   languageName: node
   linkType: hard
-
-"nativeapp@workspace:services/nativeapp":
-  version: 0.0.0-use.local
-  resolution: "nativeapp@workspace:services/nativeapp"
-  dependencies:
-    "@babel/core": ^7.20.0
-    "@eva-design/material": ^2.2.0
-    "@expo/metro-runtime": ^2.2.16
-    "@expo/vector-icons": ^13.0.0
-    "@expo/webpack-config": ^19.0.0
-    "@react-native-async-storage/async-storage": ^1.21.0
-    "@react-native-picker/picker": ^2.6.1
-    "@react-navigation/native": ^6.1.9
-    "@react-navigation/native-stack": ^6.9.17
-    "@reduxjs/toolkit": ^1.9.7
-    "@remrob/api": ^0.2
-    "@trpc/client": ^10.44.1
-    "@trpc/react-query": ^10.9.0
-    "@trpc/server": ^10.9.0
-    "@ui-kitten/components": ^5.3.1
-    "@ui-kitten/eva-icons": ^5.3.1
-    expo: ~49.0.15
-    expo-status-bar: ~1.6.0
-    phone: ^3.1.41
-    react: 18.2.0
-    react-dom: 18.2.0
-    react-native: 0.72.6
-    react-native-country-flag: ^2.0.2
-    react-native-paper: ^5.11.2
-    react-native-safe-area-context: ^4.7.4
-    react-native-screens: ~3.22.0
-    react-native-step-indicator: ^1.0.3
-    react-native-svg: ^14.1.0
-    react-native-vector-icons: ^10.0.2
-    react-native-web: ~0.19.6
-    superjson: ^1.12.2
-    uuid: 3.4.0
-  languageName: unknown
-  linkType: soft
 
 "natural-compare-lite@npm:^1.4.0":
   version: 1.4.0

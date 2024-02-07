@@ -1,8 +1,9 @@
 {
-  "name": "nativeapp",
+  "name": "@remrob/nativeapp",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "expo start",
     "startrn_tunnel": "expo start --tunnel",
     "startrn": "REACT_NATIVE_PACKAGER_HOSTNAME=DESKTOP-SATGRE5 expo start",
     "android": "npx expo start --android",
