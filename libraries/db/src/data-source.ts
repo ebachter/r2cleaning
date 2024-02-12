@@ -4,25 +4,29 @@ import {User} from './entity/User';
 import {Verification} from './entity/Verification';
 import {Order} from './entity/Order';
 
-/* const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'root',
-  password: 'admin',
-  database: 'test',
-  entities: [User],
-  synchronize: true,
-  logging: false,
-}); */
+const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
+const mysql = '//remrob:soeinmisst@localhost:3306/r2db';
 
 const AppDataSourceSqlite = new DataSource({
+  type: 'mysql',
+  host: MYSQL_HOST,
+  port: 3306,
+  username: MYSQL_USER,
+  password: MYSQL_PASSWORD,
+  database: 'cleandb',
+  entities: [User, Verification, Order],
+  migrations: ['src/migration/*.ts'],
+  synchronize: false,
+  logging: false,
+});
+
+/* const AppDataSourceSqlite = new DataSource({
   type: 'sqlite',
   database: '../../data/cleaning.sqlite',
   entities: [User, Verification, Order],
-  synchronize: true,
+  synchronize: false,
   logging: false,
-});
+}); */
 
 // to initialize the initial connection with the database, register all entities
 // and "synchronize" database schema, call "initialize()" method of a newly created database
@@ -30,29 +34,7 @@ const AppDataSourceSqlite = new DataSource({
 AppDataSourceSqlite.initialize()
   .then(async () => {
     // here you can start to work with your database
-
-    await AppDataSourceSqlite.manager.clear(User);
-    await AppDataSourceSqlite.manager.clear(Verification);
-    await AppDataSourceSqlite.manager.clear(Order);
-    // await AppDataSourceSqlite.createQueryBuilder()
-    //  .delete().from(User).execute();
-
-    if (process.env.NODE_ENV !== 'production') {
-      const user = new User();
-      user.firstName = 'Max';
-      user.lastName = 'Mustermann';
-      user.age = 24;
-      user.balance = 21.3;
-      user.data = [{a: 1, b: 'qwer'}];
-      user.phoneNumber = '+491633649875';
-      await AppDataSourceSqlite.manager.save(user);
-      console.log('User created');
-
-      const order = new Order();
-      order.objectType = 'appartment';
-      await AppDataSourceSqlite.manager.save(order);
-      console.log('Order created');
-    }
+    console.log('--typeorm db initialized --');
   })
   .catch((error) => console.log(error));
 

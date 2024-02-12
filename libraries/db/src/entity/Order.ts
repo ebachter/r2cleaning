@@ -22,5 +22,5 @@ export class Order {
   objectType!: TypeOrder['objectType'];
 
   @Column('simple-json', {nullable: true})
-  data!: {a: number; b: string}[];
+  data2!: {a: number; b: string; c: number}[];
 }

@@ -16,10 +16,15 @@
     "prisma-push": "(cd libraries/mysql/prisma/ && npx prisma db push --accept-data-loss)",
     "prisma-pull": "(cd libraries/mysql/prisma/ && npx prisma db pull)",
     "prisma-generate-client": "(cd libraries/mysql/prisma/ && npx prisma generate)",
-    "update-r2db": "(cd helper-scripts && ./update-r2db-docker-init-files.sh)",
+    "update-cleandb-inits": "cd helper-scripts && ./update-cleandb-docker-init-files.sh",
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
     "start:all___": "yarn lerna run start --include-dependencies --parallel --stream -- -- -r .env",
-    "start:all": "yarn lerna run start --include-dependencies --parallel --stream"
+    "start:all": "yarn lerna run start --include-dependencies --parallel --stream",
+    "typeorm:gen": "yarn lerna run typeorm:gen -- -- -r .env",
+    "typeorm:create": "yarn lerna run typeorm:create -- -- -r .env",
+    "typeorm:revert": "yarn lerna run typeorm:revert -- -- -r .env",
+    "typeorm:run": "yarn lerna run typeorm:run -- -- -r .env",
+    "typeorm:seed": "yarn lerna run typeorm:seed -- -- -r .env"
   },
   "husky": {
     "hooks": {
