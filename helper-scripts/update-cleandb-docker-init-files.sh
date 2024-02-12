@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-readonly MYSQL_HOST=db
-readonly MYSQL_USER=root
-readonly MYSQL_PASS=soeinmisst
+source ../.env
+
+readonly MYSQL_HOST=$MYSQL_ADMIN_HOST
+readonly MYSQL_USER=$MYSQL_ADMIN_USER
+readonly MYSQL_PASS=$MYSQL_ADMIN_PASS
 
 function dbdump() {
    docker exec \
