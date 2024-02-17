@@ -1,10 +1,4 @@
 import {NavigationProp} from '@react-navigation/native';
-
-export type RootStackParamList = {
-  Home: undefined;
-  Details: undefined;
-  Order: undefined;
-  Orders: undefined;
-};
+import {RootStackParamList} from '@remrob/mysql';
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

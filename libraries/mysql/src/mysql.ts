@@ -16,12 +16,12 @@ export * from './types/typesMqtt';
 export * from './types/typesCleaning';
 export * from './queries/queriesMqttInitialLoads';
 
-const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
+const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD} = process.env;
 
 const config: Prisma.PrismaClientOptions = {
   datasources: {
     r2db: {
-      url: `mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DB_MAIN}`,
+      url: `mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/r2db`,
     },
   },
 };

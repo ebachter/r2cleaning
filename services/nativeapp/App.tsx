@@ -17,13 +17,14 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
-import {RootStackParamList} from './types/typesNavigation';
 import AppHeader from './components/Header';
 import OrdersScreen from './screens/Orders';
 import {connectMainSocket} from './sockets/ioMain';
+import {setModals} from './redux/functionsDispatch';
+import {RootStackParamList} from '@remrob/mysql';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const protectedRoutes = ['Details', 'Order'];
+const protectedRoutes = ['Details', 'Order', 'Orders'];
 
 const paperTheme = {
   ...DefaultTheme,
@@ -51,7 +52,22 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
-  const navigationRef = useNavigationContainerRef();
+  const navigationRef = useNavigationContainerRef<RootStackParamList>();
+  const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
+
+  const auth = (currentRouteName: keyof RootStackParamList) => {
+    console.log('--currentRouteName--', currentRouteName);
+    // console.log('--sessionToken--', sessionToken);
+    if (currentRouteName === 'Details' && !sessionToken) {
+      navigationRef.current?.navigate('Home');
+    } else if (protectedRoutes.includes(currentRouteName) && !sessionToken) {
+      navigationRef.current?.navigate('Home');
+      setModals({login: true, forwardTo: currentRouteName});
+    }
+    if (currentRouteName === 'Home' && sessionToken) {
+      navigationRef.current?.navigate('Details');
+    }
+  };
 
   return (
     <>
@@ -66,60 +82,62 @@ export default function App() {
               <NavigationContainer
                 ref={navigationRef}
                 linking={linking}
-                /* onStateChange={async () => {
-                  const previousRouteName = routeNameRef.current;
-                  const currentRouteName = navigationRef.getCurrentRoute().name;
-                }} */
+                onStateChange={async () => {
+                  // const previousRouteName = routeNameRef.current;
+                  const currentRouteName = navigationRef.getCurrentRoute()
+                    .name as keyof RootStackParamList;
+                  auth(currentRouteName);
+                }}
                 onReady={() => {
                   // routeNameRef.current = navigationRef.getCurrentRoute().name;
-                  const currentRouteName = navigationRef.getCurrentRoute();
+                  const currentRouteName = navigationRef.getCurrentRoute()
+                    .name as keyof RootStackParamList;
+                  auth(currentRouteName);
 
                   if (
-                    protectedRoutes.includes(currentRouteName.name) &&
+                    protectedRoutes.includes(currentRouteName) &&
                     sessionToken
                   )
                     connectMainSocket();
                 }}
               >
                 <Stack.Navigator
-                /* screenOptions={{
+                  /* screenOptions={{
                     headerShown: false,
                   }} */
+                  initialRouteName={forwardTo === 'Order' ? 'Order' : 'Details'}
                 >
-                  {sessionToken ? (
-                    <>
-                      <Stack.Screen
-                        name="Details"
-                        component={DetailsScreen}
-                        options={({navigation}) => {
-                          return {
-                            header: () => <AppHeader showBack={false} />,
-                          };
-                        }}
-                      />
-                      <Stack.Screen
-                        name="Orders"
-                        component={OrdersScreen}
-                        options={({navigation}) => {
-                          return {
-                            header: () => <AppHeader />,
-                          };
-                        }}
-                      />
-                      <Stack.Screen
-                        name="Order"
-                        component={OrderScreen}
-                        // options={{title: 'Заказ'}}
-                        options={({navigation}) => {
-                          return {
-                            header: () => <AppHeader />,
-                          };
-                        }}
-                      />
-                    </>
-                  ) : (
+                  <>
+                    <Stack.Screen
+                      name="Details"
+                      component={DetailsScreen}
+                      options={({navigation}) => {
+                        return {
+                          header: () => <AppHeader showBack={false} />,
+                        };
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Orders"
+                      component={OrdersScreen}
+                      options={({navigation}) => {
+                        return {
+                          header: () => <AppHeader />,
+                        };
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Order"
+                      component={OrderScreen}
+                      // options={{title: 'Заказ'}}
+                      options={({navigation}) => {
+                        return {
+                          header: () => <AppHeader />,
+                        };
+                      }}
+                    />
                     <Stack.Screen name="Home" component={HomeScreen} />
-                  )}
+                  </>
 
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
                 </Stack.Navigator>

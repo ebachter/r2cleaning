@@ -26,14 +26,11 @@ const PhoneNumberInput = (): React.ReactElement => {
     (state) => state.cleaning.order.review.phone,
   );
 
-  const session = useAppSelector((state) => state.session.sessionToken);
   const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
   const navigation = useNavigation<StackNavigation>();
   const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
 
-  console.log('--forwardTo--', forwardTo);
-
-  const renderIcon = (props): React.ReactElement => (
+  const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={() => console.log('>>>')}>
       <View>
         {/* <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} /> */}
@@ -66,7 +63,8 @@ const PhoneNumberInput = (): React.ReactElement => {
           if ('session' in data) {
             sessionSet({sessionToken: data.session});
             connectMainSocket();
-            if (forwardTo) navigation.navigate('Order');
+            if (forwardTo) navigation.navigate(forwardTo);
+            else navigation.navigate('Details');
           }
         }
       }}

@@ -13,6 +13,7 @@ import {
   OverflowMenu,
 } from '@ui-kitten/components';
 import {disconnectMainSocket} from '../sockets/ioMain';
+import {useAppSelector} from '../redux/store';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -26,7 +27,7 @@ export default function CustomNavigationBar({
   showBack?: boolean;
 }) {
   const route = useRoute();
-  console.log(route.name);
+  // console.log(route.name);
 
   const options = {
     title: 'Home',
@@ -40,6 +41,7 @@ export default function CustomNavigationBar({
   };
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
 
   const title = options2[route.name].title; // getHeaderTitle(options, route.name);
 
@@ -86,6 +88,7 @@ export default function CustomNavigationBar({
             onPress={() => {
               sessionSet({sessionToken: null});
               disconnectMainSocket();
+              navigation.navigate('Home');
             }}
           />
         </OverflowMenu>

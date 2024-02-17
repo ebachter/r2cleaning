@@ -17,6 +17,13 @@ export type TypeOrder = {
 // type KeysEnum<T> = { [P in keyof Required<T>]: true };
 // type newtype = KeysEnum<Cleaning['order']['options']>
 
+export type RootStackParamList = {
+  Home: undefined;
+  Details: undefined;
+  Order: undefined;
+  Orders: undefined;
+};
+
 export type Cleaning = {
   // options: {};
   order: {
@@ -40,7 +47,7 @@ export type Cleaning = {
   modals: {
     login: boolean;
     signup: boolean;
-    forwardTo?: 'Order';
+    forwardTo?: keyof RootStackParamList;
   };
 };
 
