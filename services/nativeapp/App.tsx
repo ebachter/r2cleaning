@@ -22,6 +22,7 @@ import OrdersScreen from './screens/Orders';
 import {connectMainSocket} from './sockets/ioMain';
 import {setModals} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
+import {navigationRef} from './RootNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['Details', 'Order', 'Orders'];
@@ -52,7 +53,7 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
-  const navigationRef = useNavigationContainerRef<RootStackParamList>();
+  // const navigationRef = useNavigationContainerRef<RootStackParamList>();
   const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {

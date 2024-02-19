@@ -1,6 +1,8 @@
 import {CommandToUser, ObjectLive} from '@remrob/mysql';
 import {io, Socket} from 'socket.io-client';
 import {getAppState} from '../redux/store';
+import {logout, sessionSet} from '../redux/functionsDispatch';
+import {navigate} from '../RootNavigation';
 // import {getFingerprint, setIframeFifo} from '../zustand/utils';
 // import {liveDataSet, liveObjectDisconnected} from '../redux/sliceLiveData';
 // import {callAppObjectsLoad, callProjectsLoad} from '../utils/trpcCalls';
@@ -98,6 +100,8 @@ export const connectMainSocket = () => {
 
   socket.on('disconnect', (reason) => {
     console.log('Disconnecting socket...', reason);
+    logout();
+
     if (reason === 'io server disconnect') {
       console.log('DisconLog me out...', reason);
       // fnUserLogout();

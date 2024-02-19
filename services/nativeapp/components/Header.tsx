@@ -3,7 +3,7 @@ import {Appbar} from 'react-native-paper';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {ParamListBase, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {sessionSet} from '../redux/functionsDispatch';
+import {logout, sessionSet} from '../redux/functionsDispatch';
 import {View} from 'react-native';
 import {
   Button,
@@ -86,9 +86,8 @@ export default function CustomNavigationBar({
             accessoryLeft={LogoutIcon}
             title="Выход"
             onPress={() => {
-              sessionSet({sessionToken: null});
+              logout();
               disconnectMainSocket();
-              navigation.navigate('Home');
             }}
           />
         </OverflowMenu>

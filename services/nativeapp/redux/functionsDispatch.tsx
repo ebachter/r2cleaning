@@ -4,6 +4,7 @@ import {sessionActions} from './sliceSession';
 import {store} from './store';
 import {Session} from '../types/typeSession';
 import {Cleaning} from '@remrob/mysql';
+import {navigate} from '../RootNavigation';
 
 export const setObjectType = (
   ...args: Parameters<typeof cleaningActions.setObjectType>
@@ -44,4 +45,10 @@ export const sessionSet = (
   store.dispatch(sessionActions.sessionSet(...args));
   setModals({login: false, signup: false});
   setOrder({smsSent: false});
+};
+
+export const logout = () => {
+  sessionSet({sessionToken: null});
+  navigate('Home', {});
+  cleaningActions.setCleaningInit();
 };

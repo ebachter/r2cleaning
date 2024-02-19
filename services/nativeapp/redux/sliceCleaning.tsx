@@ -97,6 +97,9 @@ const slice = createSlice({
     setModals: (state, action: PayloadAction<Partial<Cleaning['modals']>>) => {
       _.merge(state.modals, action.payload);
     },
+    setCleaningInit: (state) => {
+      state = initialStateCleaning;
+    },
   },
 });
 
