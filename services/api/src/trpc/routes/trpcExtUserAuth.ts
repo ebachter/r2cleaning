@@ -120,12 +120,12 @@ export const extUserAuthRouter = router({
           user,
         );
         sessionToken = createUserSessionToken({
-          userId: newUser.id,
+          userId: newUser.user_id,
           lang: 'en',
         });
       } else {
         sessionToken = createUserSessionToken({
-          userId: userData.id,
+          userId: userData.user_id,
           lang: 'en',
         });
       }

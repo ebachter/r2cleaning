@@ -9,9 +9,9 @@ AppDataSourceSqlite.initialize()
   .then(async () => {
     // here you can start to work with your database
 
-    await AppDataSourceSqlite.manager.clear(User);
-    await AppDataSourceSqlite.manager.clear(Verification);
     await AppDataSourceSqlite.manager.clear(Order);
+    await AppDataSourceSqlite.manager.clear(Verification);
+    await AppDataSourceSqlite.manager.getRepository(User).delete({});
     // await AppDataSourceSqlite.createQueryBuilder()
     //  .delete().from(User).execute();
 
@@ -27,8 +27,15 @@ AppDataSourceSqlite.initialize()
       console.log('User created');
 
       const order = new Order();
+      order.user_fk = user.user_id;
       order.objectType = 'appartment';
       await AppDataSourceSqlite.manager.save(order);
+      console.log('Order created');
+
+      const order2 = new Order();
+      order2.user_fk = user.user_id;
+      order2.objectType = 'entrance';
+      await AppDataSourceSqlite.manager.save(order2);
       console.log('Order created');
     }
     process.exit();

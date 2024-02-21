@@ -1,9 +1,10 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import {Order} from './Order';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
-  id!: number;
+  user_id!: number;
 
   @Column()
   firstName!: string;
@@ -22,4 +23,9 @@ export class User {
 
   @Column('json', {nullable: true})
   data!: {a: number; b: string}[];
+
+  @OneToMany((type) => Order, (order) => order.user_fk, {
+    cascade: true,
+  })
+  orders!: Order[];
 }
