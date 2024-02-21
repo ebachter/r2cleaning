@@ -28,7 +28,7 @@ export const ListOfOrders = (): React.ReactElement => {
       {(orders.data || []).map((o, i) => (
         <List.Item
           key={i}
-          title={`${o.id}. ${o.objectType}`}
+          title={`${o.order_id}. ${o.objectType}`}
           left={() => (
             <List.Icon
               color={MD3Colors.tertiary70}
