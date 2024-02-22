@@ -36,6 +36,7 @@ export class Order {
 
   @ManyToOne((type) => User, (user) => user.user_id, {
     onDelete: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn({name: 'user_fk'}) // , referencedColumnName: 'user_id'
   user_fk!: number;
