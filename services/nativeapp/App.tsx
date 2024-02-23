@@ -3,9 +3,9 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import DetailsScreen from './screens/details';
-import HomeScreen from './screens/home';
-import OrderScreen from './screens';
+import DetailsScreen from './screens/ScreenDetails';
+import HomeScreen from './screens/ScreenHomeExt';
+import OrderScreen from './screens/ScreenOrderCreate';
 import {useAppSelector} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
@@ -18,14 +18,14 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
-import OrdersScreen from './screens/Orders';
+import OrdersScreen from './screens/ScreenOrdersList';
 import {connectMainSocket} from './sockets/ioMain';
 import {setModals} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const protectedRoutes = ['Details', 'Order', 'Orders'];
+const protectedRoutes = ['HomeInt', 'Order', 'Orders'];
 
 const paperTheme = {
   ...DefaultTheme,
@@ -40,8 +40,8 @@ const linking = {
   prefixes: ['https://cleaning.tech'],
   config: {
     screens: {
-      Home: '',
-      Details: 'intro',
+      HomeExt: '',
+      HomeInt: 'intro',
       Order: 'order',
       Orders: 'orders',
       // Chat: 'feed/:sort',
@@ -59,14 +59,14 @@ export default function App() {
   const auth = (currentRouteName: keyof RootStackParamList) => {
     console.log('--currentRouteName--', currentRouteName);
     // console.log('--sessionToken--', sessionToken);
-    if (currentRouteName === 'Details' && !sessionToken) {
-      navigationRef.current?.navigate('Home');
+    if (currentRouteName === 'HomeInt' && !sessionToken) {
+      navigationRef.current?.navigate('HomeExt');
     } else if (protectedRoutes.includes(currentRouteName) && !sessionToken) {
-      navigationRef.current?.navigate('Home');
+      navigationRef.current?.navigate('HomeExt');
       setModals({login: true, forwardTo: currentRouteName});
     }
-    if (currentRouteName === 'Home' && sessionToken) {
-      navigationRef.current?.navigate('Details');
+    if (currentRouteName === 'HomeExt' && sessionToken) {
+      navigationRef.current?.navigate('HomeInt');
     }
   };
 
@@ -106,11 +106,11 @@ export default function App() {
                   /* screenOptions={{
                     headerShown: false,
                   }} */
-                  initialRouteName={forwardTo === 'Order' ? 'Order' : 'Details'}
+                  initialRouteName={forwardTo === 'Order' ? 'Order' : 'HomeInt'}
                 >
                   <>
                     <Stack.Screen
-                      name="Details"
+                      name="HomeInt"
                       component={DetailsScreen}
                       options={({navigation}) => {
                         return {
@@ -137,7 +137,7 @@ export default function App() {
                         };
                       }}
                     />
-                    <Stack.Screen name="Home" component={HomeScreen} />
+                    <Stack.Screen name="HomeExt" component={HomeScreen} />
                   </>
 
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}

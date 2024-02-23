@@ -1,6 +1,6 @@
 import {Input} from '@ui-kitten/components';
-import {useAppSelector} from '../../redux/store';
-import {setAddress} from '../../redux/functionsDispatch';
+import {useAppSelector} from '../../../redux/store';
+import {setAddress} from '../../../redux/functionsDispatch';
 
 const AdressInput = () => {
   const address = useAppSelector((state) => state.cleaning.order.address);

@@ -129,7 +129,7 @@ export default function HomeScreen({navigation}) {
           >
             Создать
           </Button>
-          {/*  onPress={() => navigation.navigate('Details')} */}
+          {/*  onPress={() => navigation.navigate('HomeInt')} */}
         </Layout>
       </View>
 

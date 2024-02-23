@@ -4,8 +4,8 @@ import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import {useState} from 'react';
 import {OrderKitchen} from './OrderKitchen';
 import {OrderBathroom} from './OrderBathroom';
-import {useAppSelector} from '../../../redux/store';
-import {setRoomNumberOfAppartment} from '../../../redux/functionsDispatch';
+import {useAppSelector} from '../../../../redux/store';
+import {setRoomNumberOfAppartment} from '../../../../redux/functionsDispatch';
 
 const data = [1, 2, 3, 4, 5, 6, 7];
 

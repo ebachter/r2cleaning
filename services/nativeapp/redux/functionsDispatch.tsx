@@ -49,6 +49,6 @@ export const sessionSet = (
 
 export const logout = () => {
   sessionSet({sessionToken: null});
-  navigate('Home', {});
+  navigate('HomeExt', {});
   cleaningActions.setCleaningInit();
 };

@@ -37,7 +37,7 @@ export default function CustomNavigationBar({
     Order: {title: 'Заказ'},
     Orders: {title: 'Заказы'},
     Home: {title: 'Главная'},
-    Details: {title: 'Главная'},
+    HomeInt: {title: 'Главная'},
   };
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -67,7 +67,7 @@ export default function CustomNavigationBar({
           onPress={
             navigation.canGoBack()
               ? navigation.goBack
-              : () => navigation.navigate('Details')
+              : () => navigation.navigate('HomeInt')
           }
         />
       )}

@@ -3,17 +3,17 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import {Ionicons, MaterialIcons} from '@expo/vector-icons';
-import {ObjectTypeRadio} from './OrderObjectTypes';
+import {ObjectTypeRadio} from './Step1ObjectTypes';
 import {Button} from 'react-native-paper';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import ObjectDetails from './ObjectDetails';
-import OrderSummary from './OrderReview';
-import {useAppSelector} from '../redux/store';
-import Appartment from './OrderDetails/appartment';
-import House from './OrderDetails/house';
-import {trpcFunc} from '../trpc';
-import {sessionSet, setOrder} from '../redux/functionsDispatch';
+import OrderSummary from './Step3Review';
+import {useAppSelector} from '../../redux/store';
+import Appartment from './Step2Details/appartment';
+import House from './Step2Details/house';
+import {trpcFunc} from '../../trpc';
+import {sessionSet, setOrder} from '../../redux/functionsDispatch';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -152,7 +152,7 @@ export default function OrderStepper() {
         <View>
           <Button
             // mode="outlined"
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('HomeInt')}
             style={{width: 90, borderRadius: 5, marginLeft: 10}}
             compact={true}
             labelStyle={{marginTop: 2, marginBottom: 2}}

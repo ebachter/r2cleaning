@@ -18,8 +18,8 @@ export type TypeOrder = {
 // type newtype = KeysEnum<Cleaning['order']['options']>
 
 export type RootStackParamList = {
-  Home: undefined;
-  Details: undefined;
+  HomeExt: undefined;
+  HomeInt: undefined;
   Order: undefined;
   Orders: undefined;
 };

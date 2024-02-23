@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
 import {CheckBox} from '@ui-kitten/components';
-import {store, useAppSelector} from '../../../redux/store';
+import {store, useAppSelector} from '../../../../redux/store';
 import {
   setBathroomOfAppartment,
   setKitchenOfAppartment,
-} from '../../../redux/functionsDispatch';
+} from '../../../../redux/functionsDispatch';
 import {ReactElement} from 'react';
 
-type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
+// type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
 export const OrderBathroom = (): ReactElement => {
   const handleChange = (event): void => {

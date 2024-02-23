@@ -22,7 +22,7 @@ export default function DetailsScreen({navigation}) {
           paddingRight: 10,
         }}
       >
-        <Text>Details Screen</Text>
+        <Text>Home screen</Text>
 
         <Button
           style={{
@@ -58,7 +58,7 @@ export default function DetailsScreen({navigation}) {
           История заявок
         </Button>
 
-        <Button onPress={() => navigation.navigate('Home')}>
+        <Button onPress={() => navigation.navigate('HomeInt')}>
           Go to Home...
         </Button>
       </View>

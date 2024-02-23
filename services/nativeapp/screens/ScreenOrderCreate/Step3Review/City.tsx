@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
-import {useAppSelector} from '../../redux/store';
-import {setCity} from '../../redux/functionsDispatch';
+import {useAppSelector} from '../../../redux/store';
+import {setCity} from '../../../redux/functionsDispatch';
 import {Cleaning} from '../../types/typesCleaning';
 
 const ix: {id: Cleaning['order']['city']; label: string}[] = [

@@ -27,7 +27,7 @@ export default function OrdersScreen({navigation}) {
         <Text>Orders list</Text>
         <ListOfOrders />
 
-        {/* <Button onPress={() => navigation.navigate('Home')}>
+        {/* <Button onPress={() => navigation.navigate('HomeInt')}>
           Go to Home...
         </Button> */}
       </View>
