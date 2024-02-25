@@ -137,7 +137,7 @@ export const extUserAuthRouter = router({
 
   createOrder: protectedProcedure
     .input(
-      typia.createAssert<TypeOrder>(),
+      typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
       /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
       }), */
@@ -147,10 +147,13 @@ export const extUserAuthRouter = router({
       const userId = ctx.session?.userid;
       const {objectType} = input;
 
-      const order = new Order();
-      order.objectType = objectType; // as TypeOrder['objectType'];
+      const newOrder: TypeOrder = {objectType, user_fk: userId};
+      // const order = new Order();
+      // order.objectType = newOrder.objectType; // as TypeOrder['objectType'];
+      // order.user_fk = newOrder.user_fk;
 
-      const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
+      // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
+      const order = AppDataSourceSqlite.getRepository(Order).create(newOrder);
       // console.log('tableName', data);
 
       const temp = await AppDataSourceSqlite.manager.save(order);

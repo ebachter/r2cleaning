@@ -16,7 +16,7 @@ export const objectTypes = [
     label: 'Офис',
   },
   {
-    id: 'facade',
+    id: 'fasade',
     label: 'Фасад',
   },
 ];

@@ -10,6 +10,7 @@ type TupleToUnion<T extends unknown[]> = T[number];
 
 export type TypeOrder = {
   objectType: TupleToUnion<ObjectTypeOptions>;
+  user_fk: number;
 };
 
 // type Keys = keyof Cleaning['order']['options'];
