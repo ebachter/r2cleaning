@@ -3,6 +3,7 @@ import {io, Socket} from 'socket.io-client';
 import {getAppState} from '../redux/store';
 import {logout, sessionSet} from '../redux/functionsDispatch';
 import {navigate} from '../RootNavigation';
+import {trpcFunc} from '../trpc';
 // import {getFingerprint, setIframeFifo} from '../zustand/utils';
 // import {liveDataSet, liveObjectDisconnected} from '../redux/sliceLiveData';
 // import {callAppObjectsLoad, callProjectsLoad} from '../utils/trpcCalls';
@@ -98,9 +99,11 @@ export const connectMainSocket = () => {
     }
   });
 
-  socket.on('disconnect', (reason) => {
+  socket.on('disconnect', async (reason) => {
     console.log('Disconnecting socket...', reason);
-    logout();
+    // logout();
+    const check = await trpcFunc.authCheckToken.query();
+    console.log('--check--', check);
 
     if (reason === 'io server disconnect') {
       console.log('DisconLog me out...', reason);

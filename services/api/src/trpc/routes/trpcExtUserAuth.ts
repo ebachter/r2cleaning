@@ -1,6 +1,6 @@
 import {z} from 'zod';
 import {prisma, TypeOrder} from '@remrob/mysql';
-import {router, publicProcedure} from '../middleware';
+import {router, publicProcedure, protectedProcedure} from '../middleware';
 import {v4 as uuidv4} from 'uuid';
 import {
   checkUserPassword,
@@ -135,7 +135,7 @@ export const extUserAuthRouter = router({
       return {isValid: true, session: sessionToken};
     }),
 
-  createOrder: publicProcedure
+  createOrder: protectedProcedure
     .input(
       typia.createAssert<TypeOrder>(),
       /* z.object({
@@ -143,10 +143,12 @@ export const extUserAuthRouter = router({
       }), */
     )
     .mutation(async ({ctx, input}) => {
+      console.log('--ctx--', ctx.session);
+      const userId = ctx.session?.userid;
       const {objectType} = input;
 
       const order = new Order();
-      order.objectType = objectType as TypeOrder['objectType'];
+      order.objectType = objectType; // as TypeOrder['objectType'];
 
       const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
       // console.log('tableName', data);
@@ -183,6 +185,10 @@ export const extUserAuthRouter = router({
       const message = `Verification code: ${genCode}`;
       await sendSMS(phone, message);
     }),
+
+  authCheckToken: protectedProcedure.query(async ({ctx, input}) => {
+    return true;
+  }),
 
   extUserSignup: publicProcedure
     .input(
