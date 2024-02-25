@@ -1,9 +1,9 @@
 import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
-import {useAppSelector} from '../redux/store';
-import {setModals, setOrder} from '../redux/functionsDispatch';
-import {PhoneNumberInput} from '../screens/ScreenOrderCreate/Step3Review/PhoneNumberInput';
-import {trpcFunc} from '../trpc';
+import {useAppSelector} from '../../redux/store';
+import {setModals, setOrder} from '../../redux/functionsDispatch';
+import {PhoneNumberInput} from './PhoneNumberInput';
+import {trpcFunc} from '../../trpc';
 
 export default function ModalLogin() {
   const visibleLogin = useAppSelector((state) => state.cleaning.modals.login);
