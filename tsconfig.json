@@ -30,13 +30,10 @@
       "path": "services/api"
     },
     {
-      "path": "services/frontend"
-    },
-    {
       "path": "services/jobs"
     },
     {
-      "path": "services/app"
+      "path": "services/nativeapp"
     },
     {
       "path": "services/sample"
