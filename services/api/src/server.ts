@@ -73,9 +73,6 @@ register(async () => {
   const router = express.Router();
   app.use('/api', router);
 
-  require('./routes/social')(router);
-  require('./routes/socialGoogle')(router);
-
   // router.use(await import('./functions/authCheckRoute').checkRoute);
   router.use(checkRoute);
 
