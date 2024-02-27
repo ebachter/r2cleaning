@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
 import {Button} from '@ui-kitten/components';
+import SnackbarComp from '../components/Snackbar';
+import {showSnackbar} from '../redux/functionsDispatch';
 // import Header from '../components/Header';
 
 export default function DetailsScreen({navigation}) {
@@ -58,8 +60,8 @@ export default function DetailsScreen({navigation}) {
           История заявок
         </Button>
 
-        <Button onPress={() => navigation.navigate('HomeInt')}>
-          Go to Home...
+        <Button onPress={() => showSnackbar({text: 'abcd'})}>
+          Show Snackbar
         </Button>
       </View>
     </>

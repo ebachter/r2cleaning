@@ -13,45 +13,48 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-export const initialStateCleaning: Cleaning = {
-  order: {
-    objectType: 'appartment',
-    options: {
-      appartment: {
-        numberOfRooms: {number: 1, price: 2000},
-        kitchen,
-        bathroom: {include: false, area: 0, price: 1000},
-      },
-      entrance: {
-        numberOfFloors: {number: 0, price: 0},
-      },
-      house: {
-        numberOfRooms: {number: 0, price: 0},
-        kitchen,
-        bathroom: {include: false, area: 0, price: 1000},
-      },
-      office: {
-        numberOfRooms: {
-          number: 0,
-          price: 400,
-        },
-      },
-      fasade: {
-        numberOfFloors: {number: 0, price: 4000},
+const initOrderFormData: Cleaning['order'] = {
+  objectType: 'appartment',
+  options: {
+    appartment: {
+      numberOfRooms: {number: 1, price: 2000},
+      kitchen,
+      bathroom: {include: false, area: 0, price: 1000},
+    },
+    entrance: {
+      numberOfFloors: {number: 0, price: 0},
+    },
+    house: {
+      numberOfRooms: {number: 0, price: 0},
+      kitchen,
+      bathroom: {include: false, area: 0, price: 1000},
+    },
+    office: {
+      numberOfRooms: {
+        number: 0,
+        price: 400,
       },
     },
-    city: null,
-    address: '',
-    review: {
-      phone: '+491633649875',
+    fasade: {
+      numberOfFloors: {number: 0, price: 4000},
     },
-    smsSent: false,
-    orderCreated: false,
   },
+  city: null,
+  address: '',
+  review: {
+    phone: '+491633649875',
+  },
+  smsSent: false,
+  orderCreated: false,
+};
+
+export const initialStateCleaning: Cleaning = {
+  order: initOrderFormData,
   modals: {
     login: false,
     signup: false,
   },
+  snackbarVisible: {text: '', value: false},
 };
 
 const slice = createSlice({
@@ -99,6 +102,16 @@ const slice = createSlice({
     },
     setCleaningInit: (state) => {
       state = initialStateCleaning;
+    },
+    setOrderFormInit: (state) => {
+      state.order = initOrderFormData;
+    },
+    showSnackbar: (
+      state,
+      action: PayloadAction<Cleaning['snackbarVisible']>,
+    ) => {
+      state.snackbarVisible.value = action.payload.value;
+      state.snackbarVisible.text = action.payload.text;
     },
   },
 });

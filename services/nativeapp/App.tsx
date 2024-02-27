@@ -23,6 +23,7 @@ import {connectMainSocket} from './sockets/ioMain';
 import {setModals} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
+import SnackbarComp from './components/Snackbar';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['HomeInt', 'Order', 'Orders'];
@@ -144,6 +145,7 @@ export default function App() {
                 </Stack.Navigator>
                 <ModalLogin />
                 <ModalSignup />
+                <SnackbarComp />
               </NavigationContainer>
             </ApplicationProvider>
           </PaperProvider>

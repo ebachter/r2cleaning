@@ -50,6 +50,7 @@ export type Cleaning = {
     signup: boolean;
     forwardTo?: keyof RootStackParamList;
   };
+  snackbarVisible: {text: string; value?: boolean};
 };
 
 type Kitchen = {

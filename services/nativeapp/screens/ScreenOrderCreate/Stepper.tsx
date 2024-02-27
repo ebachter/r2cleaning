@@ -13,7 +13,11 @@ import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
 import {trpcFunc} from '../../trpc';
-import {sessionSet, setOrder} from '../../redux/functionsDispatch';
+import {
+  setOrder,
+  setOrderFormInit,
+  showSnackbar,
+} from '../../redux/functionsDispatch';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -201,25 +205,13 @@ export default function OrderStepper() {
             <Button
               mode="contained"
               onPress={async () => {
-                // console.log('Continue', currentPage);
-                // if (currentPage < 2)
-                // setCurrentPage(currentPage + 1);
-                // const data = await trpcFunc.extUserSignupSMS.mutate({
-                //   phone: phoneNumber,
-                // });
-
-                console.log('--createOrder 1--');
-                await trpcFunc.createOrder.mutate({
+                const newOrder = await trpcFunc.createOrder.mutate({
                   objectType,
                 });
-                console.log('--createOrder 2--');
                 setOrder({orderCreated: true});
-
-                /* let sessionData = {
-                  sessionToken: data?.sessionToken || null,
-                  refreshToken: data?.refreshToken || null,
-                };
-                sessionSet(sessionData); */
+                showSnackbar({text: `Order ${newOrder.newOrderId} created`});
+                setOrderFormInit();
+                navigation.navigate('Orders');
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}

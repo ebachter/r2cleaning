@@ -52,3 +52,14 @@ export const logout = () => {
   navigate('HomeExt', {});
   cleaningActions.setCleaningInit();
 };
+
+export const showSnackbar = ({
+  value = true,
+  text,
+}: Cleaning['snackbarVisible']) => {
+  store.dispatch(cleaningActions.showSnackbar({value, text}));
+};
+
+export const setOrderFormInit = () => {
+  store.dispatch(cleaningActions.setOrderFormInit());
+};

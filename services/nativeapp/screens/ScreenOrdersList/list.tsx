@@ -1,6 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {useAppSelector} from '../../redux/store';
 import {trpcComp} from '../../trpc';
 import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
@@ -10,22 +8,20 @@ interface IListItem {
   description: string;
 }
 
-const data = new Array(8).fill({
+/* const data = new Array(8).fill({
   title: 'Item',
   description: 'Description for Item',
-});
+}); */
 
 export const ListOfOrders = (): React.ReactElement => {
-  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
+  const {data} = trpcComp.loadOrders.useQuery();
 
-  const orders = trpcComp.loadOrders.useQuery();
-
-  console.log('orders', orders.data);
+  console.log('orders', data);
 
   return (
     <List.Section>
       <List.Subheader>List of orders</List.Subheader>
-      {(orders.data || []).map((o, i) => (
+      {(data || []).map((o, i) => (
         <List.Item
           key={i}
           title={`${o.order_id}. ${o.objectType}`}

@@ -33,6 +33,7 @@ export const intRouter = router({
         objectType: z.enum(['flat', 'house', 'floor']),
       }), */
     )
+    .output(typia.createAssert<{newOrderId: number}>())
     .mutation(async ({ctx, input}) => {
       console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
@@ -48,7 +49,7 @@ export const intRouter = router({
       // console.log('tableName', data);
 
       const temp = await AppDataSourceSqlite.manager.save(order);
-      console.log('--temp--', temp);
+      return {newOrderId: temp.order_id};
     }),
 
   loadOrders: publicProcedure.query(async ({ctx}) => {
