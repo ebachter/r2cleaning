@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {View, Text} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import {Button} from '@ui-kitten/components';
 import {ListOfOrders} from './list';
+import {ScreenTemplate} from '../../components/Wrapper';
 // import Header from '../components/Header';
 
 export default function OrdersScreen({navigation}) {
@@ -9,28 +10,8 @@ export default function OrdersScreen({navigation}) {
 
   return (
     <>
-      {/* <View>
-        <Header />
-      </View> */}
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-          // justifyContent: 'center',
-          backgroundColor: 'aliceblue',
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      >
-        <Text>Orders list</Text>
-        <ListOfOrders />
-
-        {/* <Button onPress={() => navigation.navigate('HomeInt')}>
-          Go to Home...
-        </Button> */}
-      </View>
+      <Text>Orders list</Text>
+      <ListOfOrders />
     </>
   );
 }

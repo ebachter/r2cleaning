@@ -1,6 +1,6 @@
 import React from 'react';
 import {Appbar} from 'react-native-paper';
-import {getHeaderTitle} from '@react-navigation/elements';
+// import {getHeaderTitle} from '@react-navigation/elements';
 import {ParamListBase, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {logout, sessionSet} from '../redux/functionsDispatch';
@@ -13,7 +13,6 @@ import {
   OverflowMenu,
 } from '@ui-kitten/components';
 import {disconnectMainSocket} from '../sockets/ioMain';
-import {useAppSelector} from '../redux/store';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -27,22 +26,18 @@ export default function CustomNavigationBar({
   showBack?: boolean;
 }) {
   const route = useRoute();
-  // console.log(route.name);
 
-  const options = {
-    title: 'Home',
-    headerTitle: 'Home',
-  };
   const options2 = {
     Order: {title: 'Заказ'},
     Orders: {title: 'Заказы'},
     Home: {title: 'Главная'},
     HomeInt: {title: 'Главная'},
+    HomeExt: {title: ''},
   };
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
 
+  // console.log('>>>', route.name);
   const title = options2[route.name].title; // getHeaderTitle(options, route.name);
 
   const [selectedIndex, setSelectedIndex] = React.useState(null);

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
 import {Button} from '@ui-kitten/components';
-import SnackbarComp from '../components/Snackbar';
+// import SnackbarComp from '../components/Snackbar';
 import {showSnackbar} from '../redux/functionsDispatch';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import Header from '../components/Header';
 
-export default function DetailsScreen({navigation}) {
+export default function DetailsScreen({}) {
   // const {message} = useAppSelector((state) => state.message);
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
     <>

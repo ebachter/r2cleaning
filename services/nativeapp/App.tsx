@@ -12,7 +12,7 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import * as material from '@eva-design/material';
 import {default as evaTheme} from './eva-custom-theme.json'; // <-- Import app theme
 import {trpcComp, trpcClientOptions} from './trpc';
-import {useState} from 'react';
+import {createElement, useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
@@ -24,9 +24,24 @@ import {setModals} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
+import {ScreenTemplate} from './components/Wrapper';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['HomeInt', 'Order', 'Orders'];
+
+const allRoutes: {
+  [file: string]: {
+    name: keyof RootStackParamList;
+    component: (k: any) => React.JSX.Element;
+    path: string;
+    showBack?: boolean;
+  };
+} = {
+  HomeExt: {name: 'HomeExt', component: HomeScreen, path: '', showBack: false},
+  HomeInt: {name: 'HomeInt', component: DetailsScreen, path: 'intro'},
+  Order: {name: 'Order', component: OrderScreen, path: 'order'},
+  Orders: {name: 'Orders', component: OrdersScreen, path: 'orders'},
+};
 
 const paperTheme = {
   ...DefaultTheme,
@@ -104,13 +119,35 @@ export default function App() {
                 }}
               >
                 <Stack.Navigator
-                  /* screenOptions={{
-                    headerShown: false,
-                  }} */
+                  /* screenOptions={{ headerShown: false, }} */
                   initialRouteName={forwardTo === 'Order' ? 'Order' : 'HomeInt'}
                 >
                   <>
-                    <Stack.Screen
+                    {Object.entries(allRoutes).map(([Screen, o], i) => {
+                      // {component, path, showback}
+                      return (
+                        <Stack.Screen
+                          key={i}
+                          name={o.name}
+                          component={() => (
+                            <ScreenTemplate>
+                              {createElement(o.component)}
+                            </ScreenTemplate>
+                          )}
+                          options={({navigation}) => {
+                            return {
+                              header: () => (
+                                <AppHeader
+                                  showBack={o.showBack === false ? false : true}
+                                />
+                              ),
+                            };
+                          }}
+                        />
+                      );
+                    })}
+
+                    {/* <Stack.Screen
                       name="HomeInt"
                       component={DetailsScreen}
                       options={({navigation}) => {
@@ -138,7 +175,7 @@ export default function App() {
                         };
                       }}
                     />
-                    <Stack.Screen name="HomeExt" component={HomeScreen} />
+                    <Stack.Screen name="HomeExt" component={HomeScreen} /> */}
                   </>
 
                   {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
