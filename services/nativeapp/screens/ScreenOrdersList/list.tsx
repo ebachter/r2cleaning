@@ -2,6 +2,8 @@ import React from 'react';
 import {trpcComp} from '../../trpc';
 import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface IListItem {
   title: string;
@@ -17,6 +19,7 @@ export const ListOfOrders = (): React.ReactElement => {
   const {data} = trpcComp.loadOrders.useQuery();
 
   console.log('orders', data);
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
     <List.Section>
@@ -33,6 +36,7 @@ export const ListOfOrders = (): React.ReactElement => {
               )}
             />
           )}
+          onPress={() => navigation.navigate('Details', {orderId: o.order_id})}
         />
       ))}
     </List.Section>

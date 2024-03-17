@@ -13,6 +13,7 @@ import {
   OverflowMenu,
 } from '@ui-kitten/components';
 import {disconnectMainSocket} from '../sockets/ioMain';
+import {allRoutes} from '../App';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -27,18 +28,19 @@ export default function CustomNavigationBar({
 }) {
   const route = useRoute();
 
-  const options2 = {
+  /*   const options2 = {
     Order: {title: 'Заказ'},
     Orders: {title: 'Заказы'},
     Home: {title: 'Главная'},
     HomeInt: {title: 'Главная'},
     HomeExt: {title: ''},
-  };
+  }; */
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   // console.log('>>>', route.name);
-  const title = options2[route.name].title; // getHeaderTitle(options, route.name);
+  // const title = options2[route.name].title; // getHeaderTitle(options, route.name);
+  const title = allRoutes[route.name].title; // getHeaderTitle(options, route.name);
 
   const [selectedIndex, setSelectedIndex] = React.useState(null);
   const [visible, setVisible] = React.useState(false);

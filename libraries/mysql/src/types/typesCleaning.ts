@@ -23,6 +23,7 @@ export type RootStackParamList = {
   HomeInt: undefined;
   Order: undefined;
   Orders: undefined;
+  Details: {orderId: string};
 };
 
 export type Cleaning = {

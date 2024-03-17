@@ -58,4 +58,22 @@ export const intRouter = router({
 
     return data;
   }),
+
+  loadOrder: publicProcedure
+    .input(
+      typia.createAssert<{orderId: number}>(),
+      /* z.object({
+      objectType: z.enum(['flat', 'house', 'floor']),
+    }), */
+    )
+    // .output(typia.createAssert<{newOrderId: number}>())
+    .query(async ({ctx, input}) => {
+      // console.log('>>>', input.orderId);
+      const data = await AppDataSourceSqlite.getRepository(
+        Order,
+      ).findOneByOrFail({order_id: input.orderId});
+      console.log('--temp--', data);
+
+      return data;
+    }),
 });

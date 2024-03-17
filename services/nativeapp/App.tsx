@@ -25,22 +25,40 @@ import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
+import ScreenOrderDetails from './screens/ScreenOrderDetails';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['HomeInt', 'Order', 'Orders'];
 
-const allRoutes: {
+export const allRoutes: {
   [file: string]: {
     name: keyof RootStackParamList;
     component: (k: any) => React.JSX.Element;
     path: string;
     showBack?: boolean;
+    title?: string;
   };
 } = {
   HomeExt: {name: 'HomeExt', component: HomeScreen, path: '', showBack: false},
-  HomeInt: {name: 'HomeInt', component: DetailsScreen, path: 'intro'},
-  Order: {name: 'Order', component: OrderScreen, path: 'order'},
-  Orders: {name: 'Orders', component: OrdersScreen, path: 'orders'},
+  HomeInt: {
+    name: 'HomeInt',
+    component: DetailsScreen,
+    path: 'intro',
+    title: 'Главная',
+  },
+  Details: {
+    name: 'Details',
+    component: ScreenOrderDetails,
+    path: 'details',
+    title: 'Детали',
+  },
+  Order: {name: 'Order', component: OrderScreen, path: 'order', title: 'Заказ'},
+  Orders: {
+    name: 'Orders',
+    component: OrdersScreen,
+    path: 'orders',
+    title: 'Заказы',
+  },
 };
 
 const paperTheme = {
@@ -60,6 +78,7 @@ const linking = {
       HomeInt: 'intro',
       Order: 'order',
       Orders: 'orders',
+      Details: 'details',
       // Chat: 'feed/:sort',
     },
   },
