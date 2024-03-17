@@ -3,9 +3,9 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import DetailsScreen from './screens/ScreenDetails';
-import HomeScreen from './screens/ScreenHomeExt';
-import OrderScreen from './screens/ScreenOrderCreate';
+import DetailsScreen from './screens/InnerHome';
+import HomeScreen from './screens/OuterHome';
+import OrderScreen from './screens/InnerRequestCreate';
 import {useAppSelector} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
@@ -18,14 +18,14 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
-import OrdersScreen from './screens/ScreenOrdersList';
+import OrdersScreen from './screens/InnerRequestList';
 import {connectMainSocket} from './sockets/ioMain';
 import {setModals} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
-import ScreenOrderDetails from './screens/ScreenOrderDetails';
+import ScreenOrderDetails from './screens/InnerRequestDetails';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['HomeInt', 'Order', 'Orders'];

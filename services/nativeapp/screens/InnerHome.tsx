@@ -43,13 +43,25 @@ export default function DetailsScreen({}) {
 
         <Button
           style={{
+            marginTop: 10,
+            marginBottom: 5,
+            width: '100%',
+          }}
+          appearance="outline"
+          onPress={() => navigation.navigate('Order')}
+        >
+          Мои заказы
+        </Button>
+
+        <Button
+          style={{
             marginTop: 5,
             width: '100%',
           }}
           appearance="outline"
           onPress={() => navigation.navigate('Orders')}
         >
-          Активные заказы
+          Активные заявки
         </Button>
 
         <Button
