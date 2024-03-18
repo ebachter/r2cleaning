@@ -1,5 +1,5 @@
 import AppDataSourceSqlite from './data-source';
-import {Order} from './entity/Order';
+import {Order} from './entity/Request';
 import {User} from './entity/User';
 import {Verification} from './entity/Verification';
 

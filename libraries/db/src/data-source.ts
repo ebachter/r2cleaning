@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 import {User} from './entity/User';
 import {Verification} from './entity/Verification';
-import {Order} from './entity/Order';
+import {Order} from './entity/Request';
 
 const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 const mysql = '//remrob:soeinmisst@localhost:3306/r2db';

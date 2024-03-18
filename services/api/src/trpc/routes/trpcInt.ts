@@ -35,7 +35,7 @@ export const intRouter = router({
     )
     .output(typia.createAssert<{newOrderId: number}>())
     .mutation(async ({ctx, input}) => {
-      console.log('--ctx--', ctx.session);
+      // console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
       const {objectType} = input;
 

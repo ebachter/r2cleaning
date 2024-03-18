@@ -16,7 +16,7 @@ const obj: ObjectTypeOptions = [
   'fasade',
 ];
 
-@Entity('orders')
+@Entity('requests')
 export class Order {
   @PrimaryGeneratedColumn()
   order_id!: number;
