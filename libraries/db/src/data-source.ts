@@ -2,7 +2,8 @@ import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 import {User} from './entity/User';
 import {Verification} from './entity/Verification';
-import {Order} from './entity/Request';
+import {Order} from './entity/Orders';
+import {Objects} from './entity/Objects';
 
 const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 const mysql = '//remrob:soeinmisst@localhost:3306/r2db';
@@ -14,7 +15,7 @@ const AppDataSourceSqlite = new DataSource({
   username: MYSQL_USER,
   password: MYSQL_PASSWORD,
   database: 'cleandb',
-  entities: [User, Verification, Order],
+  entities: [User, Verification, Objects, Order],
   migrations: ['src/migration/*.ts'],
   synchronize: false,
   logging: false,

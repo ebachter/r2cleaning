@@ -16,10 +16,10 @@ const obj: ObjectTypeOptions = [
   'fasade',
 ];
 
-@Entity('requests')
-export class Order {
+@Entity('objects')
+export class Objects {
   @PrimaryGeneratedColumn()
-  order_id!: number;
+  object_id!: number;
 
   // @Column('int', {nullable: false})
   // user_id!: number;
@@ -29,10 +29,10 @@ export class Order {
     enum: obj,
     // default: ObjectType.Draft,
   })
-  objectType!: TypeOrder['objectType'];
+  object_type!: TypeOrder['objectType'];
 
   @Column('simple-json', {nullable: true})
-  data2!: {a: number; b: string; c: number}[];
+  data!: {a: number; b: string; c: number}[];
 
   @ManyToOne((type) => User, (user) => user.user_id, {
     onDelete: 'CASCADE',
@@ -40,4 +40,13 @@ export class Order {
   })
   @JoinColumn({name: 'user_fk'}) // , referencedColumnName: 'user_id'
   user_fk!: number;
+
+  @Column({
+    name: 'area',
+    type: 'decimal',
+    precision: 5,
+    scale: 2,
+    nullable: true,
+  })
+  area!: number;
 }

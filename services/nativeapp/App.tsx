@@ -26,6 +26,7 @@ import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
 import ScreenOrderDetails from './screens/InnerRequestDetails';
+import ScreenObjects from './screens/InnerObjects';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['HomeInt', 'Order', 'Orders'];
@@ -59,7 +60,18 @@ export const allRoutes: {
     path: 'orders',
     title: 'Заказы',
   },
+  Objects: {
+    name: 'Objects',
+    component: ScreenObjects,
+    path: 'objects',
+    title: 'Объекты',
+  },
 };
+
+const screens = Object.entries(allRoutes).reduce((o, [k, v]) => {
+  return {...o, [k]: v.path};
+}, {});
+console.log(screens);
 
 const paperTheme = {
   ...DefaultTheme,
@@ -73,14 +85,7 @@ const paperTheme = {
 const linking = {
   prefixes: ['https://cleaning.tech'],
   config: {
-    screens: {
-      HomeExt: '',
-      HomeInt: 'intro',
-      Order: 'order',
-      Orders: 'orders',
-      Details: 'details',
-      // Chat: 'feed/:sort',
-    },
+    screens,
   },
 };
 

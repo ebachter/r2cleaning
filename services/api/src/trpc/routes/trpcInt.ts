@@ -16,14 +16,14 @@ import log from '@remrob/log';
 import DataSource, {User, Verification} from '@remrob/db';
 import {sendSMS} from '@remrob/aws';
 import AppDataSourceSqlite from '@remrob/db';
-import {Order} from '@remrob/db';
+import {Order, Objects} from '@remrob/db';
 import typia from 'typia';
 
-type SessionReturn = {
+/* type SessionReturn = {
   sessionToken?: string;
   refreshToken?: string;
   error?: {status: 401 | 500};
-};
+}; */
 
 export const intRouter = router({
   createOrder: protectedProcedure
@@ -54,6 +54,13 @@ export const intRouter = router({
 
   loadOrders: publicProcedure.query(async ({ctx}) => {
     const data = await AppDataSourceSqlite.getRepository(Order).find();
+    console.log('--temp--', data);
+
+    return data;
+  }),
+
+  loadObjects: publicProcedure.query(async ({ctx}) => {
+    const data = await AppDataSourceSqlite.getRepository(Objects).find();
     console.log('--temp--', data);
 
     return data;

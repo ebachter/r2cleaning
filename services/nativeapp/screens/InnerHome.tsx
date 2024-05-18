@@ -48,9 +48,9 @@ export default function DetailsScreen({}) {
             width: '100%',
           }}
           appearance="outline"
-          onPress={() => navigation.navigate('Order')}
+          onPress={() => navigation.navigate('Objects')}
         >
-          Мои заказы
+          Объекты
         </Button>
 
         <Button
@@ -61,10 +61,10 @@ export default function DetailsScreen({}) {
           appearance="outline"
           onPress={() => navigation.navigate('Orders')}
         >
-          Активные заявки
+          Заказы
         </Button>
 
-        <Button
+        {/* <Button
           style={{
             marginTop: 10,
             marginBottom: 40,
@@ -73,7 +73,7 @@ export default function DetailsScreen({}) {
           appearance="outline"
         >
           История заявок
-        </Button>
+        </Button> */}
 
         <Button onPress={() => showSnackbar({text: 'abcd'})}>
           Show Snackbar
