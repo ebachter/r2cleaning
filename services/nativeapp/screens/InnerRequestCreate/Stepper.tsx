@@ -64,7 +64,7 @@ export default function OrderStepper() {
     (state) => state.cleaning.order.review.phone,
   );
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);
@@ -194,6 +194,7 @@ export default function OrderStepper() {
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}
               labelStyle={{marginTop: 2, marginBottom: 2}}
+              disabled={!objectType}
             >
               Продолжить
             </Button>
