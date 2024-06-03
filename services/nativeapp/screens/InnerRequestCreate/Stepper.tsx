@@ -45,11 +45,11 @@ const indicatorStyles = {
 
 const steps = [
   {
-    label: 'Тип объекта',
+    label: 'Select object',
     content: () => <>OType</>,
   },
   {
-    label: 'Детали объекта',
+    label: 'Order details',
     content: () => <>OType</>,
   },
   {
@@ -64,7 +64,7 @@ export default function OrderStepper() {
     (state) => state.cleaning.order.review.phone,
   );
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [currentPage, setCurrentPage] = React.useState<number>(2);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);

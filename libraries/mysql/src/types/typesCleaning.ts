@@ -31,6 +31,7 @@ export type RootStackParamList = {
 export type Cleaning = {
   // options: {};
   order: {
+    objectId: number;
     objectType: TypeOrder['objectType'];
     options: {
       appartment: Appartment;

@@ -40,6 +40,17 @@ export default function DetailsScreen({}) {
         >
           Сделать заявку
         </Button>
+        <Button
+          style={{
+            marginTop: 10,
+            marginBottom: 5,
+            width: '100%',
+          }}
+          appearance="outline"
+          onPress={() => navigation.navigate('Object')}
+        >
+          Create object
+        </Button>
 
         <Button
           style={{

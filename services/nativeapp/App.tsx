@@ -19,6 +19,7 @@ import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
 import OrdersScreen from './screens/InnerRequestList';
+import ObjectScreen from './screens/InnerObjectAdd';
 import {connectMainSocket} from './sockets/ioMain';
 import {setModals} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
@@ -29,7 +30,7 @@ import ScreenOrderDetails from './screens/InnerRequestDetails';
 import ScreenObjects from './screens/InnerObjects';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const protectedRoutes = ['HomeInt', 'Order', 'Orders'];
+const protectedRoutes = ['HomeInt', 'Order', 'Object', 'Orders'];
 
 export const allRoutes: {
   [file: string]: {
@@ -65,6 +66,12 @@ export const allRoutes: {
     component: ScreenObjects,
     path: 'objects',
     title: 'Объекты',
+  },
+  Object: {
+    name: 'Object',
+    component: ObjectScreen,
+    path: 'object',
+    title: 'Объект',
   },
 };
 

@@ -13,8 +13,12 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-const initOrderFormData: Cleaning['order'] = {
-  objectType: 'appartment',
+const initOrderFormData: Cleaning['order'] & {
+  objectId: Cleaning['order']['objectId'] | null;
+  objectType: Cleaning['order']['objectType'] | null;
+} = {
+  objectId: null,
+  objectType: null,
   options: {
     appartment: {
       numberOfRooms: {number: 1, price: 2000},
