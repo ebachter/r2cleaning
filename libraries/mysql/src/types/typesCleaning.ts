@@ -55,6 +55,11 @@ export type Cleaning = {
     forwardTo?: keyof RootStackParamList;
   };
   snackbarVisible: {text: string; value?: boolean};
+
+  object: {
+    city: 'grosny' | 'argun' | 'gudermes';
+    address: string;
+  };
 };
 
 type Kitchen = {

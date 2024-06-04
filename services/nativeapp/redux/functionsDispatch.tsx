@@ -35,6 +35,9 @@ export const setPhone = (...args) =>
 export const setOrder = (args: Partial<Cleaning['order']>) =>
   store.dispatch(cleaningActions.setOrder(args));
 
+export const setObject = (args: Partial<Cleaning['object']>) =>
+  store.dispatch(cleaningActions.setObject(args));
+
 export const setModals = (args: Partial<Cleaning['modals']>) =>
   store.dispatch(cleaningActions.setModals(args));
 

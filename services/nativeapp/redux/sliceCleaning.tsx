@@ -59,6 +59,10 @@ export const initialStateCleaning: Cleaning = {
     signup: false,
   },
   snackbarVisible: {text: '', value: false},
+  object: {
+    city: null,
+    address: '',
+  },
 };
 
 const slice = createSlice({
@@ -101,6 +105,10 @@ const slice = createSlice({
     setOrder: (state, action: PayloadAction<Partial<Cleaning['order']>>) => {
       _.merge(state.order, action.payload);
     },
+    setObject: (state, action: PayloadAction<Partial<Cleaning['object']>>) => {
+      _.merge(state.object, action.payload);
+    },
+
     setModals: (state, action: PayloadAction<Partial<Cleaning['modals']>>) => {
       _.merge(state.modals, action.payload);
     },

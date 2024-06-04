@@ -1,0 +1,46 @@
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
+import {setObject} from '../../../redux/functionsDispatch';
+import {Cleaning} from '@remrob/mysql';
+
+const ix: {id: Cleaning['order']['city']; label: string}[] = [
+  {id: 'grosny', label: 'Грозный'},
+  {id: 'argun', label: 'Аргун'},
+  {id: 'gudermes', label: 'Гудермес'},
+];
+
+export const MenuComponent = (): React.ReactElement => {
+  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
+  // const city = useAppSelector((state) => state.cleaning.object.city);
+
+  return (
+    <Layout style={styles.container} level="1">
+      <Select
+        selectedIndex={selectedIndex}
+        onSelect={(index: IndexPath) => {
+          console.log(index, ix[index.row]);
+          setSelectedIndex(index);
+          setObject({city: ix[index.row].id});
+        }}
+        value={
+          Number.isInteger(selectedIndex?.row)
+            ? ix[selectedIndex?.row].label
+            : 'Select city...'
+        }
+      >
+        {ix.map((v, i) => (
+          <SelectItem key={i} title={v.label} />
+        ))}
+      </Select>
+    </Layout>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    //minHeight: 128,
+  },
+});
+
+export default MenuComponent;

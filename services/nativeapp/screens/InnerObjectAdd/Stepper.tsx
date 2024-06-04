@@ -15,6 +15,8 @@ import {
   setOrderFormInit,
   showSnackbar,
 } from '../../redux/functionsDispatch';
+import {Location} from './Location';
+import {Card, Divider} from '@ui-kitten/components';
 
 export default function OrderStepper() {
   const objectType = useAppSelector((state) => state.cleaning.order.objectType);
@@ -31,6 +33,9 @@ export default function OrderStepper() {
           <Text>Тип объекта:</Text>
           <ObjectTypeRadio />
         </View>
+
+        <Divider style={styles.divider} />
+        <Text>Object data:</Text>
         <View>
           {
             // ObjectDetails
@@ -38,9 +43,16 @@ export default function OrderStepper() {
               <Appartment />
             ) : objectType === 'house' ? (
               <House />
-            ) : null
+            ) : (
+              <Text>Select object type</Text>
+            )
           }
         </View>
+
+        <Divider style={styles.divider} />
+        <Card>
+          <Location />
+        </Card>
       </View>
 
       <View
@@ -114,5 +126,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
     color: '#4aae4f',
+  },
+  captionText: {
+    fontSize: 12,
+    fontWeight: '400',
+    // fontFamily: 'opensans-regular',
+    color: '#8F9BB3',
+  },
+  divider: {
+    alignSelf: 'stretch',
+    backgroundColor: 'grey',
+    marginTop: 20,
+    marginBottom: 10,
   },
 });
