@@ -60,6 +60,8 @@ export const initialStateCleaning: Cleaning = {
   },
   snackbarVisible: {text: '', value: false},
   object: {
+    objectType: null,
+    area: null,
     city: null,
     address: '',
   },

@@ -3,16 +3,18 @@ import {useAppSelector} from '../../../redux/store';
 import {objectTypes} from '../../../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import {setObjectType} from '../../../redux/functionsDispatch';
+import {setObject} from '../../../redux/functionsDispatch';
 import {Cleaning} from '@remrob/mysql';
 
 const ObjectTypeRadio = () => {
-  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
+  const objectType = useAppSelector(
+    (state) => state.cleaning.object.objectType,
+  );
 
   return (
     <RadioButton.Group
       onValueChange={(newValue) => {
-        setObjectType(newValue as Cleaning['order']['objectType']);
+        setObject({objectType: newValue as Cleaning['order']['objectType']});
       }}
       value={objectType}
     >

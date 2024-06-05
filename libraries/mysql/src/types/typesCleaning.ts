@@ -13,6 +13,11 @@ export type TypeOrder = {
   user_fk: number;
 };
 
+/* export type TypeObject = {
+  objectType: TupleToUnion<ObjectTypeOptions>;
+  user_fk: number;
+};
+ */
 // type Keys = keyof Cleaning['order']['options'];
 
 // type KeysEnum<T> = { [P in keyof Required<T>]: true };
@@ -57,6 +62,8 @@ export type Cleaning = {
   snackbarVisible: {text: string; value?: boolean};
 
   object: {
+    objectType: TupleToUnion<ObjectTypeOptions>;
+    area: number;
     city: 'grosny' | 'argun' | 'gudermes';
     address: string;
   };

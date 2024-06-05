@@ -17,9 +17,12 @@ import {
 } from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
+import {Area} from './Area';
 
 export default function OrderStepper() {
-  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
+  const {objectType, area, city, address} = useAppSelector(
+    (state) => state.cleaning.object,
+  );
   const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   );
@@ -36,6 +39,9 @@ export default function OrderStepper() {
 
         <Divider style={styles.divider} />
         <Text>Object data:</Text>
+        <View>
+          <Area />
+        </View>
         <View>
           {
             // ObjectDetails
@@ -80,13 +86,18 @@ export default function OrderStepper() {
           <Button
             mode="contained"
             onPress={async () => {
-              const newOrder = await trpcFunc.createOrder.mutate({
+              console.log(objectType, area, city, address);
+              if (!objectType || !area || !city || !address) return;
+              const newOrder = await trpcFunc.addObject.mutate({
                 objectType,
+                area,
+                city,
+                address,
               });
-              setOrder({orderCreated: true});
-              showSnackbar({text: `Order ${newOrder.newOrderId} created`});
-              setOrderFormInit();
-              navigation.navigate('Orders');
+              // setOrder({orderCreated: true});
+              showSnackbar({text: `Order ${newOrder.newObjectId} created`});
+              // setOrderFormInit();
+              // navigation.navigate('Orders');
             }}
             style={{flex: 1, borderRadius: 5, marginRight: 10}}
             compact={true}

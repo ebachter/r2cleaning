@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {prisma, TypeOrder} from '@remrob/mysql';
+import {Cleaning, prisma, TypeOrder} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
 import {v4 as uuidv4} from 'uuid';
 import {
@@ -82,5 +82,35 @@ export const intRouter = router({
       console.log('--temp--', data);
 
       return data;
+    }),
+
+  addObject: protectedProcedure
+    .input(
+      typia.createAssert<Cleaning['object']>(),
+      /* z.object({
+        objectType: z.enum(['flat', 'house', 'floor']),
+      }), */
+    )
+    .output(typia.createAssert<{newObjectId: number}>())
+    .mutation(async ({ctx, input}) => {
+      // console.log('--ctx--', ctx.session);
+      const userId = ctx.session?.userid;
+      const {objectType} = input;
+
+      const newObject: Cleaning['object'] & {user_fk: number} = {
+        ...input,
+        user_fk: userId,
+      };
+      // const order = new Order();
+      // order.objectType = newOrder.objectType; // as TypeOrder['objectType'];
+      // order.user_fk = newOrder.user_fk;
+
+      // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
+      const order =
+        AppDataSourceSqlite.getRepository(Objects).create(newObject);
+      // console.log('tableName', data);
+
+      const temp = await AppDataSourceSqlite.manager.save(order);
+      return {newObjectId: temp.object_id};
     }),
 });
