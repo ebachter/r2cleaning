@@ -14,11 +14,15 @@ const kitchen = {
 };
 
 const initOrderFormData: Cleaning['order'] & {
-  objectId: Cleaning['order']['objectId'] | null;
-  objectType: Cleaning['order']['objectType'] | null;
+  object: {
+    objectId: Cleaning['order']['object']['objectId'] | null;
+    objectType: Cleaning['order']['object']['objectType'] | null;
+  };
 } = {
-  objectId: null,
-  objectType: null,
+  object: {
+    objectId: null,
+    objectType: null,
+  },
   options: {
     appartment: {
       numberOfRooms: {number: 1, price: 2000},
@@ -50,6 +54,7 @@ const initOrderFormData: Cleaning['order'] & {
   },
   smsSent: false,
   orderCreated: false,
+  price: null,
 };
 
 export const initialStateCleaning: Cleaning = {
@@ -71,12 +76,12 @@ const slice = createSlice({
   name: 'session',
   initialState: initialStateCleaning,
   reducers: {
-    setObjectType: (
+    /* setObjectType: (
       state,
       action: PayloadAction<Cleaning['order']['objectType']>,
     ) => {
       state.order.objectType = action.payload;
-    },
+    }, */
     setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
       state.order.options.appartment.numberOfRooms.number = action.payload;
     },

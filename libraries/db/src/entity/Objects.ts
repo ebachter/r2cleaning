@@ -5,8 +5,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import {TypeOrder, ObjectTypeOptions} from '@remrob/mysql';
+import {ObjectTypeOptions} from '@remrob/mysql';
 import {User} from './User';
+import {Cleaning} from '@remrob/mysql';
 
 const obj: ObjectTypeOptions = [
   'house',
@@ -29,7 +30,7 @@ export class Objects {
     enum: obj,
     // default: ObjectType.Draft,
   })
-  object_type!: TypeOrder['objectType'];
+  object_type!: Cleaning['object']['objectType'];
 
   @Column('simple-json', {nullable: true})
   data!: {a: number; b: string; c: number}[];

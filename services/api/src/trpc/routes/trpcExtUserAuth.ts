@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {prisma, TypeOrder} from '@remrob/mysql';
+import {prisma} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
 import {v4 as uuidv4} from 'uuid';
 import {

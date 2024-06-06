@@ -5,8 +5,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import {TypeOrder, ObjectTypeOptions} from '@remrob/mysql';
+import {ObjectTypeOptions, Cleaning} from '@remrob/mysql';
 import {User} from './User';
+import {Objects} from './Objects';
 
 const obj: ObjectTypeOptions = [
   'house',
@@ -29,7 +30,7 @@ export class Order {
     enum: obj,
     // default: ObjectType.Draft,
   })
-  objectType!: TypeOrder['objectType'];
+  object_type!: Cleaning['object']['objectType']; // TypeOrder['objectType'];
 
   @Column('simple-json', {nullable: true})
   data2!: {a: number; b: string; c: number}[];
@@ -40,6 +41,13 @@ export class Order {
   })
   @JoinColumn({name: 'user_fk'}) // , referencedColumnName: 'user_id'
   user_fk!: number;
+
+  @ManyToOne((type) => Objects, (obj) => obj.object_id, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
+  @JoinColumn({name: 'object_fk'}) // , referencedColumnName: 'user_id'
+  object_fk!: number;
 
   @Column({
     name: 'price',

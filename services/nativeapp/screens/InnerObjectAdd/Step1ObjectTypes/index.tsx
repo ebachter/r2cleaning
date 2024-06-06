@@ -14,7 +14,7 @@ const ObjectTypeRadio = () => {
   return (
     <RadioButton.Group
       onValueChange={(newValue) => {
-        setObject({objectType: newValue as Cleaning['order']['objectType']});
+        setObject({objectType: newValue as Cleaning['object']['objectType']});
       }}
       value={objectType}
     >

@@ -59,7 +59,10 @@ const steps = [
 ];
 
 export default function OrderStepper() {
-  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
+  const {objectType, objectId} = useAppSelector(
+    (state) => state.cleaning.order.object,
+  );
+  const price = useAppSelector((state) => state.cleaning.order.price);
   const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   );
@@ -207,7 +210,8 @@ export default function OrderStepper() {
               mode="contained"
               onPress={async () => {
                 const newOrder = await trpcFunc.createOrder.mutate({
-                  objectType,
+                  object: {objectId, objectType},
+                  price,
                 });
                 setOrder({orderCreated: true});
                 showSnackbar({text: `Order ${newOrder.newOrderId} created`});

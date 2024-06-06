@@ -10,8 +10,10 @@ import {useState} from 'react';
 import {trpcComp} from '../../../trpc';
 
 const ObjectTypeRadio = () => {
-  const objectType = useAppSelector((state) => state.cleaning.order.objectType);
-  const objectId = useAppSelector((state) => state.cleaning.order.objectId);
+  const {objectId, objectType} = useAppSelector(
+    (state) => state.cleaning.order.object,
+  );
+
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
     new IndexPath(0),
   );
@@ -45,8 +47,10 @@ const ObjectTypeRadio = () => {
             handleMenuItemClick(index.row);
             // setObjectId(data[index.row].object_id);
             setOrder({
-              objectId: data[index.row].object_id,
-              objectType: data[index.row].object_type,
+              object: {
+                objectId: data[index.row].object_id,
+                objectType: data[index.row].object_type,
+              },
             });
           }}
           placeholder={'Select object'}

@@ -8,10 +8,10 @@ export type ObjectTypeOptions = [
 
 type TupleToUnion<T extends unknown[]> = T[number];
 
-export type TypeOrder = {
+/* export type TypeOrder = {
   objectType: TupleToUnion<ObjectTypeOptions>;
   user_fk: number;
-};
+}; */
 
 /* export type TypeObject = {
   objectType: TupleToUnion<ObjectTypeOptions>;
@@ -36,8 +36,10 @@ export type RootStackParamList = {
 export type Cleaning = {
   // options: {};
   order: {
-    objectId: number;
-    objectType: TypeOrder['objectType'];
+    object: {
+      objectId: number;
+      objectType: Cleaning['object']['objectType'];
+    };
     options: {
       appartment: Appartment;
       entrance: Entrance;
@@ -53,6 +55,7 @@ export type Cleaning = {
 
     smsSent: boolean;
     orderCreated: boolean;
+    price: number;
   };
   modals: {
     login: boolean;

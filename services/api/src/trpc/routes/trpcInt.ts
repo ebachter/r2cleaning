@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {Cleaning, prisma, TypeOrder} from '@remrob/mysql';
+import {Cleaning, prisma} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
 import {v4 as uuidv4} from 'uuid';
 import {
@@ -28,7 +28,8 @@ import typia from 'typia';
 export const intRouter = router({
   createOrder: protectedProcedure
     .input(
-      typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
+      // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
+      typia.createAssert<Pick<Cleaning['order'], 'object' | 'price'>>(),
       /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
       }), */
@@ -37,9 +38,17 @@ export const intRouter = router({
     .mutation(async ({ctx, input}) => {
       // console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
-      const {objectType} = input;
+      // const {objectType} = input;
 
-      const newOrder: TypeOrder = {objectType, user_fk: userId};
+      const newOrder: Pick<
+        Order,
+        'object_fk' | 'object_type' | 'user_fk' | 'price'
+      > = {
+        object_fk: input.object.objectId,
+        object_type: input.object.objectType,
+        user_fk: userId,
+        price: input.price,
+      };
       // const order = new Order();
       // order.objectType = newOrder.objectType; // as TypeOrder['objectType'];
       // order.user_fk = newOrder.user_fk;
