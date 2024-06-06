@@ -22,6 +22,7 @@ const initOrderFormData: Cleaning['order'] & {
   object: {
     objectId: null,
     objectType: null,
+    address: null,
   },
   options: {
     appartment: {

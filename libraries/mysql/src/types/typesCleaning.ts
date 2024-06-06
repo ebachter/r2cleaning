@@ -8,21 +8,6 @@ export type ObjectTypeOptions = [
 
 type TupleToUnion<T extends unknown[]> = T[number];
 
-/* export type TypeOrder = {
-  objectType: TupleToUnion<ObjectTypeOptions>;
-  user_fk: number;
-}; */
-
-/* export type TypeObject = {
-  objectType: TupleToUnion<ObjectTypeOptions>;
-  user_fk: number;
-};
- */
-// type Keys = keyof Cleaning['order']['options'];
-
-// type KeysEnum<T> = { [P in keyof Required<T>]: true };
-// type newtype = KeysEnum<Cleaning['order']['options']>
-
 export type RootStackParamList = {
   HomeExt: undefined;
   HomeInt: undefined;
@@ -39,6 +24,7 @@ export type Cleaning = {
     object: {
       objectId: number;
       objectType: Cleaning['object']['objectType'];
+      address: string;
     };
     options: {
       appartment: Appartment;

@@ -1,6 +1,4 @@
-import {Text} from '@ui-kitten/components';
 import {useAppSelector} from '../../../redux/store';
-import {objectTypes} from '../../../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {setObjectType, setOrder} from '../../../redux/functionsDispatch';
@@ -50,6 +48,7 @@ const ObjectTypeRadio = () => {
               object: {
                 objectId: data[index.row].object_id,
                 objectType: data[index.row].object_type,
+                address: data[index.row].address,
               },
             });
           }}

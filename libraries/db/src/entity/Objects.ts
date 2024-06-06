@@ -25,6 +25,9 @@ export class Objects {
   // @Column('int', {nullable: false})
   // user_id!: number;
 
+  @Column('varchar', {length: 500, nullable: false})
+  address!: string;
+
   @Column({
     type: 'simple-enum',
     enum: obj,

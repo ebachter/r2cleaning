@@ -42,12 +42,14 @@ AppDataSourceSqlite.initialize()
       object.object_type = 'entrance';
       object.user_fk = user.user_id;
       object.area = 12;
+      object.address = 'Kasiora 16';
       const obj1 = await AppDataSourceSqlite.manager.save(object);
 
       const object2 = new Objects();
       object2.object_type = 'appartment';
       object2.user_fk = user.user_id;
       object2.area = 83;
+      object2.address = 'Ioanisiani 124';
       const obj2 = await AppDataSourceSqlite.manager.save(object2);
       console.log('Objects created');
 

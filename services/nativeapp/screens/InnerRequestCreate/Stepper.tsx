@@ -59,7 +59,7 @@ const steps = [
 ];
 
 export default function OrderStepper() {
-  const {objectType, objectId} = useAppSelector(
+  const {objectType, objectId, address} = useAppSelector(
     (state) => state.cleaning.order.object,
   );
   const price = useAppSelector((state) => state.cleaning.order.price);
@@ -210,7 +210,7 @@ export default function OrderStepper() {
               mode="contained"
               onPress={async () => {
                 const newOrder = await trpcFunc.createOrder.mutate({
-                  object: {objectId, objectType},
+                  object: {objectId, objectType, address},
                   price,
                 });
                 setOrder({orderCreated: true});
