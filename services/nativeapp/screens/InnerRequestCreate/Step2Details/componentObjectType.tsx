@@ -5,16 +5,16 @@ import {objectTypes} from '../../../shared';
 import {StyleSheet, View} from 'react-native';
 
 export default function ComponentObjectType() {
-  const {objectType, address} = useAppSelector(
+  const {object_type, address_street} = useAppSelector(
     (state) => state.cleaning.order.object,
   );
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        Тип объекта: {objectTypes.find((o) => o.id === objectType)?.label}
+        Тип объекта: {objectTypes.find((o) => o.id === object_type)?.label}
       </Text>
 
-      <Text style={styles.text}>Address: {address}</Text>
+      <Text style={styles.text}>Address: {address_street}</Text>
     </View>
   );
 }

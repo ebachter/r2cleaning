@@ -59,13 +59,12 @@ const steps = [
 ];
 
 export default function OrderStepper() {
-  const {objectType, objectId, address} = useAppSelector(
-    (state) => state.cleaning.order.object,
-  );
+  const {object_type, object_id, address_city, address_street, area} =
+    useAppSelector((state) => state.cleaning.order.object);
   const price = useAppSelector((state) => state.cleaning.order.price);
-  const phoneNumber = useAppSelector(
+  /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
-  );
+  ); */
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [currentPage, setCurrentPage] = React.useState<number>(0);
 
@@ -136,9 +135,9 @@ export default function OrderStepper() {
             <ObjectTypeRadio />
           ) : currentPage === 1 ? (
             // ObjectDetails
-            objectType === 'appartment' ? (
+            object_type === 'appartment' ? (
               <Appartment />
-            ) : objectType === 'house' ? (
+            ) : object_type === 'house' ? (
               <House />
             ) : null
           ) : currentPage === 2 ? (
@@ -197,7 +196,7 @@ export default function OrderStepper() {
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}
               labelStyle={{marginTop: 2, marginBottom: 2}}
-              disabled={!objectType}
+              disabled={!object_type}
             >
               Продолжить
             </Button>
@@ -210,7 +209,13 @@ export default function OrderStepper() {
               mode="contained"
               onPress={async () => {
                 const newOrder = await trpcFunc.createOrder.mutate({
-                  object: {objectId, objectType, address},
+                  object: {
+                    object_id,
+                    object_type,
+                    address_street,
+                    address_city,
+                    area,
+                  },
                   price,
                 });
                 setOrder({orderCreated: true});

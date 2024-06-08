@@ -42,14 +42,16 @@ AppDataSourceSqlite.initialize()
       object.object_type = 'entrance';
       object.user_fk = user.user_id;
       object.area = 12;
-      object.address = 'Kasiora 16';
+      object.address_city = 'grosny';
+      object.address_street = 'Kasiora 16';
       const obj1 = await AppDataSourceSqlite.manager.save(object);
 
       const object2 = new Objects();
       object2.object_type = 'appartment';
       object2.user_fk = user.user_id;
       object2.area = 83;
-      object2.address = 'Ioanisiani 124';
+      object2.address_city = 'argun';
+      object2.address_street = 'Ioanisiani 124';
       const obj2 = await AppDataSourceSqlite.manager.save(object2);
       console.log('Objects created');
 
@@ -57,19 +59,19 @@ AppDataSourceSqlite.initialize()
       const order = new Order();
       order.object_fk = obj1.object_id;
       order.user_fk = user.user_id;
-      order.object_type = 'appartment';
+      // order.object_type = 'appartment';
       await AppDataSourceSqlite.manager.save(order);
 
       const order2 = new Order();
       order2.object_fk = obj1.object_id;
       order2.user_fk = user.user_id;
-      order2.object_type = 'entrance';
+      // order2.object_type = 'entrance';
       await AppDataSourceSqlite.manager.save(order2);
 
       const order3 = new Order();
       order3.object_fk = obj2.object_id;
       order3.user_fk = user.user_id;
-      order3.object_type = 'entrance';
+      // order3.object_type = 'entrance';
       order3.price = 3;
       order3.contractor_fk = user2.user_id;
       await AppDataSourceSqlite.manager.save(order3);

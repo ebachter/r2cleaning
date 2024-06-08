@@ -3,12 +3,14 @@ import {TouchableWithoutFeedback, StyleSheet, View} from 'react-native';
 import {Icon, IconElement, Input, Text} from '@ui-kitten/components';
 import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
-import {useAppSelector} from '../../redux/store';
-import {sessionSet, setPhone} from '../../redux/functionsDispatch';
+import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {sessionSet} from '../../redux/functionsDispatch';
 import {trpcFunc} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
 import {type StackNavigation} from '../../types/typesNavigation';
 import {connectMainSocket} from '../../sockets/ioMain';
+import {sessionActions} from '../../redux/sliceSession';
+import {Session} from '../../types/typeSession';
 
 const AlertIcon = (props): IconElement => {
   const {marginRight, ...rest} = props;
@@ -22,11 +24,9 @@ const AlertIcon = (props): IconElement => {
 const PhoneNumberInput = (): React.ReactElement => {
   const [isPhoneValid, setPhoneValid] = useState(false);
   const [veritionCode, setVeritionCode] = useState('');
-  const phoneNumber = useAppSelector(
-    (state) => state.cleaning.order.review.phone,
-  );
+  const phoneNumber = useAppSelector((state) => state.session.phone);
 
-  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
+  const smsSent = useAppSelector((state) => state.session.smsSent);
   const navigation = useNavigation<StackNavigation>();
   const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
 
@@ -47,6 +47,8 @@ const PhoneNumberInput = (): React.ReactElement => {
       </View>
     );
   };
+
+  const dispatch = useAppDispatch();
 
   return smsSent ? (
     <Input
@@ -77,7 +79,10 @@ const PhoneNumberInput = (): React.ReactElement => {
       caption={renderCaption}
       accessoryLeft={renderIcon}
       onChangeText={(nextValue) => {
-        if (/^\+[\d]*$/.test(nextValue)) setPhone(nextValue);
+        if (/^\+[\d]*$/.test(nextValue)) {
+          dispatch(sessionActions.setPhone(nextValue as Session['phone']));
+          // setPhone(nextValue);
+        }
         setPhoneValid(phone(nextValue).isValid);
         console.log(nextValue, phone(nextValue));
       }}

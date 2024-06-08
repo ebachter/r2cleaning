@@ -5,17 +5,17 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import {ObjectTypeOptions, Cleaning} from '@remrob/mysql';
+// import {ObjectTypeOptions, Cleaning} from '@remrob/mysql';
 import {User} from './User';
 import {Objects} from './Objects';
 
-const obj: ObjectTypeOptions = [
+/* const obj: ObjectTypeOptions = [
   'house',
   'appartment',
   'entrance',
   'office',
   'fasade',
-];
+]; */
 
 @Entity('orders')
 export class Order {
@@ -25,12 +25,12 @@ export class Order {
   // @Column('int', {nullable: false})
   // user_id!: number;
 
-  @Column({
+  /*   @Column({
     type: 'simple-enum',
     enum: obj,
     // default: ObjectType.Draft,
   })
-  object_type!: Cleaning['object']['objectType']; // TypeOrder['objectType'];
+  object_type!: Cleaning['object']['objectType']; // TypeOrder['objectType']; */
 
   @Column('simple-json', {nullable: true})
   data2!: {a: number; b: string; c: number}[];

@@ -40,12 +40,8 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Pick<
-        Order,
-        'object_fk' | 'object_type' | 'user_fk' | 'price'
-      > = {
-        object_fk: input.object.objectId,
-        object_type: input.object.objectType,
+      const newOrder: Pick<Order, 'object_fk' | 'user_fk' | 'price'> = {
+        object_fk: input.object.object_id,
         user_fk: userId,
         price: input.price,
       };
@@ -95,7 +91,7 @@ export const intRouter = router({
 
   addObject: protectedProcedure
     .input(
-      typia.createAssert<Cleaning['object']>(),
+      typia.createAssert<Omit<Objects, 'object_id' | 'data' | 'user_fk'>>(),
       /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
       }), */
@@ -104,9 +100,9 @@ export const intRouter = router({
     .mutation(async ({ctx, input}) => {
       // console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
-      const {objectType} = input;
+      const {object_type} = input;
 
-      const newObject: Cleaning['object'] & {user_fk: number} = {
+      const newObject = {
         ...input,
         user_fk: userId,
       };
@@ -117,7 +113,7 @@ export const intRouter = router({
       // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
       const order =
         AppDataSourceSqlite.getRepository(Objects).create(newObject);
-      // console.log('tableName', data);
+      console.log('tableName', order);
 
       const temp = await AppDataSourceSqlite.manager.save(order);
       return {newObjectId: temp.object_id};

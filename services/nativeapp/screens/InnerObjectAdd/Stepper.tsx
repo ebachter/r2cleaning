@@ -20,12 +20,12 @@ import {Card, Divider} from '@ui-kitten/components';
 import {Area} from './Area';
 
 export default function OrderStepper() {
-  const {objectType, area, city, address} = useAppSelector(
+  const {object_type, area, address_city, address_street} = useAppSelector(
     (state) => state.cleaning.object,
   );
-  const phoneNumber = useAppSelector(
+  /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
-  );
+  ); */
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
@@ -45,9 +45,9 @@ export default function OrderStepper() {
         <View>
           {
             // ObjectDetails
-            objectType === 'appartment' ? (
+            object_type === 'appartment' ? (
               <Appartment />
-            ) : objectType === 'house' ? (
+            ) : object_type === 'house' ? (
               <House />
             ) : (
               <Text>Select object type</Text>
@@ -86,16 +86,17 @@ export default function OrderStepper() {
           <Button
             mode="contained"
             onPress={async () => {
-              console.log(objectType, area, city, address);
-              if (!objectType || !area || !city || !address) return;
+              console.log(object_type, area, address_city, address_street);
+              if (!object_type || !area || !address_city || !address_street)
+                return;
               const newOrder = await trpcFunc.addObject.mutate({
-                objectType,
+                object_type: object_type,
                 area,
-                city,
-                address,
+                address_city: address_city,
+                address_street: address_street,
               });
               // setOrder({orderCreated: true});
-              showSnackbar({text: `Order ${newOrder.newObjectId} created`});
+              showSnackbar({text: `Object ${newOrder.newObjectId} created`});
               // setOrderFormInit();
               // navigation.navigate('Orders');
             }}

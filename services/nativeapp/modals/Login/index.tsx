@@ -1,16 +1,16 @@
 import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
-import {useAppSelector} from '../../redux/store';
-import {setModals, setOrder} from '../../redux/functionsDispatch';
+import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {setModals} from '../../redux/functionsDispatch';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {trpcFunc} from '../../trpc';
+import {sessionActions} from '../../redux/sliceSession';
 
 export default function ModalLogin() {
   const visibleLogin = useAppSelector((state) => state.cleaning.modals.login);
-  const phoneNumber = useAppSelector(
-    (state) => state.cleaning.order.review.phone,
-  );
-  const smsSent = useAppSelector((state) => state.cleaning.order.smsSent);
+  const phoneNumber = useAppSelector((state) => state.session.phone);
+  const smsSent = useAppSelector((state) => state.session.smsSent);
+  const dispatch = useAppDispatch();
 
   return (
     <Modal
@@ -24,7 +24,7 @@ export default function ModalLogin() {
           icon="close"
           onPress={() => {
             setModals({login: false});
-            setOrder({smsSent: false});
+            dispatch(sessionActions.actionSmsSent(false));
           }}
         />
         <Appbar.Content title="Логин" />
@@ -43,7 +43,7 @@ export default function ModalLogin() {
                 phone: phoneNumber,
               });
 
-              setOrder({smsSent: true});
+              dispatch(sessionActions.actionSmsSent(true));
             }}
             style={{borderRadius: 5, marginTop: 20}}
             compact={true}

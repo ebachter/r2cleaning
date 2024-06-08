@@ -1,14 +1,14 @@
 import {useAppSelector} from '../../../redux/store';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import {setObjectType, setOrder} from '../../../redux/functionsDispatch';
+import {setOrder} from '../../../redux/functionsDispatch';
 import {Cleaning} from '@remrob/mysql';
 import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import {useState} from 'react';
 import {trpcComp} from '../../../trpc';
 
 const ObjectTypeRadio = () => {
-  const {objectId, objectType} = useAppSelector(
+  const {object_id, object_type} = useAppSelector(
     (state) => state.cleaning.order.object,
   );
 
@@ -32,7 +32,7 @@ const ObjectTypeRadio = () => {
         <Select
           style={{width: '100%'}}
           value={
-            objectId
+            object_id
               ? `${data[selectedIndex.row].object_id}. ${
                   data[selectedIndex.row].object_type
                 }`
@@ -46,9 +46,11 @@ const ObjectTypeRadio = () => {
             // setObjectId(data[index.row].object_id);
             setOrder({
               object: {
-                objectId: data[index.row].object_id,
-                objectType: data[index.row].object_type,
-                address: data[index.row].address,
+                object_id: data[index.row].object_id,
+                object_type: data[index.row].object_type,
+                address_street: data[index.row].address_street,
+                address_city: data[index.row].address_city,
+                area: data[index.row].area,
               },
             });
           }}

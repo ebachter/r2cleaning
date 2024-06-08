@@ -1,12 +1,14 @@
-export type ObjectTypeOptions = [
+import {Objects} from '@remrob/db';
+
+/* export type ObjectTypeOptions = [
   'house',
   'appartment',
   'entrance',
   'office',
   'fasade',
-];
+]; */
 
-type TupleToUnion<T extends unknown[]> = T[number];
+// type TupleToUnion<T extends unknown[]> = T[number];
 
 export type RootStackParamList = {
   HomeExt: undefined;
@@ -21,11 +23,7 @@ export type RootStackParamList = {
 export type Cleaning = {
   // options: {};
   order: {
-    object: {
-      objectId: number;
-      objectType: Cleaning['object']['objectType'];
-      address: string;
-    };
+    object: Omit<Objects, 'user_fk' | 'data'>;
     options: {
       appartment: Appartment;
       entrance: Entrance;
@@ -33,13 +31,11 @@ export type Cleaning = {
       office: Office;
       fasade: Fasade;
     };
-    city: 'grosny' | 'argun' | 'gudermes';
-    address: string;
-    review: {
+    /* review: {
       phone: `+${number | ''}`;
     };
+    smsSent: boolean; */
 
-    smsSent: boolean;
     orderCreated: boolean;
     price: number;
   };
@@ -50,12 +46,13 @@ export type Cleaning = {
   };
   snackbarVisible: {text: string; value?: boolean};
 
-  object: {
+  object: Omit<Objects, 'user_fk' | 'data'>;
+  /* object: {
     objectType: TupleToUnion<ObjectTypeOptions>;
     area: number;
     city: 'grosny' | 'argun' | 'gudermes';
     address: string;
-  };
+  }; */
 };
 
 type Kitchen = {

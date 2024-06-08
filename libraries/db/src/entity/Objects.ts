@@ -5,17 +5,29 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import {ObjectTypeOptions} from '@remrob/mysql';
+// import {ObjectTypeOptions} from '@remrob/mysql';
 import {User} from './User';
-import {Cleaning} from '@remrob/mysql';
+// import {Cleaning} from '@remrob/mysql';
 
-const obj: ObjectTypeOptions = [
+export type ObjectTypeOptions = [
   'house',
   'appartment',
   'entrance',
   'office',
   'fasade',
 ];
+
+// type TupleToUnion<T extends unknown[]> = T[number];
+
+const objectTypes = [
+  'house',
+  'appartment',
+  'entrance',
+  'office',
+  'fasade',
+] as const;
+
+const cities = ['grosny', 'argun', 'gudermes'] as const;
 
 @Entity('objects')
 export class Objects {
@@ -25,15 +37,18 @@ export class Objects {
   // @Column('int', {nullable: false})
   // user_id!: number;
 
+  @Column({type: 'enum', enum: cities})
+  address_city!: (typeof cities)[number]; // Cleaning['object']['city'];
+
   @Column('varchar', {length: 500, nullable: false})
-  address!: string;
+  address_street!: string;
 
   @Column({
     type: 'simple-enum',
-    enum: obj,
+    enum: objectTypes,
     // default: ObjectType.Draft,
   })
-  object_type!: Cleaning['object']['objectType'];
+  object_type!: (typeof objectTypes)[number]; //TupleToUnion<ObjectTypeOptions>; // Cleaning['object']['objectType'];
 
   @Column('simple-json', {nullable: true})
   data!: {a: number; b: string; c: number}[];
