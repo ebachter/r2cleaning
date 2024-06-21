@@ -2,10 +2,10 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 import {useAppSelector} from '../../../redux/store';
-import {setCity} from '../../../redux/functionsDispatch';
-import {Cleaning} from '../../types/typesCleaning';
+import {setObjectNew} from '../../../redux/functionsDispatch';
+import {Objects} from '@remrob/db';
 
-const ix: {id: Cleaning['order']['city']; label: string}[] = [
+const ix: {id: Objects['address_city']; label: string}[] = [
   {id: 'grosny', label: 'Грозный'},
   {id: 'argun', label: 'Аргун'},
   {id: 'gudermes', label: 'Гудермес'},
@@ -13,7 +13,7 @@ const ix: {id: Cleaning['order']['city']; label: string}[] = [
 
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
-  const city = useAppSelector((state) => state.cleaning.order.city);
+  const city = useAppSelector((state) => state.object.address_city);
 
   return (
     <Layout style={styles.container} level="1">
@@ -22,7 +22,7 @@ export const MenuComponent = (): React.ReactElement => {
         onSelect={(index: IndexPath) => {
           console.log(index, ix[index.row]);
           setSelectedIndex(index);
-          setCity(ix[index.row].id);
+          setObjectNew({address_city: ix[index.row].id});
         }}
         value={
           Number.isInteger(selectedIndex?.row)

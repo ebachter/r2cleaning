@@ -1,15 +1,15 @@
 import {Input} from '@ui-kitten/components';
 import {useAppSelector} from '../../../redux/store';
-import {setAddress} from '../../../redux/functionsDispatch';
+import {setObjectNew} from '../../../redux/functionsDispatch';
 
 const AdressInput = () => {
-  const address = useAppSelector((state) => state.cleaning.order.address);
+  const address = useAppSelector((state) => state.object.address_street);
 
   return (
     <Input
       placeholder="Введите ваш адрес"
       value={address}
-      onChangeText={(nextValue) => setAddress(nextValue)}
+      onChangeText={(nextValue) => setObjectNew({address_street: nextValue})}
     />
   );
 };

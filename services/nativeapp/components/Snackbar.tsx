@@ -6,7 +6,7 @@ import {showSnackbar} from '../redux/functionsDispatch';
 
 const SnackbarComp = () => {
   const snackbarVisible = useAppSelector(
-    (state) => state.cleaning.snackbarVisible,
+    (state) => state.session.snackbarVisible,
   );
 
   // const [visible, setVisible] = React.useState(false);

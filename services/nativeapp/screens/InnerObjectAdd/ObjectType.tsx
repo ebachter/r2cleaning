@@ -1,21 +1,18 @@
 import {Text} from '@ui-kitten/components';
-import {useAppSelector} from '../../../redux/store';
-import {objectTypes} from '../../../shared';
+import {useAppSelector} from '../../redux/store';
+import {objectTypes} from '../../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import {setObject} from '../../../redux/functionsDispatch';
-import {Cleaning} from '@remrob/mysql';
+import {setObjectNew} from '../../redux/functionsDispatch';
 import {Objects} from '@remrob/db';
 
 const ObjectTypeRadio = () => {
-  const objectType = useAppSelector(
-    (state) => state.cleaning.object.object_type,
-  );
+  const objectType = useAppSelector((state) => state.object.object_type);
 
   return (
     <RadioButton.Group
-      onValueChange={(newValue) => {
-        setObject({object_type: newValue as Objects['object_type']});
+      onValueChange={(newValue: Objects['object_type']) => {
+        setObjectNew({object_type: newValue});
       }}
       value={objectType}
     >

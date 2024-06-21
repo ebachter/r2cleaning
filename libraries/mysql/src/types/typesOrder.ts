@@ -1,4 +1,4 @@
-import {Objects} from '@remrob/db';
+// import {Objects} from '@remrob/db';
 
 /* export type ObjectTypeOptions = [
   'house',
@@ -7,6 +7,7 @@ import {Objects} from '@remrob/db';
   'office',
   'fasade',
 ]; */
+import {Objects} from '@remrob/db';
 
 // type TupleToUnion<T extends unknown[]> = T[number];
 
@@ -20,33 +21,25 @@ export type RootStackParamList = {
   Details: {orderId: string};
 };
 
-export type Cleaning = {
-  // options: {};
-  order: {
-    object: Omit<Objects, 'user_fk' | 'data'>;
-    options: {
-      appartment: Appartment;
-      entrance: Entrance;
-      house: House;
-      office: Office;
-      fasade: Fasade;
-    };
-    /* review: {
+export type TypeOrder = {
+  object: Omit<Objects, 'user_fk' | 'object_details'>;
+  // Omit<Objects, 'user_fk' | 'data'>;
+  options: {
+    appartment: Appartment;
+    entrance: Entrance;
+    house: House;
+    office: Office;
+    fasade: Fasade;
+  };
+  /* review: {
       phone: `+${number | ''}`;
     };
     smsSent: boolean; */
 
-    orderCreated: boolean;
-    price: number;
-  };
-  modals: {
-    login: boolean;
-    signup: boolean;
-    forwardTo?: keyof RootStackParamList;
-  };
-  snackbarVisible: {text: string; value?: boolean};
+  orderCreated: boolean;
+  price: number;
 
-  object: Omit<Objects, 'user_fk' | 'data'>;
+  // object: Omit<Objects, 'user_fk' | 'data'>;
   /* object: {
     objectType: TupleToUnion<ObjectTypeOptions>;
     area: number;

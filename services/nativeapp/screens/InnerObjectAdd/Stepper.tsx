@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {StyleSheet, View, Text, Dimensions} from 'react-native';
-import {ObjectTypeRadio} from './Step1ObjectTypes';
+import {ObjectTypeRadio} from './ObjectType';
 import {Button} from 'react-native-paper';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -21,7 +21,7 @@ import {Area} from './Area';
 
 export default function OrderStepper() {
   const {object_type, area, address_city, address_street} = useAppSelector(
-    (state) => state.cleaning.object,
+    (state) => state.object,
   );
   /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
@@ -94,6 +94,35 @@ export default function OrderStepper() {
                 area,
                 address_city: address_city,
                 address_street: address_street,
+                object_details: {
+                  objectType: 'appartment', // object_type, //
+                  rooms: [
+                    {
+                      type: 'bedroom',
+                      floor: 'laminat',
+                      walls: 'color',
+                    },
+                  ],
+                  kitchen: [
+                    {
+                      sink: true,
+                      refrigerator: true,
+                      oven: true,
+                      floor: 'laminat',
+                      walls: 'color',
+                    },
+                  ],
+                  restroom: [
+                    {
+                      floor: 'laminat',
+                      walls: 'color',
+                      bath: true,
+                      toilet: true,
+                    },
+                  ],
+                  // floors:{number:2},
+                  // elevator: true
+                },
               });
               // setOrder({orderCreated: true});
               showSnackbar({text: `Object ${newOrder.newObjectId} created`});

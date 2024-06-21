@@ -10,7 +10,7 @@ const data = [1, 2, 3, 4, 5, 6, 7];
 
 export default function ObjectDetails() {
   const numberOfRooms = useAppSelector(
-    (state) => state.cleaning.order.options.appartment.numberOfRooms,
+    (state) => state.cleaning.options.appartment.numberOfRooms,
   );
   const handleMenuItemClick = (index: number) => {
     setRoomNumberOfAppartment(index);

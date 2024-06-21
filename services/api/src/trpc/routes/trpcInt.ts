@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {Cleaning, prisma} from '@remrob/mysql';
+import {TypeOrder, prisma} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
 import {v4 as uuidv4} from 'uuid';
 import {
@@ -29,7 +29,9 @@ export const intRouter = router({
   createOrder: protectedProcedure
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
-      typia.createAssert<Pick<Cleaning['order'], 'object' | 'price'>>(),
+      typia.createAssert<
+        {object_id: Objects['object_id']} & Pick<TypeOrder, 'price'>
+      >(),
       /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
       }), */
@@ -41,7 +43,7 @@ export const intRouter = router({
       // const {objectType} = input;
 
       const newOrder: Pick<Order, 'object_fk' | 'user_fk' | 'price'> = {
-        object_fk: input.object.object_id,
+        object_fk: input.object_id,
         user_fk: userId,
         price: input.price,
       };
@@ -61,7 +63,7 @@ export const intRouter = router({
     const data = await AppDataSourceSqlite.getRepository(Order).find();
     console.log('--temp--', data);
 
-    return data;
+    return data as (Order & Pick<Objects, 'object_type'>)[];
   }),
 
   loadObjects: publicProcedure.query(async ({ctx}) => {
@@ -86,7 +88,17 @@ export const intRouter = router({
       ).findOneByOrFail({order_id: input.orderId});
       console.log('--temp--', data);
 
-      return data;
+      /* const data2 = await AppDataSourceSqlite.getRepository(
+        Order,
+      ).find({
+        relations: {"object_fk":true},
+        select:{
+          
+        }
+      }); */
+      console.log('--temp--', data);
+
+      return data as Order & Pick<Objects, 'object_type'>;
     }),
 
   addObject: protectedProcedure

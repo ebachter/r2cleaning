@@ -3,7 +3,7 @@ import {Appbar} from 'react-native-paper';
 // import {getHeaderTitle} from '@react-navigation/elements';
 import {ParamListBase, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {logout, sessionSet} from '../redux/functionsDispatch';
+import {logout} from '../redux/functionsDispatch';
 import {View} from 'react-native';
 import {
   Button,

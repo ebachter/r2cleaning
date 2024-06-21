@@ -1,7 +1,7 @@
 import {CommandToUser, ObjectLive} from '@remrob/mysql';
 import {io, Socket} from 'socket.io-client';
 import {getAppState} from '../redux/store';
-import {logout, sessionSet} from '../redux/functionsDispatch';
+import {logout} from '../redux/functionsDispatch';
 import {navigate} from '../RootNavigation';
 import {trpcFunc} from '../trpc';
 // import {getFingerprint, setIframeFifo} from '../zustand/utils';
@@ -101,7 +101,7 @@ export const connectMainSocket = () => {
 
   socket.on('disconnect', async (reason) => {
     console.log('Disconnecting socket...', reason);
-    // logout();
+    logout();
     const check = await trpcFunc.authCheckToken.query();
     console.log('--check--', check);
 

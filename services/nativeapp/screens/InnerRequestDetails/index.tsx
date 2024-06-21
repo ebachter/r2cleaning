@@ -44,7 +44,7 @@ export default function ScreenOrderDetails({}) {
       <View style={{marginTop: 15}} />
       <Input
         style={{margin: 5}}
-        value={data?.objectType || ''}
+        value={data?.object_type || ''}
         label="Object type"
         // placeholder="Place your text"
         // caption={renderCaption}

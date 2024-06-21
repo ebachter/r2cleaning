@@ -4,7 +4,7 @@ import {Icon, IconElement, Input, Text} from '@ui-kitten/components';
 import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {sessionSet} from '../../redux/functionsDispatch';
+import {mergeSession} from '../../redux/functionsDispatch';
 import {trpcFunc} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
 import {type StackNavigation} from '../../types/typesNavigation';
@@ -28,7 +28,7 @@ const PhoneNumberInput = (): React.ReactElement => {
 
   const smsSent = useAppSelector((state) => state.session.smsSent);
   const navigation = useNavigation<StackNavigation>();
-  const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
+  const forwardTo = useAppSelector((state) => state.session.modals.forwardTo);
 
   const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={() => console.log('>>>')}>
@@ -63,7 +63,13 @@ const PhoneNumberInput = (): React.ReactElement => {
             verificationCode: nextValue,
           });
           if ('session' in data) {
-            sessionSet({sessionToken: data.session});
+            mergeSession({
+              sessionToken: data.session,
+              modals: {
+                login: false,
+                signup: false,
+              },
+            });
             connectMainSocket();
             if (forwardTo) navigation.navigate(forwardTo);
             else navigation.navigate('HomeInt');

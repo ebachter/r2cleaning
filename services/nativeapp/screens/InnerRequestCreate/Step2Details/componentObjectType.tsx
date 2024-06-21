@@ -6,7 +6,7 @@ import {StyleSheet, View} from 'react-native';
 
 export default function ComponentObjectType() {
   const {object_type, address_street} = useAppSelector(
-    (state) => state.cleaning.order.object,
+    (state) => state.cleaning.object,
   );
   return (
     <View style={styles.container}>

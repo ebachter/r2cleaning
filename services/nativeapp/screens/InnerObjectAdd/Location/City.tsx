@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
-import {setObject} from '../../../redux/functionsDispatch';
-import {Cleaning} from '@remrob/mysql';
+import {setObjectNew} from '../../../redux/functionsDispatch';
+import {Objects} from '@remrob/db';
 
-const ix: {id: Cleaning['order']['city']; label: string}[] = [
+const ix: {id: Objects['address_city']; label: string}[] = [
   {id: 'grosny', label: 'Грозный'},
   {id: 'argun', label: 'Аргун'},
   {id: 'gudermes', label: 'Гудермес'},
@@ -21,7 +21,7 @@ export const MenuComponent = (): React.ReactElement => {
         onSelect={(index: IndexPath) => {
           console.log(index, ix[index.row]);
           setSelectedIndex(index);
-          setObject({city: ix[index.row].id});
+          setObjectNew({address_city: ix[index.row].id});
         }}
         value={
           Number.isInteger(selectedIndex?.row)

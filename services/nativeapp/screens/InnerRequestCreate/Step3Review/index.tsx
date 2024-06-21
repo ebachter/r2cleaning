@@ -6,7 +6,7 @@ import ComponentObjectType from '../Step2Details/componentObjectType';
 import AdressInput from './AdressInput';
 
 export default function OrderSummary() {
-  const order = useAppSelector((state) => state.cleaning.order);
+  const order = useAppSelector((state) => state.cleaning);
   const sum =
     order.options.appartment.numberOfRooms.number *
       order.options.appartment.numberOfRooms.price +
@@ -23,9 +23,7 @@ export default function OrderSummary() {
       ? order.options.appartment.bathroom.price
       : 0);
 
-  const orderCreated = useAppSelector(
-    (state) => state.cleaning.order.orderCreated,
-  );
+  const orderCreated = useAppSelector((state) => state.cleaning.orderCreated);
   return (
     <View>
       <Text style={{marginBottom: 20}}>

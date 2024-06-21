@@ -38,21 +38,47 @@ AppDataSourceSqlite.initialize()
       console.log('Users created');
 
       // ADD OBJECTS
-      const object = new Objects();
-      object.object_type = 'entrance';
-      object.user_fk = user.user_id;
-      object.area = 12;
-      object.address_city = 'grosny';
-      object.address_street = 'Kasiora 16';
-      const obj1 = await AppDataSourceSqlite.manager.save(object);
+      const object: Omit<Objects, 'object_id'> = {
+        object_type: 'appartment',
+        user_fk: user.user_id,
+        area: 12,
+        address_city: 'grosny',
+        address_street: 'Kasiora 16',
+        object_details: {
+          objectType: 'appartment',
+          rooms: [{type: 'bedroom', walls: 'wallpaper', floor: 'laminat'}],
+          kitchen: [
+            {
+              floor: 'tile',
+              walls: 'color',
+              refrigerator: true,
+              sink: true,
+              oven: false,
+            },
+          ],
+          restroom: [{floor: 'tile', walls: 'color', toilet: true, bath: true}],
+        },
+      };
+      const objectObj = new Objects();
+      Object.assign(objectObj, object);
 
-      const object2 = new Objects();
-      object2.object_type = 'appartment';
-      object2.user_fk = user.user_id;
-      object2.area = 83;
-      object2.address_city = 'argun';
-      object2.address_street = 'Ioanisiani 124';
-      const obj2 = await AppDataSourceSqlite.manager.save(object2);
+      const obj1 = await AppDataSourceSqlite.manager.save(objectObj);
+
+      const object2: Omit<Objects, 'object_id'> = {
+        object_type: 'appartment',
+        user_fk: user.user_id,
+        area: 83,
+        address_city: 'argun',
+        address_street: 'Ioanisiani 124',
+        object_details: {
+          objectType: 'office',
+          rooms: [{type: 'room', walls: 'wallpaper', floor: 'parket'}],
+        },
+      };
+      const objectObj2 = new Objects();
+      Object.assign(objectObj2, object2);
+
+      const obj2 = await AppDataSourceSqlite.manager.save(objectObj2);
       console.log('Objects created');
 
       // ADD ORDERS

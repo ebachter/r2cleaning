@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Mg1717779628054 implements MigrationInterface {
-    name = 'Mg1717779628054'
+export class Mg1718399138919 implements MigrationInterface {
+    name = 'Mg1718399138919'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE \`objects\` (\`object_id\` int NOT NULL AUTO_INCREMENT, \`address_city\` enum ('grosny', 'argun', 'gudermes') NOT NULL, \`address_street\` varchar(500) NOT NULL, \`object_type\` enum ('house', 'appartment', 'entrance', 'office', 'fasade') NOT NULL, \`data\` text NULL, \`area\` decimal(5,2) NULL, \`user_fk\` int NOT NULL, PRIMARY KEY (\`object_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`orders\` (\`order_id\` int NOT NULL AUTO_INCREMENT, \`data2\` text NULL, \`price\` decimal(5,2) NULL, \`user_fk\` int NOT NULL, \`object_fk\` int NOT NULL, \`contractor_fk\` int NULL, PRIMARY KEY (\`order_id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`objects\` (\`object_id\` int NOT NULL AUTO_INCREMENT, \`address_city\` enum ('grosny', 'argun', 'gudermes') NOT NULL, \`address_street\` varchar(500) NOT NULL, \`object_type\` enum ('house', 'appartment', 'entrance', 'office', 'fasade') NOT NULL, \`area\` decimal(5,2) NULL, \`object_details\` json NOT NULL, \`user_fk\` int NOT NULL, PRIMARY KEY (\`object_id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`orders\` (\`order_id\` int NOT NULL AUTO_INCREMENT, \`price\` decimal(5,2) NULL, \`user_fk\` int NOT NULL, \`object_fk\` int NOT NULL, \`contractor_fk\` int NULL, PRIMARY KEY (\`order_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users\` (\`user_id\` int NOT NULL AUTO_INCREMENT, \`firstName\` varchar(255) NOT NULL, \`lastName\` varchar(255) NOT NULL, \`age\` int NULL, \`balance\` double NOT NULL DEFAULT '0', \`phoneNumber\` varchar(255) NOT NULL, \`data\` json NULL, PRIMARY KEY (\`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`verification\` (\`id\` int NOT NULL AUTO_INCREMENT, \`phoneNumber\` varchar(255) NOT NULL, \`verificationID\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`objects\` ADD CONSTRAINT \`FK_8c0578c0741d0d0ff5312ef3e00\` FOREIGN KEY (\`user_fk\`) REFERENCES \`users\`(\`user_id\`) ON DELETE CASCADE ON UPDATE NO ACTION`);

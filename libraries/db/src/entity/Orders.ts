@@ -32,8 +32,8 @@ export class Order {
   })
   object_type!: Cleaning['object']['objectType']; // TypeOrder['objectType']; */
 
-  @Column('simple-json', {nullable: true})
-  data2!: {a: number; b: string; c: number}[];
+  // @Column('simple-json', {nullable: true})
+  // data2!: {a: number; b: string; c: number}[];
 
   @ManyToOne((type) => User, (user) => user.user_id, {
     onDelete: 'CASCADE',

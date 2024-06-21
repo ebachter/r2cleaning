@@ -60,8 +60,8 @@ const steps = [
 
 export default function OrderStepper() {
   const {object_type, object_id, address_city, address_street, area} =
-    useAppSelector((state) => state.cleaning.order.object);
-  const price = useAppSelector((state) => state.cleaning.order.price);
+    useAppSelector((state) => state.cleaning.object);
+  const price = useAppSelector((state) => state.cleaning.price);
   /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   ); */
@@ -71,9 +71,7 @@ export default function OrderStepper() {
   const onStepPress = (position: number) => {
     setCurrentPage(position);
   };
-  const orderCreated = useAppSelector(
-    (state) => state.cleaning.order.orderCreated,
-  );
+  const orderCreated = useAppSelector((state) => state.cleaning.orderCreated);
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */
@@ -196,7 +194,7 @@ export default function OrderStepper() {
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}
               labelStyle={{marginTop: 2, marginBottom: 2}}
-              disabled={!object_type}
+              disabled={currentPage === 0 && !object_id}
             >
               Продолжить
             </Button>
@@ -209,13 +207,7 @@ export default function OrderStepper() {
               mode="contained"
               onPress={async () => {
                 const newOrder = await trpcFunc.createOrder.mutate({
-                  object: {
-                    object_id,
-                    object_type,
-                    address_street,
-                    address_city,
-                    area,
-                  },
+                  object_id,
                   price,
                 });
                 setOrder({orderCreated: true});

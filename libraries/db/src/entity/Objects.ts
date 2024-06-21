@@ -4,28 +4,23 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 // import {ObjectTypeOptions} from '@remrob/mysql';
 import {User} from './User';
+import {objectTypes, ObjectDetails, TypeObjectTypesArr} from '../types';
+import {Order} from './Orders';
 // import {Cleaning} from '@remrob/mysql';
 
-export type ObjectTypeOptions = [
+/* export type ObjectTypeOptions = [
   'house',
   'appartment',
   'entrance',
   'office',
   'fasade',
-];
+]; */
 
 // type TupleToUnion<T extends unknown[]> = T[number];
-
-const objectTypes = [
-  'house',
-  'appartment',
-  'entrance',
-  'office',
-  'fasade',
-] as const;
 
 const cities = ['grosny', 'argun', 'gudermes'] as const;
 
@@ -48,10 +43,7 @@ export class Objects {
     enum: objectTypes,
     // default: ObjectType.Draft,
   })
-  object_type!: (typeof objectTypes)[number]; //TupleToUnion<ObjectTypeOptions>; // Cleaning['object']['objectType'];
-
-  @Column('simple-json', {nullable: true})
-  data!: {a: number; b: string; c: number}[];
+  object_type!: TypeObjectTypesArr[number]; //TupleToUnion<ObjectTypeOptions>; // Cleaning['object']['objectType'];
 
   @ManyToOne((type) => User, (user) => user.user_id, {
     onDelete: 'CASCADE',
@@ -68,4 +60,11 @@ export class Objects {
     nullable: true,
   })
   area!: number;
+
+  @Column('json', {nullable: false})
+  object_details!: ObjectDetails;
+  //{a: number; b: string; c: number}[];
+
+  // @OneToMany(() => Order, (photo) => photo.order_id)
+  // orders!: Order[];
 }

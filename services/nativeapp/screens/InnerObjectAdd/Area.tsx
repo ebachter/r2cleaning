@@ -1,13 +1,11 @@
-import {StyleSheet, View, Dimensions} from 'react-native';
-import City from './Location/City';
-import AdressInput from './Location/AdressInput';
+import {View} from 'react-native';
 import {Text} from '@ui-kitten/components';
 import {useAppSelector} from '../../redux/store';
-import {setObject} from '../../redux/functionsDispatch';
+import {setObjectNew} from '../../redux/functionsDispatch';
 import {Input} from '@ui-kitten/components';
 
 export const Area = () => {
-  const area = useAppSelector((state) => state.cleaning.object.area);
+  const area = useAppSelector((state) => state.object.area);
 
   return (
     <View>
@@ -23,7 +21,7 @@ export const Area = () => {
           const next = nextValue.replace(/\D/g, '') || 0;
           console.log('>>>', nextValue, next);
           // if(next) setObject({area: Number(nextValue)});
-          setObject({area: Number(next) || null});
+          setObjectNew({area: Number(next) || null});
         }}
         accessoryRight={
           <Text>

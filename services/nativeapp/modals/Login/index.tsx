@@ -1,13 +1,13 @@
 import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {setModals} from '../../redux/functionsDispatch';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {trpcFunc} from '../../trpc';
 import {sessionActions} from '../../redux/sliceSession';
+import {mergeSession} from '../../redux/functionsDispatch';
 
 export default function ModalLogin() {
-  const visibleLogin = useAppSelector((state) => state.cleaning.modals.login);
+  const visibleLogin = useAppSelector((state) => state.session.modals.login);
   const phoneNumber = useAppSelector((state) => state.session.phone);
   const smsSent = useAppSelector((state) => state.session.smsSent);
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ export default function ModalLogin() {
         <Appbar.Action
           icon="close"
           onPress={() => {
-            setModals({login: false});
+            mergeSession({modals: {login: false}});
             dispatch(sessionActions.actionSmsSent(false));
           }}
         />

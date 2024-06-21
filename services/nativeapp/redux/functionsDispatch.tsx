@@ -1,10 +1,12 @@
-import {PayloadAction} from '@reduxjs/toolkit';
-import {cleaningActions} from './sliceCleaning';
-import {sessionActions} from './sliceSession';
+import {cleaningActions} from './sliceOrder';
+import {sessionActions, sessionInitialState} from './sliceSession';
 import {store} from './store';
 import {Session} from '../types/typeSession';
-import {Cleaning} from '@remrob/mysql';
+import {TypeOrder} from '@remrob/mysql';
 import {navigate} from '../RootNavigation';
+import {actionObject} from './sliceObject';
+import {Objects} from '@remrob/db';
+import {DeepPartial} from '../types/typeUtils';
 
 // export const setObjectType = (
 //   ...args: Parameters<typeof cleaningActions.setObjectType>
@@ -32,37 +34,48 @@ export const setBathroomOfAppartment = (
 // export const setPhone = (...args) =>
 //   store.dispatch(cleaningActions.setPhone(...args));
 
-export const setOrder = (args: Partial<Cleaning['order']>) =>
+export const setOrder = (args: Partial<TypeOrder>) =>
   store.dispatch(cleaningActions.setOrder(args));
 
-export const setObject = (args: Partial<Cleaning['object']>) =>
-  store.dispatch(cleaningActions.setObject(args));
-
-export const setModals = (args: Partial<Cleaning['modals']>) =>
-  store.dispatch(cleaningActions.setModals(args));
+// export const setModals = (args: Partial<Cleaning['modals']>) =>
+//  store.dispatch(cleaningActions.setModals(args));
 
 // ///////////////////////////////////////////////
-export const sessionSet = (
+/* export const sessionSet = (
   ...args: Parameters<typeof sessionActions.sessionSet>
 ) => {
   store.dispatch(sessionActions.sessionSet(...args));
-  setModals({login: false, signup: false});
+  // setModals({login: false, signup: false});
   // setOrder({smsSent: false});
+}; */
+
+// DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
+export const mergeSession = (args: DeepPartial<Session>) => {
+  store.dispatch(sessionActions.mergeSession(args));
+};
+
+// DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
+export const mergeOrder = (args: DeepPartial<TypeOrder>) => {
+  store.dispatch(cleaningActions.mergeOrder(args));
 };
 
 export const logout = () => {
-  sessionSet({sessionToken: null, smsSent: false});
+  mergeSession(sessionInitialState);
   navigate('HomeExt', {});
-  cleaningActions.setCleaningInit();
+  store.dispatch(cleaningActions.setCleaningInit());
 };
 
 export const showSnackbar = ({
   value = true,
   text,
-}: Cleaning['snackbarVisible']) => {
-  store.dispatch(cleaningActions.showSnackbar({value, text}));
+}: Session['snackbarVisible']) => {
+  store.dispatch(sessionActions.showSnackbar({value, text}));
 };
 
 export const setOrderFormInit = () => {
   store.dispatch(cleaningActions.setOrderFormInit());
+};
+
+export const setObjectNew = (args: Partial<Omit<Objects, 'object_id'>>) => {
+  store.dispatch(actionObject.setObject(args));
 };

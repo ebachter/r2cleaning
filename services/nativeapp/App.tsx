@@ -21,7 +21,7 @@ import AppHeader from './components/Header';
 import OrdersScreen from './screens/InnerRequestList';
 import ObjectScreen from './screens/InnerObjectAdd';
 import {connectMainSocket} from './sockets/ioMain';
-import {setModals} from './redux/functionsDispatch';
+import {mergeSession} from './redux/functionsDispatch';
 import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
@@ -101,7 +101,7 @@ export default function App() {
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
   // const navigationRef = useNavigationContainerRef<RootStackParamList>();
-  const forwardTo = useAppSelector((state) => state.cleaning.modals.forwardTo);
+  const forwardTo = useAppSelector((state) => state.session.modals.forwardTo);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {
     console.log('--currentRouteName--', currentRouteName);
@@ -110,7 +110,7 @@ export default function App() {
       navigationRef.current?.navigate('HomeExt');
     } else if (protectedRoutes.includes(currentRouteName) && !sessionToken) {
       navigationRef.current?.navigate('HomeExt');
-      setModals({login: true, forwardTo: currentRouteName});
+      mergeSession({modals: {login: true, forwardTo: currentRouteName}});
     }
     if (currentRouteName === 'HomeExt' && sessionToken) {
       navigationRef.current?.navigate('HomeInt');
