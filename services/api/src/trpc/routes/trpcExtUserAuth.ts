@@ -13,10 +13,9 @@ import {
   sendEmailForSignup,
 } from '../../functions/functionsEmail';
 import log from '@remrob/log';
-import DataSource, {User, Verification} from '@remrob/db';
+import DataSource, {EntityUser, Verification} from '@remrob/db';
 import {sendSMS} from '@remrob/aws';
 import AppDataSourceSqlite from '@remrob/db';
-import {Order} from '@remrob/db';
 import typia from 'typia';
 
 type SessionReturn = {
@@ -36,7 +35,7 @@ export const extUserAuthRouter = router({
     .mutation(async ({ctx, input}): Promise<SessionReturn> => {
       const {email: username, password} = input;
 
-      const userTable = DataSource.getRepository(User);
+      const userTable = DataSource.getRepository(EntityUser);
       const user2 = await userTable.find();
       console.log('--user2--', JSON.stringify(user2));
 
@@ -108,17 +107,19 @@ export const extUserAuthRouter = router({
       console.log('data', data);
       if (!data) return {isValid: false};
 
-      const userData = await AppDataSourceSqlite.getRepository(User).findOne({
+      const userData = await AppDataSourceSqlite.getRepository(
+        EntityUser,
+      ).findOne({
         where: {phoneNumber: data.phoneNumber},
       });
 
       let sessionToken: string = '';
       if (!userData) {
-        const user = new User();
+        const user = new EntityUser();
         user.phoneNumber = phoneNumber;
-        const newUser = await AppDataSourceSqlite.getRepository(User).save(
-          user,
-        );
+        const newUser = await AppDataSourceSqlite.getRepository(
+          EntityUser,
+        ).save(user);
         sessionToken = createUserSessionToken({
           userId: newUser.user_id,
           lang: 'en',

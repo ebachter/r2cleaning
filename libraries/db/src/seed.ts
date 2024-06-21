@@ -1,7 +1,7 @@
 import AppDataSourceSqlite from './data-source';
-import {Objects} from './entity/Objects';
-import {Order} from './entity/Orders';
-import {User} from './entity/User';
+import {EntityObject} from './entity/Objects';
+import {EntityOrder} from './entity/Orders';
+import {EntityUser} from './entity/User';
 import {Verification} from './entity/Verification';
 
 // export const seed = () => {
@@ -10,15 +10,15 @@ AppDataSourceSqlite.initialize()
   .then(async () => {
     // here you can start to work with your database
 
-    await AppDataSourceSqlite.manager.clear(Order);
+    await AppDataSourceSqlite.manager.clear(EntityOrder);
     await AppDataSourceSqlite.manager.clear(Verification);
-    await AppDataSourceSqlite.manager.getRepository(User).delete({});
+    await AppDataSourceSqlite.manager.getRepository(EntityUser).delete({});
     // await AppDataSourceSqlite.createQueryBuilder()
     //  .delete().from(User).execute();
 
     if (process.env.NODE_ENV !== 'production') {
       // ADD USERS
-      const user = new User();
+      const user = new EntityUser();
       user.firstName = 'Max';
       user.lastName = 'Mustermann';
       user.age = 24;
@@ -27,7 +27,7 @@ AppDataSourceSqlite.initialize()
       user.phoneNumber = '+491633649875';
       await AppDataSourceSqlite.manager.save(user);
 
-      const user2 = new User();
+      const user2 = new EntityUser();
       user2.firstName = 'Cleaner';
       user2.lastName = 'Copany';
       user2.age = 10;
@@ -38,7 +38,7 @@ AppDataSourceSqlite.initialize()
       console.log('Users created');
 
       // ADD OBJECTS
-      const object: Omit<Objects, 'object_id'> = {
+      const object: Omit<EntityObject, 'object_id'> = {
         object_type: 'appartment',
         user_fk: user.user_id,
         area: 12,
@@ -59,12 +59,12 @@ AppDataSourceSqlite.initialize()
           restroom: [{floor: 'tile', walls: 'color', toilet: true, bath: true}],
         },
       };
-      const objectObj = new Objects();
+      const objectObj = new EntityObject();
       Object.assign(objectObj, object);
 
       const obj1 = await AppDataSourceSqlite.manager.save(objectObj);
 
-      const object2: Omit<Objects, 'object_id'> = {
+      const object2: Omit<EntityObject, 'object_id'> = {
         object_type: 'appartment',
         user_fk: user.user_id,
         area: 83,
@@ -75,26 +75,26 @@ AppDataSourceSqlite.initialize()
           rooms: [{type: 'room', walls: 'wallpaper', floor: 'parket'}],
         },
       };
-      const objectObj2 = new Objects();
+      const objectObj2 = new EntityObject();
       Object.assign(objectObj2, object2);
 
       const obj2 = await AppDataSourceSqlite.manager.save(objectObj2);
       console.log('Objects created');
 
       // ADD ORDERS
-      const order = new Order();
+      const order = new EntityOrder();
       order.object_fk = obj1.object_id;
       order.user_fk = user.user_id;
       // order.object_type = 'appartment';
       await AppDataSourceSqlite.manager.save(order);
 
-      const order2 = new Order();
+      const order2 = new EntityOrder();
       order2.object_fk = obj1.object_id;
       order2.user_fk = user.user_id;
       // order2.object_type = 'entrance';
       await AppDataSourceSqlite.manager.save(order2);
 
-      const order3 = new Order();
+      const order3 = new EntityOrder();
       order3.object_fk = obj2.object_id;
       order3.user_fk = user.user_id;
       // order3.object_type = 'entrance';

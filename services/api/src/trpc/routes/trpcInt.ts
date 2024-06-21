@@ -1,22 +1,7 @@
-import {z} from 'zod';
-import {TypeOrder, prisma} from '@remrob/mysql';
+import {TypeOrder} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import {v4 as uuidv4} from 'uuid';
-import {
-  checkUserPassword,
-  createUserAuthToken,
-  createUserSessionToken,
-} from '@remrob/utils';
-import axios from 'axios';
-import {
-  sendEmailForReset,
-  sendEmailForSignup,
-} from '../../functions/functionsEmail';
-import log from '@remrob/log';
-import DataSource, {User, Verification} from '@remrob/db';
-import {sendSMS} from '@remrob/aws';
 import AppDataSourceSqlite from '@remrob/db';
-import {Order, Objects} from '@remrob/db';
+import {EntityOrder, EntityObject} from '@remrob/db';
 import typia from 'typia';
 
 /* type SessionReturn = {
@@ -30,7 +15,7 @@ export const intRouter = router({
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
       typia.createAssert<
-        {object_id: Objects['object_id']} & Pick<TypeOrder, 'price'>
+        {object_id: EntityObject['object_id']} & Pick<TypeOrder, 'price'>
       >(),
       /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
@@ -42,7 +27,7 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Pick<Order, 'object_fk' | 'user_fk' | 'price'> = {
+      const newOrder: Pick<EntityOrder, 'object_fk' | 'user_fk' | 'price'> = {
         object_fk: input.object_id,
         user_fk: userId,
         price: input.price,
@@ -52,7 +37,8 @@ export const intRouter = router({
       // order.user_fk = newOrder.user_fk;
 
       // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
-      const order = AppDataSourceSqlite.getRepository(Order).create(newOrder);
+      const order =
+        AppDataSourceSqlite.getRepository(EntityOrder).create(newOrder);
       // console.log('tableName', data);
 
       const temp = await AppDataSourceSqlite.manager.save(order);
@@ -60,14 +46,14 @@ export const intRouter = router({
     }),
 
   loadOrders: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(Order).find();
+    const data = await AppDataSourceSqlite.getRepository(EntityOrder).find();
     console.log('--temp--', data);
 
-    return data as (Order & Pick<Objects, 'object_type'>)[];
+    return data as (EntityOrder & Pick<EntityObject, 'object_type'>)[];
   }),
 
   loadObjects: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(Objects).find();
+    const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
     console.log('--temp--', data);
 
     return data;
@@ -84,7 +70,7 @@ export const intRouter = router({
     .query(async ({ctx, input}) => {
       // console.log('>>>', input.orderId);
       const data = await AppDataSourceSqlite.getRepository(
-        Order,
+        EntityOrder,
       ).findOneByOrFail({order_id: input.orderId});
       console.log('--temp--', data);
 
@@ -98,12 +84,14 @@ export const intRouter = router({
       }); */
       console.log('--temp--', data);
 
-      return data as Order & Pick<Objects, 'object_type'>;
+      return data as EntityOrder & Pick<EntityObject, 'object_type'>;
     }),
 
   addObject: protectedProcedure
     .input(
-      typia.createAssert<Omit<Objects, 'object_id' | 'data' | 'user_fk'>>(),
+      typia.createAssert<
+        Omit<EntityObject, 'object_id' | 'data' | 'user_fk'>
+      >(),
       /* z.object({
         objectType: z.enum(['flat', 'house', 'floor']),
       }), */
@@ -124,7 +112,7 @@ export const intRouter = router({
 
       // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
       const order =
-        AppDataSourceSqlite.getRepository(Objects).create(newObject);
+        AppDataSourceSqlite.getRepository(EntityObject).create(newObject);
       console.log('tableName', order);
 
       const temp = await AppDataSourceSqlite.manager.save(order);

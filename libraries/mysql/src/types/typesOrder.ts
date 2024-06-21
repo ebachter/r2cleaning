@@ -7,7 +7,7 @@
   'office',
   'fasade',
 ]; */
-import {Objects} from '@remrob/db';
+import {EntityObject} from '@remrob/db';
 
 // type TupleToUnion<T extends unknown[]> = T[number];
 
@@ -22,7 +22,7 @@ export type RootStackParamList = {
 };
 
 export type TypeOrder = {
-  object: Omit<Objects, 'user_fk' | 'object_details'>;
+  object: Omit<EntityObject, 'user_fk' | 'object_details'>;
   // Omit<Objects, 'user_fk' | 'data'>;
   options: {
     appartment: Appartment;

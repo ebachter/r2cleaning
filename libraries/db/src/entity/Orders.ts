@@ -6,8 +6,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 // import {ObjectTypeOptions, Cleaning} from '@remrob/mysql';
-import {User} from './User';
-import {Objects} from './Objects';
+import {EntityUser} from './User';
+import {EntityObject} from './Objects';
 
 /* const obj: ObjectTypeOptions = [
   'house',
@@ -18,7 +18,7 @@ import {Objects} from './Objects';
 ]; */
 
 @Entity('orders')
-export class Order {
+export class EntityOrder {
   @PrimaryGeneratedColumn()
   order_id!: number;
 
@@ -35,14 +35,14 @@ export class Order {
   // @Column('simple-json', {nullable: true})
   // data2!: {a: number; b: string; c: number}[];
 
-  @ManyToOne((type) => User, (user) => user.user_id, {
+  @ManyToOne((type) => EntityUser, (user) => user.user_id, {
     onDelete: 'CASCADE',
     nullable: false,
   })
   @JoinColumn({name: 'user_fk'}) // , referencedColumnName: 'user_id'
   user_fk!: number;
 
-  @ManyToOne((type) => Objects, (obj) => obj.object_id, {
+  @ManyToOne((type) => EntityObject, (obj) => obj.object_id, {
     onDelete: 'CASCADE',
     nullable: false,
   })
@@ -58,7 +58,7 @@ export class Order {
   })
   price!: number;
 
-  @ManyToOne((type) => User, (user) => user.user_id, {
+  @ManyToOne((type) => EntityUser, (user) => user.user_id, {
     onDelete: 'CASCADE',
     nullable: true,
   })

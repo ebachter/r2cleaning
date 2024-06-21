@@ -4,10 +4,10 @@
 import 'reflect-metadata';
 
 import DataSource from './data-source';
-import {User} from './entity/User';
+import {EntityUser} from './entity/User';
 import {Verification} from './entity/Verification';
-import {Order} from './entity/Orders';
-import {Objects} from './entity/Objects';
+import {EntityOrder} from './entity/Orders';
+import {EntityObject} from './entity/Objects';
 
 // const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 
@@ -20,4 +20,4 @@ import {Objects} from './entity/Objects';
 
 export default DataSource;
 
-export {User, Verification, Order, Objects};
+export {EntityUser, Verification, EntityOrder, EntityObject};

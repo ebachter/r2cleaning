@@ -7,9 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 // import {ObjectTypeOptions} from '@remrob/mysql';
-import {User} from './User';
+import {EntityUser} from './User';
 import {objectTypes, ObjectDetails, TypeObjectTypesArr} from '../types';
-import {Order} from './Orders';
 // import {Cleaning} from '@remrob/mysql';
 
 /* export type ObjectTypeOptions = [
@@ -25,7 +24,7 @@ import {Order} from './Orders';
 const cities = ['grosny', 'argun', 'gudermes'] as const;
 
 @Entity('objects')
-export class Objects {
+export class EntityObject {
   @PrimaryGeneratedColumn()
   object_id!: number;
 
@@ -45,7 +44,7 @@ export class Objects {
   })
   object_type!: TypeObjectTypesArr[number]; //TupleToUnion<ObjectTypeOptions>; // Cleaning['object']['objectType'];
 
-  @ManyToOne((type) => User, (user) => user.user_id, {
+  @ManyToOne((type) => EntityUser, (user) => user.user_id, {
     onDelete: 'CASCADE',
     nullable: false,
   })
