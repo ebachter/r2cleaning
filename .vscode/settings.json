@@ -33,5 +33,6 @@
     "typescript",
     "javascriptreact",
     "typescriptreact"
-  ]
+  ],
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }
