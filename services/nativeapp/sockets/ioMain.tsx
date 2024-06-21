@@ -1,4 +1,4 @@
-import {CommandToUser, ObjectLive} from '@remrob/mysql';
+import {CommandToUser} from '@remrob/mysql';
 import {io, Socket} from 'socket.io-client';
 import {getAppState} from '../redux/store';
 import {logout} from '../redux/functionsDispatch';
@@ -42,9 +42,7 @@ export const connectMainSocket = () => {
   socket?.on('hello', (message) => {
     try {
       console.log('message', message);
-      const payload = message as
-        | ({objectId: number} & (ObjectLive | {live: ObjectLive}))
-        | CommandToUser;
+      const payload = message as CommandToUser;
       // | {objectId: number; listId: string; listData: string};
       if (
         'objectId' in payload &&
@@ -54,7 +52,7 @@ export const connectMainSocket = () => {
         // liveObjectDisconnected({objectId: payload.objectId});
       }
       if ('objectId' in payload && 'live' in payload && payload.live) {
-        console.log('payload->', {objectId: payload.objectId, ...payload.live});
+        console.log('payload->', {objectId: payload.objectId});
         // liveDataSet({objectId: payload.objectId, ...payload.live});
       }
       const tempData1 = payload as unknown;
@@ -63,23 +61,7 @@ export const connectMainSocket = () => {
         listId: string;
         listData: string;
       };
-      if (
-        'objectId' in payload &&
-        'listId' in payload &&
-        'listData' in payload
-      ) {
-        // console.log('+++', message, JSON.parse(payload));
-        const list = JSON.parse(
-          tempData.listData,
-        ) as ObjectLive['lists'][string];
-        const data = {
-          objectId: tempData.objectId,
-          lists: {
-            [tempData.listId]: list,
-          },
-        } as {objectId: number} & ObjectLive;
-        // liveDataSet(data);
-      }
+
       const getKey = () => new Date().getTime() + Math.random();
       // if ('objectId' in payload) {
       //  liveDataSet(payload);

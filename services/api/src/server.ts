@@ -13,10 +13,7 @@ import * as trpcExpress from '@trpc/server/adapters/express';
 import {appRouter} from './trpc/router';
 import {createContext} from './trpc/context';
 import {Server as IOServer} from 'socket.io';
-import chatio from './sockets/ioChat';
 import mainio from './sockets/ioMain/ioMain';
-import {mqttproxyio} from './sockets/ioMqttProxy/ioMqttProxy';
-import ioSearchObject from './sockets/ioSearchObject';
 import {checkRoute} from './functions/authCheckRoute';
 
 export type AppRouter = typeof appRouter;
