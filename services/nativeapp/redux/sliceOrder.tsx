@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Objects} from '@remrob/db';
 import {TypeOrder} from '@remrob/mysql';
 import _ from 'lodash';
 import {Session} from '../types/typeSession';

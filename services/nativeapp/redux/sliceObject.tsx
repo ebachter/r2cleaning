@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Objects} from '@remrob/db';
+import {EntityObject} from '@remrob/db';
 
 import _ from 'lodash';
 
@@ -14,7 +14,7 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-export const initialStateObject: Omit<Objects, 'object_id'> = {
+export const initialStateObject: Omit<EntityObject, 'object_id'> = {
   object_type: null,
   address_city: null,
   address_street: '',
@@ -56,7 +56,7 @@ const slice = createSlice({
 
     setObject: (
       state,
-      action: PayloadAction<Partial<Omit<Objects, 'object_id'>>>,
+      action: PayloadAction<Partial<Omit<EntityObject, 'object_id'>>>,
     ) => {
       _.merge(state, action.payload);
     },

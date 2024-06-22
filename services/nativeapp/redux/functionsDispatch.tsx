@@ -5,7 +5,7 @@ import {Session} from '../types/typeSession';
 import {TypeOrder} from '@remrob/mysql';
 import {navigate} from '../RootNavigation';
 import {actionObject} from './sliceObject';
-import {Objects} from '@remrob/db';
+import {EntityObject} from '@remrob/db';
 import {DeepPartial} from '../types/typeUtils';
 
 // export const setObjectType = (
@@ -76,6 +76,8 @@ export const setOrderFormInit = () => {
   store.dispatch(cleaningActions.setOrderFormInit());
 };
 
-export const setObjectNew = (args: Partial<Omit<Objects, 'object_id'>>) => {
+export const setObjectNew = (
+  args: Partial<Omit<EntityObject, 'object_id'>>,
+) => {
   store.dispatch(actionObject.setObject(args));
 };

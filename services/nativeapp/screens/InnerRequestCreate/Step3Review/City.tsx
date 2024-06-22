@@ -3,9 +3,9 @@ import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 import {useAppSelector} from '../../../redux/store';
 import {setObjectNew} from '../../../redux/functionsDispatch';
-import {Objects} from '@remrob/db';
+import {EntityObject} from '@remrob/db';
 
-const ix: {id: Objects['address_city']; label: string}[] = [
+const ix: {id: EntityObject['address_city']; label: string}[] = [
   {id: 'grosny', label: 'Грозный'},
   {id: 'argun', label: 'Аргун'},
   {id: 'gudermes', label: 'Гудермес'},

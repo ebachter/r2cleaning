@@ -4,14 +4,14 @@ import {objectTypes} from '../../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {setObjectNew} from '../../redux/functionsDispatch';
-import {Objects} from '@remrob/db';
+import {EntityObject} from '@remrob/db';
 
 const ObjectTypeRadio = () => {
   const objectType = useAppSelector((state) => state.object.object_type);
 
   return (
     <RadioButton.Group
-      onValueChange={(newValue: Objects['object_type']) => {
+      onValueChange={(newValue: EntityObject['object_type']) => {
         setObjectNew({object_type: newValue});
       }}
       value={objectType}
