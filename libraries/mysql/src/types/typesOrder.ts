@@ -11,16 +11,6 @@ import {EntityObject} from '@remrob/db';
 
 // type TupleToUnion<T extends unknown[]> = T[number];
 
-export type RootStackParamList = {
-  HomeExt: undefined;
-  HomeInt: undefined;
-  Order: undefined;
-  Orders: undefined;
-  Objects: undefined;
-  Object: undefined;
-  Details: {orderId: string};
-};
-
 export type TypeOrder = {
   object: Omit<EntityObject, 'user_fk' | 'object_details'>;
   // Omit<Objects, 'user_fk' | 'data'>;

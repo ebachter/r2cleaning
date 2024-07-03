@@ -22,12 +22,12 @@ import OrdersScreen from './screens/InnerRequestList';
 import ObjectScreen from './screens/InnerObjectAdd';
 import {connectMainSocket} from './sockets/ioMain';
 import {mergeSession} from './redux/functionsDispatch';
-import {RootStackParamList} from '@remrob/mysql';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
 import ScreenOrderDetails from './screens/InnerRequestDetails';
 import ScreenObjects from './screens/InnerObjects';
+import {RootStackParamList} from './types/typeSession';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const protectedRoutes = ['HomeInt', 'Order', 'Object', 'Orders'];
@@ -48,8 +48,8 @@ export const allRoutes: {
     path: 'intro',
     title: 'Главная',
   },
-  Details: {
-    name: 'Details',
+  OrderDetails: {
+    name: 'OrderDetails',
     component: ScreenOrderDetails,
     path: 'details',
     title: 'Детали',

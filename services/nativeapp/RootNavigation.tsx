@@ -1,5 +1,5 @@
 import {createNavigationContainerRef} from '@react-navigation/native';
-import {RootStackParamList} from '@remrob/mysql';
+import {RootStackParamList} from './types/typeSession';
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 

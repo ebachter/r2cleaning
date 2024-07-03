@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Orders: undefined;
   Objects: undefined;
   Object: undefined;
-  Details: {orderId: string};
+  OrderDetails: {orderId: string};
 };
 
 export type Session = {

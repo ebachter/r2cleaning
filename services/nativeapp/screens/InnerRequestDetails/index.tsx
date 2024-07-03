@@ -10,15 +10,15 @@ import {
   useRoute,
 } from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '@remrob/mysql';
 import {Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../trpc';
+import {RootStackParamList} from '../../types/typeSession';
 // import Header from '../components/Header';
 
 export default function ScreenOrderDetails({}) {
   // const {message} = useAppSelector((state) => state.message);
   // const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const route = useRoute<RouteProp<RootStackParamList, 'Details'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'OrderDetails'>>();
   const {data} = trpcComp.loadOrder.useQuery({
     orderId: Number(route.params.orderId),
   });
