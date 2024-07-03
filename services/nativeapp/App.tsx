@@ -1,11 +1,5 @@
-import {
-  NavigationContainer,
-  useNavigationContainerRef,
-} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import DetailsScreen from './screens/InnerHome';
-import HomeScreen from './screens/OuterHome';
-import OrderScreen from './screens/InnerRequestCreate';
 import {useAppSelector} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
@@ -18,67 +12,15 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
-import OrdersScreen from './screens/InnerRequestList';
-import ObjectScreen from './screens/InnerObjectAdd';
 import {connectMainSocket} from './sockets/ioMain';
 import {mergeSession} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
-import ScreenOrderDetails from './screens/InnerRequestDetails';
-import ScreenObjects from './screens/InnerObjects';
-import {RootStackParamList} from './types/typeSession';
+
+import {RootStackParamList, allRoutes, screens} from './routes';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const protectedRoutes = ['HomeInt', 'Order', 'Object', 'Orders'];
-
-export const allRoutes: {
-  [file: string]: {
-    name: keyof RootStackParamList;
-    component: (k: any) => React.JSX.Element;
-    path: string;
-    showBack?: boolean;
-    title?: string;
-  };
-} = {
-  HomeExt: {name: 'HomeExt', component: HomeScreen, path: '', showBack: false},
-  HomeInt: {
-    name: 'HomeInt',
-    component: DetailsScreen,
-    path: 'intro',
-    title: 'Главная',
-  },
-  OrderDetails: {
-    name: 'OrderDetails',
-    component: ScreenOrderDetails,
-    path: 'details',
-    title: 'Детали',
-  },
-  Order: {name: 'Order', component: OrderScreen, path: 'order', title: 'Заказ'},
-  Orders: {
-    name: 'Orders',
-    component: OrdersScreen,
-    path: 'orders',
-    title: 'Заказы',
-  },
-  Objects: {
-    name: 'Objects',
-    component: ScreenObjects,
-    path: 'objects',
-    title: 'Объекты',
-  },
-  Object: {
-    name: 'Object',
-    component: ObjectScreen,
-    path: 'object',
-    title: 'Объект',
-  },
-};
-
-const screens = Object.entries(allRoutes).reduce((o, [k, v]) => {
-  return {...o, [k]: v.path};
-}, {});
-console.log(screens);
 
 const paperTheme = {
   ...DefaultTheme,
@@ -108,7 +50,10 @@ export default function App() {
     // console.log('--sessionToken--', sessionToken);
     if (currentRouteName === 'HomeInt' && !sessionToken) {
       navigationRef.current?.navigate('HomeExt');
-    } else if (protectedRoutes.includes(currentRouteName) && !sessionToken) {
+    } else if (
+      allRoutes[currentRouteName].protected !== false &&
+      !sessionToken
+    ) {
       navigationRef.current?.navigate('HomeExt');
       mergeSession({modals: {login: true, forwardTo: currentRouteName}});
     }
@@ -143,7 +88,7 @@ export default function App() {
                   auth(currentRouteName);
 
                   if (
-                    protectedRoutes.includes(currentRouteName) &&
+                    allRoutes[currentRouteName].protected !== false &&
                     sessionToken
                   )
                     connectMainSocket();

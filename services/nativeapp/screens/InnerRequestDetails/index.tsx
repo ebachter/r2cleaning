@@ -12,7 +12,7 @@ import {
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../trpc';
-import {RootStackParamList} from '../../types/typeSession';
+import {RootStackParamList} from '../../routes';
 // import Header from '../components/Header';
 
 export default function ScreenOrderDetails({}) {

@@ -13,7 +13,7 @@ import {
   OverflowMenu,
 } from '@ui-kitten/components';
 import {disconnectMainSocket} from '../sockets/ioMain';
-import {allRoutes} from '../App';
+import {allRoutes} from '../routes';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />

@@ -1,12 +1,4 @@
-export type RootStackParamList = {
-  HomeExt: undefined;
-  HomeInt: undefined;
-  Order: undefined;
-  Orders: undefined;
-  Objects: undefined;
-  Object: undefined;
-  OrderDetails: {orderId: string};
-};
+import {RootStackParamList} from '../routes';
 
 export type Session = {
   sessionToken: string | null;
