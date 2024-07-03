@@ -45,16 +45,18 @@ AppDataSourceSqlite.initialize()
         address_city: 'grosny',
         address_street: 'Kasiora 16',
         object_details: {
-          object_type: 'appartment',
-
-          numberOfRooms: {number: 1, price: 2000},
-          kitchen: {
-            all: {value: false, price: 1500},
-            sink: {value: false, price: 500},
-            refrigerator: {value: false, price: 500},
-            oven: {value: false, price: 500},
-          },
-          bathroom: {include: false, area: 0, price: 1000},
+          objectType: 'appartment',
+          rooms: [{type: 'bedroom', walls: 'wallpaper', floor: 'laminat'}],
+          kitchen: [
+            {
+              floor: 'tile',
+              walls: 'color',
+              refrigerator: true,
+              sink: true,
+              oven: false,
+            },
+          ],
+          restroom: [{floor: 'tile', walls: 'color', toilet: true, bath: true}],
         },
       };
       const objectObj = new EntityObject();
@@ -63,17 +65,14 @@ AppDataSourceSqlite.initialize()
       const obj1 = await AppDataSourceSqlite.manager.save(objectObj);
 
       const object2: Omit<EntityObject, 'object_id'> = {
-        object_type: 'office',
+        object_type: 'appartment',
         user_fk: user.user_id,
         area: 83,
         address_city: 'argun',
         address_street: 'Ioanisiani 124',
         object_details: {
-          object_type: 'office',
-          numberOfRooms: {
-            number: 0,
-            price: 400,
-          },
+          objectType: 'office',
+          rooms: [{type: 'room', walls: 'wallpaper', floor: 'parket'}],
         },
       };
       const objectObj2 = new EntityObject();
@@ -108,3 +107,41 @@ AppDataSourceSqlite.initialize()
   })
   .catch((error) => console.log(error));
 // };
+
+/* 
+const newOrder = await trpcFunc.addObject.mutate({
+                object_type: object_type,
+                area,
+                address_city: address_city,
+                address_street: address_street,
+                object_details: {
+                  objectType: 'appartment', // object_type, //
+                  rooms: [
+                    {
+                      type: 'bedroom',
+                      floor: 'laminat',
+                      walls: 'color',
+                    },
+                  ],
+                  kitchen: [
+                    {
+                      sink: true,
+                      refrigerator: true,
+                      oven: true,
+                      floor: 'laminat',
+                      walls: 'color',
+                    },
+                  ],
+                  restroom: [
+                    {
+                      floor: 'laminat',
+                      walls: 'color',
+                      bath: true,
+                      toilet: true,
+                    },
+                  ],
+                  // floors:{number:2},
+                  // elevator: true
+                },
+              });
+*/

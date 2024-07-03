@@ -12,6 +12,9 @@ export default function ObjectDetails() {
   const numberOfRooms = useAppSelector(
     (state) => state.cleaning.options.appartment.numberOfRooms,
   );
+  const numberOfRooms_ = useAppSelector(
+    (state) => state.cleaning.options.appartment.numberOfRooms,
+  );
   const handleMenuItemClick = (index: number) => {
     setRoomNumberOfAppartment(index);
   };

@@ -95,31 +95,17 @@ export default function OrderStepper() {
                 address_city: address_city,
                 address_street: address_street,
                 object_details: {
-                  objectType: 'appartment', // object_type, //
-                  rooms: [
-                    {
-                      type: 'bedroom',
-                      floor: 'laminat',
-                      walls: 'color',
-                    },
-                  ],
-                  kitchen: [
-                    {
-                      sink: true,
-                      refrigerator: true,
-                      oven: true,
-                      floor: 'laminat',
-                      walls: 'color',
-                    },
-                  ],
-                  restroom: [
-                    {
-                      floor: 'laminat',
-                      walls: 'color',
-                      bath: true,
-                      toilet: true,
-                    },
-                  ],
+                  object_type: 'appartment',
+
+                  numberOfRooms: {number: 1, price: 2000},
+                  kitchen: {
+                    all: {value: false, price: 1500},
+                    sink: {value: false, price: 500},
+                    refrigerator: {value: false, price: 500},
+                    oven: {value: false, price: 500},
+                  },
+                  bathroom: {include: false, area: 0, price: 1000},
+
                   // floors:{number:2},
                   // elevator: true
                 },

@@ -11,7 +11,6 @@ import {useRoute} from '@react-navigation/native';
 
 export default function OrderScreen(options) {
   const route = useRoute();
-  console.log(route);
   return (
     <ScrollView
       style={{

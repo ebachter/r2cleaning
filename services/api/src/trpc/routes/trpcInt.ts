@@ -68,7 +68,7 @@ export const intRouter = router({
     )
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
-      // console.log('>>>', input.orderId);
+      console.log('>>>', input.orderId);
       const data = await AppDataSourceSqlite.getRepository(
         EntityOrder,
       ).findOneByOrFail({order_id: input.orderId});

@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TypeOrder} from '@remrob/mysql';
 import _ from 'lodash';
-import {Session} from '../types/typeSession';
 
 /* type Cleaning = {
   objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
