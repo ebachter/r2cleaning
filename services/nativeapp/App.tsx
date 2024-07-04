@@ -13,12 +13,13 @@ import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
 import {connectMainSocket} from './sockets/ioMain';
-import {mergeSession} from './redux/functionsDispatch';
+import {mergeLocal, mergeSession} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
 
 import {RootStackParamList, allRoutes, screens} from './routes';
+import ModalAddObject from './modals/AddObject';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -42,7 +43,7 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
-  const forwardTo = useAppSelector((state) => state.session.modals.forwardTo);
+  const forwardTo = useAppSelector((state) => state.local.modals.forwardTo);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {
     console.log('--currentRouteName--', currentRouteName);
@@ -54,7 +55,7 @@ export default function App() {
       !sessionToken
     ) {
       navigationRef.current?.navigate('HomeExt');
-      mergeSession({modals: {login: true, forwardTo: currentRouteName}});
+      mergeLocal({modals: {login: true, forwardTo: currentRouteName}});
     }
     if (currentRouteName === 'HomeExt' && sessionToken) {
       navigationRef.current?.navigate('HomeInt');
@@ -157,6 +158,7 @@ export default function App() {
                 </Stack.Navigator>
                 <ModalLogin />
                 <ModalSignup />
+                <ModalAddObject />
                 <SnackbarComp />
               </NavigationContainer>
             </ApplicationProvider>

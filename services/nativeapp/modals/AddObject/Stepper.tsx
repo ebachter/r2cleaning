@@ -10,7 +10,7 @@ import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
 import {trpcFunc} from '../../trpc';
-import {showSnackbar} from '../../redux/functionsDispatch';
+import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
 import {Area} from './Area';
@@ -70,7 +70,7 @@ export default function OrderStepper() {
         <View>
           <Button
             // mode="outlined"
-            onPress={() => navigation.navigate('HomeInt')}
+            onPress={() => mergeLocal({modals: {addObject: false}})}
             style={{width: 90, borderRadius: 5, marginLeft: 10}}
             compact={true}
             labelStyle={{marginTop: 2, marginBottom: 2}}

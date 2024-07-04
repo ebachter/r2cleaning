@@ -2,12 +2,12 @@ import * as React from 'react';
 import {View} from 'react-native';
 import {Button, Input} from '@ui-kitten/components';
 // import SnackbarComp from '../components/Snackbar';
-import {showSnackbar} from '../../redux/functionsDispatch';
 import {RouteProp, useRoute} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../trpc';
 import {RootStackParamList} from '../../routes';
+import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 // import Header from '../components/Header';
 
 export default function ScreenOrderDetails({}) {

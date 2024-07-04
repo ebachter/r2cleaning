@@ -5,7 +5,7 @@ import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
 import {Button, Layout} from '@ui-kitten/components';
 import {useAppSelector} from '../redux/store';
-import {mergeSession} from '../redux/functionsDispatch';
+import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 
 export default function HomeScreen({navigation}) {
   // const apiOrigin = process.env.EXPO_PUBLIC_API_ORIGIN;
@@ -104,7 +104,7 @@ export default function HomeScreen({navigation}) {
               onPress={() =>
                 sessionToken
                   ? navigation.navigate('Order')
-                  : mergeSession({modals: {login: true, forwardTo: 'Order'}})
+                  : mergeLocal({modals: {login: true, forwardTo: 'Order'}})
               }
               style={{minWidth: 150}}
             >
@@ -118,14 +118,14 @@ export default function HomeScreen({navigation}) {
         <Layout style={styles.container3} level="1">
           <Button
             style={styles.button}
-            onPress={() => mergeSession({modals: {login: true}})}
+            onPress={() => mergeLocal({modals: {login: true}})}
           >
             Войти
           </Button>
           <Button
             appearance="outline"
             style={styles.button}
-            onPress={() => mergeSession({modals: {signup: true}})}
+            onPress={() => mergeLocal({modals: {signup: true}})}
           >
             Создать
           </Button>

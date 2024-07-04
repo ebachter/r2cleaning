@@ -1,13 +1,13 @@
-import {Modal, StyleSheet, Platform} from 'react-native';
+import {Modal, StyleSheet, Platform, View} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {PhoneNumberInput} from './PhoneNumberInput';
 import {trpcFunc} from '../../trpc';
 import {sessionActions} from '../../redux/sliceSession';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
+import ScreenObjectAdd from './intro';
 
-export default function ModalLogin() {
-  const visibleLogin = useAppSelector((state) => state.local.modals.login);
+export default function ModalAddObject() {
+  const visibleLogin = useAppSelector((state) => state.local.modals.addObject);
   const phoneNumber = useAppSelector((state) => state.session.phone);
   const smsSent = useAppSelector((state) => state.session.smsSent);
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ export default function ModalLogin() {
         <Appbar.Action
           icon="close"
           onPress={() => {
-            mergeLocal({modals: {login: false}});
+            mergeLocal({modals: {addObject: false}});
             mergeSession({smsSent: false});
           }}
         />
@@ -34,23 +34,7 @@ export default function ModalLogin() {
         {/* <Text variant="bodyMedium" style={{marginTop: 20, marginBottom: 20}}>
           Войти в Клининг.тек
         </Text> */}
-        <PhoneNumberInput />
-        {!smsSent && (
-          <Button
-            mode="contained"
-            onPress={async () => {
-              const data = await trpcFunc.extUserSignupSMS.mutate({
-                phone: phoneNumber,
-              });
-              mergeSession({smsSent: true});
-            }}
-            style={{borderRadius: 5, marginTop: 20}}
-            compact={true}
-            labelStyle={{marginTop: 2, marginBottom: 2}}
-          >
-            Войти
-          </Button>
-        )}
+        <ScreenObjectAdd />
       </Dialog.Content>
     </Modal>
   );
@@ -62,5 +46,9 @@ const styles = StyleSheet.create({
     alignItems: 'center', //Centered horizontally
     flex: 1,
     backgroundColor: 'aliceblue',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
 });

@@ -2,9 +2,8 @@ import * as React from 'react';
 import {View, Text} from 'react-native';
 import {Button} from '@ui-kitten/components';
 // import SnackbarComp from '../components/Snackbar';
-import {showSnackbar} from '../redux/functionsDispatch';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {mergeLocal, showSnackbar} from '../redux/functionsDispatch';
+import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../routes';
 // import Header from '../components/Header';
 
@@ -41,17 +40,6 @@ export default function DetailsScreen({}) {
         >
           Сделать заявку
         </Button>
-        <Button
-          style={{
-            marginTop: 10,
-            marginBottom: 5,
-            width: '100%',
-          }}
-          appearance="outline"
-          onPress={() => navigation.navigate('Object')}
-        >
-          Create object
-        </Button>
 
         <Button
           style={{
@@ -86,7 +74,11 @@ export default function DetailsScreen({}) {
         >
           История заявок
         </Button> */}
-
+        <View style={{marginTop: 5, marginBottom: 5}} />
+        <Button onPress={() => mergeLocal({modals: {addObject: true}})}>
+          Add object
+        </Button>
+        <View style={{marginTop: 5, marginBottom: 5}} />
         <Button onPress={() => showSnackbar({text: 'abcd'})}>
           Show Snackbar
         </Button>

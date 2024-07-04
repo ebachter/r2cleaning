@@ -13,6 +13,7 @@ import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
 import {trpcFunc} from '../../trpc';
 import {
+  mergeLocal,
   setOrder,
   setOrderFormInit,
   showSnackbar,

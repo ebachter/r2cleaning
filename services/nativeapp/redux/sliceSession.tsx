@@ -7,11 +7,6 @@ export const sessionInitialState: Session = {
   refreshToken: null,
   phone: '+491633649875',
   smsSent: false,
-  modals: {
-    login: false,
-    signup: false,
-  },
-  snackbarVisible: {text: '', value: false},
 
   /* forms: {
     order: {
@@ -41,18 +36,6 @@ const slice = createSlice({
     setPhone: (state, action: PayloadAction<Session['phone']>) => {
       state.phone = action.payload;
       // state.refreshToken = action.payload.refreshToken;
-    },
-    actionSmsSent: (state, action: PayloadAction<Session['smsSent']>) => {
-      state.smsSent = action.payload;
-      // state.refreshToken = action.payload.refreshToken;
-    },
-
-    showSnackbar: (
-      state,
-      action: PayloadAction<Session['snackbarVisible']>,
-    ) => {
-      state.snackbarVisible.value = action.payload.value;
-      state.snackbarVisible.text = action.payload.text;
     },
   },
 });

@@ -5,11 +5,13 @@ import {combineReducers} from 'redux';
 import {cleaningReducers} from './sliceOrder';
 import {sessionReducers} from './sliceSession';
 import {reducerObject} from './sliceObject';
+import {localReducers} from './sliceLocal';
 
 const rootReducer = combineReducers({
   cleaning: cleaningReducers,
   session: sessionReducers,
   object: reducerObject,
+  local: localReducers,
 });
 
 const rootPersistConfig = {

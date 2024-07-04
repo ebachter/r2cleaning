@@ -7,6 +7,8 @@ import {navigate} from '../RootNavigation';
 import {actionObject} from './sliceObject';
 import {EntityObject} from '@remrob/db';
 import {DeepPartial} from '../types/typeUtils';
+import {TypeLocal} from '../types/typeLocal';
+import {localActions} from './sliceLocal';
 
 // export const setObjectType = (
 //   ...args: Parameters<typeof cleaningActions.setObjectType>
@@ -55,6 +57,11 @@ export const mergeSession = (args: DeepPartial<Session>) => {
 };
 
 // DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
+export const mergeLocal = (args: DeepPartial<TypeLocal>) => {
+  store.dispatch(localActions.mergeLocal(args));
+};
+
+// DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
 export const mergeOrder = (args: DeepPartial<TypeOrder>) => {
   store.dispatch(cleaningActions.mergeOrder(args));
 };
@@ -68,8 +75,8 @@ export const logout = () => {
 export const showSnackbar = ({
   value = true,
   text,
-}: Session['snackbarVisible']) => {
-  store.dispatch(sessionActions.showSnackbar({value, text}));
+}: TypeLocal['snackbarVisible']) => {
+  mergeLocal({snackbarVisible: {value, text}});
 };
 
 export const setOrderFormInit = () => {

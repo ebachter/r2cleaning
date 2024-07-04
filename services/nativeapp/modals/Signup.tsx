@@ -1,10 +1,10 @@
 import {Modal} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppSelector} from '../redux/store';
-import {mergeSession} from '../redux/functionsDispatch';
+import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 
 export default function ModalFullscreen() {
-  const visibleSignup = useAppSelector((state) => state.session.modals.signup);
+  const visibleSignup = useAppSelector((state) => state.local.modals.signup);
 
   return (
     <Modal
@@ -16,7 +16,7 @@ export default function ModalFullscreen() {
       <Appbar.Header>
         <Appbar.Action
           icon="close"
-          onPress={() => mergeSession({modals: {signup: false}})}
+          onPress={() => mergeLocal({modals: {signup: false}})}
         />
         <Appbar.Content title="Регистрация" />
         <Button onPress={() => console.log('Save')}>Save</Button>

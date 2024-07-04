@@ -2,7 +2,7 @@ import * as React from 'react';
 import {View} from 'react-native';
 import {Button, Input} from '@ui-kitten/components';
 // import SnackbarComp from '../components/Snackbar';
-import {showSnackbar} from '../../redux/functionsDispatch';
+import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 import {RouteProp, useRoute} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';

@@ -1,10 +1,13 @@
 import {RootStackParamList} from '../routes';
 
-export type Session = {
-  sessionToken: string | null;
-  refreshToken?: string | null;
-  phone?: `+${number | ''}`;
-  smsSent?: boolean;
+export type TypeLocal = {
+  modals: {
+    login: boolean;
+    signup: boolean;
+    addObject: boolean;
+    forwardTo?: keyof RootStackParamList;
+  };
+  snackbarVisible: {text: string; value?: boolean};
 
   /* forms: {
     order: {

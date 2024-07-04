@@ -60,26 +60,6 @@ const slice = createSlice({
     ) => {
       _.merge(state, action.payload);
     },
-    /* setObject: (state, action: PayloadAction<Partial<Cleaning['object']>>) => {
-      _.merge(state.object, action.payload);
-    }, */
-
-    /* setModals: (state, action: PayloadAction<Partial<Cleaning['modals']>>) => {
-      _.merge(state.modals, action.payload);
-    },
-    setCleaningInit: (state) => {
-      state = initialStateObject;
-    },
-    setOrderFormInit: (state) => {
-      state.order = initOrderFormData;
-    },
-    showSnackbar: (
-      state,
-      action: PayloadAction<Cleaning['snackbarVisible']>,
-    ) => {
-      state.snackbarVisible.value = action.payload.value;
-      state.snackbarVisible.text = action.payload.text;
-    }, */
   },
 });
 
