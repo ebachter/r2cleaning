@@ -42,7 +42,6 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
-  // const navigationRef = useNavigationContainerRef<RootStackParamList>();
   const forwardTo = useAppSelector((state) => state.session.modals.forwardTo);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {

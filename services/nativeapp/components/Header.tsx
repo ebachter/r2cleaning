@@ -13,7 +13,7 @@ import {
   OverflowMenu,
 } from '@ui-kitten/components';
 import {disconnectMainSocket} from '../sockets/ioMain';
-import {allRoutes} from '../routes';
+import {StackNavigation, allRoutes} from '../routes';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -36,7 +36,7 @@ export default function CustomNavigationBar({
     HomeExt: {title: ''},
   }; */
 
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<StackNavigation>();
 
   // console.log('>>>', route.name);
   // const title = options2[route.name].title; // getHeaderTitle(options, route.name);

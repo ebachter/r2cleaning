@@ -2,8 +2,8 @@ import React from 'react';
 import {trpcComp} from '../../trpc';
 import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {type StackNavigation} from '../../routes';
 
 /* const data = new Array(8).fill({
   title: 'Item',
@@ -14,7 +14,7 @@ export const ListOfOrders = (): React.ReactElement => {
   const {data} = trpcComp.loadObjects.useQuery();
 
   console.log('orders', data);
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<StackNavigation>();
 
   return (
     <List.Section>

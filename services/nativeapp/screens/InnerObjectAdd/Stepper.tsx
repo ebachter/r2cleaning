@@ -10,14 +10,11 @@ import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
 import {trpcFunc} from '../../trpc';
-import {
-  setOrder,
-  setOrderFormInit,
-  showSnackbar,
-} from '../../redux/functionsDispatch';
+import {showSnackbar} from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
 import {Area} from './Area';
+import {StackNavigation} from '../../routes';
 
 export default function OrderStepper() {
   const {object_type, area, address_city, address_street} = useAppSelector(
@@ -26,7 +23,7 @@ export default function OrderStepper() {
   /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   ); */
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<StackNavigation>();
 
   return (
     <View style={styles.container}>

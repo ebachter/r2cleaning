@@ -3,12 +3,7 @@ import {View} from 'react-native';
 import {Button, Input} from '@ui-kitten/components';
 // import SnackbarComp from '../components/Snackbar';
 import {showSnackbar} from '../../redux/functionsDispatch';
-import {
-  ParamListBase,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../trpc';
@@ -17,7 +12,6 @@ import {RootStackParamList} from '../../routes';
 
 export default function ScreenObjectDetails({}) {
   // const {message} = useAppSelector((state) => state.message);
-  // const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const route = useRoute<RouteProp<RootStackParamList, 'ObjectDetails'>>();
   const {data} = trpcComp.loadObject.useQuery({
     objectId: Number(route.params.objectId),

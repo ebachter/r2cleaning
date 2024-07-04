@@ -2,11 +2,10 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import {ObjectTypeRadio} from './Step1ObjectTypes';
 import {Button} from 'react-native-paper';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 // import ObjectDetails from './ObjectDetails';
 import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
@@ -18,6 +17,7 @@ import {
   setOrderFormInit,
   showSnackbar,
 } from '../../redux/functionsDispatch';
+import {StackNavigation} from '../../routes';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -65,7 +65,7 @@ export default function OrderStepper() {
   /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   ); */
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<StackNavigation>();
   const [currentPage, setCurrentPage] = React.useState<number>(0);
 
   const onStepPress = (position: number) => {

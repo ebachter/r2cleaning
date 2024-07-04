@@ -1,25 +1,15 @@
-import React from 'react';
+import {ReactElement} from 'react';
 import {trpcComp} from '../../trpc';
-import {List, MD3Colors, Text} from 'react-native-paper';
+import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from '../../routes';
 
-interface IListItem {
-  title: string;
-  description: string;
-}
-
-/* const data = new Array(8).fill({
-  title: 'Item',
-  description: 'Description for Item',
-}); */
-
-export const ListOfOrders = (): React.ReactElement => {
+export const ListOfOrders = (): ReactElement => {
   const {data} = trpcComp.loadOrders.useQuery();
 
   console.log('orders', data);
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<StackNavigation>();
 
   return (
     <List.Section>
@@ -37,7 +27,9 @@ export const ListOfOrders = (): React.ReactElement => {
             />
           )}
           right={() => <>{o.price || ''}</>}
-          onPress={() => navigation.navigate('Details', {orderId: o.order_id})}
+          onPress={() =>
+            navigation.navigate('OrderDetails', {orderId: o.order_id})
+          }
         />
       ))}
     </List.Section>
