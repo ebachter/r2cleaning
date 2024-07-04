@@ -9,7 +9,7 @@ import {
 import OrderStepper from './Stepper';
 import {useRoute} from '@react-navigation/native';
 
-export default function OrderScreen(options) {
+export default function ScreenObjectAdd(options) {
   const route = useRoute();
   return (
     <ScrollView

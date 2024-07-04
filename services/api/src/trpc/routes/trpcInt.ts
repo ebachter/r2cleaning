@@ -86,6 +86,23 @@ export const intRouter = router({
 
       return data as EntityOrder & Pick<EntityObject, 'object_type'>;
     }),
+  loadObject: publicProcedure
+    .input(
+      typia.createAssert<{objectId: number}>(),
+      /* z.object({
+      objectType: z.enum(['flat', 'house', 'floor']),
+    }), */
+    )
+    // .output(typia.createAssert<{newOrderId: number}>())
+    .query(async ({ctx, input}) => {
+      console.log('>>>', input.objectId);
+      const data = await AppDataSourceSqlite.getRepository(
+        EntityObject,
+      ).findOneByOrFail({object_id: input.objectId});
+      console.log('--obj--', data);
+
+      return data as EntityObject & Pick<EntityObject, 'object_type'>;
+    }),
 
   addObject: protectedProcedure
     .input(

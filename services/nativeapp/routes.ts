@@ -1,10 +1,11 @@
-import ScreenOrderDetails from './screens/InnerRequestDetails';
+import ScreenOrderDetails from './screens/InnerOrderDetails';
 import ScreenObjects from './screens/InnerObjects';
 import HomeScreen from './screens/OuterHome';
 import DetailsScreen from './screens/InnerHome';
-import OrderScreen from './screens/InnerRequestCreate';
-import OrdersScreen from './screens/InnerRequestList';
-import ObjectScreen from './screens/InnerObjectAdd';
+import OrderScreen from './screens/InnerOrderCreate';
+import OrdersScreen from './screens/InnerOrderList';
+import ScreenObjectAdd from './screens/InnerObjectAdd';
+import ScreenObjectDetails from './screens/InnerObjectDetails';
 
 export type RootStackParamList = {
   HomeExt: undefined;
@@ -14,6 +15,7 @@ export type RootStackParamList = {
   Objects: undefined;
   Object: undefined;
   OrderDetails: {orderId: string};
+  ObjectDetails: {objectId: string};
 };
 
 export const allRoutes: {
@@ -42,7 +44,7 @@ export const allRoutes: {
   OrderDetails: {
     name: 'OrderDetails',
     component: ScreenOrderDetails,
-    path: 'details',
+    path: 'order/details',
     title: 'Детали',
   },
   Order: {name: 'Order', component: OrderScreen, path: 'order', title: 'Заказ'},
@@ -55,14 +57,20 @@ export const allRoutes: {
   Objects: {
     name: 'Objects',
     component: ScreenObjects,
-    path: 'objects',
+    path: 'objects/list',
     title: 'Объекты',
   },
   Object: {
     name: 'Object',
-    component: ObjectScreen,
-    path: 'object',
+    component: ScreenObjectAdd,
+    path: 'object/add',
     title: 'Объект',
+  },
+  ObjectDetails: {
+    name: 'ObjectDetails',
+    component: ScreenObjectDetails,
+    path: 'object/details',
+    title: 'Object details',
   },
 };
 
