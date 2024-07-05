@@ -7,11 +7,8 @@ import {
   ScrollView,
 } from 'react-native';
 import OrderStepper from './Stepper';
-import {useRoute} from '@react-navigation/native';
 
-export default function OrderScreen(options) {
-  const route = useRoute();
-  console.log(route);
+export default function ScreenOrderAdd(options) {
   return (
     <ScrollView
       style={{

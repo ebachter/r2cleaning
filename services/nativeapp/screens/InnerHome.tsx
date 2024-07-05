@@ -36,18 +36,6 @@ export default function DetailsScreen({}) {
             width: '100%',
           }}
           appearance="outline"
-          onPress={() => navigation.navigate('Order')}
-        >
-          Сделать заявку
-        </Button>
-
-        <Button
-          style={{
-            marginTop: 10,
-            marginBottom: 5,
-            width: '100%',
-          }}
-          appearance="outline"
           onPress={() => navigation.navigate('Objects')}
         >
           Объекты
@@ -79,8 +67,8 @@ export default function DetailsScreen({}) {
           Add object
         </Button>
         <View style={{marginTop: 5, marginBottom: 5}} />
-        <Button onPress={() => showSnackbar({text: 'abcd'})}>
-          Show Snackbar
+        <Button onPress={() => mergeLocal({modals: {addOrder: true}})}>
+          Create order
         </Button>
       </View>
     </>

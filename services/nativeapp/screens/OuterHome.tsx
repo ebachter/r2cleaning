@@ -101,11 +101,7 @@ export default function HomeScreen({navigation}) {
             <Button2
               icon="file-sign"
               mode="contained"
-              onPress={() =>
-                sessionToken
-                  ? navigation.navigate('Order')
-                  : mergeLocal({modals: {login: true, forwardTo: 'Order'}})
-              }
+              onPress={() => mergeLocal({modals: {login: true}})}
               style={{minWidth: 150}}
             >
               Заказ

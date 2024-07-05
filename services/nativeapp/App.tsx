@@ -20,6 +20,7 @@ import {ScreenTemplate} from './components/Wrapper';
 
 import {RootStackParamList, allRoutes, screens} from './routes';
 import ModalAddObject from './modals/AddObject';
+import ModalAddOrder from './modals/AddOrder';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -43,7 +44,6 @@ export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
-  const forwardTo = useAppSelector((state) => state.local.modals.forwardTo);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {
     console.log('--currentRouteName--', currentRouteName);
@@ -96,7 +96,7 @@ export default function App() {
               >
                 <Stack.Navigator
                   /* screenOptions={{ headerShown: false, }} */
-                  initialRouteName={forwardTo === 'Order' ? 'Order' : 'HomeInt'}
+                  initialRouteName={'HomeInt'}
                 >
                   <>
                     {Object.entries(allRoutes).map(([Screen, o], i) => {
@@ -159,6 +159,7 @@ export default function App() {
                 <ModalLogin />
                 <ModalSignup />
                 <ModalAddObject />
+                <ModalAddOrder />
                 <SnackbarComp />
               </NavigationContainer>
             </ApplicationProvider>

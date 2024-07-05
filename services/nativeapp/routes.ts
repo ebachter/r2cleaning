@@ -2,7 +2,6 @@ import ScreenOrderDetails from './screens/InnerOrderDetails';
 import ScreenObjects from './screens/InnerObjects';
 import HomeScreen from './screens/OuterHome';
 import DetailsScreen from './screens/InnerHome';
-import OrderScreen from './screens/InnerOrderCreate';
 import OrdersScreen from './screens/InnerOrderList';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
 import {NavigationProp} from '@react-navigation/native';
@@ -10,7 +9,6 @@ import {NavigationProp} from '@react-navigation/native';
 export type RootStackParamList = {
   HomeExt: undefined;
   HomeInt: undefined;
-  Order: undefined;
   Orders: undefined;
   Objects: undefined;
   OrderDetails: {orderId: number};
@@ -48,7 +46,6 @@ export const allRoutes: {
     path: 'order/details',
     title: 'Детали',
   },
-  Order: {name: 'Order', component: OrderScreen, path: 'order', title: 'Заказ'},
   Orders: {
     name: 'Orders',
     component: OrdersScreen,

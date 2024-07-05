@@ -7,6 +7,7 @@ export const localInitialState: TypeLocal = {
     login: false,
     signup: false,
     addObject: false,
+    addOrder: false,
   },
   snackbarVisible: {text: '', value: false},
 

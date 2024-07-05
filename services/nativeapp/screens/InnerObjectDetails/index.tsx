@@ -60,21 +60,6 @@ export default function ScreenObjectDetails({}) {
         onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />
-
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'aliceblue',
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      >
-        <Button onPress={() => showSnackbar({text: 'abcd'})}>
-          Show Snackbar
-        </Button>
-      </View>
     </>
   );
 }
