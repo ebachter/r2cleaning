@@ -27,7 +27,7 @@ export default function ModalAddObject() {
             mergeSession({smsSent: false});
           }}
         />
-        <Appbar.Content title="Логин" />
+        <Appbar.Content title="Add object" />
         <Button onPress={() => console.log('Save')}>Save</Button>
       </Appbar.Header>
       <Dialog.Content style={styles.container}>

@@ -108,6 +108,7 @@ export default function OrderStepper() {
                 },
               });
               // setOrder({orderCreated: true});
+              mergeLocal({modals: {addObject: false}});
               showSnackbar({text: `Object ${newOrder.newObjectId} created`});
               // setOrderFormInit();
               // navigation.navigate('Orders');
