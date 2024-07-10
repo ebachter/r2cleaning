@@ -4,6 +4,9 @@ import {EntityUser} from './entity/User';
 import {Verification} from './entity/Verification';
 import {EntityOrder} from './entity/Orders';
 import {EntityObject} from './entity/Objects';
+import {EntityServiceOffers} from './entity/ServiceOffers';
+import {EntityServiceTypes} from './entity/ServiceTypes';
+import {EntityOrdersServices} from './entity/OrdersServices';
 
 const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 const mysql = '//remrob:soeinmisst@localhost:3306/r2db';
@@ -15,7 +18,15 @@ const AppDataSourceSqlite = new DataSource({
   username: MYSQL_USER,
   password: MYSQL_PASSWORD,
   database: 'cleandb',
-  entities: [EntityUser, Verification, EntityObject, EntityOrder],
+  entities: [
+    EntityUser,
+    Verification,
+    EntityObject,
+    EntityOrder,
+    EntityServiceTypes,
+    EntityServiceOffers,
+    EntityOrdersServices,
+  ],
   migrations: ['src/migration/*.ts'],
   synchronize: false,
   logging: false,

@@ -21,9 +21,6 @@ export class EntityUser {
   @Column()
   phoneNumber!: string;
 
-  @Column('json', {nullable: true})
-  data!: {a: number; b: string}[];
-
   @OneToMany((type) => EntityOrder, (order) => order.user_fk, {
     cascade: true,
   })

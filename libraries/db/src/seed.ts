@@ -1,8 +1,16 @@
 import AppDataSourceSqlite from './data-source';
 import {EntityObject} from './entity/Objects';
 import {EntityOrder} from './entity/Orders';
+import {EntityOrdersServices} from './entity/OrdersServices';
+import {EntityServiceOffers} from './entity/ServiceOffers';
+import {EntityServiceTypes} from './entity/ServiceTypes';
 import {EntityUser} from './entity/User';
 import {Verification} from './entity/Verification';
+import {object_raw_1, object_raw_2} from './seed_data/seed_objects';
+import {order_data_1, order_data_2} from './seed_data/seed_orders';
+import {fn_service_offer_1} from './seed_data/seed_service_offers';
+import {service_type_1, service_type_2} from './seed_data/seed_service_types';
+import {userraw1, userraw2} from './seed_data/seed_users';
 
 // export const seed = () => {
 console.log('--seed--');
@@ -10,100 +18,71 @@ AppDataSourceSqlite.initialize()
   .then(async () => {
     // here you can start to work with your database
 
-    await AppDataSourceSqlite.manager.clear(EntityOrder);
+    const tables = [
+      EntityOrdersServices,
+      EntityServiceOffers,
+      EntityServiceTypes,
+      EntityObject,
+      EntityOrder,
+    ];
+
+    for (const table of tables) {
+      await AppDataSourceSqlite.manager.getRepository(table).delete({});
+    }
+
+    // await AppDataSourceSqlite.manager.getRepository(EntityOrder).delete({});
+    // await AppDataSourceSqlite.manager.clear(EntityOrdersServices);
+
     await AppDataSourceSqlite.manager.clear(Verification);
     await AppDataSourceSqlite.manager.getRepository(EntityUser).delete({});
+    console.log('--tables deleted--');
     // await AppDataSourceSqlite.createQueryBuilder()
     //  .delete().from(User).execute();
 
     if (process.env.NODE_ENV !== 'production') {
       // ADD USERS
-      const user = new EntityUser();
-      user.firstName = 'Max';
-      user.lastName = 'Mustermann';
-      user.age = 24;
-      user.balance = 21.3;
-      user.data = [{a: 1, b: 'qwer'}];
-      user.phoneNumber = '+491633649875';
-      await AppDataSourceSqlite.manager.save(user);
-
-      const user2 = new EntityUser();
-      user2.firstName = 'Cleaner';
-      user2.lastName = 'Copany';
-      user2.age = 10;
-      user2.balance = 2.5;
-      user2.data = [{a: 1, b: 'qwer'}];
-      user2.phoneNumber = '+491633649875';
-      await AppDataSourceSqlite.manager.save(user2);
+      const user1 = await AppDataSourceSqlite.manager.save(userraw1);
+      const user2 = await AppDataSourceSqlite.manager.save(userraw2);
       console.log('Users created');
 
       // ADD OBJECTS
-      const object: Omit<EntityObject, 'object_id'> = {
-        object_type: 'appartment',
-        user_fk: user.user_id,
-        area: 12,
-        address_city: 'grosny',
-        address_street: 'Kasiora 16',
-        object_details: {
-          object_type: 'appartment',
-
-          numberOfRooms: {number: 1, price: 2000},
-          kitchen: {
-            all: {value: false, price: 1500},
-            sink: {value: false, price: 500},
-            refrigerator: {value: false, price: 500},
-            oven: {value: false, price: 500},
-          },
-          bathroom: {include: false, area: 0, price: 1000},
-        },
-      };
-      const objectObj = new EntityObject();
-      Object.assign(objectObj, object);
-
-      const obj1 = await AppDataSourceSqlite.manager.save(objectObj);
-
-      const object2: Omit<EntityObject, 'object_id'> = {
-        object_type: 'office',
-        user_fk: user.user_id,
-        area: 83,
-        address_city: 'argun',
-        address_street: 'Ioanisiani 124',
-        object_details: {
-          object_type: 'office',
-          numberOfRooms: {
-            number: 0,
-            price: 400,
-          },
-        },
-      };
-      const objectObj2 = new EntityObject();
-      Object.assign(objectObj2, object2);
-
-      const obj2 = await AppDataSourceSqlite.manager.save(objectObj2);
+      const obj1 = await AppDataSourceSqlite.manager.save(
+        object_raw_1({userId: user1.user_id}),
+      );
+      const obj2 = await AppDataSourceSqlite.manager.save(
+        object_raw_2({userId: user2.user_id}),
+      );
       console.log('Objects created');
 
       // ADD ORDERS
-      const order = new EntityOrder();
-      order.object_fk = obj1.object_id;
-      order.user_fk = user.user_id;
-      // order.object_type = 'appartment';
-      await AppDataSourceSqlite.manager.save(order);
-
-      const order2 = new EntityOrder();
-      order2.object_fk = obj1.object_id;
-      order2.user_fk = user.user_id;
-      // order2.object_type = 'entrance';
-      await AppDataSourceSqlite.manager.save(order2);
-
-      const order3 = new EntityOrder();
-      order3.object_fk = obj2.object_id;
-      order3.user_fk = user.user_id;
-      // order3.object_type = 'entrance';
-      order3.price = 3;
-      order3.contractor_fk = user2.user_id;
-      await AppDataSourceSqlite.manager.save(order3);
+      await AppDataSourceSqlite.manager.save(
+        order_data_1({userId: user1.user_id, objectId: obj1.object_id}),
+      );
+      await AppDataSourceSqlite.manager.save(
+        order_data_2({userId: user1.user_id, objectId: obj1.object_id}),
+      );
+      await AppDataSourceSqlite.manager.save(
+        order_data_2({userId: user1.user_id, objectId: obj2.object_id}),
+      );
       console.log('Orders created');
+
+      // SERVICE TYPES
+      const service_types = await AppDataSourceSqlite.manager.save([
+        service_type_1,
+        service_type_2,
+      ]);
+      console.log('Service types created');
+
+      // SERVICE ORDERS
+      await AppDataSourceSqlite.manager.save(
+        fn_service_offer_1({
+          service_type_fk: service_types[0].service_type_id,
+          user_fk: user2.user_id,
+        }),
+      );
+      console.log('Service offers created');
     }
+
     process.exit();
   })
   .catch((error) => console.log(error));
