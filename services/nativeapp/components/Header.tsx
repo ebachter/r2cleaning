@@ -78,7 +78,12 @@ export default function CustomNavigationBar({
           onBackdropPress={() => setVisible(false)}
         >
           <MenuItem title="Настройки" />
-          <MenuItem title="Заказы" />
+          <MenuItem
+            title="Заказы"
+            onPress={() => {
+              navigation.navigate('Orders');
+            }}
+          />
           <MenuItem
             accessoryLeft={LogoutIcon}
             title="Выход"
