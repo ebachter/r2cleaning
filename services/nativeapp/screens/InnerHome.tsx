@@ -6,6 +6,8 @@ import {mergeLocal, showSnackbar} from '../redux/functionsDispatch';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../routes';
 // import Header from '../components/Header';
+import {StyleSheet} from 'react-native';
+import {FAB} from 'react-native-paper';
 
 export default function DetailsScreen({}) {
   // const {message} = useAppSelector((state) => state.message);
@@ -31,6 +33,17 @@ export default function DetailsScreen({}) {
 
         <Button
           style={{
+            marginTop: 5,
+            width: '100%',
+          }}
+          appearance="outline"
+          onPress={() => navigation.navigate('Orders')}
+        >
+          Заказы
+        </Button>
+
+        <Button
+          style={{
             marginTop: 10,
             marginBottom: 5,
             width: '100%',
@@ -39,17 +52,6 @@ export default function DetailsScreen({}) {
           onPress={() => navigation.navigate('Objects')}
         >
           Объекты
-        </Button>
-
-        <Button
-          style={{
-            marginTop: 5,
-            width: '100%',
-          }}
-          appearance="outline"
-          onPress={() => navigation.navigate('Orders')}
-        >
-          Заказы
         </Button>
 
         {/* <Button
@@ -63,14 +65,23 @@ export default function DetailsScreen({}) {
           История заявок
         </Button> */}
         <View style={{marginTop: 5, marginBottom: 5}} />
-        <Button onPress={() => mergeLocal({modals: {addObject: true}})}>
-          Add object
-        </Button>
-        <View style={{marginTop: 5, marginBottom: 5}} />
-        <Button onPress={() => mergeLocal({modals: {addOrder: true}})}>
-          Create order
-        </Button>
+        <FAB
+          icon="plus"
+          style={styles.fab}
+          onPress={() => mergeLocal({modals: {addOrder: true}})}
+          label="New Order"
+          size="small"
+        />
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+});
