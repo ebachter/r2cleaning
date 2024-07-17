@@ -1,6 +1,9 @@
 import {TypeOrder} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import AppDataSourceSqlite from '@remrob/db';
+import AppDataSourceSqlite, {
+  EntityServiceOffers,
+  EntityServiceTypes,
+} from '@remrob/db';
 import {EntityOrder, EntityObject} from '@remrob/db';
 import typia from 'typia';
 
@@ -47,15 +50,28 @@ export const intRouter = router({
 
   loadOrders: publicProcedure.query(async ({ctx}) => {
     const data = await AppDataSourceSqlite.getRepository(EntityOrder).find();
-    console.log('--temp--', data);
 
     return data as (EntityOrder & Pick<EntityObject, 'object_type'>)[];
   }),
 
   loadObjects: publicProcedure.query(async ({ctx}) => {
     const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
-    console.log('--temp--', data);
 
+    return data;
+  }),
+
+  loadServiceTypes: publicProcedure.query(async ({ctx}) => {
+    const data = await AppDataSourceSqlite.getRepository(
+      EntityServiceTypes,
+    ).find();
+    return data;
+  }),
+
+  loadServiceOffers: publicProcedure.query(async ({ctx}) => {
+    const data = await AppDataSourceSqlite.getRepository(
+      EntityServiceOffers,
+    ).find();
+    console.log('EntityServiceOffers', data);
     return data;
   }),
 

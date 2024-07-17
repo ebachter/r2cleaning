@@ -14,6 +14,7 @@ export class EntityServiceOffers {
   @PrimaryGeneratedColumn()
   service_offer_id!: number;
 
+  @Column('int')
   @ManyToOne((type) => EntityServiceTypes, (o) => o.service_type_id, {
     // onDelete: 'CASCADE',
     // nullable: true,
@@ -21,6 +22,7 @@ export class EntityServiceOffers {
   @JoinColumn({name: 'service_type_fk'}) // , referencedColumnName: 'user_id'
   service_type_fk!: number;
 
+  @Column('int')
   @ManyToOne((type) => EntityUser, (user) => user.user_id, {
     onDelete: 'CASCADE',
     nullable: false,

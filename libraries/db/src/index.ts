@@ -8,6 +8,8 @@ import {EntityUser} from './entity/User';
 import {Verification} from './entity/Verification';
 import {EntityOrder} from './entity/Orders';
 import {EntityObject} from './entity/Objects';
+import {EntityServiceTypes} from './entity/ServiceTypes';
+import {EntityServiceOffers} from './entity/ServiceOffers';
 
 // const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB_MAIN} = process.env;
 
@@ -20,4 +22,11 @@ import {EntityObject} from './entity/Objects';
 
 export default DataSource;
 
-export {EntityUser, Verification, EntityOrder, EntityObject};
+export {
+  EntityUser,
+  Verification,
+  EntityOrder,
+  EntityObject,
+  EntityServiceTypes,
+  EntityServiceOffers,
+};
