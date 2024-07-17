@@ -5,6 +5,7 @@ import DetailsScreen from './screens/InnerHome';
 import OrdersScreen from './screens/InnerOrderList';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
 import {NavigationProp} from '@react-navigation/native';
+import ScreenSuppler from './screens/Supplier';
 
 export type RootStackParamList = {
   HomeExt: undefined;
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   Objects: undefined;
   OrderDetails: {orderId: number};
   ObjectDetails: {objectId: number};
+  Supplier: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -63,6 +65,12 @@ export const allRoutes: {
     component: ScreenObjectDetails,
     path: 'object/details',
     title: 'Object details',
+  },
+  Supplier: {
+    name: 'Supplier',
+    component: ScreenSuppler,
+    path: 'supplier',
+    title: 'Supplier',
   },
 };
 
