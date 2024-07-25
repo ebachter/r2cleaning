@@ -22,6 +22,7 @@
     "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
   },
   "dependencies": {
+    "@remrob/db": "^1",
     "@prisma/client": "^4",
     "@remrob/log": "^0.0.2",
     "@remrob/shuttle": "^0.0.2",

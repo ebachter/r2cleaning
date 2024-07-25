@@ -14,21 +14,16 @@ export class EntityServiceOffers {
   @PrimaryGeneratedColumn()
   service_offer_id!: number;
 
-  @Column('int')
+  // @Column('int')
   @ManyToOne((type) => EntityServiceTypes, (o) => o.service_type_id, {
-    // onDelete: 'CASCADE',
+    onDelete: 'CASCADE',
     // nullable: true,
   })
-  @JoinColumn({name: 'service_type_fk'}) // , referencedColumnName: 'user_id'
-  service_type_fk!: number;
+  // @JoinColumn({name: 'service_type_fk'}) // , referencedColumnName: 'user_id'
+  service_type!: EntityServiceTypes;
 
-  @Column('int')
-  @ManyToOne((type) => EntityUser, (user) => user.user_id, {
-    onDelete: 'CASCADE',
-    nullable: false,
-  })
-  @JoinColumn({name: 'user_fk'}) // , referencedColumnName: 'user_id'
-  user_fk!: number;
+  // @Column('int')
+  // user_fk!: number;
 
   @Column({
     name: 'price',
@@ -37,5 +32,13 @@ export class EntityServiceOffers {
     scale: 2,
     nullable: true,
   })
-  price!: number;
+  price!: number | null;
+
+  // @Column('int')
+  @ManyToOne((type) => EntityUser, (user) => user.user_id, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
+  // @JoinColumn({name: 'user_fk'}) // , referencedColumnName: 'user_id'
+  user!: EntityUser;
 }

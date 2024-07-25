@@ -1,13 +1,17 @@
 import {EntityServiceOffers} from '../entity/ServiceOffers';
+import {EntityServiceTypes} from '../entity/ServiceTypes';
+import {EntityUser} from '../entity/User';
 
 // ADD USERS
 export const fn_service_offer_1 = ({
-  service_type_fk,
-  user_fk,
-}: Pick<EntityServiceOffers, 'user_fk' | 'service_type_fk'>) => {
+  service_type,
+  user,
+}: {user: EntityUser} & {
+  service_type: EntityServiceTypes;
+}) => {
   const temp: Omit<EntityServiceOffers, 'service_offer_id'> = {
-    service_type_fk: service_type_fk,
-    user_fk,
+    service_type,
+    user,
     price: 12,
   };
 

@@ -3,6 +3,7 @@ import {router, publicProcedure, protectedProcedure} from '../middleware';
 import AppDataSourceSqlite, {
   EntityServiceOffers,
   EntityServiceTypes,
+  EntityUser,
 } from '@remrob/db';
 import {EntityOrder, EntityObject} from '@remrob/db';
 import typia from 'typia';
@@ -60,20 +61,124 @@ export const intRouter = router({
     return data;
   }),
 
-  loadServiceTypes: publicProcedure.query(async ({ctx}) => {
+  /* loadServiceTypes2: publicProcedure.query(async ({ctx}) => {
     const data = await AppDataSourceSqlite.getRepository(
       EntityServiceTypes,
-    ).find();
+    ).find({
+      select: {service_type_id: true, serviceName: {}},
+      join: {
+        alias: 'service_offers',
+        leftJoin: {
+          service_offers: 'service_offers.service_type',
+        },
+      },
+    });
     return data;
-  }),
+  }), */
 
-  loadServiceOffers: publicProcedure.query(async ({ctx}) => {
+  loadServiceTypes: publicProcedure.query(async ({ctx}) => {
+    const userId = ctx.session?.userid;
+
+    const sTypes = await AppDataSourceSqlite.getRepository(EntityServiceTypes)
+      .createQueryBuilder('serviceTypes')
+      .leftJoinAndMapOne(
+        'serviceTypes.service_type',
+        EntityServiceOffers,
+        'offer',
+        'offer.serviceTypeServiceTypeId = serviceTypes.service_type_id AND offer.userUserId = :isRemoved',
+        {isRemoved: userId},
+      )
+      .select([
+        'serviceTypes.service_type_id',
+        'serviceTypes.serviceName',
+        'offer.service_offer_id',
+        'offer.price',
+      ]);
+    //.where('serviceTypes.service_type_id = :id', {id: 4})
+    // console.log('>>>', sTypes.getSql());
+    const res = await sTypes.getMany();
+    // console.log('+++', res);
+    return res;
+  }),
+  /* loadServiceTypes2: publicProcedure.query(async ({ctx}) => {
+    const userId = ctx.session?.userid;
+
+    const data = await AppDataSourceSqlite.getRepository(
+      EntityServiceTypes,
+    ).find({
+      select: {
+        service_type_id: true,
+        serviceName: {},
+        service_type: {service_offer_id: true, price: true},
+      },
+      where: {service_type: {user: {user_id: userId}}},
+      relations: {service_type: true},
+    });
+    return data;
+  }), */
+
+  setServiceOffer: protectedProcedure
+    .input(
+      // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
+      typia.createAssert<{
+        service_type_id: number;
+        value: boolean;
+      }>(),
+      /* z.object({
+        objectType: z.enum(['flat', 'house', 'floor']),
+      }), */
+    )
+    .mutation(async ({ctx, input}) => {
+      // console.log('--ctx--', ctx.session);
+      const userId = ctx.session?.userid;
+      const {service_type_id, value} = input;
+
+      const service_type = new EntityServiceTypes();
+      service_type.service_type_id = service_type_id;
+
+      const user = new EntityUser();
+      user.user_id = userId;
+      console.log({
+        service_type: {service_type_id: service_type_id},
+        user: {user_id: userId},
+        value,
+      });
+      if (value === true) {
+        const newOrder: Omit<EntityServiceOffers, 'service_offer_id'> = {
+          service_type,
+          user,
+          price: null,
+        };
+        const order =
+          AppDataSourceSqlite.getRepository(EntityServiceOffers).create(
+            newOrder,
+          );
+        await AppDataSourceSqlite.manager.save(order);
+      } else {
+        await AppDataSourceSqlite.manager
+          .getRepository(EntityServiceOffers)
+          .delete({
+            service_type: {service_type_id: service_type_id},
+            user: {user_id: userId},
+          });
+      }
+    }),
+
+  /* loadServiceOffers: publicProcedure.query(async ({ctx}) => {
     const data = await AppDataSourceSqlite.getRepository(
       EntityServiceOffers,
-    ).find();
+    ).find({
+      select: {
+        service_offer_id: true,
+        price: true,
+        user: {firstName: true, lastName: true},
+        service_type: {serviceName: {}},
+      },
+      relations: {user: true, service_type: true},
+    });
     console.log('EntityServiceOffers', data);
     return data;
-  }),
+  }), */
 
   loadOrder: publicProcedure
     .input(
@@ -102,6 +207,7 @@ export const intRouter = router({
 
       return data as EntityOrder & Pick<EntityObject, 'object_type'>;
     }),
+
   loadObject: publicProcedure
     .input(
       typia.createAssert<{objectId: number}>(),

@@ -148,7 +148,7 @@ export default function HomeScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  /* container: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     // textAlign: 'center',
     border: '2px solid green',
     maxWidth: 500,
-  },
+  }, */
 
   container3: {
     flexDirection: 'row',

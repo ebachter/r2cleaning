@@ -1,4 +1,11 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
+import {EntityServiceOffers} from './ServiceOffers';
 
 @Entity('service_types')
 export class EntityServiceTypes {
@@ -7,4 +14,7 @@ export class EntityServiceTypes {
 
   @Column('json', {nullable: false})
   serviceName!: {en: string; de: string; ru: string};
+
+  @OneToOne(() => EntityServiceOffers, (photo) => photo.service_type)
+  service_type!: EntityServiceOffers;
 }

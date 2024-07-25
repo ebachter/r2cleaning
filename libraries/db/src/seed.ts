@@ -76,8 +76,14 @@ AppDataSourceSqlite.initialize()
       // SERVICE ORDERS
       await AppDataSourceSqlite.manager.save(
         fn_service_offer_1({
-          service_type_fk: service_types[0].service_type_id,
-          user_fk: user2.user_id,
+          service_type: service_types[0],
+          user: user2,
+        }),
+      );
+      await AppDataSourceSqlite.manager.save(
+        fn_service_offer_1({
+          service_type: service_types[0],
+          user: user1,
         }),
       );
       console.log('Service offers created');

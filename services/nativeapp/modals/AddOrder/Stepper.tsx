@@ -81,7 +81,7 @@ export default function OrderStepper() {
     // console.log('params', params);
     return params.stepStatus === 'finished' ? (
       <Ionicons
-        name="md-checkmark-circle"
+        name="checkmark-circle"
         size={18}
         color="hsla(202, 51%, 34%, 1)"
       />
