@@ -83,7 +83,7 @@ export const connectMainSocket = () => {
 
   socket.on('disconnect', async (reason) => {
     console.log('Disconnecting socket...', reason);
-    logout();
+    // logout();
     const check = await trpcFunc.authCheckToken.query();
     console.log('--check--', check);
 

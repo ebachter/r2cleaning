@@ -30,7 +30,7 @@ export const customLink: TRPCLink<AppRouter> = () => {
           if (err.message === 'UNAUTHORIZED') {
             console.log('auth error', err.cause, err.message, err.data);
             observer.complete();
-            logout();
+            // logout();
           } else {
             console.log('unknown error', err.cause, err.message);
             observer.error(err);
