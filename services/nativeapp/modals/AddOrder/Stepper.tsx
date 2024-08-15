@@ -19,6 +19,7 @@ import {
   showSnackbar,
 } from '../../redux/functionsDispatch';
 import {StackNavigation} from '../../routes';
+import {AutocompleteElem} from './Autocomplete';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -134,11 +135,12 @@ export default function OrderStepper() {
             <ObjectTypeRadio />
           ) : currentPage === 1 ? (
             // ObjectDetails
-            object_type === 'appartment' ? (
+            /* object_type === 'appartment' ? (
               <Appartment />
             ) : object_type === 'house' ? (
               <House />
-            ) : null
+            ) : null */
+            <AutocompleteElem />
           ) : currentPage === 2 ? (
             <OrderSummary />
           ) : null}

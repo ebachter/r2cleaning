@@ -77,6 +77,15 @@ export const intRouter = router({
   }), */
 
   loadServiceTypes: publicProcedure.query(async ({ctx}) => {
+    const data = await AppDataSourceSqlite.getRepository(
+      EntityServiceTypes,
+    ).find({
+      select: {service_type_id: true, serviceName: {}},
+    });
+    return data;
+  }),
+
+  loadServiceOffers: publicProcedure.query(async ({ctx}) => {
     const userId = ctx.session?.userid;
 
     const sTypes = await AppDataSourceSqlite.getRepository(EntityServiceTypes)

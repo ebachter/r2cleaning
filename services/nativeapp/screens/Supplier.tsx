@@ -6,7 +6,7 @@ import {MaterialIcons} from '@expo/vector-icons';
 
 export default function ScreenSuppler() {
   // const {message} = useAppSelector((state) => state.message);
-  const {data: sTypes, refetch} = trpcComp.loadServiceTypes.useQuery();
+  const {data: sTypes, refetch} = trpcComp.loadServiceOffers.useQuery();
   // console.log('sTypes_1', sTypes);
 
   // const {data: sOffers} = trpcComp.loadServiceOffers.useQuery();
