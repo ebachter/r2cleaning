@@ -7,6 +7,8 @@
       }
     ],
     "rootDir": "./src",
+    "strict": true,
+    "strictNullChecks": true,
     "tsBuildInfoFile": "../../.build-cache/services-api.tsbuildinfo"
   },
   "extends": "../../tsconfig.base.json",
