@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import {Autocomplete, AutocompleteItem} from '@ui-kitten/components';
 import {trpcComp} from '../../trpc';
-import {title} from 'process';
 
 const movies = [
   {title: 'Star Wars'},

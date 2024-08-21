@@ -36,6 +36,6 @@
     "prisma": "^4",
     "rimraf": "^3",
     "ts-node": "^10.7.0",
-    "typescript": "^4"
+    "typescript": "^5.5.4"
   }
 }

@@ -1,13 +1,14 @@
-import {TypeOrder} from '@remrob/mysql';
-import {router, publicProcedure, protectedProcedure} from '../middleware';
 import AppDataSourceSqlite, {
+  EntityObject,
+  EntityOrder,
   EntityServiceOffers,
   EntityServiceTypes,
   EntityUser,
 } from '@remrob/db';
-import {EntityOrder, EntityObject} from '@remrob/db';
+import drizzle from '@remrob/drizzle';
+import {TypeOrder} from '@remrob/mysql';
 import typia from 'typia';
-import drizzle, { order } from '@remrob/drizzle';
+import {protectedProcedure, publicProcedure, router} from '../middleware';
 
 /* type SessionReturn = {
   sessionToken?: string;
@@ -22,9 +23,6 @@ export const intRouter = router({
       typia.createAssert<
         {object_id: EntityObject['object_id']} & Pick<TypeOrder, 'price'>
       >(),
-      /* z.object({
-        objectType: z.enum(['flat', 'house', 'floor']),
-      }), */
     )
     .output(typia.createAssert<{newOrderId: number}>())
     .mutation(async ({ctx, input}) => {
@@ -134,9 +132,6 @@ export const intRouter = router({
         service_type_id: number;
         value: boolean;
       }>(),
-      /* z.object({
-        objectType: z.enum(['flat', 'house', 'floor']),
-      }), */
     )
     .mutation(async ({ctx, input}) => {
       // console.log('--ctx--', ctx.session);
@@ -191,12 +186,7 @@ export const intRouter = router({
   }), */
 
   loadOrder: publicProcedure
-    .input(
-      typia.createAssert<{orderId: number}>(),
-      /* z.object({
-      objectType: z.enum(['flat', 'house', 'floor']),
-    }), */
-    )
+    .input(typia.createAssert<{orderId: number}>())
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
       console.log('>>>', input.orderId);
@@ -205,26 +195,11 @@ export const intRouter = router({
       ).findOneByOrFail({order_id: input.orderId});
       console.log('--temp--', data);
 
-      /* const data2 = await AppDataSourceSqlite.getRepository(
-        Order,
-      ).find({
-        relations: {"object_fk":true},
-        select:{
-
-        }
-      }); */
-      console.log('--temp--', data);
-
       return data as EntityOrder & Pick<EntityObject, 'object_type'>;
     }),
 
   loadObject: publicProcedure
-    .input(
-      typia.createAssert<{objectId: number}>(),
-      /* z.object({
-      objectType: z.enum(['flat', 'house', 'floor']),
-    }), */
-    )
+    .input(typia.createAssert<{objectId: number}>())
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
       console.log('>>>', input.objectId);
@@ -241,9 +216,6 @@ export const intRouter = router({
       typia.createAssert<
         Omit<EntityObject, 'object_id' | 'data' | 'user_fk'>
       >(),
-      /* z.object({
-        objectType: z.enum(['flat', 'house', 'floor']),
-      }), */
     )
     .output(typia.createAssert<{newObjectId: number}>())
     .mutation(async ({ctx, input}) => {
