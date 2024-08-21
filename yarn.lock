@@ -5807,6 +5807,7 @@ __metadata:
   dependencies:
     "@remrob/aws": ^0.0.0
     "@remrob/db": ^1.0.1
+    "@remrob/drizzle": ^0.0.0
     "@remrob/log": ^0.0.2
     "@remrob/mysql": ^0.0.2
     "@remrob/shuttle": ^0.0.2
@@ -5894,7 +5895,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@remrob/drizzle@workspace:libraries/drizzle":
+"@remrob/drizzle@^0.0.0, @remrob/drizzle@workspace:libraries/drizzle":
   version: 0.0.0-use.local
   resolution: "@remrob/drizzle@workspace:libraries/drizzle"
   dependencies:

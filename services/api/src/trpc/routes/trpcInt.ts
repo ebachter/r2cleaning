@@ -7,6 +7,7 @@ import AppDataSourceSqlite, {
 } from '@remrob/db';
 import {EntityOrder, EntityObject} from '@remrob/db';
 import typia from 'typia';
+import drizzle, { order } from '@remrob/drizzle';
 
 /* type SessionReturn = {
   sessionToken?: string;
@@ -50,9 +51,9 @@ export const intRouter = router({
     }),
 
   loadOrders: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(EntityOrder).find();
+    const data = await drizzle.query.order.findMany({with: {object: true}});
 
-    return data as (EntityOrder & Pick<EntityObject, 'object_type'>)[];
+    return data;
   }),
 
   loadObjects: publicProcedure.query(async ({ctx}) => {
@@ -209,7 +210,7 @@ export const intRouter = router({
       ).find({
         relations: {"object_fk":true},
         select:{
-          
+
         }
       }); */
       console.log('--temp--', data);

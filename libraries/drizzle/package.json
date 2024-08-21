@@ -9,7 +9,6 @@
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Muslim Idris <gelamu@gmail.com>",
-  "type": "module",
   "main": "dist/drizzle.js",
   "files": [
     "src",

@@ -21,6 +21,9 @@
       "path": "../../libraries/db"
     },
     {
+      "path": "../../libraries/drizzle"
+    },
+    {
       "path": "../../libraries/log"
     },
     {

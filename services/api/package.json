@@ -36,6 +36,7 @@
   "dependencies": {
     "@remrob/aws": "^0.0.0",
     "@remrob/db": "^1.0.1",
+    "@remrob/drizzle": "^0.0.0",
     "@remrob/log": "^0.0.2",
     "@remrob/mysql": "^0.0.2",
     "@remrob/shuttle": "^0.0.2",

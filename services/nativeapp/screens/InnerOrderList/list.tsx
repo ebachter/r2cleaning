@@ -1,12 +1,12 @@
-import {ReactElement} from 'react';
-import {trpcComp} from '../../trpc';
-import {List, MD3Colors} from 'react-native-paper';
-import {MaterialIcons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from '../../routes';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { ReactElement } from 'react';
+import { List, MD3Colors } from 'react-native-paper';
+import { StackNavigation } from '../../routes';
+import { trpcComp } from '../../trpc';
 
 export const ListOfOrders = (): ReactElement => {
-  const {data} = trpcComp.loadOrders.useQuery();
+  const { data } = trpcComp.loadOrders.useQuery();
 
   console.log('orders', data);
   const navigation = useNavigation<StackNavigation>();
@@ -17,7 +17,7 @@ export const ListOfOrders = (): ReactElement => {
       {(data || []).map((o, i) => (
         <List.Item
           key={i}
-          title={`Заказ ${o.order_id}. ${o.object_type}`}
+          title={`Заказ ${o.id}. ${o.object.type}`}
           left={() => (
             <List.Icon
               color={MD3Colors.tertiary70}
@@ -28,7 +28,7 @@ export const ListOfOrders = (): ReactElement => {
           )}
           right={() => <>{o.price || ''}</>}
           onPress={() =>
-            navigation.navigate('OrderDetails', {orderId: o.order_id})
+            navigation.navigate('OrderDetails', { orderId: o.id })
           }
         />
       ))}
