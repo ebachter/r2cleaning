@@ -1,5 +1,4 @@
-# FROM public.ecr.aws/docker/library/node:14-alpine
-FROM public.ecr.aws/docker/library/node:18.12.1-alpine3.17
+FROM public.ecr.aws/docker/library/node:20-alpine
 ################################################################################
 
 STOPSIGNAL SIGINT

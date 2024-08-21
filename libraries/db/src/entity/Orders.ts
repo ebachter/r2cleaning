@@ -5,7 +5,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-// import {ObjectTypeOptions, Cleaning} from '@remrob/mysql';
 import {EntityUser} from './User';
 import {EntityObject} from './Objects';
 

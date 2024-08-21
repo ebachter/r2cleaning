@@ -1,5 +1,3 @@
-// import {Objects} from '@remrob/db';
-
 /* export type ObjectTypeOptions = [
   'house',
   'appartment',

@@ -1,6 +1,3 @@
-// import {Prisma, getRedisClient, prisma} from '@remrob/mysql';
-// import {CommandFromUserToObject} from '@remrob/types';
-
 import {CommandFromUserToObject, CommandToUser, Prisma, prisma} from './mysql';
 import {getRedisClient} from './redisConnection';
 
@@ -32,18 +29,6 @@ export const notifyMasterIfProvision = async (
       childMqttClientId,
       userId,
     });
-
-    /* redisClient.publish(
-      `toObject:${masterMqttClientId}`,
-      JSON.stringify({
-        // mqtt_client_id: masterMqttClientId,
-        // data: {
-        // type: 'provisioned_object',
-        command: 'notifyMasterOfProvision',
-        childMqttClientId,
-        // },
-      }),
-    ); */
   }
 };
 

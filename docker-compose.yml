@@ -48,7 +48,7 @@ services:
       - redis
 
   db:
-    image: mysql:8
+    image: mysql:8.3
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
@@ -59,7 +59,6 @@ services:
           - db.cleaning
     env_file: .env
     volumes:
-      - ./docker/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
       - db:/var/lib/mysql
     cap_add:
       - SYS_NICE # CAP_SYS_NICE to avoid “mbind: Operation not permitted” errors

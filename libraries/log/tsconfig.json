@@ -5,10 +5,5 @@
     "tsBuildInfoFile": "../../.build-cache/log.tsbuildinfo"
   },
   "extends": "../../tsconfig.base.json",
-  "include": ["./src/**/*"],
-  "references": [
-    {
-      "path": "../shuttle"
-    }
-  ]
+  "include": ["./src/**/*"]
 }

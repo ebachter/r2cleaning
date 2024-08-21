@@ -1,0 +1,41 @@
+{
+  "name": "@remrob/drizzle",
+  "version": "0.0.0",
+  "description": "Everything Drizzle-related",
+  "keywords": [
+    "drizzle"
+  ],
+  "homepage": "https://bitbucket.org/remrob/r2ecosystem",
+  "repository": "https://bitbucket.org/remrob/r2ecosystem",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Muslim Idris <gelamu@gmail.com>",
+  "type": "module",
+  "main": "dist/drizzle.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean; yarn tsc -b",
+    "clean": "yarn rimraf dist ../../.build-cache/drizzle.tsbuildinfo",
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:migrate": "drizzle-kit migrate",
+    "drizzle:push": "drizzle-kit push",
+    "drizzle:seed": "tsx --env-file=.env src/seed.ts",
+    "prepack": "yarn build",
+    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.33.0",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "drizzle-kit": "^0.23.2",
+    "json-sort-cli": "^1",
+    "prettier": "^2",
+    "rimraf": "^3",
+    "tsx": "^4.17.0",
+    "typescript": "^4"
+  }
+}

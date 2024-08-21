@@ -1,6 +1,3 @@
-// import log from '@remrob/log';
-// import {register} from '@remrob/shuttle';
-// import mysql from 'mysql2/promise';
 import 'reflect-metadata';
 
 import DataSource from './data-source';

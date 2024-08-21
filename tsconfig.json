@@ -6,13 +6,16 @@
       "path": "libraries/aws"
     },
     {
+      "path": "libraries/db"
+    },
+    {
+      "path": "libraries/drizzle"
+    },
+    {
       "path": "libraries/log"
     },
     {
       "path": "libraries/mysql"
-    },
-    {
-      "path": "libraries/db"
     },
     {
       "path": "libraries/retry"
@@ -37,6 +40,9 @@
     },
     {
       "path": "services/sample"
+    },
+    {
+      "path": "localstack"
     }
   ]
 }

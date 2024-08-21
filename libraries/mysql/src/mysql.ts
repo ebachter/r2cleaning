@@ -1,6 +1,4 @@
 import log from '@remrob/log';
-// import {register} from '@remrob/shuttle';
-// import mysql from 'mysql2/promise';
 import {PrismaClient} from '../prisma/pclient';
 import {Prisma} from '../prisma/pclient';
 import {getRedisClient} from './redisConnection';
@@ -29,10 +27,5 @@ if (process.env.MYSQL_LOG === 'true')
 log.info('Initializing connection pool...');
 
 const prisma = new PrismaClient(config);
-
-/* let prisma: PrismaClient<
-  Prisma.PrismaClientOptions,
-    'query' | 'info' | 'warn' | 'error'
-  >; */
 
 export {prisma, Prisma, getRedisClient};

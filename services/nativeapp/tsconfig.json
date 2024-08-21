@@ -3,9 +3,6 @@
   "extends": "expo/tsconfig.base",
   "references": [
     {
-      "path": "../../libraries/utils"
-    },
-    {
       "path": "../api"
     }
   ]

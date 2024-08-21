@@ -6,14 +6,12 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-// import {ObjectTypeOptions} from '@remrob/mysql';
 import {EntityUser} from './User';
 import {
   objectTypes,
   ObjectDetails,
   TypeObjectTypesArr,
 } from '../types/typesObject';
-// import {Cleaning} from '@remrob/mysql';
 
 /* export type ObjectTypeOptions = [
   'house',

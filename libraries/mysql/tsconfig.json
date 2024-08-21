@@ -8,10 +8,10 @@
   "include": ["./src/**/*"],
   "references": [
     {
-      "path": "../log"
+      "path": "../db"
     },
     {
-      "path": "../shuttle"
+      "path": "../log"
     }
   ]
 }

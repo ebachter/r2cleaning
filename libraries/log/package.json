@@ -22,13 +22,12 @@
     "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
   },
   "dependencies": {
-    "@remrob/shuttle": "^0.0.2",
     "pino": "^8.7.0",
     "pino-lambda": "^4"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8",
-    "@types/node": "^14",
+    "@types/node": "^20",
     "@types/pino": "^6.3.9",
     "json-sort-cli": "^1",
     "pino-pretty": "^9.1.1",
