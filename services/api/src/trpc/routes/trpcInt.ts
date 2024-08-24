@@ -51,6 +51,7 @@ export const intRouter = router({
 
   loadOrders: protectedProcedure.query(async ({ctx}) => {
     const data = await drizzle.query.order.findMany({
+      with: {object: true},
       where: eq(order.customerId, ctx.session.userId),
     });
 

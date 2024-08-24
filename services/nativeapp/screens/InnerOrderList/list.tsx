@@ -1,12 +1,12 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { ReactElement } from 'react';
-import { List, MD3Colors } from 'react-native-paper';
-import { StackNavigation } from '../../routes';
-import { trpcComp } from '../../trpc';
+import {MaterialIcons} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
+import {ReactElement} from 'react';
+import {List, MD3Colors} from 'react-native-paper';
+import {StackNavigation} from '../../routes';
+import {trpcComp} from '../../trpc';
 
 export const ListOfOrders = (): ReactElement => {
-  const { data } = trpcComp.loadOrders.useQuery();
+  const {data} = trpcComp.loadOrders.useQuery();
 
   console.log('orders', data);
   const navigation = useNavigation<StackNavigation>();
@@ -27,9 +27,7 @@ export const ListOfOrders = (): ReactElement => {
             />
           )}
           right={() => <>{o.price || ''}</>}
-          onPress={() =>
-            navigation.navigate('OrderDetails', { orderId: o.id })
-          }
+          onPress={() => navigation.navigate('OrderDetails', {orderId: o.id})}
         />
       ))}
     </List.Section>

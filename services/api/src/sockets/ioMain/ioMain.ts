@@ -1,4 +1,4 @@
-import {getRedisClient, sharedObjectsGet} from '@remrob/mysql';
+import {getRedisClient} from '@remrob/mysql';
 import {verifyUserAuthToken} from '@remrob/utils';
 import {Namespace} from 'socket.io';
 // import updateUserActivity from './updateUserActivity';

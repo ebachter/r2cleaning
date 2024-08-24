@@ -3,11 +3,11 @@ import '@remrob/mysql';
 import '@remrob/aws';
 import schedule from 'node-schedule';
 import {register, setup} from '@remrob/shuttle';
-import {handler as lambda_1min} from './lambda_terminations';
-import {handler as lambda_12sec} from './lambda_inactive_user';
-import {handler as lambda_pay} from './lambda_payments';
-import {handler as lambda_services} from './lambda_services';
-import {handler as lambda_timers} from './lambda_timers';
+// import {handler as lambda_1min} from './lambda_terminations';
+// import {handler as lambda_12sec} from './lambda_inactive_user';
+// import {handler as lambda_pay} from './lambda_payments';
+// import {handler as lambda_services} from './lambda_services';
+// import {handler as lambda_timers} from './lambda_timers';
 import {Context} from 'aws-lambda';
 
 register(async () => {
@@ -20,34 +20,34 @@ register(async () => {
   ); */
 
   // SERVICES
-  lambda_services();
-  schedule.scheduleJob({hour: 5, minute: 1}, async () => {
-    log.info('lambda_services job');
-    lambda_services();
-  });
+  //  lambda_services();
+  //  schedule.scheduleJob({hour: 5, minute: 1}, async () => {
+  //    log.info('lambda_services job');
+  //    lambda_services();
+  //  });
 
-  // USER DEACTIVATION
-  schedule.scheduleJob('*/15 * * * * *', async () => {
-    // log.info('5 sec job');
-    lambda_12sec();
-  });
+  //  // USER DEACTIVATION
+  //  schedule.scheduleJob('*/15 * * * * *', async () => {
+  //    // log.info('5 sec job');
+  //    lambda_12sec();
+  //  });
 
-  // TERMINATIONS
-  schedule.scheduleJob('* * * * *', async () => {
-    // log.info(`1 min job`);
-    lambda_1min();
-  });
+  //  // TERMINATIONS
+  //  schedule.scheduleJob('* * * * *', async () => {
+  //    // log.info(`1 min job`);
+  //    lambda_1min();
+  //  });
 
-  schedule.scheduleJob('* * * * *', async () => {
-    // log.info(`1 min job`);
-    lambda_pay(null, {} as Context, () => null);
-  });
+  //  schedule.scheduleJob('* * * * *', async () => {
+  //    // log.info(`1 min job`);
+  //    lambda_pay(null, {} as Context, () => null);
+  //  });
 
-  schedule.scheduleJob('* * * * *', async () => {
-    // log.info(`1 min job`);
-    // console.log('timers', new Date().toISOString());
-    lambda_timers();
-  });
+  //  schedule.scheduleJob('* * * * *', async () => {
+  //    // log.info(`1 min job`);
+  //    // console.log('timers', new Date().toISOString());
+  //    lambda_timers();
+  //  });
 });
 
 setup();
