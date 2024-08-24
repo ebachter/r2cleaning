@@ -30,7 +30,7 @@ export default function ScreenObjectDetails({}) {
       <TextInput
         style={{margin: 5}}
         label="Order ID"
-        value={String(data?.object_id) || ''}
+        value={String(data?.id) || ''}
         onChangeText={(text) => setText(text)}
         disabled
       />
@@ -38,7 +38,7 @@ export default function ScreenObjectDetails({}) {
       <View style={{marginTop: 15}} />
       <Input
         style={{margin: 5}}
-        value={data?.object_type || ''}
+        value={data?.type || ''}
         label="Object type"
         // placeholder="Place your text"
         // caption={renderCaption}

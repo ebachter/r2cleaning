@@ -22,7 +22,7 @@ export const ListOfOrders = (): React.ReactElement => {
       {(data || []).map((o, i) => (
         <List.Item
           key={i}
-          title={`${o.object_id}. ${o.object_type}`}
+          title={`${o.id}. ${o.type}`}
           left={() => (
             <List.Icon
               color={MD3Colors.tertiary70}
@@ -31,9 +31,7 @@ export const ListOfOrders = (): React.ReactElement => {
               )}
             />
           )}
-          onPress={() =>
-            navigation.navigate('ObjectDetails', {objectId: o.object_id})
-          }
+          onPress={() => navigation.navigate('ObjectDetails', {objectId: o.id})}
         />
       ))}
     </List.Section>

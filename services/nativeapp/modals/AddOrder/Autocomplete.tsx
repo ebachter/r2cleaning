@@ -22,8 +22,8 @@ export const AutocompleteElem = (): React.ReactElement => {
 
   useEffect(() => {
     const temp = (data2 || []).map((o) => ({
-      id: o.service_type_id,
-      title: o.serviceName.en,
+      id: o.id,
+      title: o.name.en,
     }));
     setData(temp);
   }, [data2]);

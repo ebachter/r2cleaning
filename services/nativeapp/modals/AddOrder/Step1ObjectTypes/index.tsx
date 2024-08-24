@@ -17,7 +17,7 @@ const ObjectTypeRadio = () => {
   // const [objectId, setObjectId] = useState<number | null>(null);
 
   const handleMenuItemClick = (index: number) => {
-    console.log(index, data[index].object_id);
+    console.log(index, data[index].id);
     // setRoomNumberOfAppartment(index);
   };
 
@@ -31,9 +31,9 @@ const ObjectTypeRadio = () => {
           style={{width: '100%'}}
           value={
             object_id && data
-              ? `${data[selectedIndex.row].object_id}. ${
-                  data[selectedIndex.row].object_type
-                } in ${data[selectedIndex.row].address_city}`
+              ? `${data[selectedIndex.row].id}. ${
+                  data[selectedIndex.row].type
+                } in ${data[selectedIndex.row].addressCity}`
               : ''
           }
           // label={'Select object'}
@@ -44,11 +44,11 @@ const ObjectTypeRadio = () => {
             // setObjectId(data[index.row].object_id);
             mergeOrder({
               object: {
-                object_id: data[index.row].object_id,
-                object_type: data[index.row].object_type,
-                address_street: data[index.row].address_street,
-                address_city: data[index.row].address_city,
-                area: data[index.row].area,
+                object_id: data[index.row].id,
+                object_type: data[index.row].type,
+                address_street: data[index.row].addressStreet,
+                address_city: data[index.row].addressCity,
+                area: Number(data[index.row].area),
               },
             });
             /* setOrder({
@@ -66,7 +66,7 @@ const ObjectTypeRadio = () => {
           {(data || []).map((o, i) => (
             <SelectItem
               key={i}
-              title={`${o.object_id}. ${o.object_type} in ${o.address_city}`}
+              title={`${o.id}. ${o.type} in ${o.addressCity}`}
             />
           ))}
         </Select>

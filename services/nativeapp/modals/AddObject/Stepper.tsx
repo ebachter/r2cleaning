@@ -87,11 +87,11 @@ export default function OrderStepper() {
               if (!object_type || !area || !address_city || !address_street)
                 return;
               const newOrder = await trpcFunc.addObject.mutate({
-                object_type: object_type,
-                area,
-                address_city: address_city,
-                address_street: address_street,
-                object_details: {
+                type: object_type,
+                area: String(area),
+                addressCity: address_city,
+                addressStreet: address_street,
+                details: {
                   object_type: 'appartment',
 
                   numberOfRooms: {number: 1, price: 2000},

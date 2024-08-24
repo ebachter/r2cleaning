@@ -1,14 +1,14 @@
-import AppDataSourceSqlite, {
-  EntityObject,
-  EntityOrder,
-  EntityServiceOffers,
-  EntityServiceTypes,
-  EntityUser,
-} from '@remrob/db';
-import drizzle from '@remrob/drizzle';
+import drizzle, {
+  object,
+  order,
+  serviceOffer,
+  serviceType,
+  user,
+} from '@remrob/drizzle';
 import {TypeOrder} from '@remrob/mysql';
 import typia from 'typia';
-import {protectedProcedure, publicProcedure, router} from '../middleware';
+import {protectedProcedure, router} from '../middleware';
+import {and, eq, SQL} from 'drizzle-orm';
 
 /* type SessionReturn = {
   sessionToken?: string;
@@ -16,12 +16,16 @@ import {protectedProcedure, publicProcedure, router} from '../middleware';
   error?: {status: 401 | 500};
 }; */
 
+type ObjectType = typeof object.$inferSelect;
+type OrderType = typeof order.$inferSelect;
+type ServiceOfferType = typeof serviceOffer.$inferSelect;
+
 export const intRouter = router({
   createOrder: protectedProcedure
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
       typia.createAssert<
-        {object_id: EntityObject['object_id']} & Pick<TypeOrder, 'price'>
+        {object_id: ObjectType['id']} & Pick<TypeOrder, 'price'>
       >(),
     )
     .output(typia.createAssert<{newOrderId: number}>())
@@ -30,33 +34,35 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Pick<EntityOrder, 'object_fk' | 'user_fk' | 'price'> = {
-        object_fk: input.object_id,
-        user_fk: userId,
-        price: input.price,
+      const newOrder: Pick<OrderType, 'objectId' | 'customerId' | 'price'> = {
+        objectId: input.object_id,
+        customerId: userId,
+        price: String(input.price),
       };
-      // const order = new Order();
-      // order.objectType = newOrder.objectType; // as TypeOrder['objectType'];
-      // order.user_fk = newOrder.user_fk;
-
-      // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
-      const order =
+      /* const order =
         AppDataSourceSqlite.getRepository(EntityOrder).create(newOrder);
       // console.log('tableName', data);
+      const temp = await AppDataSourceSqlite.manager.save(order); */
 
-      const temp = await AppDataSourceSqlite.manager.save(order);
-      return {newOrderId: temp.order_id};
+      const temp = await drizzle.insert(order).values(newOrder as OrderType);
+
+      return {newOrderId: temp[0].insertId};
     }),
 
-  loadOrders: publicProcedure.query(async ({ctx}) => {
-    const data = await drizzle.query.order.findMany({with: {object: true}});
+  loadOrders: protectedProcedure.query(async ({ctx}) => {
+    const data = await drizzle.query.order.findMany({
+      where: eq(order.customerId, ctx.session.userId),
+    });
 
     return data;
   }),
 
-  loadObjects: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
-
+  loadObjects: protectedProcedure.query(async ({ctx}) => {
+    const userId = ctx.session?.userid;
+    // const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
+    const data = await drizzle.query.object.findMany({
+      where: eq(object.userId, userId),
+    });
     return data;
   }),
 
@@ -75,19 +81,22 @@ export const intRouter = router({
     return data;
   }), */
 
-  loadServiceTypes: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(
+  loadServiceTypes: protectedProcedure.query(async ({ctx}) => {
+    /* const data = await AppDataSourceSqlite.getRepository(
       EntityServiceTypes,
     ).find({
       select: {service_type_id: true, serviceName: {}},
+    }); */
+    const data = await drizzle.query.serviceType.findMany({
+      columns: {id: true, name: true},
     });
     return data;
   }),
 
-  loadServiceOffers: publicProcedure.query(async ({ctx}) => {
-    const userId = ctx.session?.userid;
+  loadServiceOffers: protectedProcedure.query(async ({ctx}) => {
+    const userId = ctx.session.userId;
 
-    const sTypes = await AppDataSourceSqlite.getRepository(EntityServiceTypes)
+    /* const sTypes = await AppDataSourceSqlite.getRepository(EntityServiceTypes)
       .createQueryBuilder('serviceTypes')
       .leftJoinAndMapOne(
         'serviceTypes.service_type',
@@ -104,7 +113,19 @@ export const intRouter = router({
       ]);
     //.where('serviceTypes.service_type_id = :id', {id: 4})
     // console.log('>>>', sTypes.getSql());
-    const res = await sTypes.getMany();
+    const res = await sTypes.getMany(); */
+
+    const res = await drizzle
+      .select()
+      .from(serviceType)
+      .leftJoin(
+        serviceOffer,
+        and(
+          eq(serviceType.id, serviceOffer.serviceTypeId),
+          eq(serviceOffer.userId, userId),
+        ),
+      );
+
     // console.log('+++', res);
     return res;
   }),
@@ -138,7 +159,7 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       const {service_type_id, value} = input;
 
-      const service_type = new EntityServiceTypes();
+      /* const service_type = new EntityServiceTypes();
       service_type.service_type_id = service_type_id;
 
       const user = new EntityUser();
@@ -147,25 +168,42 @@ export const intRouter = router({
         service_type: {service_type_id: service_type_id},
         user: {user_id: userId},
         value,
-      });
+      }); */
       if (value === true) {
-        const newOrder: Omit<EntityServiceOffers, 'service_offer_id'> = {
+        /* const newOrder: Omit<EntityServiceOffers, 'service_offer_id'> = {
           service_type,
           user,
           price: null,
-        };
-        const order =
+        }; */
+        /* const order =
           AppDataSourceSqlite.getRepository(EntityServiceOffers).create(
             newOrder,
-          );
-        await AppDataSourceSqlite.manager.save(order);
+          ); */
+        // await AppDataSourceSqlite.manager.save(order);
+
+        const newOrder: Omit<ServiceOfferType, 'id'> = {
+          userId,
+          price: null,
+          serviceTypeId: service_type_id,
+        };
+
+        await drizzle.insert(serviceOffer).values(newOrder as ServiceOfferType);
       } else {
-        await AppDataSourceSqlite.manager
+        await drizzle
+          .delete(serviceOffer)
+          .where(
+            and(
+              eq(serviceOffer.serviceTypeId, service_type_id),
+              eq(serviceOffer.userId, userId),
+            ),
+          );
+
+        /* await AppDataSourceSqlite.manager
           .getRepository(EntityServiceOffers)
           .delete({
             service_type: {service_type_id: service_type_id},
             user: {user_id: userId},
-          });
+          }); */
       }
     }),
 
@@ -185,58 +223,68 @@ export const intRouter = router({
     return data;
   }), */
 
-  loadOrder: publicProcedure
+  loadOrder: protectedProcedure
     .input(typia.createAssert<{orderId: number}>())
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
       console.log('>>>', input.orderId);
-      const data = await AppDataSourceSqlite.getRepository(
+      /* const data = await AppDataSourceSqlite.getRepository(
         EntityOrder,
-      ).findOneByOrFail({order_id: input.orderId});
+      ).findOneByOrFail({order_id: input.orderId}); */
+
+      const data = await drizzle
+        .select()
+        .from(order)
+        .where(eq(order.customerId, ctx.session.userId));
       console.log('--temp--', data);
 
-      return data as EntityOrder & Pick<EntityObject, 'object_type'>;
+      return data[0];
     }),
 
-  loadObject: publicProcedure
+  loadObject: protectedProcedure
     .input(typia.createAssert<{objectId: number}>())
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
       console.log('>>>', input.objectId);
-      const data = await AppDataSourceSqlite.getRepository(
+      /* const data = await AppDataSourceSqlite.getRepository(
         EntityObject,
       ).findOneByOrFail({object_id: input.objectId});
-      console.log('--obj--', data);
+      console.log('--obj--', data); */
 
-      return data as EntityObject & Pick<EntityObject, 'object_type'>;
+      const data = await drizzle.query.object.findFirst({
+        where: eq(order.objectId, input.objectId),
+      });
+
+      console.log('--temp--', data);
+
+      return data;
     }),
 
   addObject: protectedProcedure
-    .input(
-      typia.createAssert<
-        Omit<EntityObject, 'object_id' | 'data' | 'user_fk'>
-      >(),
-    )
+    .input(typia.createAssert<Omit<ObjectType, 'id' | 'userId'>>())
     .output(typia.createAssert<{newObjectId: number}>())
     .mutation(async ({ctx, input}) => {
       // console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
-      const {object_type} = input;
+      // const {object_type} = input;
 
       const newObject = {
         ...input,
-        user_fk: userId,
-      };
+        userId,
+      } as ObjectType;
       // const order = new Order();
       // order.objectType = newOrder.objectType; // as TypeOrder['objectType'];
       // order.user_fk = newOrder.user_fk;
 
       // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
-      const order =
+      /* const order =
         AppDataSourceSqlite.getRepository(EntityObject).create(newObject);
-      console.log('tableName', order);
+      console.log('tableName', order); */
 
-      const temp = await AppDataSourceSqlite.manager.save(order);
-      return {newObjectId: temp.object_id};
+      // const temp = await AppDataSourceSqlite.manager.save(order);
+
+      const temp = await drizzle.insert(object).values(newObject);
+
+      return {newObjectId: temp[0].insertId};
     }),
 });

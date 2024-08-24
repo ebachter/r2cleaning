@@ -20,7 +20,9 @@
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate",
     "drizzle:push": "drizzle-kit push",
-    "drizzle:seed": "tsx --env-file=.env src/seed.ts",
+    "drizzle:seed_backup": "tsx --env-file=.env src/seed.ts",
+    "drizzle:seed": "tsx src/seed.ts",
+    "drizzle:createdb": "tsx src/createdb.ts",
     "prepack": "yarn build",
     "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
   },

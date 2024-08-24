@@ -1,22 +1,17 @@
-import {z} from 'zod';
-import {prisma} from '@remrob/mysql';
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import {v4 as uuidv4} from 'uuid';
 import {
   checkUserPassword,
   createUserAuthToken,
   createUserSessionToken,
 } from '@remrob/utils';
-import axios from 'axios';
-import {
-  sendEmailForReset,
-  sendEmailForSignup,
-} from '../../functions/functionsEmail';
 import log from '@remrob/log';
-import DataSource, {EntityUser, Verification} from '@remrob/db';
 import {sendSMS} from '@remrob/aws';
-import AppDataSourceSqlite from '@remrob/db';
+import drizzle, {user, verification} from '@remrob/drizzle';
 import typia from 'typia';
+import {and, eq} from 'drizzle-orm';
+
+type User = typeof user.$inferSelect;
+type Verification_ = typeof verification.$inferSelect;
 
 type SessionReturn = {
   sessionToken?: string;
@@ -25,135 +20,99 @@ type SessionReturn = {
 };
 
 export const extUserAuthRouter = router({
-  extUserSessionCreate: publicProcedure
-    .input(
-      z.object({
-        email: z.string(),
-        password: z.string(),
-      }),
-    )
-    .mutation(async ({ctx, input}): Promise<SessionReturn> => {
-      const {email: username, password} = input;
-
-      const userTable = DataSource.getRepository(EntityUser);
-      const user2 = await userTable.find();
-      console.log('--user2--', JSON.stringify(user2));
-
-      if (!username || !password) {
-        return {error: {status: 401}};
-      }
-
-      const user = await prisma.users.findFirstOrThrow({
-        select: {
-          user_id: true,
-          password: true,
-          language: true,
-        },
-        where: {
-          email: username,
-          NOT: {terminated_at: null},
-        },
-      }); // email, userlabel, firstname, lastname, timezone, user_image_hash
-
-      if (!user || !user.password) {
-        return {error: {status: 401}}; // {info:'false credentials' }
-      }
-
-      const match = await checkUserPassword(password, user.password);
-
-      // Encode password and return hash
-      if (!match) {
-        return {error: {status: 401}}; // { success: 0, info:'false credentials' }
-      }
-
-      const refreshToken = uuidv4();
-      const rslt =
-        await prisma.$executeRaw`UPDATE r2db.users SET refreshToken = ${refreshToken} WHERE user_id = ${user.user_id}`;
-
-      if (rslt !== 1) {
-        return {error: {status: 500}};
-      }
-
-      const sessionToken = createUserSessionToken({
-        userId: user.user_id,
-        lang: user.language,
-      }); // sessionToken: 'r: Kt9wXIBWD0dNijNIq2u5rRllW',
-
-      return {sessionToken, refreshToken};
-    }),
-
   extUserSignupSMSverify: publicProcedure
     .input(
-      z.object({
-        phoneNumber: z.string(),
-        verificationCode: z.string(),
-      }),
+      typia.createAssert<{
+        phoneNumber: Verification_['phoneNumber'];
+        verificationCode: Verification_['verificationId'];
+      }>(),
     )
-    .output(
+    /* .output(
       z
         .object({
           isValid: z.literal(false),
         })
         .or(z.object({isValid: z.literal(true), session: z.string()})),
-    )
+    ) */
     .mutation(async ({ctx, input}) => {
       const {phoneNumber, verificationCode} = input;
       console.log({verificationCode});
-      const data = await AppDataSourceSqlite.getRepository(
+      /* const data = await AppDataSourceSqlite.getRepository(
         Verification,
       ).findOne({
         where: {phoneNumber, verificationID: verificationCode},
-      });
+      }); */
+      /* const data = await drizzle.query.verification.findFirst({
+          with: {phoneNumber, verificationID: verificationCode},
+        }); */
+      const data = await drizzle
+        .select()
+        .from(verification)
+        .where(
+          and(
+            eq(verification.phoneNumber, phoneNumber),
+            eq(verification.verificationId, verificationCode),
+          ),
+        );
       console.log('data', data);
       if (!data) return {isValid: false};
 
-      const userData = await AppDataSourceSqlite.getRepository(
+      /* const userData = await AppDataSourceSqlite.getRepository(
         EntityUser,
       ).findOne({
         where: {phoneNumber: data.phoneNumber},
+      }); */
+      const userData = await drizzle.query.user.findFirst({
+        where: eq(user.phoneNumber, data[0].phoneNumber),
       });
 
       let sessionToken: string = '';
       if (!userData) {
-        const user = new EntityUser();
+        /* const user = new EntityUser();
         user.phoneNumber = phoneNumber;
         const newUser = await AppDataSourceSqlite.getRepository(
           EntityUser,
-        ).save(user);
+        ).save(user); */
+        const newUser = await drizzle
+          .insert(user)
+          .values({phoneNumber} as User);
         sessionToken = createUserSessionToken({
-          userId: newUser.user_id,
+          userId: newUser[0].insertId,
           lang: 'en',
         });
       } else {
         sessionToken = createUserSessionToken({
-          userId: userData.user_id,
+          userId: userData.id,
           lang: 'en',
         });
       }
-
       console.log('--userData--', userData);
-
       return {isValid: true, session: sessionToken};
     }),
 
   extUserSignupSMS: publicProcedure
-    .input(
-      z.object({
-        phone: z.string(),
-      }),
-    )
+    .input(typia.createAssert<{phone: User['phoneNumber']}>())
     .mutation(async ({ctx, input}) => {
       const {phone} = input;
 
       // let genCode = (Math.random() + 1).toString(36).substring(2, 8); //.toUpperCase();
       let genCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-      const verification = new Verification();
-      verification.phoneNumber = phone;
-      verification.verificationID = genCode;
+      // const verification = new Verification();
+      // verification.phoneNumber = phone;
+      // verification.verificationID = genCode;
+      //
+      // console.log(verification);
+      // await AppDataSourceSqlite.manager.save(verification);
 
-      console.log(verification);
-      await AppDataSourceSqlite.manager.save(verification);
+      type Vrf = typeof verification.$inferInsert;
+      const obj: Omit<Vrf, 'id'> = {
+        phoneNumber: phone,
+        verificationId: genCode,
+      };
+
+      const data = await drizzle.insert(verification).values(obj as Vrf); //.query.order.findMany({with: {object: true}});
+
       const message = `Verification code: ${genCode}`;
       await sendSMS(phone, message);
     }),
@@ -161,202 +120,4 @@ export const extUserAuthRouter = router({
   authCheckToken: protectedProcedure.query(async ({ctx, input}) => {
     return true;
   }),
-
-  extUserSignup: publicProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        email: z.string(),
-        password: z.string(),
-        promocode: z.string(),
-        reCapString: z.string(),
-      }),
-    )
-    .mutation(async ({ctx, input}) => {
-      const {name, email, password, promocode, reCapString} = input;
-      if (!name || !email || promocode !== 'r2promo' || password.length < 5) {
-        return {status: 400};
-      }
-      // ReCaptcha Verification
-      let result = await axios({
-        method: 'post',
-        url: 'https://www.google.com/recaptcha/api/siteverify',
-        params: {
-          secret: process.env.RECAP_SITE_SECRET_KEY,
-          response: reCapString,
-        },
-      });
-      let data = result.data;
-      if (!data?.success) {
-        return {status: 400};
-      }
-
-      const existingUser = await prisma.users.findFirst({where: {email}});
-      if (existingUser) {
-        return {status: 409};
-      }
-
-      const pwdHash = await createUserAuthToken(password);
-
-      const language = 'en'; // (req.cookies && req.cookies.lang) ? ||
-      const timezone = 'Europe/Berlin';
-      const tempid = uuidv4();
-
-      const insertRes = await prisma.$executeRaw`
-          INSERT INTO r2db.users_new (temp_id, email, password, name, language, timezone)
-          VALUES (${tempid}, ${email}, ${pwdHash}, ${name}, ${language}, ${timezone})
-          ON DUPLICATE KEY UPDATE temp_id = VALUES(temp_id), password = VALUES(password), name = VALUES(name), language = VALUES(language), timezone = VALUES(timezone), attempts = attempts + 1
-        `;
-
-      if (insertRes === 0) {
-        throw new Error('Signup insert error');
-      }
-      await sendEmailForSignup(email, tempid, language);
-      return {status: 204};
-    }),
-
-  precheckPasswordResetTokenExt: publicProcedure
-    // url: '/reset/password/external/confirmed',
-    .input(
-      z.object({
-        resetId: z.string(),
-      }),
-    )
-    .query(async ({ctx, input}) => {
-      const {resetId} = input;
-
-      const result = await prisma.users_reset_password.findUnique({
-        select: {temp_id: true},
-        where: {temp_id: resetId},
-      });
-      if (!result) {
-        return {status: 204};
-      } else {
-        return {status: 202};
-      }
-    }),
-
-  asyncUserPasswordReset: publicProcedure
-    .input(
-      z.object({
-        email: z.string(),
-      }),
-    )
-    .mutation(async ({ctx, input}) => {
-      const {email} = input;
-      // export async function asyncUserPasswordReset({email}: {email: string}) {
-
-      const userData = await prisma.users.findFirst({
-        select: {language: true},
-        where: {email, NOT: {terminated_at: null}},
-      });
-      if (!userData) {
-        // res.status(500).end(); // return res.redirect('// remrob.com/login');
-        return {status: 500};
-      }
-
-      try {
-        const tempid = uuidv4();
-        await prisma.$executeRaw`
-          INSERT INTO r2db.users_reset_password(temp_id, email, counter)
-          VALUES (${tempid}, ${email}, ${0})
-          ON DUPLICATE KEY UPDATE temp_id = VALUES(temp_id), counter = counter + 1
-        `; // user_id as mng_id,
-        await sendEmailForReset(email, tempid, userData.language);
-        return {status: 204};
-      } catch (err) {
-        log.error(err, '/reset/password/external err');
-        return {status: 500};
-      }
-    }),
-
-  asyncExtUserPasswordResetConfirm: publicProcedure
-    .input(
-      z.object({
-        resetId: z.string(),
-        password1: z.string(),
-        password2: z.string(),
-      }),
-    )
-    .mutation(async ({ctx, input}) => {
-      const {resetId, password1, password2} = input;
-
-      const pwdHash = await createUserAuthToken(password1);
-      await prisma.$transaction(async (tx) => {
-        const affectedRows = await tx.$executeRaw`
-        UPDATE r2db.users u
-        INNER JOIN r2db.users_reset_password urp
-        ON urp.email = u.email and urp.temp_id = ${resetId}
-        SET u.password = ${pwdHash}
-      `;
-
-        if (affectedRows !== 1) {
-          return {status: 404};
-        }
-
-        await tx.$executeRaw`
-          DELETE FROM r2db.users_reset_password WHERE temp_id = ${resetId}
-        `;
-      });
-
-      return {status: 204};
-    }),
-
-  signupConfirmExt: publicProcedure
-    .input(
-      z.object({
-        signupId: z.string(),
-      }),
-    )
-    .mutation(async ({ctx, input}) => {
-      const {signupId} = input;
-
-      const res = await prisma.$transaction(async (tx) => {
-        const tempUser = await tx.users_new.findUnique({
-          where: {
-            temp_id: signupId,
-          },
-        });
-
-        if (!tempUser) {
-          return {status: 404};
-        }
-
-        const newUser = await tx.users.create({
-          data: {
-            email: tempUser.email,
-            username: '',
-            name: tempUser.name,
-            language: 'en',
-            timezone: 'Europe/Berlin',
-            password: tempUser.password,
-            user_image_hash: 'no_icon.png',
-          },
-        });
-
-        if (!newUser.user_id) throw new Error('Signup insert error');
-
-        await tx.users.update({
-          data: {
-            username: String(newUser.user_id),
-          },
-          where: {
-            user_id: newUser.user_id,
-          },
-        });
-
-        await tx.users_new.delete({
-          where: {
-            temp_id: signupId,
-          },
-        });
-
-        await tx.$executeRaw`
-          INSERT INTO r2data.timeline(user_fk, operation, data) VALUES (${newUser.user_id},'userRegistration','{}')
-        `;
-
-        return {status: 204};
-      });
-      return res;
-    }),
 });

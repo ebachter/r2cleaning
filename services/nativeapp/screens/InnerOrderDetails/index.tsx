@@ -30,7 +30,7 @@ export default function ScreenOrderDetails({}) {
       <TextInput
         style={{margin: 5}}
         label="Order ID"
-        value={String(data?.order_id) || ''}
+        value={String(data?.id) || ''}
         onChangeText={(text) => setText(text)}
         disabled
       />
@@ -38,7 +38,7 @@ export default function ScreenOrderDetails({}) {
       <View style={{marginTop: 15}} />
       <Input
         style={{margin: 5}}
-        value={data?.object_type || ''}
+        value={String(data?.objectId) || ''}
         label="Object type"
         // placeholder="Place your text"
         // caption={renderCaption}

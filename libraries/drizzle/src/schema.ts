@@ -14,18 +14,18 @@ export const user = mysqlTable('user', {
   lastName: varchar('lastName', {length: 50}).notNull(),
   age: int('age', {unsigned: true}).notNull(),
   balance: decimal('balance', {precision: 10, scale: 4}),
-  phoneNumber: varchar('phoneNumber', {length: 20}),
+  phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
 });
 
 export const verification = mysqlTable('verification', {
-  id: int('id', {unsigned: true}).primaryKey(),
-  phoneNumber: varchar('phoneNumber', {length: 20}),
-  verificationId: varchar('verificationId', {length: 20}),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+  phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
+  verificationId: varchar('verificationId', {length: 20}).notNull(),
 });
 
 export const serviceType = mysqlTable('serviceType', {
   id: int('id', {unsigned: true}).primaryKey(),
-  name: json('name').notNull(),
+  name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
 
 export const serviceOffer = mysqlTable('serviceOffer', {

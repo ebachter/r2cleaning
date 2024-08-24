@@ -39,7 +39,7 @@ export default function ScreenSuppler() {
           {(sTypes || []).map((o, i) => (
             <List.Item
               key={i}
-              title={`${o.service_type_id}. ${o.serviceName.en}`}
+              title={`${o.serviceType.id}. ${o.serviceType.name.en}`}
               left={() => (
                 <List.Icon
                   color={MD3Colors.tertiary70}
@@ -50,12 +50,12 @@ export default function ScreenSuppler() {
               )}
               right={() => (
                 <Checkbox
-                  status={o.service_type ? 'checked' : 'unchecked'}
+                  status={o.serviceType ? 'checked' : 'unchecked'}
                   onPress={async () => {
                     await trpcFunc.setServiceOffer.mutate({
                       // service_type:o.service_type,
-                      service_type_id: o.service_type_id,
-                      value: !o.service_type,
+                      service_type_id: o.serviceType.id,
+                      value: !o.serviceType,
                     });
                     refetch();
                   }}

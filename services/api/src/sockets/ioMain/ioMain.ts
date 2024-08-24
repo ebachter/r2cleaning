@@ -33,27 +33,6 @@ const mainio = (nspMain: Namespace) => {
       return;
     }
 
-    const objects = await sharedObjectsGet(sessionData.userId, {
-      object_id: true,
-    });
-    /* const objects = await prisma.objects.findMany({
-      select: {object_id: true},
-      where: {user_fk: sessionData?.userid},
-    }); */
-    const multi2 = redisClient.multi();
-    objects.forEach(({object_id}) => {
-      multi2.call('JSON.get', `object-${object_id}`);
-    });
-    const replies2 = await multi2.exec();
-    replies2?.forEach((val, i) => {
-      if (val[1]) {
-        socket.emit(
-          'message',
-          `{"objectId": ${objects[i].object_id}, "live": ${val[1]}}`,
-        );
-      }
-    });
-
     socket.join(`toUser:${sessionData?.userid}`);
     socket.data.session = sessionData;
     // updateUserActivity(sessionData.userid, fingerprint, socket.id, 'connected');

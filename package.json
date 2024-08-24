@@ -25,6 +25,7 @@
     "drizzle:migrate": "lerna run drizzle:migrate",
     "drizzle:push": "lerna run drizzle:push",
     "drizzle:seed": "lerna run drizzle:seed",
+    "drizzle:createdb": "lerna run drizzle:createdb",
     "typeorm:gen": "yarn lerna run typeorm:gen -- -- -r .env",
     "typeorm:create": "yarn lerna run typeorm:create -- -- -r .env",
     "typeorm:revert": "yarn lerna run typeorm:revert -- -- -r .env",
