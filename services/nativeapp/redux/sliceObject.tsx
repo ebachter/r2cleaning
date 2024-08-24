@@ -1,5 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {EntityObject} from '@remrob/db';
+import drizzle, {
+  object,
+  order,
+  serviceOffer,
+  serviceType,
+  user,
+} from '@remrob/drizzle';
+
+type ObjectType = typeof object.$inferSelect;
 
 import _ from 'lodash';
 
@@ -14,13 +22,13 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-export const initialStateObject: Omit<EntityObject, 'object_id'> = {
-  object_type: null,
-  address_city: null,
-  address_street: '',
-  user_fk: null,
+export const initialStateObject: Omit<ObjectType, 'id'> = {
+  type: null,
+  addressCity: null,
+  addressStreet: '',
+  userId: null,
   area: null,
-  object_details: null,
+  details: null,
 };
 
 const slice = createSlice({
@@ -56,7 +64,7 @@ const slice = createSlice({
 
     setObject: (
       state,
-      action: PayloadAction<Partial<Omit<EntityObject, 'object_id'>>>,
+      action: PayloadAction<Partial<Omit<ObjectType, 'id'>>>,
     ) => {
       _.merge(state, action.payload);
     },

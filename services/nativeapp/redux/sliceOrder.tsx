@@ -21,10 +21,11 @@ export const initialStateCleaning: TypeOrder /* & {
   object: DeepNullable<Omit<Objects, 'user_fk' | 'data' | 'object_id'>>;
 } */ = {
   object: {
-    object_id: null,
-    object_type: null,
-    address_city: null,
-    address_street: null,
+    userId: null,
+    id: null,
+    type: null,
+    addressCity: null,
+    addressStreet: null,
     // object_details: null,
     area: null,
   },

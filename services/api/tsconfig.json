@@ -18,9 +18,6 @@
       "path": "../../libraries/aws"
     },
     {
-      "path": "../../libraries/db"
-    },
-    {
       "path": "../../libraries/drizzle"
     },
     {

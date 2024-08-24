@@ -5,7 +5,6 @@ import drizzle, {
   serviceType,
   user,
 } from '@remrob/drizzle';
-import {TypeOrder} from '@remrob/mysql';
 import typia from 'typia';
 import {protectedProcedure, router} from '../middleware';
 import {and, eq, SQL} from 'drizzle-orm';
@@ -25,7 +24,7 @@ export const intRouter = router({
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
       typia.createAssert<
-        {object_id: ObjectType['id']} & Pick<TypeOrder, 'price'>
+        {object_id: ObjectType['id']} & Pick<OrderType, 'price'>
       >(),
     )
     .output(typia.createAssert<{newOrderId: number}>())

@@ -4,12 +4,12 @@ import {ImageBackground} from 'react-native';
 import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
 import {Button, Layout} from '@ui-kitten/components';
-import {useAppSelector} from '../redux/store';
+import {addressStreet} from '../redux/store';
 import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 
 export default function HomeScreen({navigation}) {
   // const apiOrigin = process.env.EXPO_PUBLIC_API_ORIGIN;
-  const sessionToken = useAppSelector((state) => state.session.sessionToken);
+  const sessionToken = addressStreet((state) => state.session.sessionToken);
   return (
     <View
       style={{

@@ -3,13 +3,13 @@ import {useAppSelector} from '../../../redux/store';
 import {setObjectNew} from '../../../redux/functionsDispatch';
 
 const AdressInput = () => {
-  const address = useAppSelector((state) => state.object.address_street);
+  const address = useAppSelector((state) => state.object.addressStreet);
 
   return (
     <Input
       placeholder="Введите ваш адрес"
       value={address}
-      onChangeText={(nextValue) => setObjectNew({address_street: nextValue})}
+      onChangeText={(nextValue) => setObjectNew({addressStreet: nextValue})}
     />
   );
 };

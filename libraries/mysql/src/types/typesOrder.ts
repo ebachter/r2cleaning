@@ -1,16 +1,18 @@
-/* export type ObjectTypeOptions = [
-  'house',
-  'appartment',
-  'entrance',
-  'office',
-  'fasade',
-]; */
-import {EntityObject} from '@remrob/db';
+import drizzle, {
+  object,
+  order,
+  serviceOffer,
+  serviceType,
+  user,
+} from '@remrob/drizzle';
 
 // type TupleToUnion<T extends unknown[]> = T[number];
 
+type OrderType = typeof order.$inferSelect;
+type ObjectType = typeof object.$inferSelect;
+
 export type TypeOrder = {
-  object: Omit<EntityObject, 'user_fk' | 'object_details'>;
+  object: Omit<ObjectType, 'details'>;
   // Omit<Objects, 'user_fk' | 'data'>;
   options: {
     appartment: Appartment;

@@ -21,7 +21,7 @@ export const Area = () => {
           const next = nextValue.replace(/\D/g, '') || 0;
           console.log('>>>', nextValue, next);
           // if(next) setObject({area: Number(nextValue)});
-          setObjectNew({area: Number(next) || null});
+          setObjectNew({area: next || null});
         }}
         accessoryRight={
           <Text>

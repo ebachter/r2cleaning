@@ -1,11 +1,11 @@
 import {Modal, StyleSheet} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
-import {useAppSelector} from '../../redux/store';
+import {addressStreet} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 import ScreenOrderAdd from './intro';
 
 export default function ModalAddOrder() {
-  const visibleModal = useAppSelector((state) => state.local.modals.addOrder);
+  const visibleModal = addressStreet((state) => state.local.modals.addOrder);
 
   return (
     <Modal

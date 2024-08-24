@@ -21,6 +21,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@reduxjs/toolkit": "^1.9.7",
     "@remrob/api": "^0.2",
+    "@remrob/drizzle": "^0.0.0",
     "@tanstack/react-query": "^5.51.4",
     "@trpc/client": "^10.44.1",
     "@trpc/react-query": "^10.9.0",

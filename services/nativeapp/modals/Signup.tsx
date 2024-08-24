@@ -1,10 +1,10 @@
 import {Modal} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
-import {useAppSelector} from '../redux/store';
+import {addressStreet} from '../redux/store';
 import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 
 export default function ModalFullscreen() {
-  const visibleSignup = useAppSelector((state) => state.local.modals.signup);
+  const visibleSignup = addressStreet((state) => state.local.modals.signup);
 
   return (
     <Modal

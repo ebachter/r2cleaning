@@ -5,10 +5,19 @@ import {Session} from '../types/typeSession';
 import {TypeOrder} from '@remrob/mysql';
 import {navigate} from '../RootNavigation';
 import {actionObject} from './sliceObject';
-import {EntityObject} from '@remrob/db';
 import {DeepPartial} from '../types/typeUtils';
 import {TypeLocal} from '../types/typeLocal';
 import {localActions} from './sliceLocal';
+
+import drizzle, {
+  object,
+  order,
+  serviceOffer,
+  serviceType,
+  user,
+} from '@remrob/drizzle';
+
+type ObjectType = typeof object.$inferSelect;
 
 // export const setObjectType = (
 //   ...args: Parameters<typeof cleaningActions.setObjectType>
@@ -83,8 +92,6 @@ export const setOrderFormInit = () => {
   store.dispatch(cleaningActions.setOrderFormInit());
 };
 
-export const setObjectNew = (
-  args: Partial<Omit<EntityObject, 'object_id'>>,
-) => {
+export const setObjectNew = (args: Partial<Omit<ObjectType, 'id'>>) => {
   store.dispatch(actionObject.setObject(args));
 };

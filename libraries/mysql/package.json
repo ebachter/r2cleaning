@@ -22,18 +22,15 @@
     "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
   },
   "dependencies": {
-    "@prisma/client": "^4",
-    "@remrob/db": "^1",
+    "@remrob/drizzle": "^0.0.0",
     "@remrob/log": "^0.0.2",
     "ioredis": "^5.2.4",
-    "mysql2": "^3.11.0",
-    "prisma-json-types-generator": "^2.5.0"
+    "mysql2": "^3.11.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "json-sort-cli": "^1",
     "prettier": "^2",
-    "prisma": "^4",
     "rimraf": "^3",
     "ts-node": "^10.7.0",
     "typescript": "^5.5.4"

@@ -9,8 +9,6 @@ import {useNavigation} from '@react-navigation/native';
 // import ObjectDetails from './ObjectDetails';
 import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
-import Appartment from './Step2Details/appartment';
-import House from './Step2Details/house';
 import {trpcFunc} from '../../trpc';
 import {
   mergeLocal,
@@ -61,8 +59,12 @@ const steps = [
 ];
 
 export default function OrderStepper() {
-  const {object_type, object_id, address_city, address_street, area} =
-    useAppSelector((state) => state.cleaning.object);
+  const {
+    type: object_type,
+    id: object_id,
+    addressCity: address_city,
+    area,
+  } = useAppSelector((state) => state.cleaning.object);
   const price = useAppSelector((state) => state.cleaning.price);
   /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
@@ -211,7 +213,7 @@ export default function OrderStepper() {
               onPress={async () => {
                 const newOrder = await trpcFunc.createOrder.mutate({
                   object_id,
-                  price,
+                  price: String(price),
                 });
                 setOrder({orderCreated: true});
                 showSnackbar({text: `Order ${newOrder.newOrderId} created`});

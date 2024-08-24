@@ -17,9 +17,12 @@ import {Area} from './Area';
 import {StackNavigation} from '../../routes';
 
 export default function OrderStepper() {
-  const {object_type, area, address_city, address_street} = useAppSelector(
-    (state) => state.object,
-  );
+  const {
+    type: object_type,
+    area,
+    addressCity,
+    addressStreet,
+  } = useAppSelector((state) => state.object);
   /* const phoneNumber = useAppSelector(
     (state) => state.cleaning.order.review.phone,
   ); */
@@ -83,14 +86,14 @@ export default function OrderStepper() {
           <Button
             mode="contained"
             onPress={async () => {
-              console.log(object_type, area, address_city, address_street);
-              if (!object_type || !area || !address_city || !address_street)
+              console.log(object_type, area, addressCity, addressStreet);
+              if (!object_type || !area || !addressCity || !addressStreet)
                 return;
               const newOrder = await trpcFunc.addObject.mutate({
                 type: object_type,
                 area: String(area),
-                addressCity: address_city,
-                addressStreet: address_street,
+                addressCity: addressCity,
+                addressStreet: addressStreet,
                 details: {
                   object_type: 'appartment',
 

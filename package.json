@@ -14,10 +14,6 @@
     "mrproper": "yarn clean; yarn lerna clean -y; yarn rimraf .build-cache node_modules",
     "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json && yarn lerna run sort-json-files",
     "update-references": "yarn update-ts-references && yarn sortjson tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json && yarn prettier -w tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json",
-    "prisma-push": "(cd libraries/mysql/prisma/ && prisma db push --accept-data-loss)",
-    "prisma-pull": "(cd libraries/mysql/prisma/ && prisma db pull)",
-    "prisma-generate-client": "(cd libraries/mysql/prisma/ && prisma generate)",
-    "update-cleandb-inits": "cd helper-scripts && ./update-cleandb-docker-init-files.sh",
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
     "start:all___": "yarn lerna run start --include-dependencies --parallel --stream -- -- -r .env",
     "start:all": "yarn lerna run start --include-dependencies --parallel --stream",
@@ -25,12 +21,7 @@
     "drizzle:migrate": "lerna run drizzle:migrate",
     "drizzle:push": "lerna run drizzle:push",
     "drizzle:seed": "lerna run drizzle:seed",
-    "drizzle:createdb": "lerna run drizzle:createdb",
-    "typeorm:gen": "yarn lerna run typeorm:gen -- -- -r .env",
-    "typeorm:create": "yarn lerna run typeorm:create -- -- -r .env",
-    "typeorm:revert": "yarn lerna run typeorm:revert -- -- -r .env",
-    "typeorm:run": "yarn lerna run typeorm:run -- -- -r .env",
-    "typeorm:seed": "yarn lerna run typeorm:seed -- -- -r .env"
+    "drizzle:createdb": "lerna run drizzle:createdb"
   },
   "husky": {
     "hooks": {

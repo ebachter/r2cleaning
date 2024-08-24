@@ -6,9 +6,7 @@ import {useState} from 'react';
 import {trpcComp} from '../../../trpc';
 
 const ObjectTypeRadio = () => {
-  const {object_id, object_type} = useAppSelector(
-    (state) => state.cleaning.object,
-  );
+  const {id, type} = useAppSelector((state) => state.cleaning.object);
 
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
     new IndexPath(0),
@@ -30,7 +28,7 @@ const ObjectTypeRadio = () => {
         <Select
           style={{width: '100%'}}
           value={
-            object_id && data
+            id && data
               ? `${data[selectedIndex.row].id}. ${
                   data[selectedIndex.row].type
                 } in ${data[selectedIndex.row].addressCity}`
@@ -44,11 +42,11 @@ const ObjectTypeRadio = () => {
             // setObjectId(data[index.row].object_id);
             mergeOrder({
               object: {
-                object_id: data[index.row].id,
-                object_type: data[index.row].type,
-                address_street: data[index.row].addressStreet,
-                address_city: data[index.row].addressCity,
-                area: Number(data[index.row].area),
+                id: data[index.row].id,
+                type: data[index.row].type,
+                addressStreet: data[index.row].addressStreet,
+                addressCity: data[index.row].addressCity,
+                area: data[index.row].area,
               },
             });
             /* setOrder({

@@ -4,15 +4,24 @@ import {objectTypes} from '../../shared';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {setObjectNew} from '../../redux/functionsDispatch';
-import {EntityObject} from '@remrob/db';
+
+import drizzle, {
+  object,
+  order,
+  serviceOffer,
+  serviceType,
+  user,
+} from '@remrob/drizzle';
+
+type ObjectType = typeof object.$inferSelect;
 
 const ObjectTypeRadio = () => {
-  const objectType = useAppSelector((state) => state.object.object_type);
+  const objectType = useAppSelector((state) => state.object.type);
 
   return (
     <RadioButton.Group
-      onValueChange={(newValue: EntityObject['object_type']) => {
-        setObjectNew({object_type: newValue});
+      onValueChange={(newValue: ObjectType['type']) => {
+        setObjectNew({type: newValue});
       }}
       value={objectType}
     >

@@ -2,9 +2,17 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 import {setObjectNew} from '../../../redux/functionsDispatch';
-import {EntityObject} from '@remrob/db';
+import drizzle, {
+  object,
+  order,
+  serviceOffer,
+  serviceType,
+  user,
+} from '@remrob/drizzle';
 
-const ix: {id: EntityObject['address_city']; label: string}[] = [
+type ObjectType = typeof object.$inferSelect;
+
+const ix: {id: ObjectType['addressCity']; label: string}[] = [
   {id: 'grosny', label: 'Грозный'},
   {id: 'argun', label: 'Аргун'},
   {id: 'gudermes', label: 'Гудермес'},
@@ -21,7 +29,7 @@ export const MenuComponent = (): React.ReactElement => {
         onSelect={(index: IndexPath) => {
           console.log(index, ix[index.row]);
           setSelectedIndex(index);
-          setObjectNew({address_city: ix[index.row].id});
+          setObjectNew({addressCity: ix[index.row].id});
         }}
         value={
           Number.isInteger(selectedIndex?.row)
