@@ -1,14 +1,7 @@
-import drizzle, {
-  object,
-  order,
-  serviceOffer,
-  serviceType,
-  user,
-} from '@remrob/drizzle';
+import {object} from '@remrob/drizzle';
 
 // type TupleToUnion<T extends unknown[]> = T[number];
 
-type OrderType = typeof order.$inferSelect;
 type ObjectType = typeof object.$inferSelect;
 
 export type TypeOrder = {

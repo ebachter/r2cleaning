@@ -50,12 +50,12 @@ export default function ScreenSuppler() {
               )}
               right={() => (
                 <Checkbox
-                  status={o.serviceType ? 'checked' : 'unchecked'}
+                  status={o.serviceOffer ? 'checked' : 'unchecked'}
                   onPress={async () => {
                     await trpcFunc.setServiceOffer.mutate({
                       // service_type:o.service_type,
                       service_type_id: o.serviceType.id,
-                      value: !o.serviceType,
+                      value: !o.serviceOffer,
                     });
                     refetch();
                   }}

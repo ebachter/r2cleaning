@@ -24,12 +24,12 @@ export const verification = mysqlTable('verification', {
 });
 
 export const serviceType = mysqlTable('serviceType', {
-  id: int('id', {unsigned: true}).primaryKey(),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
 
 export const serviceOffer = mysqlTable('serviceOffer', {
-  id: int('id', {unsigned: true}).primaryKey(),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   price: decimal('price', {precision: 10, scale: 4}),
   userId: int('userId', {unsigned: true})
     .references(() => user.id, {
@@ -57,7 +57,7 @@ export const serviceOfferRelations = relations(serviceOffer, ({one}) => ({
 }));
 
 export const order = mysqlTable('order', {
-  id: int('id', {unsigned: true}).primaryKey(),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   price: decimal('price', {precision: 10, scale: 4}),
   objectId: int('objectId', {unsigned: true})
     .references(() => object.id, {
@@ -95,7 +95,7 @@ export const orderRelations = relations(order, ({one}) => ({
 }));
 
 export const orderService = mysqlTable('orderService', {
-  id: int('id', {unsigned: true}).primaryKey(),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   orderId: int('orderId', {unsigned: true})
     .references(() => order.id, {
       onDelete: 'restrict',
@@ -132,7 +132,7 @@ export const orderServiceRelations = relations(orderService, ({one}) => ({
 }));
 
 export const object = mysqlTable('object', {
-  id: int('id', {unsigned: true}).primaryKey(),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   addressCity: mysqlEnum('addressCity', [
     'grosny',
     'argun',
