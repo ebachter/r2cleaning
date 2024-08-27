@@ -18,8 +18,10 @@ const ObjectTypeRadio = () => {
     console.log(index, data[index].id);
     // setRoomNumberOfAppartment(index);
   };
-
-  const {data} = trpcComp.loadObjects.useQuery();
+  const {data} = trpcComp.loadObjects.useQuery(undefined, {
+    queryKey: ['loadObjects', undefined],
+    initialData: [],
+  });
   console.log('###', data);
 
   return (
@@ -61,7 +63,7 @@ const ObjectTypeRadio = () => {
           }}
           placeholder={'Select object'}
         >
-          {(data || []).map((o, i) => (
+          {data.map((o, i) => (
             <SelectItem
               key={i}
               title={`${o.id}. ${o.type} in ${o.addressCity}`}

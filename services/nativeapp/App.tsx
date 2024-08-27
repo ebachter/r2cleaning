@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {addressStreet} from './redux/store';
+import {useAppSelector} from './redux/store';
 import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import * as material from '@eva-design/material';
@@ -43,7 +43,7 @@ const linking = {
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
-  const sessionToken = addressStreet((state) => state.session.sessionToken);
+  const sessionToken = useAppSelector((state) => state.session.sessionToken);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {
     console.log('--currentRouteName--', currentRouteName);

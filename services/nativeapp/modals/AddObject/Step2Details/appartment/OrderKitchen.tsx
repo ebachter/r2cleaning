@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
 import {CheckBox} from '@ui-kitten/components';
-import {store, addressStreet} from '../../../../redux/store';
+import {store, useAppSelector} from '../../../../redux/store';
 import {setKitchenOfAppartment} from '../../../../redux/functionsDispatch';
 import {ReactElement} from 'react';
 
 type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
 export const OrderKitchen = (): ReactElement => {
-  const appartment = addressStreet(
+  const appartment = useAppSelector(
     (state) => state.cleaning.options.appartment.kitchen,
   );
   const {dispatch} = store;

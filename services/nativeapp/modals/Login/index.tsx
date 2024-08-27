@@ -1,16 +1,14 @@
 import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
-import {useAppDispatch, addressStreet} from '../../redux/store';
+import {useAppSelector} from '../../redux/store';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {trpcFunc} from '../../trpc';
-import {sessionActions} from '../../redux/sliceSession';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 
 export default function ModalLogin() {
-  const visibleLogin = addressStreet((state) => state.local.modals.login);
-  const phoneNumber = addressStreet((state) => state.session.phone);
-  const smsSent = addressStreet((state) => state.session.smsSent);
-  const dispatch = useAppDispatch();
+  const visibleLogin = useAppSelector((state) => state.local.modals.login);
+  const phoneNumber = useAppSelector((state) => state.session.phone);
+  const smsSent = useAppSelector((state) => state.session.smsSent);
 
   return (
     <Modal

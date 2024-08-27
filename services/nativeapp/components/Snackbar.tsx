@@ -1,10 +1,10 @@
 import {StyleSheet} from 'react-native';
 import {Snackbar} from 'react-native-paper';
-import {addressStreet} from '../redux/store';
+import {useAppSelector} from '../redux/store';
 import {mergeLocal} from '../redux/functionsDispatch';
 
 const SnackbarComp = () => {
-  const snackbarVisible = addressStreet(
+  const snackbarVisible = useAppSelector(
     (state) => state.local.snackbarVisible,
   );
 

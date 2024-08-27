@@ -3,7 +3,7 @@ import {TouchableWithoutFeedback, StyleSheet, View} from 'react-native';
 import {Icon, IconElement, Input, Text} from '@ui-kitten/components';
 import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
-import {useAppDispatch, addressStreet} from '../../redux/store';
+import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 import {trpcFunc} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
@@ -24,11 +24,11 @@ const AlertIcon = (props): IconElement => {
 const PhoneNumberInput = (): React.ReactElement => {
   const [isPhoneValid, setPhoneValid] = useState(false);
   const [veritionCode, setVeritionCode] = useState('');
-  const phoneNumber = addressStreet((state) => state.session.phone);
+  const phoneNumber = useAppSelector((state) => state.session.phone);
 
-  const smsSent = addressStreet((state) => state.session.smsSent);
+  const smsSent = useAppSelector((state) => state.session.smsSent);
   const navigation = useNavigation<StackNavigation>();
-  const forwardTo = addressStreet((state) => state.local.modals.forwardTo);
+  const forwardTo = useAppSelector((state) => state.local.modals.forwardTo);
 
   const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={() => console.log('>>>')}>

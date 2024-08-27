@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {CheckBox} from '@ui-kitten/components';
-import {store, addressStreet} from '../../../../redux/store';
+import {useAppSelector} from '../../../../redux/store';
 import {
   setBathroomOfAppartment,
   setKitchenOfAppartment,
@@ -13,7 +13,7 @@ export const OrderBathroom = (): ReactElement => {
   const handleChange = (event): void => {
     setBathroomOfAppartment(event);
   };
-  const bathroom = addressStreet(
+  const bathroom = useAppSelector(
     (state) => state.cleaning.options.appartment.bathroom,
   );
 
