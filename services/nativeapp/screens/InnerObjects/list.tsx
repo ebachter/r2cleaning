@@ -12,7 +12,6 @@ import {type StackNavigation} from '../../routes';
 
 export const ListOfOrders = (): React.ReactElement => {
   const {data} = trpcComp.loadObjects.useQuery(undefined, {
-    queryKey: ['loadObjects', undefined],
     initialData: [],
   });
 

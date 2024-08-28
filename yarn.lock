@@ -821,6 +821,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-asynciterator-polyfill@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@azure/core-asynciterator-polyfill@npm:1.0.2"
+  checksum: ccdad3bcf3f670e0b4f52e421cd1566368dce36ea4b3cb18a9b554c14ea0c1436868cb55e774b2377307dcb222e4eb3777b48e97249157c612e9c24654a56d16
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:7.10.4, @babel/code-frame@npm:~7.10.4":
   version: 7.10.4
   resolution: "@babel/code-frame@npm:7.10.4"
@@ -5021,7 +5028,7 @@ __metadata:
     "@remrob/shuttle": ^0.0.2
     "@remrob/t800": ^0.0.2
     "@remrob/utils": ^1.0.0
-    "@trpc/server": ^10.9.0
+    "@trpc/server": next
     "@types/cors": ^2.8.13
     "@types/express": ^4.17.0
     "@types/helmet": 0.0.43
@@ -5053,7 +5060,7 @@ __metadata:
     rimraf: ^3
     serialize-error: ^2.1.0
     socket.io: ^4.5.4
-    superjson: ^1.12.2
+    superjson: ^2.2.1
     supertest: ^3.0.0
     ts-node: latest
     ts-node-dev: ^1.1.1
@@ -5185,6 +5192,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@remrob/nativeapp@workspace:services/nativeapp"
   dependencies:
+    "@azure/core-asynciterator-polyfill": ^1.0.2
     "@babel/core": ^7.24.0
     "@babel/plugin-proposal-export-default-from": ^7.24.7
     "@babel/plugin-syntax-export-default-from": ^7.24.7
@@ -5203,13 +5211,15 @@ __metadata:
     "@reduxjs/toolkit": ^1.9.7
     "@remrob/api": ^0.2
     "@remrob/drizzle": ^0.0.0
-    "@tanstack/react-query": ^5.51.4
-    "@trpc/client": ^10.44.1
-    "@trpc/react-query": ^10.9.0
-    "@trpc/server": ^10.9.0
+    "@tanstack/react-query": latest
+    "@tanstack/react-query-devtools": latest
+    "@trpc/client": next
+    "@trpc/react-query": next
+    "@trpc/server": next
     "@types/react": ~18.2.79
     "@ui-kitten/components": ^5.3.1
     "@ui-kitten/eva-icons": ^5.3.1
+    event-source-polyfill: ^1.0.31
     expo: ^51.0.21
     expo-status-bar: ~1.12.1
     immer: ^9.0.21
@@ -5227,10 +5237,12 @@ __metadata:
     react-native-web: ~0.19.10
     react-redux: ^9.1.2
     redux-persist: ^6.0.0
+    rn-eventsource-reborn: ^1.0.5
     socket.io-client: ^4.7.5
-    superjson: ^1.12.2
+    superjson: ^2.2.1
     use-immer: ^0.10.0
     uuid: 3.4.0
+    web-streams-polyfill: ^4.0.0
   languageName: unknown
   linkType: soft
 
@@ -6061,21 +6073,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.52.0":
-  version: 5.52.0
-  resolution: "@tanstack/query-core@npm:5.52.0"
-  checksum: 1e142995fa9b0eec88009dd1083cd226eaec9125dc668b6485699639f45edb1386e4acd634e0eddc33d3a29e0c9636302824c42ac8c4106935d776fdc41d2638
+"@tanstack/query-core@npm:5.52.2":
+  version: 5.52.2
+  resolution: "@tanstack/query-core@npm:5.52.2"
+  checksum: 8750cb3aa88044c2ea6c15c0a6ab53f355fa60ec568bcd76bdcb873c982c7ddd85e454075b2cba72320ac7bd4648fad9b4af80beaacd2f223ed75213c3a14ef1
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.51.4":
-  version: 5.52.1
-  resolution: "@tanstack/react-query@npm:5.52.1"
+"@tanstack/query-devtools@npm:5.51.16":
+  version: 5.51.16
+  resolution: "@tanstack/query-devtools@npm:5.51.16"
+  checksum: 77ffcfc693b32d640144ccdcc51da3d7ecd7ac43ae0d1665465da701fce77f90c606fc6863ecf34ab375d0ce3c3dab5b4c9c66c889e4d35fa6bd1decf7f8a096
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:latest":
+  version: 5.52.2
+  resolution: "@tanstack/react-query-devtools@npm:5.52.2"
   dependencies:
-    "@tanstack/query-core": 5.52.0
+    "@tanstack/query-devtools": 5.51.16
+  peerDependencies:
+    "@tanstack/react-query": ^5.52.2
+    react: ^18 || ^19
+  checksum: abc2d08d83ad378de5892e96b46d213dba1013448e2ad25a1432107779cbc4e07dc6a92d24fee06d266973202f398fa049e9ce943d85ebc4d1c2baf5823e5ac3
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:latest":
+  version: 5.52.2
+  resolution: "@tanstack/react-query@npm:5.52.2"
+  dependencies:
+    "@tanstack/query-core": 5.52.2
   peerDependencies:
     react: ^18 || ^19
-  checksum: f46bf1f85cc03b8329aee5d8a5a96b4e30dc88aff04d5256ebd0efefe1f507720b42a4be4a9bee340d3ade6cf0ae7b59187de90d87ea973c0f67e3764f76260c
+  checksum: decaed468b1884859db949bcc67c129648f9212bcd688a9683e8bc9ab8b325263c2c31c30bbf8faa61d7e3ed951dce4828db7fb74533a707d872994be2244514
   languageName: node
   linkType: hard
 
@@ -6093,32 +6124,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:^10.44.1":
-  version: 10.45.2
-  resolution: "@trpc/client@npm:10.45.2"
+"@trpc/client@npm:next":
+  version: 11.0.0-rc.485
+  resolution: "@trpc/client@npm:11.0.0-rc.485"
   peerDependencies:
-    "@trpc/server": 10.45.2
-  checksum: d1eaa8e0059a371265065dafb48372be8456bc5bbc68f63c92401b12258cf15efb3f9f3790ef18ec6a0b7b73daa362bbd371f98db67c0610f2aee284f12cf09a
+    "@trpc/server": 11.0.0-rc.485+1c1d824cd
+  checksum: d73a6de783bfeb92c994b19c32447e4c98561a213e5c4964acebef8c5cec720621577a5d45e607c488e478d85c6635c71aeaf07beb85ceee03ae18f49ed5eed1
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.9.0":
-  version: 10.45.2
-  resolution: "@trpc/react-query@npm:10.45.2"
+"@trpc/react-query@npm:next":
+  version: 11.0.0-rc.485
+  resolution: "@trpc/react-query@npm:11.0.0-rc.485"
   peerDependencies:
-    "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.45.2
-    "@trpc/server": 10.45.2
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 5b94176f8b802dbe2642da8fa1c122b8a7e7907fcf9b7ccb7c9e1eab60a4c494db6efd61bfe536a6abc2e0e85a2fb0b8d3362b8a269bd1d9ee8e3e539b15be75
+    "@tanstack/react-query": ^5.49.2
+    "@trpc/client": 11.0.0-rc.485+1c1d824cd
+    "@trpc/server": 11.0.0-rc.485+1c1d824cd
+    react: ">=18.2.0"
+    react-dom: ">=18.2.0"
+  checksum: d3918ec97f08ac4fd8243fbcec6f3182e4019ad97a69f6e4f7d5d04fea38ebc2a1cb68579338c2a08fdfdecc67330a6562dfeef3b70749c4bd7affbf9a7986c6
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.9.0":
-  version: 10.45.2
-  resolution: "@trpc/server@npm:10.45.2"
-  checksum: 30b92853c45747a376bbbd5c4eef71fea17a2b22e83ba7e694fb13cc99b15d1f24a17aa9124346074618fb5cee8d13434aa16cdf24af82f5e8acabdecfee0ca2
+"@trpc/server@npm:next":
+  version: 11.0.0-rc.485
+  resolution: "@trpc/server@npm:11.0.0-rc.485"
+  checksum: b7ecdf24426416b30433c3569cc306780cdaf2bbf6ad6b8034cb1dc09419e3f2d871647ea2348da94a2fdd58d03ab7225935edaff4371eee0b2864df3653e793
   languageName: node
   linkType: hard
 
@@ -11892,6 +11923,13 @@ __metadata:
   version: 1.8.1
   resolution: "etag@npm:1.8.1"
   checksum: 571aeb3dbe0f2bbd4e4fadbdb44f325fc75335cd5f6f6b6a091e6a06a9f25ed5392f0863c5442acb0646787446e816f13cbfc6edce5b07658541dff573cab1ff
+  languageName: node
+  linkType: hard
+
+"event-source-polyfill@npm:^1.0.31":
+  version: 1.0.31
+  resolution: "event-source-polyfill@npm:1.0.31"
+  checksum: 973f226404e2a1b14ed7ef15c718b89e213b41d7cfeeb1c10937fd09229f13904f3d7c3075ab28ccf858c213007559908eecdd577577330352f53a351383dd75
   languageName: node
   linkType: hard
 
@@ -22056,6 +22094,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rn-eventsource-reborn@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "rn-eventsource-reborn@npm:1.0.5"
+  dependencies:
+    event-target-shim: ^5.0.1
+  checksum: f4f88b5ec3732b7345e8c6060f80a937a0ef1b6345c9a178952c79890783a119619549fb7c5413858cf338076022397ee28a11ff4446b978abbd8b6562dd4a8a
+  languageName: node
+  linkType: hard
+
 "root@workspace:.":
   version: 0.0.0-use.local
   resolution: "root@workspace:."
@@ -23539,12 +23586,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:^1.12.2":
-  version: 1.13.3
-  resolution: "superjson@npm:1.13.3"
+"superjson@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "superjson@npm:2.2.1"
   dependencies:
     copy-anything: ^3.0.2
-  checksum: f5aeb010f24163cb871a4bc402d9164112201c059afc247a75b03131c274aea6eec9cf08be9e4a9465fe4961689009a011584528531d52f7cc91c077e07e5c75
+  checksum: 42f327474a9de80165a70641d66c2afd9ce7f0eb241c32af7e2d5777f893aac6defa6c1584bd35f022658dbdfd2b7bcf0d170acfe62a07e7d1d01238cf5b4a57
   languageName: node
   linkType: hard
 
@@ -25226,6 +25273,13 @@ __metadata:
   bin:
     web-push: src/cli.js
   checksum: 306862864675a28702f378c779dfc87f5f2d717fadbcb622c8b40231e0ec074a5592251cb937b96a7e85dcfeafd475d12f0ec9044be210134ad386872d8e56ec
+  languageName: node
+  linkType: hard
+
+"web-streams-polyfill@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "web-streams-polyfill@npm:4.0.0"
+  checksum: df1abcb0f811621fa3ed95491c3d281eb7c82aa898b9759e47c3c9dffe73eb65c0459433da60a76a1ea08e6158c8b33fdf3a2ea2a44b9c4c252965507d54edc4
   languageName: node
   linkType: hard
 

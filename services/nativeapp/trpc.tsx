@@ -1,8 +1,36 @@
+import '@azure/core-asynciterator-polyfill';
+import {RNEventSource} from 'rn-eventsource-reborn';
+import {ReadableStream, TransformStream} from 'web-streams-polyfill';
+// RNEventSource extends EventSource's functionality, you can add this to make the typing reflect this but it's not a requirement
+
 import {createTRPCReact} from '@trpc/react-query';
 import type {AppRouter} from '@remrob/api';
-import {createTRPCProxyClient, httpBatchLink, loggerLink} from '@trpc/client';
+import {
+  createTRPCClient,
+  createTRPCClientProxy,
+  createTRPCProxyClient,
+  httpBatchLink,
+  loggerLink,
+  splitLink,
+  unstable_httpSubscriptionLink,
+} from '@trpc/client';
+// import {EventSourcePolyfill} from 'event-source-polyfill';
 import superjson from 'superjson';
 import {getAppState} from './redux/store';
+
+// polyfill EventSource
+// globalThis.EventSource = EventSourcePolyfill;
+
+/* declare global {
+  interface EventSource extends RNEventSource {}
+} */
+
+type MaybePromise<TValue> = TValue | Promise<TValue>;
+type CallbackOrValue<TValue> = TValue | (() => MaybePromise<TValue>);
+
+globalThis.EventSource = RNEventSource as unknown as typeof EventSource;
+globalThis.ReadableStream = globalThis.ReadableStream || ReadableStream;
+globalThis.TransformStream = globalThis.TransformStream || TransformStream;
 
 // console.log(
 //   '>>>',
@@ -54,17 +82,32 @@ export const trpcClientOptions = {
         (opts.direction === 'down' && opts.result instanceof Error),
     }),
     customLink,
-    httpBatchLink({
-      url: `${process.env.EXPO_PUBLIC_APP_API_HOST}:${process.env.EXPO_PUBLIC_APP_API_PORT}/trpc`,
 
-      headers() {
-        const authToken = getAppState().session.sessionToken;
-        return {
-          authorization: `Bearer ${authToken}`,
-        };
-      },
+    splitLink({
+      condition: (op) => op.type === 'subscription',
+      true: unstable_httpSubscriptionLink({
+        url: 'http://localhost:3000',
+        // options to pass to the EventSourcePolyfill constructor
+        eventSourceOptions: (async () => {
+          return {
+            headers: {
+              authorization: 'Bearer supersecret',
+            },
+          }; // you either need to typecast to `EventSourceInit` or use `as any` or override the types by a `declare global` statement
+        }) as CallbackOrValue<EventSourceInit>,
+        transformer: superjson,
+      }),
+      false: httpBatchLink({
+        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}:${process.env.EXPO_PUBLIC_APP_API_PORT}/trpc`,
 
-      /* async fetch(url, options) {
+        headers() {
+          const authToken = getAppState().session.sessionToken;
+          return {
+            authorization: `Bearer ${authToken}`,
+          };
+        },
+
+        /* async fetch(url, options) {
         const headers = options?.headers as Record<string, any>;
 
         if (headers && headers['X-Trpc-Fetch-Ops']) {
@@ -75,13 +118,14 @@ export const trpcClientOptions = {
         console.log('FETCH ARGS', options);
         return fetch(url, options);
       }, */
+        transformer: superjson,
+      }),
     }),
   ],
-  transformer: superjson,
 };
 
 export const trpcComp = createTRPCReact<AppRouter>();
 // trpc.createClient(clientOptions);
 // export {trpc};
 
-export const trpcFunc = createTRPCProxyClient<AppRouter>(trpcClientOptions);
+export const trpcFunc = createTRPCClient<AppRouter>(trpcClientOptions);

@@ -12,6 +12,7 @@
     "build": "expo export --platform web"
   },
   "dependencies": {
+    "@azure/core-asynciterator-polyfill": "^1.0.2",
     "@eva-design/material": "^2.2.0",
     "@expo/vector-icons": "^14.0.2",
     "@expo/webpack-config": "^19.0.1",
@@ -22,12 +23,14 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@remrob/api": "^0.2",
     "@remrob/drizzle": "^0.0.0",
-    "@tanstack/react-query": "^5.51.4",
-    "@trpc/client": "^10.44.1",
-    "@trpc/react-query": "^10.9.0",
-    "@trpc/server": "^10.9.0",
+    "@tanstack/react-query": "latest",
+    "@tanstack/react-query-devtools": "latest",
+    "@trpc/client": "next",
+    "@trpc/react-query": "next",
+    "@trpc/server": "next",
     "@ui-kitten/components": "^5.3.1",
     "@ui-kitten/eva-icons": "^5.3.1",
+    "event-source-polyfill": "^1.0.31",
     "expo": "^51.0.21",
     "expo-status-bar": "~1.12.1",
     "immer": "^9.0.21",
@@ -45,10 +48,12 @@
     "react-native-web": "~0.19.10",
     "react-redux": "^9.1.2",
     "redux-persist": "^6.0.0",
+    "rn-eventsource-reborn": "^1.0.5",
     "socket.io-client": "^4.7.5",
-    "superjson": "^1.12.2",
+    "superjson": "^2.2.1",
     "use-immer": "^0.10.0",
-    "uuid": "3.4.0"
+    "uuid": "3.4.0",
+    "web-streams-polyfill": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

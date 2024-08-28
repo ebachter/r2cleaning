@@ -19,7 +19,6 @@ const ObjectTypeRadio = () => {
     // setRoomNumberOfAppartment(index);
   };
   const {data} = trpcComp.loadObjects.useQuery(undefined, {
-    queryKey: ['loadObjects', undefined],
     initialData: [],
   });
   console.log('###', data);
