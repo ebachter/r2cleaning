@@ -30,13 +30,7 @@
       "path": "services/api"
     },
     {
-      "path": "services/jobs"
-    },
-    {
       "path": "services/nativeapp"
-    },
-    {
-      "path": "services/sample"
     },
     {
       "path": "localstack"

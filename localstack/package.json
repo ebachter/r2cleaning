@@ -11,8 +11,8 @@
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": {
-    "email": "bakhtarov@remrob.com",
-    "name": "Emir Bakhtarov"
+    "name": "Emir Bakhtarov",
+    "email": "bakhtarov@remrob.com"
   },
   "main": "service.js",
   "files": [
@@ -20,18 +20,17 @@
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean; yarn tsc -b",
-    "clean": "yarn rimraf dist ../../.build-cache/services-sample.tsbuildinfo",
-    "prepack": "yarn build",
-    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+    "build": "bun run clean; tsc -b",
+    "clean": "rimraf dist ../../.build-cache/services-localstack.tsbuildinfo",
+    "prepack": "bun run build",
+    "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.53.1",
-    "@remrob/log": "^0.0.2",
-    "@remrob/shuttle": "^0.0.2",
-    "@remrob/t800": "^0.0.2",
-    "fastify": "^3.19.2",
-    "source-map-support": "^0.5.19"
+    "@aws-sdk/client-s3": "^3.637.0",
+    "@remrob/log": "workspace:*",
+    "@remrob/shuttle": "workspace:*",
+    "@remrob/t800": "workspace:*",
+    "fastify": "^3.29.5"
   },
   "devDependencies": {
     "@types/node": "^20",

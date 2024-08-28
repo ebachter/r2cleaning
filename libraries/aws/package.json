@@ -10,25 +10,25 @@
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Emir Bakhtarov <bakhtarov@remrob.com>",
-  "main": "dist/aws.js",
+  "main": "src/aws.ts",
   "files": [
     "src",
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean; yarn tsc -b",
-    "clean": "yarn rimraf dist ../../.build-cache/aws.tsbuildinfo",
-    "prepack": "yarn build",
-    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+    "build": "bun run clean; tsc -b",
+    "clean": "rimraf dist ../../.build-cache/aws.tsbuildinfo",
+    "prepack": "bun run build",
+    "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.374.0",
-    "@aws-sdk/client-ses": "^3.370.0",
-    "@aws-sdk/client-sns": "^3.481.0",
-    "@aws-sdk/lib-storage": "^3.374.0",
-    "@remrob/log": "^0.0.2",
-    "@remrob/shuttle": "^0.0.2",
-    "aws-sdk": "^2.379.0"
+    "@aws-sdk/client-s3": "^3.637.0",
+    "@aws-sdk/client-ses": "^3.637.0",
+    "@aws-sdk/client-sns": "^3.637.0",
+    "@aws-sdk/lib-storage": "^3.637.0",
+    "@remrob/log": "workspace:*",
+    "@remrob/shuttle": "workspace:*",
+    "aws-sdk": "^2.1685.0"
   },
   "devDependencies": {
     "@types/node": "^20",

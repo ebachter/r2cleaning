@@ -9,16 +9,16 @@
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Muslim Idris <gelamu@gmail.com>",
-  "main": "dist/retry.js",
+  "main": "src/retry.ts",
   "files": [
     "src",
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean; yarn tsc -b",
-    "clean": "yarn rimraf dist ../../.build-cache/retry.tsbuildinfo",
-    "prepack": "yarn build",
-    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+    "build": "bun run clean; tsc -b",
+    "clean": "rimraf dist ../../.build-cache/retry.tsbuildinfo",
+    "prepack": "bun run build",
+    "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
   "devDependencies": {
     "@types/node": "^20",

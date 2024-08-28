@@ -10,27 +10,27 @@
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Muslim Idris <gelamu@gmail.com>",
-  "main": "dist/log.js",
+  "main": "src/log.ts",
   "files": [
     "src",
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean; yarn tsc -b",
-    "clean": "yarn rimraf dist ../../.build-cache/log.tsbuildinfo",
-    "prepack": "yarn build",
-    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+    "build": "bun run clean; tsc -b",
+    "clean": "rimraf dist ../../.build-cache/log.tsbuildinfo",
+    "prepack": "bun run build",
+    "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
   "dependencies": {
-    "pino": "^8.7.0",
+    "pino": "^8.21.0",
     "pino-lambda": "^4"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8",
     "@types/node": "^20",
-    "@types/pino": "^6.3.9",
+    "@types/pino": "^6.3.12",
     "json-sort-cli": "^1",
-    "pino-pretty": "^9.1.1",
+    "pino-pretty": "^9.4.1",
     "prettier": "^2",
     "rimraf": "^3",
     "typescript": "^5.5.4"

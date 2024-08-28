@@ -1,15 +1,16 @@
 {
   "name": "@remrob/nativeapp",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "expo start",
-    "startrn_tunnel": "expo start --tunnel",
-    "startrn": "REACT_NATIVE_PACKAGER_HOSTNAME=DESKTOP-SATGRE5 expo start",
     "android": "expo start --android",
+    "build": "expo export --platform web",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "build": "expo export --platform web"
+    "start": "expo start",
+    "startrn": "REACT_NATIVE_PACKAGER_HOSTNAME=DESKTOP-SATGRE5 expo start",
+    "startrn_tunnel": "expo start --tunnel",
+    "web": "expo start --web"
   },
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "^1.0.2",
@@ -21,8 +22,8 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@reduxjs/toolkit": "^1.9.7",
-    "@remrob/api": "^0.2",
-    "@remrob/drizzle": "^0.0.0",
+    "@remrob/api": "workspace:*",
+    "@remrob/drizzle": "workspace:*",
     "@tanstack/react-query": "latest",
     "@tanstack/react-query-devtools": "latest",
     "@trpc/client": "next",
@@ -65,6 +66,5 @@
     "@babel/plugin-transform-runtime": "^7.24.7",
     "@expo/metro-runtime": "^3.2.1",
     "@types/react": "~18.2.79"
-  },
-  "private": true
+  }
 }

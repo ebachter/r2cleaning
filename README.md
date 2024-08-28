@@ -6,17 +6,17 @@
 
 ```
 // Setup typia
-cd services/api && yarn prepare
+bun i
+cd services/api && bun run prepare
 ```
 
 ### Basic commands
 
 ```
 docker-compose up
-yarn start:all
-cd services/nativeapp && npx expo start
-yarn build
-lerna version
+bun run start:all
+cd services/nativeapp && bunx expo start
+bun run build
 ```
 
 ## Enable access in the LAN

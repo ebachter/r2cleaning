@@ -3,6 +3,9 @@
   "extends": "expo/tsconfig.base",
   "references": [
     {
+      "path": "../../libraries/drizzle"
+    },
+    {
       "path": "../api"
     }
   ]

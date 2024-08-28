@@ -8,55 +8,30 @@
     "localstack"
   ],
   "scripts": {
-    "build": "yarn lerna run build",
-    "build:watch": "yarn tsc -b -w",
-    "clean": "yarn lerna run clean",
-    "mrproper": "yarn clean; yarn lerna clean -y; yarn rimraf .build-cache node_modules",
-    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json && yarn lerna run sort-json-files",
-    "update-references": "yarn update-ts-references && yarn sortjson tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json && yarn prettier -w tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json",
+    "build": "bun run --filter='*' build",
+    "clean": "bun run --filter='*' clean",
+    "drizzle:createdb": "bun run --filter='*' drizzle:createdb",
+    "drizzle:generate": "bun run --filter='*' drizzle:generate",
+    "drizzle:migrate": "bun run --filter='*' drizzle:migrate",
+    "drizzle:push": "bun run --filter='*' drizzle:push",
+    "drizzle:seed": "bun run --filter='*' drizzle:seed",
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
-    "start:all___": "yarn lerna run start --include-dependencies --parallel --stream -- -- -r .env",
-    "start:all": "yarn lerna run start --include-dependencies --parallel --stream",
-    "drizzle:generate": "lerna run drizzle:generate",
-    "drizzle:migrate": "lerna run drizzle:migrate",
-    "drizzle:push": "lerna run drizzle:push",
-    "drizzle:seed": "lerna run drizzle:seed",
-    "drizzle:createdb": "lerna run drizzle:createdb"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "yarn commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "dependencies": {
-    "tsx": "^4.17.0"
+    "mrproper": "bun run clean; bun run --filter='*' clean; rimraf .build-cache node_modules",
+    "sort-json-files": "sortjson *.json && prettier -w *.json && bun run --filter='*' sort-json-files",
+    "start:all": "bun run --filter='*' start --include-dependencies --parallel --stream",
+    "update-references": "update-ts-references && sortjson tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json && prettier -w tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13",
-    "@commitlint/config-conventional": "^13",
-    "@jest/types": "^27.0.6",
     "@types/lodash": "^4",
     "@types/node": "^20",
     "@types/node-fetch": "^2",
-    "esbuild": "^0.19.2",
-    "esbuild-plugin-copy": "^2.1",
-    "husky": "^7.0.1",
-    "jest": "26.6.0",
-    "jest-config": "^27",
     "json-sort-cli": "^1",
-    "lerna": "^6",
     "lodash": "^4",
     "node-fetch": "^2",
     "prettier": "^2",
     "rimraf": "^3",
-    "source-map-support": "^0.5.19",
-    "ts-jest": "^27",
-    "tsx": "^4.17.0",
     "typescript": "^5.5.4",
     "update-ts-references": "^2"
   },
-  "engines": {
-    "node": ">= 20"
-  },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "bun@1.1.24"
 }

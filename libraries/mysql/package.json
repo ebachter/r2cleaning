@@ -10,21 +10,21 @@
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Muslim Idris <gelamu@gmail.com>",
-  "main": "dist/mysql.js",
+  "main": "src/mysql.ts",
   "files": [
     "src",
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean; yarn tsc -b",
-    "clean": "yarn rimraf dist ../../.build-cache/mysql.tsbuildinfo",
-    "prepack": "yarn build",
-    "sort-json-files": "yarn sortjson *.json && yarn prettier -w *.json"
+    "build": "bun run clean; tsc -b",
+    "clean": "rimraf dist ../../.build-cache/mysql.tsbuildinfo",
+    "prepack": "bun run build",
+    "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
   "dependencies": {
     "@remrob/drizzle": "^0.0.0",
     "@remrob/log": "^0.0.2",
-    "ioredis": "^5.2.4",
+    "ioredis": "^5.4.1",
     "mysql2": "^3.11.0"
   },
   "devDependencies": {
@@ -32,7 +32,6 @@
     "json-sort-cli": "^1",
     "prettier": "^2",
     "rimraf": "^3",
-    "ts-node": "^10.7.0",
     "typescript": "^5.5.4"
   }
 }
