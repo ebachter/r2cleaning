@@ -6,6 +6,7 @@
   "scripts": {
     "android": "expo start --android",
     "build": "expo export --platform web",
+    "clean": "rm -rf node_modules",
     "ios": "expo start --ios",
     "start": "expo start",
     "startrn": "REACT_NATIVE_PACKAGER_HOSTNAME=DESKTOP-SATGRE5 expo start",

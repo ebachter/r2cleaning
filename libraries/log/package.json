@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "build": "bun run clean; tsc -b",
-    "clean": "rimraf dist ../../.build-cache/log.tsbuildinfo",
+    "clean": "rm -rf dist node_modules ../../.build-cache/log.tsbuildinfo",
     "prepack": "bun run build",
     "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
@@ -32,7 +32,6 @@
     "json-sort-cli": "^1",
     "pino-pretty": "^9.4.1",
     "prettier": "^2",
-    "rimraf": "^3",
     "typescript": "^5.5.4"
   }
 }

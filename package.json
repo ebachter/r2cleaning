@@ -16,7 +16,7 @@
     "drizzle:push": "bun run --filter='*' drizzle:push",
     "drizzle:seed": "bun run --filter='*' drizzle:seed",
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
-    "mrproper": "bun run clean; bun run --filter='*' clean; rimraf .build-cache node_modules",
+    "mrproper": "bun run clean; bun run --filter='*' clean; rm -rf .build-cache node_modules",
     "sort-json-files": "sortjson *.json && prettier -w *.json && bun run --filter='*' sort-json-files",
     "start:all": "bun run --filter='*' start --include-dependencies --parallel --stream",
     "update-references": "update-ts-references && sortjson tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json && prettier -w tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json"
@@ -29,7 +29,6 @@
     "lodash": "^4",
     "node-fetch": "^2",
     "prettier": "^2",
-    "rimraf": "^3",
     "typescript": "^5.5.4",
     "update-ts-references": "^2"
   },

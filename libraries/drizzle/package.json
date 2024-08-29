@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "bun run clean; tsc -b",
-    "clean": "rimraf dist ../../.build-cache/drizzle.tsbuildinfo",
+    "clean": "rm -rf dist node_modules ../../.build-cache/drizzle.tsbuildinfo",
     "drizzle:createdb": "bun run src/createdb.ts",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate",
@@ -35,7 +35,6 @@
     "drizzle-kit": "^0.23.2",
     "json-sort-cli": "^1",
     "prettier": "^2",
-    "rimraf": "^3",
     "typescript": "^5.5.4"
   }
 }

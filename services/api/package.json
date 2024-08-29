@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "build": "bun run clean; tsc -b",
-    "clean": "rimraf dist ../../.build-cache/services-api.tsbuildinfo",
+    "clean": "rm -rf dist node_modules ../../.build-cache/services-api.tsbuildinfo",
     "prepack": "bun run build",
     "prepare": "ts-patch install && typia patch",
     "sort-json-files": "sortjson *.json && prettier -w *.json",
@@ -71,7 +71,6 @@
     "@types/uuid": "^8.3.4",
     "json-sort-cli": "^1",
     "prettier": "^2",
-    "rimraf": "^3",
     "supertest": "^3.4.2",
     "ts-patch": "^3.2.1",
     "typescript": "^5.5.4"

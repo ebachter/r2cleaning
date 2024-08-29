@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "bun run clean; tsc -b",
-    "clean": "rimraf dist ../../.build-cache/t800.tsbuildinfo",
+    "clean": "rm -rf dist node_modules ../../.build-cache/t800.tsbuildinfo",
     "prepack": "bun run build",
     "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
@@ -27,7 +27,6 @@
     "@types/node": "^20",
     "json-sort-cli": "^1",
     "prettier": "^2",
-    "rimraf": "^3",
     "typescript": "^5.5.4"
   }
 }
