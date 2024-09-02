@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 // import ObjectDetails from './ObjectDetails';
 import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
-import {trpcFunc} from '../../trpc';
+import {trpcComp, trpcFunc} from '../../trpc';
 import {
   mergeLocal,
   setOrder,
@@ -116,6 +116,15 @@ export default function OrderStepper() {
     );
   };
 
+  const order = trpcComp.createOrder.useMutation({
+    onSuccess(data, variables, context) {
+      setOrder({orderCreated: true});
+      showSnackbar({text: `Order ${data.newOrderId} created`});
+      setOrderFormInit();
+      navigation.navigate('Orders');
+    },
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.stepIndicator}>
@@ -210,15 +219,11 @@ export default function OrderStepper() {
           <View>
             <Button
               mode="contained"
-              onPress={async () => {
-                const newOrder = await trpcFunc.createOrder.mutate({
+              onPress={() => {
+                order.mutate({
                   object_id,
                   price: String(price),
                 });
-                setOrder({orderCreated: true});
-                showSnackbar({text: `Order ${newOrder.newOrderId} created`});
-                setOrderFormInit();
-                navigation.navigate('Orders');
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}
               compact={true}

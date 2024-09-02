@@ -5,7 +5,7 @@ import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
-import {trpcFunc} from '../../trpc';
+import {trpcComp, trpcFunc} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
 import {type StackNavigation} from '../../types/typesNavigation';
 import {connectMainSocket} from '../../sockets/ioMain';
@@ -50,32 +50,37 @@ const PhoneNumberInput = (): React.ReactElement => {
 
   const dispatch = useAppDispatch();
 
+  const extUserSignupSMSverify = trpcComp.extUserSignupSMSverify.useMutation({
+    onSuccess(data, variables, context) {
+      if ('session' in data) {
+        mergeSession({
+          sessionToken: data.session,
+        });
+        mergeLocal({
+          modals: {
+            login: false,
+            signup: false,
+          },
+        });
+        // connectMainSocket();
+        if (forwardTo) navigation.navigate(forwardTo);
+        else navigation.navigate('HomeInt');
+      }
+    },
+  });
+
   return smsSent ? (
     <Input
       value={veritionCode}
       label="Код верификации:"
       placeholder="Введите код"
-      onChangeText={async (nextValue) => {
+      onChangeText={(nextValue) => {
         setVeritionCode(nextValue);
         if (nextValue.length === 6) {
-          const data = await trpcFunc.extUserSignupSMSverify.mutate({
+          extUserSignupSMSverify.mutate({
             phoneNumber,
             verificationCode: nextValue,
           });
-          if ('session' in data) {
-            mergeSession({
-              sessionToken: data.session,
-            });
-            mergeLocal({
-              modals: {
-                login: false,
-                signup: false,
-              },
-            });
-            connectMainSocket();
-            if (forwardTo) navigation.navigate(forwardTo);
-            else navigation.navigate('HomeInt');
-          }
         }
       }}
     />

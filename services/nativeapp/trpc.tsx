@@ -28,9 +28,9 @@ import {getAppState} from './redux/store';
 type MaybePromise<TValue> = TValue | Promise<TValue>;
 type CallbackOrValue<TValue> = TValue | (() => MaybePromise<TValue>);
 
-globalThis.EventSource = RNEventSource as unknown as typeof EventSource;
-globalThis.ReadableStream = globalThis.ReadableStream || ReadableStream;
-globalThis.TransformStream = globalThis.TransformStream || TransformStream;
+// globalThis.EventSource = RNEventSource as unknown as typeof EventSource;
+// globalThis.ReadableStream = globalThis.ReadableStream || ReadableStream;
+// globalThis.TransformStream = globalThis.TransformStream || TransformStream;
 
 // console.log(
 //   '>>>',

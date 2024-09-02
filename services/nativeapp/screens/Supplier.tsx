@@ -16,6 +16,8 @@ export default function ScreenSuppler() {
     [service_type_id: number]: true | false | null;
   }>({}); */
 
+  const serviceOffser = trpcComp.setServiceOffer.useMutation();
+
   return (
     <>
       {/* <View>
@@ -51,8 +53,8 @@ export default function ScreenSuppler() {
               right={() => (
                 <Checkbox
                   status={o.serviceOffer ? 'checked' : 'unchecked'}
-                  onPress={async () => {
-                    await trpcFunc.setServiceOffer.mutate({
+                  onPress={() => {
+                    serviceOffser.mutate({
                       // service_type:o.service_type,
                       service_type_id: o.serviceType.id,
                       value: !o.serviceOffer,

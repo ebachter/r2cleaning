@@ -9,7 +9,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
-import {trpcFunc} from '../../trpc';
+import {trpcComp, trpcFunc} from '../../trpc';
 import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
@@ -27,6 +27,16 @@ export default function OrderStepper() {
     (state) => state.cleaning.order.review.phone,
   ); */
   const navigation = useNavigation<StackNavigation>();
+
+  const object = trpcComp.addObject.useMutation({
+    onSuccess(data, variables, context) {
+      // setOrder({orderCreated: true});
+      mergeLocal({modals: {addObject: false}});
+      showSnackbar({text: `Object ${data.newObjectId} created`});
+      // setOrderFormInit();
+      // navigation.navigate('Orders');
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -85,11 +95,12 @@ export default function OrderStepper() {
         <View>
           <Button
             mode="contained"
-            onPress={async () => {
+            onPress={() => {
               console.log(object_type, area, addressCity, addressStreet);
               if (!object_type || !area || !addressCity || !addressStreet)
                 return;
-              const newOrder = await trpcFunc.addObject.mutate({
+              
+              object.mutate({
                 type: object_type,
                 area: String(area),
                 addressCity: addressCity,
@@ -110,11 +121,6 @@ export default function OrderStepper() {
                   // elevator: true
                 },
               });
-              // setOrder({orderCreated: true});
-              mergeLocal({modals: {addObject: false}});
-              showSnackbar({text: `Object ${newOrder.newObjectId} created`});
-              // setOrderFormInit();
-              // navigation.navigate('Orders');
             }}
             style={{flex: 1, borderRadius: 5, marginRight: 10}}
             compact={true}

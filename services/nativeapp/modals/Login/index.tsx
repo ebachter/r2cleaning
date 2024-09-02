@@ -2,13 +2,19 @@ import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppSelector} from '../../redux/store';
 import {PhoneNumberInput} from './PhoneNumberInput';
-import {trpcFunc} from '../../trpc';
+import {trpcComp, trpcFunc} from '../../trpc';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 
 export default function ModalLogin() {
   const visibleLogin = useAppSelector((state) => state.local.modals.login);
   const phoneNumber = useAppSelector((state) => state.session.phone);
   const smsSent = useAppSelector((state) => state.session.smsSent);
+
+  const extUserSignupSMS = trpcComp.extUserSignupSMS.useMutation({
+    onSuccess(data, variables, context) {
+      mergeSession({smsSent: true});
+    },
+  });
 
   return (
     <Modal
@@ -36,11 +42,10 @@ export default function ModalLogin() {
         {!smsSent && (
           <Button
             mode="contained"
-            onPress={async () => {
-              const data = await trpcFunc.extUserSignupSMS.mutate({
+            onPress={() => {
+              extUserSignupSMS.mutate({
                 phone: phoneNumber,
               });
-              mergeSession({smsSent: true});
             }}
             style={{borderRadius: 5, marginTop: 20}}
             compact={true}

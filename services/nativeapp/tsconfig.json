@@ -1,6 +1,9 @@
 {
   "compilerOptions": {},
   "extends": "expo/tsconfig.base",
+  "exclude": [
+    "dist/**/*"
+  ],
   "references": [
     {
       "path": "../../libraries/drizzle"
