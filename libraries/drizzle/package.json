@@ -20,7 +20,7 @@
     "drizzle:createdb": "bun run src/createdb.ts",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate",
-    "drizzle:push": "drizzle-kit push",
+    "drizzle:push": "drizzle-kit push --force",
     "drizzle:seed": "bun run src/seed.ts",
     "drizzle:seed_backup": "bun run src/seed.ts",
     "prepack": "bun run build",
