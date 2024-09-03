@@ -5,10 +5,9 @@ import CountryFlag from 'react-native-country-flag';
 import {phone} from 'phone';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
-import {trpcComp, trpcFunc} from '../../trpc';
+import {trpcComp} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
 import {type StackNavigation} from '../../types/typesNavigation';
-import {connectMainSocket} from '../../sockets/ioMain';
 import {sessionActions} from '../../redux/sliceSession';
 import {Session} from '../../types/typeSession';
 

@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 // import ObjectDetails from './ObjectDetails';
 import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
-import {trpcComp, trpcFunc} from '../../trpc';
+import {trpcComp} from '../../trpc';
 import {
   mergeLocal,
   setOrder,

@@ -2,7 +2,7 @@ import {Modal, StyleSheet, Platform} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppSelector} from '../../redux/store';
 import {PhoneNumberInput} from './PhoneNumberInput';
-import {trpcComp, trpcFunc} from '../../trpc';
+import {trpcComp} from '../../trpc';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 
 export default function ModalLogin() {

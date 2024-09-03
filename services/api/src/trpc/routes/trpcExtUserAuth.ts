@@ -27,24 +27,10 @@ export const extUserAuthRouter = router({
         verificationCode: Verification_['verificationId'];
       }>(),
     )
-    /* .output(
-      z
-        .object({
-          isValid: z.literal(false),
-        })
-        .or(z.object({isValid: z.literal(true), session: z.string()})),
-    ) */
     .mutation(async ({ctx, input}) => {
       const {phoneNumber, verificationCode} = input;
       console.log({verificationCode});
-      /* const data = await AppDataSourceSqlite.getRepository(
-        Verification,
-      ).findOne({
-        where: {phoneNumber, verificationID: verificationCode},
-      }); */
-      /* const data = await drizzle.query.verification.findFirst({
-          with: {phoneNumber, verificationID: verificationCode},
-        }); */
+
       const data = await drizzle
         .select()
         .from(verification)
@@ -57,22 +43,12 @@ export const extUserAuthRouter = router({
       console.log('data', data);
       if (!data) return {isValid: false};
 
-      /* const userData = await AppDataSourceSqlite.getRepository(
-        EntityUser,
-      ).findOne({
-        where: {phoneNumber: data.phoneNumber},
-      }); */
       const userData = await drizzle.query.user.findFirst({
         where: eq(user.phoneNumber, data[0].phoneNumber),
       });
 
       let sessionToken: string = '';
       if (!userData) {
-        /* const user = new EntityUser();
-        user.phoneNumber = phoneNumber;
-        const newUser = await AppDataSourceSqlite.getRepository(
-          EntityUser,
-        ).save(user); */
         const newUser = await drizzle
           .insert(user)
           .values({phoneNumber} as User);

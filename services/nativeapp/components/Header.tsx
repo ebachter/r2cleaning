@@ -12,7 +12,6 @@ import {
   MenuItem,
   OverflowMenu,
 } from '@ui-kitten/components';
-import {disconnectMainSocket} from '../sockets/ioMain';
 import {StackNavigation, allRoutes} from '../routes';
 
 const MenuIcon = (props): IconElement => (
@@ -89,7 +88,6 @@ export default function CustomNavigationBar({
             title="Выход"
             onPress={() => {
               logout();
-              disconnectMainSocket();
             }}
           />
         </OverflowMenu>

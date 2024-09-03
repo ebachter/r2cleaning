@@ -5,6 +5,7 @@ import {
   json,
   mysqlEnum,
   mysqlTable,
+  timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core';
 
@@ -21,6 +22,17 @@ export const verification = mysqlTable('verification', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
   verificationId: varchar('verificationId', {length: 20}).notNull(),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+  })
+    .notNull()
+    .defaultNow()
+    .$onUpdateFn(() => new Date()),
 });
 
 export const serviceType = mysqlTable('serviceType', {

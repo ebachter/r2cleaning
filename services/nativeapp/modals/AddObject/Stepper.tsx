@@ -9,7 +9,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
-import {trpcComp, trpcFunc} from '../../trpc';
+import {trpcComp} from '../../trpc';
 import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
@@ -99,7 +99,7 @@ export default function OrderStepper() {
               console.log(object_type, area, addressCity, addressStreet);
               if (!object_type || !area || !addressCity || !addressStreet)
                 return;
-              
+
               object.mutate({
                 type: object_type,
                 area: String(area),

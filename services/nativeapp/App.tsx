@@ -12,7 +12,6 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
-import {connectMainSocket} from './sockets/ioMain';
 import {mergeLocal, mergeSession} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
@@ -87,11 +86,10 @@ export default function App() {
                     .name as keyof RootStackParamList;
                   auth(currentRouteName);
 
-                  if (
+                  /* if (
                     allRoutes[currentRouteName].protected !== false &&
                     sessionToken
-                  )
-                    connectMainSocket();
+                  ) */
                 }}
               >
                 <Stack.Navigator

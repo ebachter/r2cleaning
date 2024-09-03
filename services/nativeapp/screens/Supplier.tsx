@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import {StyleSheet} from 'react-native';
-import {trpcComp, trpcFunc} from '../trpc';
+import {trpcComp} from '../trpc';
 import {Checkbox, List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 

@@ -6,9 +6,6 @@ import {ReadableStream, TransformStream} from 'web-streams-polyfill';
 import {createTRPCReact} from '@trpc/react-query';
 import type {AppRouter} from '@remrob/api';
 import {
-  createTRPCClient,
-  createTRPCClientProxy,
-  createTRPCProxyClient,
   httpBatchLink,
   loggerLink,
   splitLink,
@@ -127,5 +124,3 @@ export const trpcClientOptions = {
 export const trpcComp = createTRPCReact<AppRouter>();
 // trpc.createClient(clientOptions);
 // export {trpc};
-
-export const trpcFunc = createTRPCClient<AppRouter>(trpcClientOptions);
