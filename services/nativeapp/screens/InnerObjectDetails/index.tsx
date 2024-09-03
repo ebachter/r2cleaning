@@ -1,21 +1,29 @@
+import { Input } from '@ui-kitten/components';
 import * as React from 'react';
-import {View} from 'react-native';
-import {Button, Input} from '@ui-kitten/components';
+import { View } from 'react-native';
 // import SnackbarComp from '../components/Snackbar';
-import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Text, TextInput} from 'react-native-paper';
-import {trpcComp} from '../../trpc';
-import {RootStackParamList} from '../../routes';
+import { Text, TextInput } from 'react-native-paper';
+import { RootStackParamList } from '../../routes';
+import { trpcComp } from '../../trpc';
 // import Header from '../components/Header';
 
-export default function ScreenObjectDetails({}) {
+export default function ScreenObjectDetails({ }) {
   // const {message} = useAppSelector((state) => state.message);
   const route = useRoute<RouteProp<RootStackParamList, 'ObjectDetails'>>();
-  const {data} = trpcComp.loadObject.useQuery({
+  const { data } = trpcComp.loadObject.useQuery({
     objectId: Number(route.params.objectId),
   });
+  const [foo, setFoo] = React.useState([]);
+  trpcComp.foo.useSubscription({}, {
+    onData(data) {
+      console.log({ data });
+      setFoo([...foo, data]);
+    },
+    enabled: true,
+  });
+  console.log('Some foo', foo);
   const [text, setText] = React.useState('_');
 
   return (
@@ -23,21 +31,21 @@ export default function ScreenObjectDetails({}) {
       {/* <View>
         <Header />
       </View> */}
-      <Text variant="titleMedium" style={{margin: 5}}>
+      <Text variant="titleMedium" style={{ margin: 5 }}>
         Object {route.params.objectId} details
       </Text>
-      <View style={{marginTop: 15}} />
+      <View style={{ marginTop: 15 }} />
       <TextInput
-        style={{margin: 5}}
+        style={{ margin: 5 }}
         label="Order ID"
         value={String(data?.id) || ''}
         onChangeText={(text) => setText(text)}
         disabled
       />
 
-      <View style={{marginTop: 15}} />
+      <View style={{ marginTop: 15 }} />
       <Input
-        style={{margin: 5}}
+        style={{ margin: 5 }}
         value={data?.type || ''}
         label="Object type"
         // placeholder="Place your text"
@@ -48,9 +56,9 @@ export default function ScreenObjectDetails({}) {
         disabled
       />
 
-      <View style={{marginTop: 15}} />
+      <View style={{ marginTop: 15 }} />
       <Input
-        style={{margin: 5}}
+        style={{ margin: 5 }}
         value={'Private cleaner inc.'}
         label="Исполнитель"
         // placeholder="Place your text"
@@ -60,6 +68,8 @@ export default function ScreenObjectDetails({}) {
         onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />
+
+      {foo.map(item => <li>{item}</li>)}
     </>
   );
 }

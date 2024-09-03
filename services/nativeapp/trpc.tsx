@@ -1,19 +1,17 @@
 import '@azure/core-asynciterator-polyfill';
-import {RNEventSource} from 'rn-eventsource-reborn';
-import {ReadableStream, TransformStream} from 'web-streams-polyfill';
 // RNEventSource extends EventSource's functionality, you can add this to make the typing reflect this but it's not a requirement
 
-import {createTRPCReact} from '@trpc/react-query';
-import type {AppRouter} from '@remrob/api';
+import type { AppRouter } from '@remrob/api';
 import {
   httpBatchLink,
   loggerLink,
   splitLink,
   unstable_httpSubscriptionLink,
 } from '@trpc/client';
+import { createTRPCReact } from '@trpc/react-query';
 // import {EventSourcePolyfill} from 'event-source-polyfill';
 import superjson from 'superjson';
-import {getAppState} from './redux/store';
+import { getAppState } from './redux/store';
 
 // polyfill EventSource
 // globalThis.EventSource = EventSourcePolyfill;
@@ -34,14 +32,13 @@ type CallbackOrValue<TValue> = TValue | (() => MaybePromise<TValue>);
 //   process.env.EXPO_PUBLIC_APP_API_HOST,
 //   process.env.EXPO_PUBLIC_APP_API_PORT,
 // );
-import {TRPCLink} from '@trpc/client';
-import {observable} from '@trpc/server/observable';
-import {logout} from './redux/functionsDispatch';
+import { TRPCLink } from '@trpc/client';
+import { observable } from '@trpc/server/observable';
 
 export const customLink: TRPCLink<AppRouter> = () => {
   // here we just got initialized in the app - this happens once per app
   // useful for storing cache for instance
-  return ({next, op}) => {
+  return ({ next, op }) => {
     // this is when passing the result to the next link
     // each link needs to return an observable which propagates results
     return observable((observer) => {
@@ -83,7 +80,7 @@ export const trpcClientOptions = {
     splitLink({
       condition: (op) => op.type === 'subscription',
       true: unstable_httpSubscriptionLink({
-        url: 'http://localhost:3000',
+        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}:${process.env.EXPO_PUBLIC_APP_API_PORT}/trpc`,
         // options to pass to the EventSourcePolyfill constructor
         eventSourceOptions: (async () => {
           return {

@@ -3,11 +3,10 @@ import drizzle, {
   order,
   serviceOffer,
   serviceType,
-  user,
 } from '@remrob/drizzle';
+import {and, eq} from 'drizzle-orm';
 import typia from 'typia';
-import {protectedProcedure, router} from '../middleware';
-import {and, eq, SQL} from 'drizzle-orm';
+import {protectedProcedure, publicProcedure, router} from '../middleware';
 
 /* type SessionReturn = {
   sessionToken?: string;
@@ -239,6 +238,14 @@ export const intRouter = router({
       console.log('--temp--', data);
 
       return data[0];
+    }),
+
+  foo: publicProcedure
+    .input(typia.createAssert<{}>())
+    .subscription(async function* () {
+      for (let i = 0; i < 3; i++) {
+        yield `foo:${Date.now()}`;
+      }
     }),
 
   loadObject: protectedProcedure
