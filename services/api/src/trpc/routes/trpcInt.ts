@@ -259,10 +259,10 @@ export const intRouter = router({
       console.log('--obj--', data); */
 
       const data = await drizzle.query.object.findFirst({
-        where: eq(order.objectId, input.objectId),
+        where: eq(object.id, input.objectId),
       });
 
-      console.log('--temp--', data);
+      // console.log('--temp--', data);
 
       return data;
     }),
