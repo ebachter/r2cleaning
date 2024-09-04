@@ -11,7 +11,6 @@ import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
 import {trpcComp} from '../../trpc';
 import {
-  mergeLocal,
   setOrder,
   setOrderFormInit,
   showSnackbar,
@@ -76,6 +75,7 @@ export default function OrderStepper() {
     setCurrentPage(position);
   };
   const orderCreated = useAppSelector((state) => state.cleaning.orderCreated);
+  const serviceType = useAppSelector((state) => state.cleaning.serviceType);
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */
@@ -222,7 +222,8 @@ export default function OrderStepper() {
               onPress={() => {
                 order.mutate({
                   object_id,
-                  price: String(price),
+                  // price: String(price),
+                  serviceTypeId: serviceType,
                 });
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}

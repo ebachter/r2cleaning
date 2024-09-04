@@ -77,12 +77,10 @@ export const order = mysqlTable('order', {
       onUpdate: 'cascade',
     })
     .notNull(),
-  providerId: int('providerId', {unsigned: true})
-    .references(() => user.id, {
-      onDelete: 'restrict',
-      onUpdate: 'cascade',
-    })
-    .notNull(),
+  providerId: int('providerId', {unsigned: true}).references(() => user.id, {
+    onDelete: 'restrict',
+    onUpdate: 'cascade',
+  }),
   customerId: int('customerId', {unsigned: true})
     .references(() => user.id, {
       onDelete: 'restrict',

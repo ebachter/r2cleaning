@@ -1,6 +1,7 @@
 import drizzle, {
   object,
   order,
+  orderService,
   serviceOffer,
   serviceType,
 } from '@remrob/drizzle';
@@ -22,9 +23,10 @@ export const intRouter = router({
   createOrder: protectedProcedure
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
-      typia.createAssert<
-        {object_id: ObjectType['id']} & Pick<OrderType, 'price'>
-      >(),
+      typia.createAssert<{
+        object_id: ObjectType['id'];
+        serviceTypeId: number;
+      }>(),
     )
     .output(typia.createAssert<{newOrderId: number}>())
     .mutation(async ({ctx, input}) => {
@@ -35,16 +37,25 @@ export const intRouter = router({
       const newOrder: Pick<OrderType, 'objectId' | 'customerId' | 'price'> = {
         objectId: input.object_id,
         customerId: userId,
-        price: String(input.price),
+        price: null, // String(input.price),
       };
       /* const order =
         AppDataSourceSqlite.getRepository(EntityOrder).create(newOrder);
       // console.log('tableName', data);
       const temp = await AppDataSourceSqlite.manager.save(order); */
 
-      const temp = await drizzle.insert(order).values(newOrder as OrderType);
+      const insertId = await drizzle.transaction(async (tx) => {
+        const temp = await tx.insert(order).values(newOrder as OrderType);
 
-      return {newOrderId: temp[0].insertId};
+        await tx.insert(orderService).values({
+          orderId: temp[0].insertId,
+          serviceTypeId: input.serviceTypeId,
+          userId,
+        });
+        return temp[0].insertId;
+      });
+
+      return {newOrderId: insertId};
     }),
 
   loadOrders: protectedProcedure.query(async ({ctx}) => {
@@ -240,7 +251,7 @@ export const intRouter = router({
       return data[0];
     }),
 
-  foo: publicProcedure
+  onChannel: publicProcedure
     .input(typia.createAssert<{}>())
     .subscription(async function* () {
       for (let i = 0; i < 3; i++) {

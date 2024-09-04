@@ -16,7 +16,7 @@ export default function ScreenObjectDetails({}) {
     objectId: Number(route.params.objectId),
   });
   const [foo, setFoo] = React.useState([]);
-  trpcComp.foo.useSubscription(
+  trpcComp.onChannel.useSubscription(
     {},
     {
       onData(data) {
@@ -26,6 +26,7 @@ export default function ScreenObjectDetails({}) {
       enabled: true,
     },
   );
+
   console.log('Some foo', foo);
   const [text, setText] = React.useState('_');
 

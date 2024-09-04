@@ -21,6 +21,7 @@ export type TypeOrder = {
 
   orderCreated: boolean;
   price: number;
+  serviceType: number;
 
   // object: Omit<Objects, 'user_fk' | 'data'>;
   /* object: {

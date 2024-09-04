@@ -3,7 +3,6 @@ import {Text} from 'react-native-paper';
 import City from './City';
 import {useAppSelector} from '../../../redux/store';
 import ComponentObjectType from '../Step2Details/componentObjectType';
-import AdressInput from './AdressInput';
 
 export default function OrderSummary() {
   const order = useAppSelector((state) => state.cleaning);
@@ -33,11 +32,6 @@ export default function OrderSummary() {
       <Text style={{marginTop: 20}}>Сумма:</Text>
       <Text style={{marginBottom: 10}}>{sum} руб.</Text>
 
-      <Text style={{marginTop: 20, marginBottom: 10}}>Город:</Text>
-      <City />
-
-      <Text style={{marginTop: 20, marginBottom: 10}}>Адрес:</Text>
-      <AdressInput />
       {orderCreated && (
         <View style={{marginTop: 20}}>
           <Text style={styles.captionText}>Order is succesfully created!</Text>

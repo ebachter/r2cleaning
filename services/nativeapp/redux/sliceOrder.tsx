@@ -60,6 +60,7 @@ export const initialStateCleaning: TypeOrder /* & {
 
   orderCreated: false,
   price: null,
+  serviceType: null,
 };
 
 const slice = createSlice({
