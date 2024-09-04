@@ -54,7 +54,6 @@
     "mime": "^2.6.0",
     "request": "^2.88.2",
     "serialize-error": "^2.1.0",
-    "socket.io": "^4.7.5",
     "superjson": "^2.2.1",
     "typia": "^6.9.0",
     "uuid": "^8.3.2"

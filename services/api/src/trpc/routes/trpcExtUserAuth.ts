@@ -89,6 +89,8 @@ export const extUserAuthRouter = router({
 
       const data = await drizzle.insert(verification).values(obj as Vrf); //.query.order.findMany({with: {object: true}});
 
+      console.log('###', genCode);
+
       const message = `Verification code: ${genCode}`;
       // await sendSMS(phone, message);
     }),

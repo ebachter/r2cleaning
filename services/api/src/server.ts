@@ -12,8 +12,6 @@ import cors from 'cors';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import {appRouter} from './trpc/router';
 import {createContext} from './trpc/context';
-import {Server as IOServer} from 'socket.io';
-import mainio from './sockets/ioMain/ioMain';
 import {checkRoute} from './functions/authCheckRoute';
 
 export type AppRouter = typeof appRouter;
@@ -24,20 +22,6 @@ const WEB_PORT = parseInt(process.env.REACT_APP_API_PORT!);
 register(async () => {
   const app = express();
   const httpServer = createServer(app);
-  const io = new IOServer(httpServer, {
-    cors: {
-      origin: '*', // process.env.FRONTEND_ORIGIN,
-    },
-  });
-
-  // const nspChat = io.of('/chat');
-  // chatio(nspChat);
-  const nspMain = io.of('/main');
-  mainio(nspMain);
-  // const nspMqttProxy = io.of('/mqttproxy');
-  // mqttproxyio(nspMqttProxy);
-  // const nspSearchObject = io.of('/market/object');
-  // ioSearchObject(nspSearchObject);
 
   app.use(helmet());
 
