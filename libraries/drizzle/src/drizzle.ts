@@ -5,6 +5,6 @@ import * as schema from './schema';
 export default drizzle(createPool(process.env.DB_URL!), {
   schema,
   mode: 'default',
-  logger: true,
+  logger: false,
 });
 export * from './schema';

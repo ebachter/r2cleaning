@@ -1,6 +1,5 @@
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
-import City from './City';
 import {useAppSelector} from '../../../redux/store';
 import ComponentObjectType from '../Step2Details/componentObjectType';
 

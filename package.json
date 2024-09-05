@@ -18,7 +18,7 @@
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
     "mrproper": "bun run clean; bun run --filter='*' clean; rm -rf .build-cache node_modules",
     "sort-json-files": "sortjson *.json && prettier -w *.json && bun run --filter='*' sort-json-files",
-    "start:all": "concurrently npm:start:api npm:start:nativeapp",
+    "start:all": "bun run --filter=@remrob/api --filter=@remrob/nativeapp start",
     "start:api": "bun run --filter @remrob/api start",
     "start:nativeapp": "bun run --filter @remrob/nativeapp start",
     "update-references": "update-ts-references && sortjson tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json && prettier -w tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json"
@@ -27,7 +27,6 @@
     "@types/lodash": "^4",
     "@types/node": "^20",
     "@types/node-fetch": "^2",
-    "concurrently": "^8.2.2",
     "json-sort-cli": "^1",
     "lodash": "^4",
     "node-fetch": "^2",

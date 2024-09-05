@@ -1,12 +1,11 @@
 import {drizzle} from 'drizzle-orm/mysql2';
 import {createConnection} from 'mysql2/promise';
-import {object, order, serviceOffer, serviceType, user} from './schema';
 import {sql} from 'drizzle-orm';
 
 const main = async () => {
   try {
     const client = await createConnection(process.env.DB_SERVER!);
-    const db = drizzle(client, {logger: true});
+    const db = drizzle(client, {logger: false});
 
     const res1 = await db.execute(
       sql.raw(`drop database if exists ${process.env.DB_NAME};`),

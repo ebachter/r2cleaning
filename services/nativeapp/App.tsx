@@ -40,7 +40,12 @@ const linking = {
 };
 
 export default function App() {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {queries: {retry: false, refetchOnWindowFocus: false}},
+      }),
+  );
   const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
 
