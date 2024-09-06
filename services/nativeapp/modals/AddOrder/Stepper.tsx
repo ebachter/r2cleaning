@@ -16,7 +16,7 @@ import {
   showSnackbar,
 } from '../../redux/functionsDispatch';
 import {StackNavigation} from '../../routes';
-import {AutocompleteElem} from './Autocomplete';
+import Step2 from './Step2Details';
 
 const indicatorStyles = {
   stepIndicatorSize: 25,
@@ -74,8 +74,9 @@ export default function OrderStepper() {
   const onStepPress = (position: number) => {
     setCurrentPage(position);
   };
-  const orderCreated = useAppSelector((state) => state.cleaning.orderCreated);
-  const serviceType = useAppSelector((state) => state.cleaning.serviceType);
+  const {serviceType, orderCreated, date} = useAppSelector(
+    (state) => state.cleaning,
+  );
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */
@@ -140,18 +141,11 @@ export default function OrderStepper() {
       </View>
 
       <View style={styles.page}>
-        {/* <Text>{steps[currentPage]?.label || currentPage}</Text> */}
         <View>
           {currentPage === 0 ? (
             <ObjectTypeRadio />
           ) : currentPage === 1 ? (
-            // ObjectDetails
-            /* object_type === 'appartment' ? (
-              <Appartment />
-            ) : object_type === 'house' ? (
-              <House />
-            ) : null */
-            <AutocompleteElem />
+            <Step2 />
           ) : currentPage === 2 ? (
             <OrderSummary />
           ) : null}
@@ -224,6 +218,7 @@ export default function OrderStepper() {
                   object_id,
                   // price: String(price),
                   serviceTypeId: serviceType,
+                  date,
                 });
               }}
               style={{flex: 1, borderRadius: 5, marginRight: 10}}

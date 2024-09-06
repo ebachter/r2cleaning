@@ -27,6 +27,7 @@ export const intRouter = router({
       typia.createAssert<{
         object_id: ObjectType['id'];
         serviceTypeId: number;
+        date: Date;
       }>(),
     )
     .output(typia.createAssert<{newOrderId: number}>())
@@ -35,10 +36,10 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Pick<OrderType, 'objectId' | 'customerId'> = {
+      const newOrder: Omit<OrderType, 'id'> = {
         objectId: input.object_id,
-        customerId: userId,
-        // price: null, // String(input.price),
+        userId: userId,
+        date: input.date,
       };
 
       const insertId = await drizzle.transaction(async (tx) => {
@@ -58,7 +59,7 @@ export const intRouter = router({
   loadOrders: protectedProcedure.query(async ({ctx}) => {
     const data = await drizzle.query.order.findMany({
       with: {object: {with: {objectType: true}}},
-      where: eq(order.customerId, ctx.session.userId),
+      where: eq(order.userId, ctx.session.userId),
     });
 
     return data;
@@ -219,7 +220,7 @@ export const intRouter = router({
       const data = await drizzle
         .select()
         .from(order)
-        .where(eq(order.customerId, ctx.session.userId));
+        .where(eq(order.userId, ctx.session.userId));
       console.log('--temp--', data);
 
       return data[0];

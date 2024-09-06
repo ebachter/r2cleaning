@@ -20,6 +20,7 @@ const kitchen = {
 export const initialStateCleaning: TypeOrder /* & {
   object: DeepNullable<Omit<Objects, 'user_fk' | 'data' | 'object_id'>>;
 } */ = {
+  date: new Date(),
   object: {
     userId: null,
     id: null,

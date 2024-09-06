@@ -150,16 +150,16 @@ const main = async () => {
       {
         id: 1,
         // price: '1.23',
-        providerId: 1,
-        customerId: 2,
+        userId: 2,
         objectId: 1,
+        date: new Date(),
       },
       {
         id: 2,
         // price: '2.34',
-        providerId: 2,
-        customerId: 1,
+        userId: 1,
         objectId: 2,
+        date: new Date(),
       },
     ]);
 

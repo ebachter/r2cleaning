@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import {useAppSelector} from '../../../redux/store';
-import ComponentObjectType from '../Step2Details/componentObjectType';
+import ComponentObjectType from './componentObjectType';
 
 export default function OrderSummary() {
   const order = useAppSelector((state) => state.cleaning);

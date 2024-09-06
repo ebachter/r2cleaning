@@ -1,5 +1,7 @@
 import {relations} from 'drizzle-orm';
 import {
+  date,
+  datetime,
   decimal,
   int,
   json,
@@ -82,16 +84,13 @@ export const order = mysqlTable('order', {
       onUpdate: 'cascade',
     })
     .notNull(),
-  providerId: int('providerId', {unsigned: true}).references(() => user.id, {
-    onDelete: 'restrict',
-    onUpdate: 'cascade',
-  }),
-  customerId: int('customerId', {unsigned: true})
+  userId: int('userId', {unsigned: true})
     .references(() => user.id, {
       onDelete: 'restrict',
       onUpdate: 'cascade',
     })
     .notNull(),
+  date: date('date').notNull(),
 });
 
 export const orderRelations = relations(order, ({one}) => ({
@@ -99,12 +98,8 @@ export const orderRelations = relations(order, ({one}) => ({
     fields: [order.objectId],
     references: [object.id],
   }),
-  provider: one(user, {
-    fields: [order.providerId],
-    references: [user.id],
-  }),
   customer: one(user, {
-    fields: [order.customerId],
+    fields: [order.userId],
     references: [user.id],
   }),
   type: one(objectType, {

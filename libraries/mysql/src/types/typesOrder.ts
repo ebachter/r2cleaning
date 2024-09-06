@@ -5,6 +5,7 @@ import {object, objectType} from '@remrob/drizzle';
 type ObjectType = typeof object.$inferSelect;
 
 export type TypeOrder = {
+  date: Date;
   object: Omit<ObjectType, 'details'> & {label: string};
   // Omit<Objects, 'user_fk' | 'data'>;
   options: {

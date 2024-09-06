@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {Autocomplete, AutocompleteItem} from '@ui-kitten/components';
-import {trpcComp} from '../../trpc';
-import {mergeOrder} from '../../redux/functionsDispatch';
+import {trpcComp} from '../../../trpc';
+import {mergeOrder} from '../../../redux/functionsDispatch';
 
 const filter = (item, query): boolean => {
   return item.toLowerCase().includes(query.toLowerCase());
@@ -48,7 +48,7 @@ export const AutocompleteElem = (): React.ReactElement => {
 
   return (
     <Autocomplete
-      placeholder="Place your Text"
+      placeholder="Service type"
       value={value}
       placement="inner top"
       onSelect={onSelect}
