@@ -55,9 +55,9 @@ export default function OrderStepper() {
         <View>
           {
             // ObjectDetails
-            object_type === 'appartment' ? (
+            object_type === 2 ? ( // 'appartment'
               <Appartment />
-            ) : object_type === 'house' ? (
+            ) : object_type === 1 ? ( // 'house'
               <House />
             ) : (
               <Text>Select object type</Text>

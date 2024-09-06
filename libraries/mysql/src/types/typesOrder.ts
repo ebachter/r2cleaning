@@ -1,11 +1,11 @@
-import {object} from '@remrob/drizzle';
+import {object, objectType} from '@remrob/drizzle';
 
 // type TupleToUnion<T extends unknown[]> = T[number];
 
 type ObjectType = typeof object.$inferSelect;
 
 export type TypeOrder = {
-  object: Omit<ObjectType, 'details'>;
+  object: Omit<ObjectType, 'details'> & {label: string};
   // Omit<Objects, 'user_fk' | 'data'>;
   options: {
     appartment: Appartment;

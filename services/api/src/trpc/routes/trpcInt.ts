@@ -1,11 +1,12 @@
 import drizzle, {
   object,
+  objectType,
   order,
   orderService,
   serviceOffer,
   serviceType,
 } from '@remrob/drizzle';
-import {and, eq} from 'drizzle-orm';
+import {and, eq, inArray} from 'drizzle-orm';
 import typia from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
 
@@ -34,15 +35,11 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Pick<OrderType, 'objectId' | 'customerId' | 'price'> = {
+      const newOrder: Pick<OrderType, 'objectId' | 'customerId'> = {
         objectId: input.object_id,
         customerId: userId,
-        price: null, // String(input.price),
+        // price: null, // String(input.price),
       };
-      /* const order =
-        AppDataSourceSqlite.getRepository(EntityOrder).create(newOrder);
-      // console.log('tableName', data);
-      const temp = await AppDataSourceSqlite.manager.save(order); */
 
       const insertId = await drizzle.transaction(async (tx) => {
         const temp = await tx.insert(order).values(newOrder as OrderType);
@@ -60,43 +57,77 @@ export const intRouter = router({
 
   loadOrders: protectedProcedure.query(async ({ctx}) => {
     const data = await drizzle.query.order.findMany({
-      with: {object: true},
+      with: {object: {with: {objectType: true}}},
       where: eq(order.customerId, ctx.session.userId),
     });
 
     return data;
   }),
 
+  loadObjectTypes: protectedProcedure.query(async ({ctx}) => {
+    const data = await drizzle.select().from(objectType);
+
+    return data;
+  }),
+
+  loadRequestsForSupplier: protectedProcedure.query(async ({ctx}) => {
+    const subQuery = drizzle
+      .select({
+        data: serviceOffer.serviceTypeId,
+      })
+      .from(serviceOffer)
+      .where(eq(serviceOffer.userId, ctx.session.userId));
+    //.as('subQuery');
+
+    const result = await drizzle
+      .select()
+      .from(order)
+      .innerJoin(orderService, eq(order.id, orderService.orderId))
+      .innerJoin(object, eq(object.id, order.objectId))
+      .where(inArray(orderService.serviceTypeId, subQuery));
+
+    return result;
+  }),
+
+  loadRequestForSupplier: protectedProcedure
+    .input(typia.createAssert<{requestId: number}>())
+    .query(async ({ctx, input}) => {
+      const subQuery = drizzle
+        .select({
+          data: serviceOffer.serviceTypeId,
+        })
+        .from(serviceOffer)
+        .where(eq(serviceOffer.userId, ctx.session.userId));
+      //.as('subQuery');
+
+      const result = await drizzle
+        .select()
+        .from(order)
+        .innerJoin(orderService, eq(order.id, orderService.orderId))
+        .innerJoin(object, eq(object.id, order.objectId))
+        .innerJoin(objectType, eq(object.type, objectType.id))
+        .where(
+          and(
+            inArray(orderService.serviceTypeId, subQuery),
+            eq(order.id, input.requestId),
+          ),
+        )
+        .limit(1);
+
+      return result[0];
+    }),
+
   loadObjects: protectedProcedure.query(async ({ctx}) => {
     const userId = ctx.session?.userid;
     // const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
     const data = await drizzle.query.object.findMany({
+      with: {objectType: true},
       where: eq(object.userId, userId),
     });
     return data;
   }),
 
-  /* loadServiceTypes2: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(
-      EntityServiceTypes,
-    ).find({
-      select: {service_type_id: true, serviceName: {}},
-      join: {
-        alias: 'service_offers',
-        leftJoin: {
-          service_offers: 'service_offers.service_type',
-        },
-      },
-    });
-    return data;
-  }), */
-
   loadServiceTypes: protectedProcedure.query(async ({ctx}) => {
-    /* const data = await AppDataSourceSqlite.getRepository(
-      EntityServiceTypes,
-    ).find({
-      select: {service_type_id: true, serviceName: {}},
-    }); */
     const data = await drizzle.query.serviceType.findMany({
       columns: {id: true, name: true},
     });
@@ -105,25 +136,6 @@ export const intRouter = router({
 
   loadServiceOffers: protectedProcedure.query(async ({ctx}) => {
     const userId = ctx.session.userId;
-
-    /* const sTypes = await AppDataSourceSqlite.getRepository(EntityServiceTypes)
-      .createQueryBuilder('serviceTypes')
-      .leftJoinAndMapOne(
-        'serviceTypes.service_type',
-        EntityServiceOffers,
-        'offer',
-        'offer.serviceTypeServiceTypeId = serviceTypes.service_type_id AND offer.userUserId = :isRemoved',
-        {isRemoved: userId},
-      )
-      .select([
-        'serviceTypes.service_type_id',
-        'serviceTypes.serviceName',
-        'offer.service_offer_id',
-        'offer.price',
-      ]);
-    //.where('serviceTypes.service_type_id = :id', {id: 4})
-    // console.log('>>>', sTypes.getSql());
-    const res = await sTypes.getMany(); */
 
     const res = await drizzle
       .select()
@@ -136,25 +148,8 @@ export const intRouter = router({
         ),
       );
 
-    // console.log('+++', res);
     return res;
   }),
-  /* loadServiceTypes2: publicProcedure.query(async ({ctx}) => {
-    const userId = ctx.session?.userid;
-
-    const data = await AppDataSourceSqlite.getRepository(
-      EntityServiceTypes,
-    ).find({
-      select: {
-        service_type_id: true,
-        serviceName: {},
-        service_type: {service_offer_id: true, price: true},
-      },
-      where: {service_type: {user: {user_id: userId}}},
-      relations: {service_type: true},
-    });
-    return data;
-  }), */
 
   setServiceOffer: protectedProcedure
     .input(
@@ -169,28 +164,7 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       const {service_type_id, value} = input;
 
-      /* const service_type = new EntityServiceTypes();
-      service_type.service_type_id = service_type_id;
-
-      const user = new EntityUser();
-      user.user_id = userId;
-      console.log({
-        service_type: {service_type_id: service_type_id},
-        user: {user_id: userId},
-        value,
-      }); */
       if (value === true) {
-        /* const newOrder: Omit<EntityServiceOffers, 'service_offer_id'> = {
-          service_type,
-          user,
-          price: null,
-        }; */
-        /* const order =
-          AppDataSourceSqlite.getRepository(EntityServiceOffers).create(
-            newOrder,
-          ); */
-        // await AppDataSourceSqlite.manager.save(order);
-
         const newOrder: Omit<ServiceOfferType, 'id'> = {
           userId,
           price: null,
@@ -270,6 +244,7 @@ export const intRouter = router({
       console.log('--obj--', data); */
 
       const data = await drizzle.query.object.findFirst({
+        with: {objectType: true},
         where: eq(object.id, input.objectId),
       });
 

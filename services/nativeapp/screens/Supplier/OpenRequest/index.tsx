@@ -1,38 +1,27 @@
-import {Input} from '@ui-kitten/components';
 import * as React from 'react';
 import {View} from 'react-native';
+import {Button, Input} from '@ui-kitten/components';
 // import SnackbarComp from '../components/Snackbar';
 import {RouteProp, useRoute} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';
-import {RootStackParamList} from '../../routes';
-import {trpcComp} from '../../trpc';
+import {trpcComp} from '../../../trpc';
+import {RootStackParamList} from '../../../routes';
+import {mergeLocal, showSnackbar} from '../../../redux/functionsDispatch';
 // import Header from '../components/Header';
 
-export default function ScreenObjectDetails({}) {
+export default function ScreenSupplierRequest() {
   // const {message} = useAppSelector((state) => state.message);
-  const route = useRoute<RouteProp<RootStackParamList, 'ObjectDetails'>>();
-
-  const {data} = trpcComp.loadObject.useQuery(
+  const route = useRoute<RouteProp<RootStackParamList, 'SupplierRequest'>>();
+  const {data: res} = trpcComp.loadRequestForSupplier.useQuery(
     {
-      objectId: Number(route.params.objectId),
+      requestId: Number(route.params.requestId),
     },
-    {initialData: {objectType: {name: {en: ''}}}},
+    {initialData: {order: {id: 0}, objectType: {name: {en: ''}}}},
   );
-
-  const [foo, setFoo] = React.useState([]);
-  trpcComp.onChannel.useSubscription(
-    {},
-    {
-      onData(data) {
-        console.log({data});
-        setFoo([...foo, data]);
-      },
-      enabled: true,
-    },
-  );
-
-  console.log('Some foo', foo);
+  /* const {data} = trpcComp.loadOrder.useQuery({
+    orderId: Number(route.params.requestId),
+  }); */
   const [text, setText] = React.useState('_');
 
   return (
@@ -41,13 +30,13 @@ export default function ScreenObjectDetails({}) {
         <Header />
       </View> */}
       <Text variant="titleMedium" style={{margin: 5}}>
-        Object {route.params.objectId} details
+        Request {route.params.requestId} details
       </Text>
       <View style={{marginTop: 15}} />
       <TextInput
         style={{margin: 5}}
-        label="Order ID"
-        value={String(data?.id) || ''}
+        label="Request ID"
+        value={String(res.order.id)}
         onChangeText={(text) => setText(text)}
         disabled
       />
@@ -55,7 +44,7 @@ export default function ScreenObjectDetails({}) {
       <View style={{marginTop: 15}} />
       <Input
         style={{margin: 5}}
-        value={data?.objectType.name.en}
+        value={String(res.objectType.name.en)}
         label="Object type"
         // placeholder="Place your text"
         // caption={renderCaption}
@@ -77,10 +66,6 @@ export default function ScreenObjectDetails({}) {
         onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />
-
-      {foo.map((item, i) => (
-        <li key={i}>{item}</li>
-      ))}
     </>
   );
 }

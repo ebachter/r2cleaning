@@ -28,6 +28,7 @@ export const initialStateCleaning: TypeOrder /* & {
     addressStreet: null,
     // object_details: null,
     area: null,
+    label: null,
   },
   options: {
     appartment: {

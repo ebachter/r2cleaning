@@ -6,6 +6,9 @@ import OrdersScreen from './screens/InnerOrderList';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
 import {NavigationProp} from '@react-navigation/native';
 import ScreenSuppler from './screens/Supplier';
+import ScreenSupplerServices from './screens/Supplier/OfferedServices';
+import ScreenSupplierRequests from './screens/Supplier/OpenRequests';
+import ScreenSupplierRequest from './screens/Supplier/OpenRequest';
 
 export type RootStackParamList = {
   HomeExt: undefined;
@@ -15,6 +18,9 @@ export type RootStackParamList = {
   OrderDetails: {orderId: number};
   ObjectDetails: {objectId: number};
   Supplier: undefined;
+  SupplierServices: undefined;
+  SupplierRequests: undefined;
+  SupplierRequest: {requestId: number};
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -71,6 +77,24 @@ export const allRoutes: {
     component: ScreenSuppler,
     path: 'supplier',
     title: 'Supplier',
+  },
+  SupplierServices: {
+    name: 'SupplierServices',
+    component: ScreenSupplerServices,
+    path: 'supplier/services',
+    title: 'Supplier services',
+  },
+  SupplierRequests: {
+    name: 'SupplierRequests',
+    component: ScreenSupplierRequests,
+    path: 'supplier/requests',
+    title: 'Customer requests',
+  },
+  SupplierRequest: {
+    name: 'SupplierRequest',
+    component: ScreenSupplierRequest,
+    path: 'supplier/request',
+    title: 'Request details',
   },
 };
 

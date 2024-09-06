@@ -21,10 +21,10 @@ export const ListOfOrders = (): React.ReactElement => {
   return (
     <List.Section>
       <List.Subheader>List of objects</List.Subheader>
-      {(data || []).map((o, i) => (
+      {data.map((o, i) => (
         <List.Item
           key={i}
-          title={`${o.id}. ${o.type}`}
+          title={`${o.id}. ${o.objectType.name.en}`}
           left={() => (
             <List.Icon
               color={MD3Colors.tertiary70}

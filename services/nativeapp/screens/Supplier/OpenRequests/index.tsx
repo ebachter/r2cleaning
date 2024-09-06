@@ -1,11 +1,17 @@
 import {View, Text} from 'react-native';
 import {StyleSheet} from 'react-native';
-import {trpcComp} from '../trpc';
+import {trpcComp} from '../../../trpc';
 import {Checkbox, List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from '../../../routes';
 
-export default function ScreenSuppler() {
+export default function ScreenSupplierRequests() {
   // const {message} = useAppSelector((state) => state.message);
+  const {data: res} = trpcComp.loadRequestsForSupplier.useQuery(undefined, {
+    initialData: [],
+  });
+  console.log('>>>res<<<', res);
   const {data: sTypes, refetch} = trpcComp.loadServiceOffers.useQuery();
   // console.log('sTypes_1', sTypes);
 
@@ -16,7 +22,8 @@ export default function ScreenSuppler() {
     [service_type_id: number]: true | false | null;
   }>({}); */
 
-  const serviceOffser = trpcComp.setServiceOffer.useMutation();
+  const {data} = trpcComp.loadOrders.useQuery();
+  const navigation = useNavigation<StackNavigation>();
 
   return (
     <>
@@ -37,11 +44,11 @@ export default function ScreenSuppler() {
         {/* <Text>Supplier</Text> */}
 
         <List.Section>
-          <List.Subheader>Offered services</List.Subheader>
-          {(sTypes || []).map((o, i) => (
+          <List.Subheader>List of orders</List.Subheader>
+          {res.map((o, i) => (
             <List.Item
               key={i}
-              title={`${o.serviceType.id}. ${o.serviceType.name.en}`}
+              title={`Заказ ${o.order.id}. ${o.object.type}`}
               left={() => (
                 <List.Icon
                   color={MD3Colors.tertiary70}
@@ -50,22 +57,10 @@ export default function ScreenSuppler() {
                   )}
                 />
               )}
-              right={() => (
-                <Checkbox
-                  status={o.serviceOffer ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    serviceOffser.mutate({
-                      // service_type:o.service_type,
-                      service_type_id: o.serviceType.id,
-                      value: !o.serviceOffer,
-                    });
-                    refetch();
-                  }}
-                />
-              )}
-              // onPress={() =>
-              //   navigation.navigate('ObjectDetails', {objectId: o.object_id})
-              // }
+              // right={() => <>{o.price || ''}</>}
+              onPress={() =>
+                navigation.navigate('SupplierRequest', {requestId: o.order.id})
+              }
             />
           ))}
         </List.Section>

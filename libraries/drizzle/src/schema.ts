@@ -40,6 +40,11 @@ export const serviceType = mysqlTable('serviceType', {
   name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
 
+export const objectType = mysqlTable('objectType', {
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+  name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
+});
+
 export const serviceOffer = mysqlTable('serviceOffer', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   price: decimal('price', {precision: 10, scale: 4}),
@@ -70,7 +75,7 @@ export const serviceOfferRelations = relations(serviceOffer, ({one}) => ({
 
 export const order = mysqlTable('order', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  price: decimal('price', {precision: 10, scale: 4}),
+  // price: decimal('price', {precision: 10, scale: 4}),
   objectId: int('objectId', {unsigned: true})
     .references(() => object.id, {
       onDelete: 'restrict',
@@ -101,6 +106,10 @@ export const orderRelations = relations(order, ({one}) => ({
   customer: one(user, {
     fields: [order.customerId],
     references: [user.id],
+  }),
+  type: one(objectType, {
+    fields: [order.id],
+    references: [objectType.id],
   }),
 }));
 
@@ -149,13 +158,13 @@ export const object = mysqlTable('object', {
     'gudermes',
   ]).notNull(),
   addressStreet: varchar('addressStreet', {length: 255}).notNull(),
-  type: mysqlEnum('objectType', [
-    'house',
-    'appartment',
-    'entrance',
-    'office',
-    'fasade',
-  ]).notNull(),
+  type: int('objectType', {unsigned: true})
+    .references(() => objectType.id, {
+      onDelete: 'restrict',
+      onUpdate: 'cascade',
+    })
+    .notNull(),
+
   area: decimal('area', {precision: 10, scale: 4}).notNull(),
   userId: int('userId', {unsigned: true})
     .references(() => user.id, {
@@ -170,5 +179,9 @@ export const objectRelations = relations(object, ({one}) => ({
   user: one(user, {
     fields: [object.userId],
     references: [user.id],
+  }),
+  objectType: one(objectType, {
+    fields: [object.type],
+    references: [objectType.id],
   }),
 }));
