@@ -1,7 +1,3 @@
-// import * as types from './types';
-// export type LanguageOptions = types.LanguageOptions;
-// export type UserToken = types.UserToken;
-
 import {
   createUserAuthToken,
   createUserSessionToken,

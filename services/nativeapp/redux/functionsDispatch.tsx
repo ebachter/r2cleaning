@@ -10,9 +10,6 @@ import {localActions} from './sliceLocal';
 import {TypeOrder} from '../types/typeOrder';
 import {TypeObject} from '../types/typeObject';
 
-export const setOrder = (args: Partial<TypeOrder>) =>
-  store.dispatch(cleaningActions.setOrder(args));
-
 // DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
 export const mergeSession = (args: DeepPartial<Session>) => {
   store.dispatch(sessionActions.mergeSession(args));
@@ -36,7 +33,7 @@ export const mergeObject = (args: DeepPartial<TypeObject>) => {
 export const logout = () => {
   mergeSession(sessionInitialState);
   navigate('HomeExt', {});
-  store.dispatch(cleaningActions.setCleaningInit());
+  store.dispatch(cleaningActions.setOrderFormInit());
 };
 
 export const showSnackbar = ({

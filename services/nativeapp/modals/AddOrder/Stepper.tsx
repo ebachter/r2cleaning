@@ -11,7 +11,7 @@ import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
 import {trpcComp} from '../../trpc';
 import {
-  setOrder,
+  mergeOrder,
   setOrderFormInit,
   showSnackbar,
 } from '../../redux/functionsDispatch';
@@ -121,7 +121,7 @@ export default function OrderStepper() {
 
   const order = trpcComp.createOrder.useMutation({
     onSuccess(data, variables, context) {
-      setOrder({orderCreated: true});
+      mergeOrder({orderCreated: true});
       showSnackbar({text: `Order ${data.newOrderId} created`});
       setOrderFormInit();
       navigation.navigate('Orders');

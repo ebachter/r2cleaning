@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import {LanguageOptions, UserToken} from '@remrob/mysql';
+import {LanguageOptions, UserToken} from './typesMisc';
 
 const SECRET = process.env.WS_JWT_SECRET || '';
 const saltRounds = 10;
