@@ -1,21 +1,32 @@
-// import {Typography} from '@mui/material';
 import {Text} from 'react-native-paper';
 import {useAppSelector} from '../../../redux/store';
-// import {objectTypes} from '../../../shared';
 import {StyleSheet, View} from 'react-native';
-import {OrderDate} from '../Step2Details/date';
 
 export default function ComponentObjectType() {
-  const {type, addressStreet, label} = useAppSelector(
-    (state) => state.cleaning.object,
-  );
+  const {
+    addressStreet,
+    objectType: {
+      name: {en: objectLabel},
+    },
+  } = useAppSelector((state) => state.cleaning.object);
+  const {
+    service: {label: serviceLabel},
+    date,
+  } = useAppSelector((state) => state.cleaning);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Тип объекта: {label}</Text>
+      <Text style={styles.text}>Тип объекта: {objectLabel}</Text>
+      <Text style={styles.text}>Service type: {serviceLabel}</Text>
 
-      <View>
-        <OrderDate />
-      </View>
+      <Text style={styles.text}>
+        Date:
+        {[
+          ('0' + date.getDate()).slice(-2),
+          ('0' + (date.getMonth() + 1)).slice(-2),
+          date.getFullYear(),
+        ].join('-')}
+      </Text>
 
       <Text style={styles.text}>Address: {addressStreet}</Text>
     </View>
@@ -24,7 +35,7 @@ export default function ComponentObjectType() {
 
 const styles = StyleSheet.create({
   text: {
-    margin: 2,
+    marginTop: 10,
   },
   container: {
     flex: 1,

@@ -4,16 +4,16 @@ import {useState} from 'react';
 import {OrderKitchen} from './OrderKitchen';
 import {OrderBathroom} from './OrderBathroom';
 import {useAppSelector} from '../../../../redux/store';
-import {setRoomNumberOfAppartment} from '../../../../redux/functionsDispatch';
+import {mergeObject} from '../../../../redux/functionsDispatch';
 
 const data = [1, 2, 3, 4, 5, 6, 7];
 
 export default function ObjectDetails() {
   const numberOfRooms = useAppSelector(
-    (state) => state.cleaning.options.appartment.numberOfRooms,
+    (state) => state.object.options.appartment.numberOfRooms,
   );
   const handleMenuItemClick = (index: number) => {
-    setRoomNumberOfAppartment(index);
+    mergeObject({options: {appartment: {numberOfRooms: {number: index}}}});
   };
 
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(

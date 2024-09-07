@@ -1,13 +1,12 @@
-import {object, objectType} from '@remrob/drizzle';
-
-// type TupleToUnion<T extends unknown[]> = T[number];
+import {object} from '@remrob/drizzle';
 
 type ObjectType = typeof object.$inferSelect;
 
-export type TypeOrder = {
-  date: Date;
-  object: Omit<ObjectType, 'details'> & {label: string};
-  // Omit<Objects, 'user_fk' | 'data'>;
+type DeepNullable<T> = {
+  [K in keyof T]: DeepNullable<T[K]> | null;
+};
+
+export type TypeObject = Omit<ObjectType, 'id'> & {
   options: {
     appartment: Appartment;
     entrance: Entrance;
@@ -15,22 +14,6 @@ export type TypeOrder = {
     office: Office;
     fasade: Fasade;
   };
-  /* review: {
-      phone: `+${number | ''}`;
-    };
-    smsSent: boolean; */
-
-  orderCreated: boolean;
-  price: number;
-  serviceType: number;
-
-  // object: Omit<Objects, 'user_fk' | 'data'>;
-  /* object: {
-    objectType: TupleToUnion<ObjectTypeOptions>;
-    area: number;
-    city: 'grosny' | 'argun' | 'gudermes';
-    address: string;
-  }; */
 };
 
 type Kitchen = {

@@ -1,7 +1,7 @@
 import {View} from 'react-native';
 import {Text} from '@ui-kitten/components';
 import {useAppSelector} from '../../redux/store';
-import {setObjectNew} from '../../redux/functionsDispatch';
+import {mergeObject} from '../../redux/functionsDispatch';
 import {Input} from '@ui-kitten/components';
 
 export const Area = () => {
@@ -21,7 +21,7 @@ export const Area = () => {
           const next = nextValue.replace(/\D/g, '') || 0;
           console.log('>>>', nextValue, next);
           // if(next) setObject({area: Number(nextValue)});
-          setObjectNew({area: next || null});
+          mergeObject({area: next || null});
         }}
         accessoryRight={
           <Text>

@@ -24,7 +24,7 @@ export const AutocompleteElem = (): React.ReactElement => {
   const onSelect = useCallback(
     (index): void => {
       setValue(data5[index].title);
-      mergeOrder({serviceType: data5[index].id});
+      mergeOrder({service: {type: data5[index].id, label: data5[index].title}});
     },
     [data5],
   );

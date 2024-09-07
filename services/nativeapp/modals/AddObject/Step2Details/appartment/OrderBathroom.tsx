@@ -1,20 +1,17 @@
 import {StyleSheet} from 'react-native';
 import {CheckBox} from '@ui-kitten/components';
 import {store, useAppSelector} from '../../../../redux/store';
-import {
-  setBathroomOfAppartment,
-  setKitchenOfAppartment,
-} from '../../../../redux/functionsDispatch';
+import {mergeObject} from '../../../../redux/functionsDispatch';
 import {ReactElement} from 'react';
 
 // type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
 export const OrderBathroom = (): ReactElement => {
   const handleChange = (event): void => {
-    setBathroomOfAppartment(event);
+    mergeObject({options: {appartment: {bathroom: event}}});
   };
   const bathroom = useAppSelector(
-    (state) => state.cleaning.options.appartment.bathroom,
+    (state) => state.object.options.appartment.bathroom,
   );
 
   return (

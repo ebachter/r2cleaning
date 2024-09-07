@@ -1,19 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import drizzle, {
-  object,
-  order,
-  serviceOffer,
-  serviceType,
-  user,
-} from '@remrob/drizzle';
-
-type ObjectType = typeof object.$inferSelect;
-
 import _ from 'lodash';
-
-type DeepNullable<T> = {
-  [K in keyof T]: DeepNullable<T[K]> | null;
-};
+import {TypeObject} from '../types/typeObject';
 
 const kitchen = {
   all: {value: false, price: 1500},
@@ -22,50 +9,44 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-export const initialStateObject: Omit<ObjectType, 'id'> = {
+export const initialStateObject: TypeObject = {
   type: null,
   addressCity: null,
   addressStreet: '',
   userId: null,
   area: null,
   details: null,
+  options: {
+    appartment: {
+      numberOfRooms: {number: 1, price: 2000},
+      kitchen,
+      bathroom: {include: false, area: 0, price: 1000},
+    },
+    entrance: {
+      numberOfFloors: {number: 0, price: 0},
+    },
+    house: {
+      numberOfRooms: {number: 0, price: 0},
+      kitchen,
+      bathroom: {include: false, area: 0, price: 1000},
+    },
+    office: {
+      numberOfRooms: {
+        number: 0,
+        price: 400,
+      },
+    },
+    fasade: {
+      numberOfFloors: {number: 0, price: 4000},
+    },
+  },
 };
 
 const slice = createSlice({
   name: 'object',
   initialState: initialStateObject,
   reducers: {
-    /* setObjectType: (
-      state,
-      action: PayloadAction<Cleaning['order']['objectType']>,
-    ) => {
-      state.order.objectType = action.payload;
-    }, */
-    /* setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
-      state.order.options.appartment.numberOfRooms.number = action.payload;
-    },
-    setKitchenOfAppartment: (
-      state,
-      action: PayloadAction<
-        Cleaning['order']['options']['appartment']['kitchen']
-      >,
-    ) => {
-      state.order.options.appartment.kitchen = action.payload;
-    },
-    setBathroomOfAppartment: (state, action: PayloadAction<boolean>) => {
-      state.order.options.appartment.bathroom.include = action.payload;
-    },
-    setPhone: (
-      state,
-      action: PayloadAction<Cleaning['order']['review']['phone']>,
-    ) => {
-      state.order.review.phone = action.payload;
-    }, */
-
-    setObject: (
-      state,
-      action: PayloadAction<Partial<Omit<ObjectType, 'id'>>>,
-    ) => {
+    mergeObject: (state, action: PayloadAction<Partial<TypeObject>>) => {
       _.merge(state, action.payload);
     },
   },

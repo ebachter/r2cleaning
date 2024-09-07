@@ -5,7 +5,7 @@ import ComponentObjectType from './componentObjectType';
 
 export default function OrderSummary() {
   const order = useAppSelector((state) => state.cleaning);
-  const sum =
+  /* const sum =
     order.options.appartment.numberOfRooms.number *
       order.options.appartment.numberOfRooms.price +
     (order.options.appartment.kitchen.oven.value
@@ -19,7 +19,7 @@ export default function OrderSummary() {
       : 0) +
     (order.options.appartment.bathroom.include
       ? order.options.appartment.bathroom.price
-      : 0);
+      : 0); */
 
   const orderCreated = useAppSelector((state) => state.cleaning.orderCreated);
   return (
@@ -28,8 +28,8 @@ export default function OrderSummary() {
         <ComponentObjectType />
       </Text>
 
-      <Text style={{marginTop: 20}}>Сумма:</Text>
-      <Text style={{marginBottom: 10}}>{sum} руб.</Text>
+      {/* <Text style={{marginTop: 20}}>Сумма:</Text>
+      <Text style={{marginBottom: 10}}>{sum} руб.</Text> */}
 
       {orderCreated && (
         <View style={{marginTop: 20}}>

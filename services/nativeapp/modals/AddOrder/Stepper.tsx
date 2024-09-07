@@ -74,9 +74,11 @@ export default function OrderStepper() {
   const onStepPress = (position: number) => {
     setCurrentPage(position);
   };
-  const {serviceType, orderCreated, date} = useAppSelector(
-    (state) => state.cleaning,
-  );
+  const {
+    service: {type: serviceType},
+    orderCreated,
+    date,
+  } = useAppSelector((state) => state.cleaning);
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */

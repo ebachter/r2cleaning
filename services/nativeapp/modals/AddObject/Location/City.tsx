@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
-import {setObjectNew} from '../../../redux/functionsDispatch';
+import {mergeObject} from '../../../redux/functionsDispatch';
 import drizzle, {
   object,
   order,
@@ -29,7 +29,7 @@ export const MenuComponent = (): React.ReactElement => {
         onSelect={(index: IndexPath) => {
           console.log(index, ix[index.row]);
           setSelectedIndex(index);
-          setObjectNew({addressCity: ix[index.row].id});
+          mergeObject({addressCity: ix[index.row].id});
         }}
         value={
           Number.isInteger(selectedIndex?.row)

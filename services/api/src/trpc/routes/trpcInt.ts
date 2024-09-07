@@ -122,6 +122,7 @@ export const intRouter = router({
     const userId = ctx.session?.userid;
     // const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
     const data = await drizzle.query.object.findMany({
+      columns: {userId: false},
       with: {objectType: true},
       where: eq(object.userId, userId),
     });

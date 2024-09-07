@@ -1,11 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {StyleSheet, View, Text, Dimensions} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {ObjectTypeRadio} from './ObjectType';
 import {Button} from 'react-native-paper';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-// import ObjectDetails from './ObjectDetails';
 import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
@@ -14,6 +10,7 @@ import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
 import {Area} from './Area';
+import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../../routes';
 
 export default function OrderStepper() {
@@ -23,25 +20,18 @@ export default function OrderStepper() {
     addressCity,
     addressStreet,
   } = useAppSelector((state) => state.object);
-  /* const phoneNumber = useAppSelector(
-    (state) => state.cleaning.order.review.phone,
-  ); */
-  const navigation = useNavigation<StackNavigation>();
 
   const object = trpcComp.addObject.useMutation({
-    onSuccess(data, variables, context) {
-      // setOrder({orderCreated: true});
+    onSuccess(data) {
       mergeLocal({modals: {addObject: false}});
       showSnackbar({text: `Object ${data.newObjectId} created`});
-      // setOrderFormInit();
-      // navigation.navigate('Orders');
     },
   });
+  const navigation = useNavigation<StackNavigation>();
 
   return (
     <View style={styles.container}>
       <View style={styles.page}>
-        {/* <Text>{steps[currentPage]?.label || currentPage}</Text> */}
         <View>
           <Text>Тип объекта:</Text>
           <ObjectTypeRadio />
@@ -100,27 +90,36 @@ export default function OrderStepper() {
               if (!object_type || !area || !addressCity || !addressStreet)
                 return;
 
-              object.mutate({
-                type: object_type,
-                area: String(area),
-                addressCity: addressCity,
-                addressStreet: addressStreet,
-                details: {
-                  object_type: 'appartment',
+              object.mutate(
+                {
+                  type: object_type,
+                  area: String(area),
+                  addressCity: addressCity,
+                  addressStreet: addressStreet,
+                  details: {
+                    object_type: 'appartment',
 
-                  numberOfRooms: {number: 1, price: 2000},
-                  kitchen: {
-                    all: {value: false, price: 1500},
-                    sink: {value: false, price: 500},
-                    refrigerator: {value: false, price: 500},
-                    oven: {value: false, price: 500},
+                    numberOfRooms: {number: 1, price: 2000},
+                    kitchen: {
+                      all: {value: false, price: 1500},
+                      sink: {value: false, price: 500},
+                      refrigerator: {value: false, price: 500},
+                      oven: {value: false, price: 500},
+                    },
+                    bathroom: {include: false, area: 0, price: 1000},
+
+                    // floors:{number:2},
+                    // elevator: true
                   },
-                  bathroom: {include: false, area: 0, price: 1000},
-
-                  // floors:{number:2},
-                  // elevator: true
                 },
-              });
+                {
+                  onSuccess: async ({newObjectId}) => {
+                    navigation.navigate('ObjectDetails', {
+                      objectId: newObjectId,
+                    });
+                  },
+                },
+              );
             }}
             style={{flex: 1, borderRadius: 5, marginRight: 10}}
             compact={true}
@@ -133,8 +132,6 @@ export default function OrderStepper() {
     </View>
   );
 }
-
-const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {

@@ -1,21 +1,21 @@
 import {StyleSheet} from 'react-native';
 import {CheckBox} from '@ui-kitten/components';
 import {store, useAppSelector} from '../../../../redux/store';
-import {setKitchenOfAppartment} from '../../../../redux/functionsDispatch';
+import {mergeObject} from '../../../../redux/functionsDispatch';
 import {ReactElement} from 'react';
 
 type TypesKitchen = 'all' | 'sink' | 'refrigerator' | 'oven';
 
 export const OrderKitchen = (): ReactElement => {
   const appartment = useAppSelector(
-    (state) => state.cleaning.options.appartment.kitchen,
+    (state) => state.object.options.appartment.kitchen,
   );
   const {dispatch} = store;
 
   const handleChange = (checked, name): void => {
     const newState = structuredClone(appartment);
     newState[name as TypesKitchen].value = checked;
-    dispatch(setKitchenOfAppartment(newState));
+    mergeObject({options: {appartment: {kitchen: newState}}});
   };
 
   const handleAllChange = (checked: boolean): void => {
@@ -30,7 +30,7 @@ export const OrderKitchen = (): ReactElement => {
     newState.oven.value = indeterminate ? false : checked;
     newState.refrigerator.value = indeterminate ? false : checked;
     newState.sink.value = indeterminate ? false : checked;
-    setKitchenOfAppartment(newState);
+    mergeObject({options: {appartment: {kitchen: newState}}});
   };
 
   return (

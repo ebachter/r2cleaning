@@ -12,16 +12,12 @@ const ObjectTypeRadio = () => {
     new IndexPath(0),
   );
 
-  // const [objectId, setObjectId] = useState<number | null>(null);
-
   const handleMenuItemClick = (index: number) => {
     console.log(index, data[index].id);
-    // setRoomNumberOfAppartment(index);
   };
   const {data} = trpcComp.loadObjects.useQuery(undefined, {
     initialData: [],
   });
-  console.log('###', data);
 
   return (
     <View>
@@ -31,41 +27,23 @@ const ObjectTypeRadio = () => {
           value={
             id && data
               ? `${data[selectedIndex.row].id}. ${
-                  data[selectedIndex.row].type
+                  data[selectedIndex.row].objectType.name.en
                 } in ${data[selectedIndex.row].addressCity}`
               : ''
           }
-          // label={'Select object'}
-          // selectedIndex={selectedIndex}
           onSelect={(index: IndexPath) => {
             setSelectedIndex(index);
             handleMenuItemClick(index.row);
-            // setObjectId(data[index.row].object_id);
             mergeOrder({
-              object: {
-                id: data[index.row].id,
-                type: data[index.row].type,
-                addressStreet: data[index.row].addressStreet,
-                addressCity: data[index.row].addressCity,
-                area: data[index.row].area,
-              },
+              object: data[index.row],
             });
-            /* setOrder({
-              object: {
-                object_id: data[index.row].object_id,
-                object_type: data[index.row].object_type,
-                address_street: data[index.row].address_street,
-                address_city: data[index.row].address_city,
-                area: data[index.row].area,
-              },
-            }); */
           }}
           placeholder={'Select object'}
         >
           {data.map((o, i) => (
             <SelectItem
               key={i}
-              title={`${o.id}. ${o.type} in ${o.addressCity}`}
+              title={`${o.id}. ${o.objectType.name.en} in ${o.addressCity}`}
             />
           ))}
         </Select>

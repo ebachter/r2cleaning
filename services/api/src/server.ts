@@ -13,8 +13,15 @@ import * as trpcExpress from '@trpc/server/adapters/express';
 import {appRouter} from './trpc/router';
 import {createContext} from './trpc/context';
 import {checkRoute} from './functions/authCheckRoute';
+import {inferReactQueryProcedureOptions} from '@trpc/react-query';
+import {inferRouterInputs, inferRouterOutputs} from '@trpc/server';
 
 export type AppRouter = typeof appRouter;
+
+// infer the types for your router
+export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
+export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 const WEB_ADDR = '0.0.0.0';
 const WEB_PORT = parseInt(process.env.REACT_APP_API_PORT!);

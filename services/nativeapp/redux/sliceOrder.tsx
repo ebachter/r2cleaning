@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {TypeOrder} from '@remrob/mysql';
 import _ from 'lodash';
-
+import {RouterOutputs} from '../trpc';
+import {TypeOrder} from '../types/typeOrder';
 /* type Cleaning = {
   objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
 }; */
@@ -17,42 +17,18 @@ const kitchen = {
   oven: {value: false, price: 500},
 };
 
-export const initialStateCleaning: TypeOrder /* & {
-  object: DeepNullable<Omit<Objects, 'user_fk' | 'data' | 'object_id'>>;
-} */ = {
-  date: new Date(),
+export const initialStateCleaning: TypeOrder = {
+  date: null,
   object: {
-    userId: null,
     id: null,
     type: null,
     addressCity: null,
     addressStreet: null,
     // object_details: null,
     area: null,
-    label: null,
-  },
-  options: {
-    appartment: {
-      numberOfRooms: {number: 1, price: 2000},
-      kitchen,
-      bathroom: {include: false, area: 0, price: 1000},
-    },
-    entrance: {
-      numberOfFloors: {number: 0, price: 0},
-    },
-    house: {
-      numberOfRooms: {number: 0, price: 0},
-      kitchen,
-      bathroom: {include: false, area: 0, price: 1000},
-    },
-    office: {
-      numberOfRooms: {
-        number: 0,
-        price: 400,
-      },
-    },
-    fasade: {
-      numberOfFloors: {number: 0, price: 4000},
+    objectType: {
+      id: null,
+      name: {en: null},
     },
   },
   /* review: {
@@ -62,7 +38,7 @@ export const initialStateCleaning: TypeOrder /* & {
 
   orderCreated: false,
   price: null,
-  serviceType: null,
+  service: {type: null, label: null},
 };
 
 const slice = createSlice({
@@ -75,7 +51,7 @@ const slice = createSlice({
     ) => {
       state.order.objectType = action.payload;
     }, */
-    setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
+    /* setRoomNumberOfAppartment: (state, action: PayloadAction<number>) => {
       state.options.appartment.numberOfRooms.number = action.payload;
     },
     setKitchenOfAppartment: (
@@ -86,7 +62,7 @@ const slice = createSlice({
     },
     setBathroomOfAppartment: (state, action: PayloadAction<boolean>) => {
       state.options.appartment.bathroom.include = action.payload;
-    },
+    }, */
     /* setPhone: (
       state,
       action: PayloadAction<Cleaning['order']['review']['phone']>,
