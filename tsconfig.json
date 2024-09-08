@@ -12,7 +12,7 @@
       "path": "libraries/log"
     },
     {
-      "path": "libraries/mysql"
+      "path": "libraries/redis"
     },
     {
       "path": "libraries/retry"

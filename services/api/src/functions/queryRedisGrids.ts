@@ -1,5 +1,5 @@
 import log from '@remrob/log';
-import {getRedisClient} from '@remrob/mysql';
+import {getRedisClient} from '@remrob/redis';
 
 export const setGrid = async (
   user: number,

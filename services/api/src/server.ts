@@ -3,7 +3,7 @@ import {getTerminator} from '@remrob/t800';
 import {register, setup} from '@remrob/shuttle';
 import '@remrob/aws';
 import '@remrob/utils';
-import '@remrob/mysql';
+import '@remrob/redis';
 import express from 'express';
 import {createServer} from 'http';
 import bearerToken from 'express-bearer-token';

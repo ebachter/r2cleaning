@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "tsBuildInfoFile": "../../.build-cache/mysql.tsbuildinfo"
+    "tsBuildInfoFile": "../../.build-cache/redis.tsbuildinfo"
   },
   "extends": "../../tsconfig.base.json",
   "include": ["./src/**/*"],

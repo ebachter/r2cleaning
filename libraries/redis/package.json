@@ -1,23 +1,23 @@
 {
-  "name": "@remrob/mysql",
+  "name": "@remrob/redis",
   "version": "0.0.2",
   "description": "Shared MySQL library",
   "keywords": [
     "database",
-    "mysql"
+    "redis"
   ],
   "homepage": "https://bitbucket.org/remrob/r2ecosystem",
   "repository": "https://bitbucket.org/remrob/r2ecosystem",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Muslim Idris <gelamu@gmail.com>",
-  "main": "src/mysql.ts",
+  "main": "src/index.ts",
   "files": [
     "src",
     "dist"
   ],
   "scripts": {
     "build": "bun run clean; tsc -b",
-    "clean": "rm -rf dist node_modules ../../.build-cache/mysql.tsbuildinfo",
+    "clean": "rm -rf dist node_modules ../../.build-cache/redis.tsbuildinfo",
     "prepack": "bun run build",
     "sort-json-files": "sortjson *.json && prettier -w *.json"
   },

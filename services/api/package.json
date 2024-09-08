@@ -37,7 +37,7 @@
     "@remrob/aws": "workspace:*",
     "@remrob/drizzle": "workspace:*",
     "@remrob/log": "workspace:*",
-    "@remrob/mysql": "workspace:*",
+    "@remrob/redis": "workspace:*",
     "@remrob/shuttle": "workspace:*",
     "@remrob/t800": "workspace:*",
     "@remrob/utils": "workspace:*",
