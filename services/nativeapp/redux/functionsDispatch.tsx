@@ -1,4 +1,4 @@
-import {cleaningActions} from './sliceOrder';
+import {requestActions} from './sliceOrder';
 import {sessionActions, sessionInitialState} from './sliceSession';
 import {store} from './store';
 import {Session} from '../types/typeSession';
@@ -9,22 +9,26 @@ import {TypeLocal} from '../types/typeLocal';
 import {localActions} from './sliceLocal';
 import {TypeOrder} from '../types/typeOrder';
 import {TypeObject} from '../types/typeObject';
+import {offerActions} from './sliceOffer';
+import {TypeOffer} from '../types/typeOffer';
 
 // DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
 export const mergeSession = (args: DeepPartial<Session>) => {
   store.dispatch(sessionActions.mergeSession(args));
 };
 
-// DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
 export const mergeLocal = (args: DeepPartial<TypeLocal>) => {
   store.dispatch(localActions.mergeLocal(args));
 };
 
-// DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
 export const mergeOrder = (args: DeepPartial<TypeOrder>) => {
-  store.dispatch(cleaningActions.mergeOrder(args));
+  store.dispatch(requestActions.mergeOrder(args));
 };
-// DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
+
+export const mergeOffer = (args: DeepPartial<TypeOffer>) => {
+  store.dispatch(offerActions.mergeOffer(args));
+};
+
 export const mergeObject = (args: DeepPartial<TypeObject>) => {
   console.log(args);
   store.dispatch(actionObject.mergeObject(args));
@@ -33,7 +37,7 @@ export const mergeObject = (args: DeepPartial<TypeObject>) => {
 export const logout = () => {
   mergeSession(sessionInitialState);
   navigate('HomeExt', {});
-  store.dispatch(cleaningActions.setOrderFormInit());
+  store.dispatch(requestActions.setOrderFormInit());
 };
 
 export const showSnackbar = ({
@@ -44,5 +48,5 @@ export const showSnackbar = ({
 };
 
 export const setOrderFormInit = () => {
-  store.dispatch(cleaningActions.setOrderFormInit());
+  store.dispatch(requestActions.setOrderFormInit());
 };

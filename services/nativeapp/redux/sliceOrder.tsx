@@ -43,5 +43,5 @@ const slice = createSlice({
   },
 });
 
-export const cleaningReducers = slice.reducer;
-export const cleaningActions = slice.actions;
+export const requestReducers = slice.reducer;
+export const requestActions = slice.actions;

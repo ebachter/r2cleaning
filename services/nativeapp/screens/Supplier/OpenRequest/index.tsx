@@ -1,17 +1,14 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {Button, Input} from '@ui-kitten/components';
-// import SnackbarComp from '../components/Snackbar';
+import {Input} from '@ui-kitten/components';
 import {RouteProp, useRoute} from '@react-navigation/native';
-// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Text, TextInput} from 'react-native-paper';
+import {Button, Divider, Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../../trpc';
 import {RootStackParamList} from '../../../routes';
-import {mergeLocal, showSnackbar} from '../../../redux/functionsDispatch';
-// import Header from '../components/Header';
+import SupplierTimePicker from './timePicker';
+import {useAppSelector} from '../../../redux/store';
 
 export default function ScreenSupplierRequest() {
-  // const {message} = useAppSelector((state) => state.message);
   const route = useRoute<RouteProp<RootStackParamList, 'SupplierRequest'>>();
   const {data: res} = trpcComp.loadRequestForSupplier.useQuery(
     {
@@ -19,16 +16,11 @@ export default function ScreenSupplierRequest() {
     },
     {initialData: {order: {id: 0}, objectType: {name: {en: ''}}}},
   );
-  /* const {data} = trpcComp.loadOrder.useQuery({
-    orderId: Number(route.params.requestId),
-  }); */
-  const [text, setText] = React.useState('_');
+  const {hours, minutes} = useAppSelector((state) => state.offer.time);
+  const [timeVisible, setTimeVisible] = React.useState(false);
 
   return (
     <>
-      {/* <View>
-        <Header />
-      </View> */}
       <Text variant="titleMedium" style={{margin: 5}}>
         Request {route.params.requestId} details
       </Text>
@@ -37,7 +29,6 @@ export default function ScreenSupplierRequest() {
         style={{margin: 5}}
         label="Request ID"
         value={String(res.order.id)}
-        onChangeText={(text) => setText(text)}
         disabled
       />
 
@@ -46,11 +37,6 @@ export default function ScreenSupplierRequest() {
         style={{margin: 5}}
         value={String(res.objectType.name.en)}
         label="Object type"
-        // placeholder="Place your text"
-        // caption={renderCaption}
-        // accessoryRight={renderIcon}
-        // secureTextEntry={secureTextEntry}
-        onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />
 
@@ -59,13 +45,33 @@ export default function ScreenSupplierRequest() {
         style={{margin: 5}}
         value={'Private cleaner inc.'}
         label="Исполнитель"
-        // placeholder="Place your text"
-        // caption={renderCaption}
-        // accessoryRight={renderIcon}
-        // secureTextEntry={secureTextEntry}
-        onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />
+
+      <Divider style={{marginTop: 10, marginBottom: 10}} />
+
+      <TextInput
+        label="Time"
+        value={`${hours}:${minutes}`}
+        disabled
+        right={
+          <TextInput.Icon
+            icon="clock"
+            onPress={() => setTimeVisible(!timeVisible)}
+          />
+        }
+      />
+
+      <Button
+        icon="offer"
+        mode="contained"
+        onPress={() => console.log('Pressed')}
+        style={{marginTop: 15}}
+      >
+        Make offer
+      </Button>
+
+      <SupplierTimePicker visible={timeVisible} setVisible={setTimeVisible} />
     </>
   );
 }
