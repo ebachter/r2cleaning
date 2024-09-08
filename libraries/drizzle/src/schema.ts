@@ -108,7 +108,7 @@ export const orderRelations = relations(order, ({one}) => ({
   }),
 }));
 
-export const orderService = mysqlTable('orderService', {
+export const requestService = mysqlTable('orderService', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   orderId: int('orderId', {unsigned: true})
     .references(() => order.id, {
@@ -130,17 +130,17 @@ export const orderService = mysqlTable('orderService', {
     .notNull(),
 });
 
-export const orderServiceRelations = relations(orderService, ({one}) => ({
+export const orderServiceRelations = relations(requestService, ({one}) => ({
   order: one(order, {
-    fields: [orderService.orderId],
+    fields: [requestService.orderId],
     references: [order.id],
   }),
   serviceType: one(serviceType, {
-    fields: [orderService.serviceTypeId],
+    fields: [requestService.serviceTypeId],
     references: [serviceType.id],
   }),
   user: one(user, {
-    fields: [orderService.userId],
+    fields: [requestService.userId],
     references: [user.id],
   }),
 }));

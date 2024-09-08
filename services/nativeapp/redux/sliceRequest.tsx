@@ -1,9 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import _ from 'lodash';
 import {TypeOrder} from '../types/typeOrder';
-/* type Cleaning = {
-  objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
-}; */
 
 type DeepNullable<T> = {
   [K in keyof T]: DeepNullable<T[K]> | null;

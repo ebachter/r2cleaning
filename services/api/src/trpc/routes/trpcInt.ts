@@ -2,19 +2,13 @@ import drizzle, {
   object,
   objectType,
   order,
-  orderService,
+  requestService,
   serviceOffer,
   serviceType,
 } from '@remrob/drizzle';
 import {and, eq, inArray} from 'drizzle-orm';
 import typia from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
-
-/* type SessionReturn = {
-  sessionToken?: string;
-  refreshToken?: string;
-  error?: {status: 401 | 500};
-}; */
 
 type ObjectType = typeof object.$inferSelect;
 type OrderType = typeof order.$inferSelect;
@@ -45,7 +39,7 @@ export const intRouter = router({
       const insertId = await drizzle.transaction(async (tx) => {
         const temp = await tx.insert(order).values(newOrder as OrderType);
 
-        await tx.insert(orderService).values({
+        await tx.insert(requestService).values({
           orderId: temp[0].insertId,
           serviceTypeId: input.serviceTypeId,
           userId,
@@ -83,9 +77,9 @@ export const intRouter = router({
     const result = await drizzle
       .select()
       .from(order)
-      .innerJoin(orderService, eq(order.id, orderService.orderId))
+      .innerJoin(requestService, eq(order.id, requestService.orderId))
       .innerJoin(object, eq(object.id, order.objectId))
-      .where(inArray(orderService.serviceTypeId, subQuery));
+      .where(inArray(requestService.serviceTypeId, subQuery));
 
     return result;
   }),
@@ -104,12 +98,12 @@ export const intRouter = router({
       const result = await drizzle
         .select()
         .from(order)
-        .innerJoin(orderService, eq(order.id, orderService.orderId))
+        .innerJoin(requestService, eq(order.id, requestService.orderId))
         .innerJoin(object, eq(object.id, order.objectId))
         .innerJoin(objectType, eq(object.type, objectType.id))
         .where(
           and(
-            inArray(orderService.serviceTypeId, subQuery),
+            inArray(requestService.serviceTypeId, subQuery),
             eq(order.id, input.requestId),
           ),
         )
