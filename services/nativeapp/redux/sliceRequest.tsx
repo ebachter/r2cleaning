@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import _ from 'lodash';
-import {RouterOutputs} from '../trpc';
 import {TypeOrder} from '../types/typeOrder';
 /* type Cleaning = {
   objectType: 'appartment' | 'entrance' | 'house' | 'office' | 'fasade';
@@ -30,7 +29,7 @@ export const initialStateCleaning: TypeOrder = {
 };
 
 const slice = createSlice({
-  name: 'order',
+  name: 'request',
   initialState: initialStateCleaning,
   reducers: {
     setOrderFormInit: (state) => {

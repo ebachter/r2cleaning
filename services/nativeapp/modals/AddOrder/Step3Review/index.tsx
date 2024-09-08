@@ -4,32 +4,12 @@ import {useAppSelector} from '../../../redux/store';
 import ComponentObjectType from './componentObjectType';
 
 export default function OrderSummary() {
-  const order = useAppSelector((state) => state.cleaning);
-  /* const sum =
-    order.options.appartment.numberOfRooms.number *
-      order.options.appartment.numberOfRooms.price +
-    (order.options.appartment.kitchen.oven.value
-      ? order.options.appartment.kitchen.oven.price
-      : 0) +
-    (order.options.appartment.kitchen.refrigerator.value
-      ? order.options.appartment.kitchen.refrigerator.price
-      : 0) +
-    (order.options.appartment.kitchen.sink.value
-      ? order.options.appartment.kitchen.sink.price
-      : 0) +
-    (order.options.appartment.bathroom.include
-      ? order.options.appartment.bathroom.price
-      : 0); */
-
-  const orderCreated = useAppSelector((state) => state.cleaning.orderCreated);
+  const orderCreated = useAppSelector((state) => state.request.orderCreated);
   return (
     <View>
       <Text style={{marginBottom: 20}}>
         <ComponentObjectType />
       </Text>
-
-      {/* <Text style={{marginTop: 20}}>Сумма:</Text>
-      <Text style={{marginBottom: 10}}>{sum} руб.</Text> */}
 
       {orderCreated && (
         <View style={{marginTop: 20}}>

@@ -1,14 +1,11 @@
 import {Modal, StyleSheet} from 'react-native';
 import {Appbar, Button, Dialog, Text} from 'react-native-paper';
-import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 import ScreenObjectAdd from './intro';
 
 export default function ModalAddObject() {
   const visibleLogin = useAppSelector((state) => state.local.modals.addObject);
-  const phoneNumber = useAppSelector((state) => state.session.phone);
-  const smsSent = useAppSelector((state) => state.session.smsSent);
-  const dispatch = useAppDispatch();
 
   return (
     <Modal

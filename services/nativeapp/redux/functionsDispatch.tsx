@@ -1,4 +1,4 @@
-import {requestActions} from './sliceOrder';
+import {requestActions} from './sliceRequest';
 import {sessionActions, sessionInitialState} from './sliceSession';
 import {store} from './store';
 import {Session} from '../types/typeSession';

@@ -8,11 +8,11 @@ export default function ComponentObjectType() {
     objectType: {
       name: {en: objectLabel},
     },
-  } = useAppSelector((state) => state.cleaning.object);
+  } = useAppSelector((state) => state.request.object);
   const {
     service: {label: serviceLabel},
     date,
-  } = useAppSelector((state) => state.cleaning);
+  } = useAppSelector((state) => state.request);
 
   return (
     <View style={styles.container}>

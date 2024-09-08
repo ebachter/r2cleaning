@@ -6,7 +6,7 @@ import {useState} from 'react';
 import {trpcComp} from '../../../trpc';
 
 const ObjectTypeRadio = () => {
-  const {id, type} = useAppSelector((state) => state.cleaning.object);
+  const {id, type} = useAppSelector((state) => state.request.object);
 
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
     new IndexPath(0),

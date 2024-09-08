@@ -20,7 +20,7 @@ const ix: {id: ObjectType['addressCity']; label: string}[] = [
 
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
-  // const city = useAppSelector((state) => state.cleaning.object.city);
+  // const city = useAppSelector((state) => state.request.object.city);
 
   return (
     <Layout style={styles.container} level="1">

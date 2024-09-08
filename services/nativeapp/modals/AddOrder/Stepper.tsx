@@ -63,10 +63,10 @@ export default function OrderStepper() {
     id: object_id,
     addressCity: address_city,
     area,
-  } = useAppSelector((state) => state.cleaning.object);
-  const price = useAppSelector((state) => state.cleaning.price);
+  } = useAppSelector((state) => state.request.object);
+  const price = useAppSelector((state) => state.request.price);
   /* const phoneNumber = useAppSelector(
-    (state) => state.cleaning.order.review.phone,
+    (state) => state.request.order.review.phone,
   ); */
   const navigation = useNavigation<StackNavigation>();
   const [currentPage, setCurrentPage] = React.useState<number>(0);
@@ -78,7 +78,7 @@ export default function OrderStepper() {
     service: {type: serviceType},
     orderCreated,
     date,
-  } = useAppSelector((state) => state.cleaning);
+  } = useAppSelector((state) => state.request);
 
   {
     /* <MaterialIcons {...getStepIndicatorIconConfig(params)} /> */

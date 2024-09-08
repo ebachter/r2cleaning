@@ -5,7 +5,7 @@ import {useAppSelector} from '../../../redux/store';
 import {mergeOrder} from '../../../redux/functionsDispatch';
 
 export const OrderDate = (): React.ReactElement => {
-  const orderDate = useAppSelector((state) => state.cleaning.date);
+  const orderDate = useAppSelector((state) => state.request.date);
   const now = new Date();
 
   return (

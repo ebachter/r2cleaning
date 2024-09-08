@@ -2,14 +2,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {combineReducers} from 'redux';
-import {requestReducers} from './sliceOrder';
+import {requestReducers} from './sliceRequest';
 import {sessionReducers} from './sliceSession';
 import {reducerObject} from './sliceObject';
 import {localReducers} from './sliceLocal';
 import {offerReducer} from './sliceOffer';
 
 const rootReducer = combineReducers({
-  cleaning: requestReducers,
+  request: requestReducers,
   offer: offerReducer,
   session: sessionReducers,
   object: reducerObject,
