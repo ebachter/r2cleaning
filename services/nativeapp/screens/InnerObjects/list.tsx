@@ -3,7 +3,6 @@ import {trpcComp} from '../../trpc';
 import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
-import {type StackNavigation} from '../../routes';
 
 /* const data = new Array(8).fill({
   title: 'Item',
@@ -16,7 +15,7 @@ export const ListOfOrders = (): React.ReactElement => {
   });
 
   console.log('orders', data);
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
 
   return (
     <List.Section>

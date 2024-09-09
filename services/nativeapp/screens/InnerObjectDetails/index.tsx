@@ -1,12 +1,10 @@
 import {Input} from '@ui-kitten/components';
 import * as React from 'react';
 import {View} from 'react-native';
-// import SnackbarComp from '../components/Snackbar';
 import {RouteProp, useRoute} from '@react-navigation/native';
-// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';
-import {RootStackParamList} from '../../routes';
 import {trpcComp} from '../../trpc';
+import {RootStackParamList} from '../../types/typesNavigation';
 // import Header from '../components/Header';
 
 export default function ScreenObjectDetails({}) {

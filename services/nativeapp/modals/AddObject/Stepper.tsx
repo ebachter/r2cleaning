@@ -11,7 +11,6 @@ import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
 import {Area} from './Area';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from '../../routes';
 
 export default function OrderStepper() {
   const {
@@ -27,7 +26,7 @@ export default function OrderStepper() {
       showSnackbar({text: `Object ${data.newObjectId} created`});
     },
   });
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>

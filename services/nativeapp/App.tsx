@@ -12,14 +12,15 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
 import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
-import {mergeLocal, mergeSession} from './redux/functionsDispatch';
+import {mergeLocal} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {ScreenTemplate} from './components/Wrapper';
 
-import {RootStackParamList, allRoutes, screens} from './routes';
+import {allRoutes, screens} from './routes';
 import ModalAddObject from './modals/AddObject';
 import ModalAddOrder from './modals/AddOrder';
+import {RootStackParamList} from './types/typesNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

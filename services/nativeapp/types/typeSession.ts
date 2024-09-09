@@ -1,5 +1,3 @@
-import {RootStackParamList} from '../routes';
-
 export type Session = {
   sessionToken: string | null;
   refreshToken?: string | null;

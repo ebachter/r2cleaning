@@ -1,17 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {Button, Input} from '@ui-kitten/components';
-// import SnackbarComp from '../components/Snackbar';
+import {Input} from '@ui-kitten/components';
 import {RouteProp, useRoute} from '@react-navigation/native';
-// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../trpc';
-import {RootStackParamList} from '../../routes';
-import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
-// import Header from '../components/Header';
+import {RootStackParamList} from '../../types/typesNavigation';
 
 export default function ScreenOrderDetails({}) {
-  // const {message} = useAppSelector((state) => state.message);
   const route = useRoute<RouteProp<RootStackParamList, 'OrderDetails'>>();
   const {data} = trpcComp.loadOrder.useQuery({
     orderId: Number(route.params.orderId),
@@ -20,9 +15,6 @@ export default function ScreenOrderDetails({}) {
 
   return (
     <>
-      {/* <View>
-        <Header />
-      </View> */}
       <Text variant="titleMedium" style={{margin: 5}}>
         Order {route.params.orderId} details
       </Text>
@@ -40,10 +32,6 @@ export default function ScreenOrderDetails({}) {
         style={{margin: 5}}
         value={String(data?.objectId) || ''}
         label="Object type"
-        // placeholder="Place your text"
-        // caption={renderCaption}
-        // accessoryRight={renderIcon}
-        // secureTextEntry={secureTextEntry}
         onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />
@@ -53,10 +41,6 @@ export default function ScreenOrderDetails({}) {
         style={{margin: 5}}
         value={'Private cleaner inc.'}
         label="Исполнитель"
-        // placeholder="Place your text"
-        // caption={renderCaption}
-        // accessoryRight={renderIcon}
-        // secureTextEntry={secureTextEntry}
         onChangeText={(nextValue) => setText(nextValue)}
         disabled
       />

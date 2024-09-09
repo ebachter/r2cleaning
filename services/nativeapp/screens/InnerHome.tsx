@@ -4,14 +4,13 @@ import {Button} from '@ui-kitten/components';
 // import SnackbarComp from '../components/Snackbar';
 import {mergeLocal, showSnackbar} from '../redux/functionsDispatch';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from '../routes';
 // import Header from '../components/Header';
 import {StyleSheet} from 'react-native';
 import {FAB} from 'react-native-paper';
 
 export default function DetailsScreen({}) {
   // const {message} = useAppSelector((state) => state.message);
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
 
   return (
     <>

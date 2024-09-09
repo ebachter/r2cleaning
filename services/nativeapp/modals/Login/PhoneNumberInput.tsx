@@ -7,7 +7,6 @@ import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 import {trpcComp} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
-import {type StackNavigation} from '../../types/typesNavigation';
 import {sessionActions} from '../../redux/sliceSession';
 import {Session} from '../../types/typeSession';
 
@@ -26,7 +25,7 @@ const PhoneNumberInput = (): React.ReactElement => {
   const phoneNumber = useAppSelector((state) => state.session.phone);
 
   const smsSent = useAppSelector((state) => state.session.smsSent);
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
   const forwardTo = useAppSelector((state) => state.local.modals.forwardTo);
 
   const renderIcon = (): React.ReactElement => (
@@ -61,7 +60,6 @@ const PhoneNumberInput = (): React.ReactElement => {
             signup: false,
           },
         });
-        // connectMainSocket();
         if (forwardTo) navigation.navigate(forwardTo);
         else navigation.navigate('HomeInt');
       }

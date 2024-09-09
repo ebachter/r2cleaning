@@ -15,7 +15,6 @@ import {
   setOrderFormInit,
   showSnackbar,
 } from '../../redux/functionsDispatch';
-import {StackNavigation} from '../../routes';
 import Step2 from './Step2Details';
 
 const indicatorStyles = {
@@ -68,7 +67,7 @@ export default function OrderStepper() {
   /* const phoneNumber = useAppSelector(
     (state) => state.request.order.review.phone,
   ); */
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
   const [currentPage, setCurrentPage] = React.useState<number>(0);
 
   const onStepPress = (position: number) => {

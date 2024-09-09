@@ -9,21 +9,7 @@ import ScreenSuppler from './screens/Supplier';
 import ScreenSupplerServices from './screens/Supplier/OfferedServices';
 import ScreenSupplierRequests from './screens/Supplier/OpenRequests';
 import ScreenSupplierRequest from './screens/Supplier/OpenRequest';
-
-export type RootStackParamList = {
-  HomeExt: undefined;
-  HomeInt: undefined;
-  Orders: undefined;
-  Objects: undefined;
-  OrderDetails: {orderId: number};
-  ObjectDetails: {objectId: number};
-  Supplier: undefined;
-  SupplierServices: undefined;
-  SupplierRequests: undefined;
-  SupplierRequest: {requestId: string};
-};
-
-export type StackNavigation = NavigationProp<RootStackParamList>;
+import {RootStackParamList} from './types/typesNavigation';
 
 export const allRoutes: {
   [file in keyof RootStackParamList]: {

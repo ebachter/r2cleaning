@@ -1,8 +1,7 @@
 import React from 'react';
 import {Appbar} from 'react-native-paper';
 // import {getHeaderTitle} from '@react-navigation/elements';
-import {ParamListBase, useNavigation, useRoute} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {logout} from '../redux/functionsDispatch';
 import {View} from 'react-native';
 import {
@@ -12,7 +11,7 @@ import {
   MenuItem,
   OverflowMenu,
 } from '@ui-kitten/components';
-import {StackNavigation, allRoutes} from '../routes';
+import {allRoutes} from '../routes';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -35,7 +34,7 @@ export default function CustomNavigationBar({
     HomeExt: {title: ''},
   }; */
 
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
 
   // console.log('>>>', route.name);
   // const title = options2[route.name].title; // getHeaderTitle(options, route.name);
