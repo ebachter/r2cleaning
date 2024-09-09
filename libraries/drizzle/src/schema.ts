@@ -76,7 +76,7 @@ export const serviceOfferRelations = relations(serviceOffer, ({one}) => ({
   }),
 }));
 
-export const requests = mysqlTable('order', {
+export const requests = mysqlTable('request', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   objectId: int('objectId', {unsigned: true})
     .references(() => object.id, {
@@ -113,7 +113,7 @@ export const offer = mysqlTable(
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     time: time('time').notNull(),
-    requestId: int('orderId', {unsigned: true})
+    requestId: int('requestId', {unsigned: true})
       .references(() => requests.id, {
         onDelete: 'restrict',
         onUpdate: 'cascade',
@@ -132,7 +132,7 @@ export const offer = mysqlTable(
       .defaultNow(),
   },
   (t) => ({
-    unq: unique('offer_uq_orderId_userId').on(t.requestId, t.userId),
+    unq: unique('offer_uq_requestId_userId').on(t.requestId, t.userId),
   }),
 );
 
@@ -147,9 +147,9 @@ export const offerRelations = relations(offer, ({one}) => ({
   }),
 }));
 
-export const requestService = mysqlTable('orderService', {
+export const requestService = mysqlTable('requestService', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  requestId: int('orderId', {unsigned: true})
+  requestId: int('requestId', {unsigned: true})
     .references(() => requests.id, {
       onDelete: 'restrict',
       onUpdate: 'cascade',

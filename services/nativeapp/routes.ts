@@ -37,14 +37,14 @@ export const allRoutes: {
   OrderDetails: {
     name: 'OrderDetails',
     component: ScreenOrderDetails,
-    path: 'order/details',
+    path: 'request/details',
     title: 'Детали',
   },
-  Orders: {
-    name: 'Orders',
+  Requests: {
+    name: 'Requests',
     component: OrdersScreen,
-    path: 'orders',
-    title: 'Заказы',
+    path: 'requests',
+    title: 'Заявки',
   },
   Objects: {
     name: 'Objects',

@@ -47,7 +47,7 @@ const steps = [
     content: () => <>OType</>,
   },
   {
-    label: 'Order details',
+    label: 'Request details',
     content: () => <>OType</>,
   },
   {
@@ -63,10 +63,6 @@ export default function OrderStepper() {
     addressCity: address_city,
     area,
   } = useAppSelector((state) => state.request.object);
-  const price = useAppSelector((state) => state.request.price);
-  /* const phoneNumber = useAppSelector(
-    (state) => state.request.order.review.phone,
-  ); */
   const navigation = useNavigation();
   const [currentPage, setCurrentPage] = React.useState<number>(0);
 
@@ -118,12 +114,12 @@ export default function OrderStepper() {
     );
   };
 
-  const order = trpcComp.createOrder.useMutation({
+  const request = trpcComp.createOrder.useMutation({
     onSuccess(data, variables, context) {
       mergeOrder({orderCreated: true});
-      showSnackbar({text: `Order ${data.newOrderId} created`});
+      showSnackbar({text: `Request ${data.newOrderId} created`});
       setOrderFormInit();
-      navigation.navigate('Orders');
+      navigation.navigate('Requests');
     },
   });
 
@@ -215,7 +211,7 @@ export default function OrderStepper() {
             <Button
               mode="contained"
               onPress={() => {
-                order.mutate({
+                request.mutate({
                   object_id,
                   // price: String(price),
                   serviceTypeId: serviceType,

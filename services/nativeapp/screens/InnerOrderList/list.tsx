@@ -7,16 +7,15 @@ import {trpcComp} from '../../trpc';
 export const ListOfOrders = (): ReactElement => {
   const {data} = trpcComp.loadOrders.useQuery(undefined, {initialData: []});
 
-  console.log('orders', data);
   const navigation = useNavigation();
 
   return (
     <List.Section>
-      <List.Subheader>List of orders</List.Subheader>
+      <List.Subheader>List of requests</List.Subheader>
       {(data || []).map((o, i) => (
         <List.Item
           key={i}
-          title={`Заказ ${o.id}. ${o.object.objectType.name.en}`}
+          title={`Заявка ${o.id}. ${o.object.objectType.name.en}`}
           left={() => (
             <List.Icon
               color={MD3Colors.tertiary70}

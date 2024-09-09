@@ -13,7 +13,9 @@ export default function OrderSummary() {
 
       {orderCreated && (
         <View style={{marginTop: 20}}>
-          <Text style={styles.captionText}>Order is succesfully created!</Text>
+          <Text style={styles.captionText}>
+            Request is succesfully created!
+          </Text>
         </View>
       )}
     </View>

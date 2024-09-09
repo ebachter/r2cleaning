@@ -25,20 +25,9 @@ export default function CustomNavigationBar({
   showBack?: boolean;
 }) {
   const route = useRoute();
-
-  /*   const options2 = {
-    Order: {title: 'Заказ'},
-    Orders: {title: 'Заказы'},
-    Home: {title: 'Главная'},
-    HomeInt: {title: 'Главная'},
-    HomeExt: {title: ''},
-  }; */
-
   const navigation = useNavigation();
 
-  // console.log('>>>', route.name);
-  // const title = options2[route.name].title; // getHeaderTitle(options, route.name);
-  const title = allRoutes[route.name].title; // getHeaderTitle(options, route.name);
+  const title = allRoutes[route.name].title;
 
   const [selectedIndex, setSelectedIndex] = React.useState(null);
   const [visible, setVisible] = React.useState(false);

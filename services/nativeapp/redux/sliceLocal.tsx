@@ -10,18 +10,6 @@ export const localInitialState: TypeLocal = {
     addOrder: false,
   },
   snackbarVisible: {text: '', value: false},
-
-  /* forms: {
-    order: {
-      object: {
-        object_id: null,
-        object_type: null,
-        address_city: null,
-        address_street: null,
-        area: null,
-      },
-    },
-  }, */
 };
 
 const slice = createSlice({

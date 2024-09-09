@@ -36,7 +36,7 @@ export default function ScreenSuppler({}) {
           appearance="outline"
           onPress={() => navigation.navigate('SupplierRequests')}
         >
-          Confirmed orders
+          Confirmed requests
         </Button>
         <Button
           style={{

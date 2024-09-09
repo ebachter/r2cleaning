@@ -21,7 +21,7 @@ export default function ModalAddOrder() {
             mergeLocal({modals: {addOrder: false}});
           }}
         />
-        <Appbar.Content title="Add order" />
+        <Appbar.Content title="Add request" />
         <Button onPress={() => console.log('Save')}>Save</Button>
       </Appbar.Header>
       <Dialog.Content style={styles.container}>

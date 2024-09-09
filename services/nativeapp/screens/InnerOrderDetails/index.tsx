@@ -16,12 +16,12 @@ export default function ScreenOrderDetails({}) {
   return (
     <>
       <Text variant="titleMedium" style={{margin: 5}}>
-        Order {route.params.requestId} details
+        Request {route.params.requestId} details
       </Text>
       <View style={{marginTop: 15}} />
       <TextInput
         style={{margin: 5}}
-        label="Order ID"
+        label="Request ID"
         value={String(data?.id) || ''}
         onChangeText={(text) => setText(text)}
         disabled

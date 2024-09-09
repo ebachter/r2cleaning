@@ -10,7 +10,7 @@ export default function OrdersScreen({navigation}) {
 
   return (
     <>
-      <Text>Orders list</Text>
+      <Text>Requests list</Text>
       <ListOfOrders />
     </>
   );

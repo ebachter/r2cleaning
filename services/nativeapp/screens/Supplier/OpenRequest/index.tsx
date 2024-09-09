@@ -15,7 +15,7 @@ export default function ScreenSupplierRequest() {
     {
       requestId: Number(route.params.requestId),
     },
-    {initialData: {order: {id: 0}, objectType: {name: {en: ''}}}},
+    {initialData: {request: {id: 0}, objectType: {name: {en: ''}}}},
   );
   const {hours, minutes} = useAppSelector((state) => state.offer.time);
   const [timeVisible, setTimeVisible] = React.useState(false);
@@ -40,7 +40,7 @@ export default function ScreenSupplierRequest() {
       <TextInput
         style={{margin: 5}}
         label="Request ID"
-        value={String(res.order.id)}
+        value={String(res.request.id)}
         disabled
       />
 

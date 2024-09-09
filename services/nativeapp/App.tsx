@@ -126,39 +126,7 @@ export default function App() {
                         />
                       );
                     })}
-
-                    {/* <Stack.Screen
-                      name="HomeInt"
-                      component={DetailsScreen}
-                      options={({navigation}) => {
-                        return {
-                          header: () => <AppHeader showBack={false} />,
-                        };
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Orders"
-                      component={OrdersScreen}
-                      options={({navigation}) => {
-                        return {
-                          header: () => <AppHeader />,
-                        };
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Order"
-                      component={OrderScreen}
-                      // options={{title: 'Заказ'}}
-                      options={({navigation}) => {
-                        return {
-                          header: () => <AppHeader />,
-                        };
-                      }}
-                    />
-                    <Stack.Screen name="HomeExt" component={HomeScreen} /> */}
                   </>
-
-                  {/* <Stack.Screen name="Home" component={SwipeGesture} /> */}
                 </Stack.Navigator>
                 <ModalLogin />
                 <ModalSignup />

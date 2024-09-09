@@ -36,9 +36,9 @@ export default function DetailsScreen({}) {
             width: '100%',
           }}
           appearance="outline"
-          onPress={() => navigation.navigate('Orders')}
+          onPress={() => navigation.navigate('Requests')}
         >
-          Заказы
+          Заявки
         </Button>
 
         <Button
@@ -68,7 +68,7 @@ export default function DetailsScreen({}) {
           icon="plus"
           style={styles.fab}
           onPress={() => mergeLocal({modals: {addOrder: true}})}
-          label="New Order"
+          label="New request"
           size="small"
         />
       </View>

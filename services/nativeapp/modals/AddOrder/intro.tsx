@@ -38,7 +38,7 @@ export default function ScreenOrderAdd(options) {
           resizeMode="cover"
         >
           <Text style={{color: 'white', fontSize: 30, marginBottom: 10}}>
-            {'Оформление заказа'}
+            {'Оформление заявки'}
           </Text>
         </ImageBackground>
       </View>

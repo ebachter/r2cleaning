@@ -44,7 +44,7 @@ export default function ScreenObjectDetails({}) {
       <View style={{marginTop: 15}} />
       <TextInput
         style={{margin: 5}}
-        label="Order ID"
+        label="Request ID"
         value={String(data?.id) || ''}
         onChangeText={(text) => setText(text)}
         disabled

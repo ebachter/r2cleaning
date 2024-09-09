@@ -104,7 +104,7 @@ export default function HomeScreen({navigation}) {
               onPress={() => mergeLocal({modals: {login: true}})}
               style={{minWidth: 150}}
             >
-              Заказ
+              Заявка
             </Button2>
           </View>
         </ImageBackground>

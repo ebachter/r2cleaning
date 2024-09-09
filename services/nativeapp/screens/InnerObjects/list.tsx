@@ -4,17 +4,12 @@ import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
-/* const data = new Array(8).fill({
-  title: 'Item',
-  description: 'Description for Item',
-}); */
-
 export const ListOfOrders = (): React.ReactElement => {
   const {data} = trpcComp.loadObjects.useQuery(undefined, {
     initialData: [],
   });
 
-  console.log('orders', data);
+  console.log('requests', data);
   const navigation = useNavigation();
 
   return (

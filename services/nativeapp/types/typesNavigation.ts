@@ -5,7 +5,7 @@ import {RouteProp} from '@react-navigation/native';
 export type RootStackParamList = {
   HomeExt: undefined;
   HomeInt: undefined;
-  Orders: undefined;
+  Requests: undefined;
   Objects: undefined;
   OrderDetails: {requestId: number};
   ObjectDetails: {objectId: number};
