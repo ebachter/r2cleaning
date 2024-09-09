@@ -16,7 +16,7 @@ export default function ScreenSupplerServices() {
     [service_type_id: number]: true | false | null;
   }>({}); */
 
-  const serviceOffser = trpcComp.setServiceOffer.useMutation();
+  const serviceOffer = trpcComp.setServiceOffer.useMutation();
 
   return (
     <>
@@ -54,7 +54,7 @@ export default function ScreenSupplerServices() {
                 <Checkbox
                   status={o.serviceOffer ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    serviceOffser.mutate(
+                    serviceOffer.mutate(
                       {
                         // service_type:o.service_type,
                         service_type_id: o.serviceType.id,

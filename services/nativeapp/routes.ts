@@ -20,7 +20,7 @@ export type RootStackParamList = {
   Supplier: undefined;
   SupplierServices: undefined;
   SupplierRequests: undefined;
-  SupplierRequest: {requestId: number};
+  SupplierRequest: {requestId: string};
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

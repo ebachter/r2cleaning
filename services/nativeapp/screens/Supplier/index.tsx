@@ -19,7 +19,6 @@ export default function ScreenSuppler({}) {
     [service_type_id: number]: true | false | null;
   }>({}); */
 
-  const serviceOffser = trpcComp.setServiceOffer.useMutation();
   const navigation = useNavigation<StackNavigation>();
 
   return (

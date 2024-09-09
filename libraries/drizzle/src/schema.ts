@@ -7,7 +7,9 @@ import {
   json,
   mysqlEnum,
   mysqlTable,
+  time,
   timestamp,
+  unique,
   varchar,
 } from 'drizzle-orm/mysql-core';
 
@@ -105,6 +107,45 @@ export const orderRelations = relations(order, ({one}) => ({
   type: one(objectType, {
     fields: [order.id],
     references: [objectType.id],
+  }),
+}));
+
+export const offer = mysqlTable(
+  'offer',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    time: time('time').notNull(),
+    orderId: int('orderId', {unsigned: true})
+      .references(() => order.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    userId: int('userId', {unsigned: true})
+      .references(() => user.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    unq: unique('offer_uq_orderId_userId').on(t.orderId, t.userId),
+  }),
+);
+
+export const offerRelations = relations(offer, ({one}) => ({
+  object: one(order, {
+    fields: [offer.orderId],
+    references: [order.id],
+  }),
+  customer: one(user, {
+    fields: [offer.userId],
+    references: [user.id],
   }),
 }));
 

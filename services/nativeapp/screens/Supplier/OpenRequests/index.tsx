@@ -1,29 +1,16 @@
 import {View, Text} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {trpcComp} from '../../../trpc';
-import {Checkbox, List, MD3Colors} from 'react-native-paper';
+import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from '../../../routes';
 
 export default function ScreenSupplierRequests() {
-  // const {message} = useAppSelector((state) => state.message);
   const {data: res} = trpcComp.loadRequestsForSupplier.useQuery(undefined, {
     initialData: [],
   });
-  console.log('>>>res<<<', res);
-  const {data: sTypes, refetch} = trpcComp.loadServiceOffers.useQuery();
-  // console.log('sTypes_1', sTypes);
 
-  // const {data: sOffers} = trpcComp.loadServiceOffers.useQuery();
-  // console.log('sOffers', sOffers);
-
-  /* const [serviceTypes, setServiceTypes] = useImmer<{
-    [service_type_id: number]: true | false | null;
-  }>({}); */
-
-  const {data} = trpcComp.loadOrders.useQuery();
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation();
 
   return (
     <>
@@ -59,7 +46,9 @@ export default function ScreenSupplierRequests() {
               )}
               // right={() => <>{o.price || ''}</>}
               onPress={() =>
-                navigation.navigate('SupplierRequest', {requestId: o.order.id})
+                navigation.navigate('SupplierRequest', {
+                  requestId: String(o.order.id),
+                })
               }
             />
           ))}

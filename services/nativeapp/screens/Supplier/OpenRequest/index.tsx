@@ -7,10 +7,11 @@ import {trpcComp} from '../../../trpc';
 import {RootStackParamList} from '../../../routes';
 import SupplierTimePicker from './timePicker';
 import {useAppSelector} from '../../../redux/store';
+import {mergeOffer} from '../../../redux/functionsDispatch';
 
 export default function ScreenSupplierRequest() {
   const route = useRoute<RouteProp<RootStackParamList, 'SupplierRequest'>>();
-  const {data: res} = trpcComp.loadRequestForSupplier.useQuery(
+  const {data: res, refetch} = trpcComp.loadRequestForSupplier.useQuery(
     {
       requestId: Number(route.params.requestId),
     },
@@ -18,6 +19,17 @@ export default function ScreenSupplierRequest() {
   );
   const {hours, minutes} = useAppSelector((state) => state.offer.time);
   const [timeVisible, setTimeVisible] = React.useState(false);
+  const createOffer = trpcComp.createOffer.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+  const cancelOffer = trpcComp.cancelOffer.useMutation({
+    onSuccess: () => {
+      refetch();
+      mergeOffer({time: {hours: null, minutes: null}});
+    },
+  });
 
   return (
     <>
@@ -50,26 +62,54 @@ export default function ScreenSupplierRequest() {
 
       <Divider style={{marginTop: 10, marginBottom: 10}} />
 
-      <TextInput
-        label="Time"
-        value={`${hours}:${minutes}`}
-        disabled
-        right={
-          <TextInput.Icon
-            icon="clock"
-            onPress={() => setTimeVisible(!timeVisible)}
+      {res.offer ? (
+        <>
+          <TextInput
+            label="Time"
+            value={`${res.offer.time.substring(0, 5)}`}
+            disabled
           />
-        }
-      />
-
-      <Button
-        icon="offer"
-        mode="contained"
-        onPress={() => console.log('Pressed')}
-        style={{marginTop: 15}}
-      >
-        Make offer
-      </Button>
+          <Button
+            icon="offer"
+            mode="outlined"
+            onPress={() =>
+              cancelOffer.mutate({
+                offerId: res.offer.id,
+              })
+            }
+            style={{marginTop: 15}}
+          >
+            Cancel offer
+          </Button>
+        </>
+      ) : (
+        <>
+          <TextInput
+            label="Time"
+            value={`${hours || ''}${hours ? ':' : ''}${minutes || ''}`}
+            disabled
+            right={
+              <TextInput.Icon
+                icon="clock"
+                onPress={() => setTimeVisible(!timeVisible)}
+              />
+            }
+          />
+          <Button
+            icon="offer"
+            mode="contained"
+            onPress={() =>
+              createOffer.mutate({
+                orderId: Number(route.params.requestId),
+                time: `${hours}:${minutes}`,
+              })
+            }
+            style={{marginTop: 15}}
+          >
+            Make offer
+          </Button>
+        </>
+      )}
 
       <SupplierTimePicker visible={timeVisible} setVisible={setTimeVisible} />
     </>

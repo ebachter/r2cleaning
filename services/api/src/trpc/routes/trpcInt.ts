@@ -1,6 +1,7 @@
 import drizzle, {
   object,
   objectType,
+  offer,
   order,
   requestService,
   serviceOffer,
@@ -13,6 +14,7 @@ import {protectedProcedure, publicProcedure, router} from '../middleware';
 type ObjectType = typeof object.$inferSelect;
 type OrderType = typeof order.$inferSelect;
 type ServiceOfferType = typeof serviceOffer.$inferSelect;
+type OfferType = typeof offer.$inferSelect;
 
 export const intRouter = router({
   createOrder: protectedProcedure
@@ -100,6 +102,7 @@ export const intRouter = router({
         .from(order)
         .innerJoin(requestService, eq(order.id, requestService.orderId))
         .innerJoin(object, eq(object.id, order.objectId))
+        .leftJoin(offer, eq(offer.orderId, order.id))
         .innerJoin(objectType, eq(object.type, objectType.id))
         .where(
           and(
@@ -187,22 +190,6 @@ export const intRouter = router({
       }
     }),
 
-  /* loadServiceOffers: publicProcedure.query(async ({ctx}) => {
-    const data = await AppDataSourceSqlite.getRepository(
-      EntityServiceOffers,
-    ).find({
-      select: {
-        service_offer_id: true,
-        price: true,
-        user: {firstName: true, lastName: true},
-        service_type: {serviceName: {}},
-      },
-      relations: {user: true, service_type: true},
-    });
-    console.log('EntityServiceOffers', data);
-    return data;
-  }), */
-
   loadOrder: protectedProcedure
     .input(typia.createAssert<{orderId: number}>())
     // .output(typia.createAssert<{newOrderId: number}>())
@@ -216,7 +203,6 @@ export const intRouter = router({
         .select()
         .from(order)
         .where(eq(order.userId, ctx.session.userId));
-      console.log('--temp--', data);
 
       return data[0];
     }),
@@ -234,17 +220,11 @@ export const intRouter = router({
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
       console.log('>>>', input.objectId);
-      /* const data = await AppDataSourceSqlite.getRepository(
-        EntityObject,
-      ).findOneByOrFail({object_id: input.objectId});
-      console.log('--obj--', data); */
 
       const data = await drizzle.query.object.findFirst({
         with: {objectType: true},
         where: eq(object.id, input.objectId),
       });
-
-      // console.log('--temp--', data);
 
       return data;
     }),
@@ -253,27 +233,44 @@ export const intRouter = router({
     .input(typia.createAssert<Omit<ObjectType, 'id' | 'userId'>>())
     .output(typia.createAssert<{newObjectId: number}>())
     .mutation(async ({ctx, input}) => {
-      // console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
-      // const {object_type} = input;
 
       const newObject = {
         ...input,
         userId,
       } as ObjectType;
-      // const order = new Order();
-      // order.objectType = newOrder.objectType; // as TypeOrder['objectType'];
-      // order.user_fk = newOrder.user_fk;
-
-      // const data = AppDataSourceSqlite.getRepository(Order).metadata.columns;
-      /* const order =
-        AppDataSourceSqlite.getRepository(EntityObject).create(newObject);
-      console.log('tableName', order); */
-
-      // const temp = await AppDataSourceSqlite.manager.save(order);
 
       const temp = await drizzle.insert(object).values(newObject);
 
       return {newObjectId: temp[0].insertId};
+    }),
+
+  createOffer: protectedProcedure
+    .input(typia.createAssert<Pick<OfferType, 'orderId' | 'time'>>())
+    .mutation(async ({ctx, input}) => {
+      const userId = ctx.session?.userid;
+
+      const temp = await drizzle.insert(offer).values({
+        userId,
+        orderId: input.orderId,
+        time: input.time,
+      });
+
+      return {newObjectId: temp[0].insertId};
+    }),
+
+  cancelOffer: protectedProcedure
+    .input(typia.createAssert<{offerId: OfferType['id']}>())
+    .mutation(async ({ctx, input}) => {
+      const userId = ctx.session?.userid;
+
+      try {
+        await drizzle
+          .delete(offer)
+          .where(and(eq(offer.id, input.offerId), eq(offer.userId, userId)));
+      } catch (e) {
+        console.log(e);
+      }
+      console.log('done', input.offerId, userId);
     }),
 });
