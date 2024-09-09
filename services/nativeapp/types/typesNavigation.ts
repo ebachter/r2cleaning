@@ -1,5 +1,7 @@
 // import {NavigationProp} from '@react-navigation/native';
 
+import {RouteProp} from '@react-navigation/native';
+
 export type RootStackParamList = {
   HomeExt: undefined;
   HomeInt: undefined;
@@ -14,6 +16,11 @@ export type RootStackParamList = {
 };
 
 // export type StackNavigation = NavigationProp<RootStackParamList>;
+
+export type RouteProps<RouteName extends keyof RootStackParamList> = RouteProp<
+  RootStackParamList,
+  RouteName
+>;
 
 declare global {
   namespace ReactNavigation {

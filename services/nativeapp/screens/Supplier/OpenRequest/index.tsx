@@ -1,16 +1,16 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import {Input} from '@ui-kitten/components';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {Button, Divider, Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../../trpc';
 import SupplierTimePicker from './timePicker';
 import {useAppSelector} from '../../../redux/store';
 import {mergeOffer} from '../../../redux/functionsDispatch';
-import {RootStackParamList} from '../../../types/typesNavigation';
+import {RouteProps} from '../../../types/typesNavigation';
 
 export default function ScreenSupplierRequest() {
-  const route = useRoute<RouteProp<RootStackParamList, 'SupplierRequest'>>();
+  const route = useRoute<RouteProps<'SupplierRequest'>>();
   const {data: res, refetch} = trpcComp.loadRequestForSupplier.useQuery(
     {
       requestId: Number(route.params.requestId),

@@ -1,15 +1,15 @@
 import {Input} from '@ui-kitten/components';
 import * as React from 'react';
 import {View} from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {Text, TextInput} from 'react-native-paper';
 import {trpcComp} from '../../trpc';
-import {RootStackParamList} from '../../types/typesNavigation';
+import {RouteProps} from '../../types/typesNavigation';
 // import Header from '../components/Header';
 
 export default function ScreenObjectDetails({}) {
   // const {message} = useAppSelector((state) => state.message);
-  const route = useRoute<RouteProp<RootStackParamList, 'ObjectDetails'>>();
+  const route = useRoute<RouteProps<'ObjectDetails'>>();
 
   const {data} = trpcComp.loadObject.useQuery(
     {
