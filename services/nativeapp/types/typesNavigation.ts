@@ -7,7 +7,7 @@ export type RootStackParamList = {
   HomeInt: undefined;
   Orders: undefined;
   Objects: undefined;
-  OrderDetails: {orderId: number};
+  OrderDetails: {requestId: number};
   ObjectDetails: {objectId: number};
   Supplier: undefined;
   SupplierServices: undefined;

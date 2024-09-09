@@ -1,7 +1,6 @@
 import {relations} from 'drizzle-orm';
 import {
   date,
-  datetime,
   decimal,
   int,
   json,
@@ -77,9 +76,8 @@ export const serviceOfferRelations = relations(serviceOffer, ({one}) => ({
   }),
 }));
 
-export const order = mysqlTable('order', {
+export const requests = mysqlTable('order', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  // price: decimal('price', {precision: 10, scale: 4}),
   objectId: int('objectId', {unsigned: true})
     .references(() => object.id, {
       onDelete: 'restrict',
@@ -95,17 +93,17 @@ export const order = mysqlTable('order', {
   date: date('date').notNull(),
 });
 
-export const orderRelations = relations(order, ({one}) => ({
+export const requestRelations = relations(requests, ({one}) => ({
   object: one(object, {
-    fields: [order.objectId],
+    fields: [requests.objectId],
     references: [object.id],
   }),
   customer: one(user, {
-    fields: [order.userId],
+    fields: [requests.userId],
     references: [user.id],
   }),
   type: one(objectType, {
-    fields: [order.id],
+    fields: [requests.id],
     references: [objectType.id],
   }),
 }));
@@ -115,8 +113,8 @@ export const offer = mysqlTable(
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     time: time('time').notNull(),
-    orderId: int('orderId', {unsigned: true})
-      .references(() => order.id, {
+    requestId: int('orderId', {unsigned: true})
+      .references(() => requests.id, {
         onDelete: 'restrict',
         onUpdate: 'cascade',
       })
@@ -134,14 +132,14 @@ export const offer = mysqlTable(
       .defaultNow(),
   },
   (t) => ({
-    unq: unique('offer_uq_orderId_userId').on(t.orderId, t.userId),
+    unq: unique('offer_uq_orderId_userId').on(t.requestId, t.userId),
   }),
 );
 
 export const offerRelations = relations(offer, ({one}) => ({
-  object: one(order, {
-    fields: [offer.orderId],
-    references: [order.id],
+  object: one(requests, {
+    fields: [offer.requestId],
+    references: [requests.id],
   }),
   customer: one(user, {
     fields: [offer.userId],
@@ -151,8 +149,8 @@ export const offerRelations = relations(offer, ({one}) => ({
 
 export const requestService = mysqlTable('orderService', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  orderId: int('orderId', {unsigned: true})
-    .references(() => order.id, {
+  requestId: int('orderId', {unsigned: true})
+    .references(() => requests.id, {
       onDelete: 'restrict',
       onUpdate: 'cascade',
     })
@@ -171,10 +169,10 @@ export const requestService = mysqlTable('orderService', {
     .notNull(),
 });
 
-export const orderServiceRelations = relations(requestService, ({one}) => ({
-  order: one(order, {
-    fields: [requestService.orderId],
-    references: [order.id],
+export const requestServiceRelations = relations(requestService, ({one}) => ({
+  request: one(requests, {
+    fields: [requestService.requestId],
+    references: [requests.id],
   }),
   serviceType: one(serviceType, {
     fields: [requestService.serviceTypeId],

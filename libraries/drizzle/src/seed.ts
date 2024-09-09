@@ -3,7 +3,7 @@ import {createConnection} from 'mysql2/promise';
 import {
   object,
   objectType,
-  order,
+  requests,
   serviceOffer,
   serviceType,
   user,
@@ -146,7 +146,7 @@ const main = async () => {
       },
     ]);
 
-    await db.insert(order).values([
+    await db.insert(requests).values([
       {
         id: 1,
         // price: '1.23',

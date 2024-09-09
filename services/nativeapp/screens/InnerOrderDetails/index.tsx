@@ -9,14 +9,14 @@ import {RouteProps} from '../../types/typesNavigation';
 export default function ScreenOrderDetails({}) {
   const route = useRoute<RouteProps<'OrderDetails'>>();
   const {data} = trpcComp.loadOrder.useQuery({
-    orderId: Number(route.params.orderId),
+    requestId: Number(route.params.requestId),
   });
   const [text, setText] = React.useState('_');
 
   return (
     <>
       <Text variant="titleMedium" style={{margin: 5}}>
-        Order {route.params.orderId} details
+        Order {route.params.requestId} details
       </Text>
       <View style={{marginTop: 15}} />
       <TextInput

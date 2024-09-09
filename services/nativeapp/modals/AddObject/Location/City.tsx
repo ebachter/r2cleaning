@@ -4,7 +4,7 @@ import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 import {mergeObject} from '../../../redux/functionsDispatch';
 import drizzle, {
   object,
-  order,
+  requests,
   serviceOffer,
   serviceType,
   user,

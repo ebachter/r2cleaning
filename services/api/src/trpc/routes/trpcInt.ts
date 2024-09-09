@@ -2,7 +2,7 @@ import drizzle, {
   object,
   objectType,
   offer,
-  order,
+  requests,
   requestService,
   serviceOffer,
   serviceType,
@@ -12,7 +12,7 @@ import typia from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
 
 type ObjectType = typeof object.$inferSelect;
-type OrderType = typeof order.$inferSelect;
+type OrderType = typeof requests.$inferSelect;
 type ServiceOfferType = typeof serviceOffer.$inferSelect;
 type OfferType = typeof offer.$inferSelect;
 
@@ -39,10 +39,10 @@ export const intRouter = router({
       };
 
       const insertId = await drizzle.transaction(async (tx) => {
-        const temp = await tx.insert(order).values(newOrder as OrderType);
+        const temp = await tx.insert(requests).values(newOrder as OrderType);
 
         await tx.insert(requestService).values({
-          orderId: temp[0].insertId,
+          requestId: temp[0].insertId,
           serviceTypeId: input.serviceTypeId,
           userId,
         });
@@ -53,9 +53,9 @@ export const intRouter = router({
     }),
 
   loadOrders: protectedProcedure.query(async ({ctx}) => {
-    const data = await drizzle.query.order.findMany({
+    const data = await drizzle.query.requests.findMany({
       with: {object: {with: {objectType: true}}},
-      where: eq(order.userId, ctx.session.userId),
+      where: eq(requests.userId, ctx.session.userId),
     });
 
     return data;
@@ -78,9 +78,9 @@ export const intRouter = router({
 
     const result = await drizzle
       .select()
-      .from(order)
-      .innerJoin(requestService, eq(order.id, requestService.orderId))
-      .innerJoin(object, eq(object.id, order.objectId))
+      .from(requests)
+      .innerJoin(requestService, eq(requests.id, requestService.requestId))
+      .innerJoin(object, eq(object.id, requests.objectId))
       .where(inArray(requestService.serviceTypeId, subQuery));
 
     return result;
@@ -99,15 +99,15 @@ export const intRouter = router({
 
       const result = await drizzle
         .select()
-        .from(order)
-        .innerJoin(requestService, eq(order.id, requestService.orderId))
-        .innerJoin(object, eq(object.id, order.objectId))
-        .leftJoin(offer, eq(offer.orderId, order.id))
+        .from(requests)
+        .innerJoin(requestService, eq(requests.id, requestService.requestId))
+        .innerJoin(object, eq(object.id, requests.objectId))
+        .leftJoin(offer, eq(offer.requestId, requests.id))
         .innerJoin(objectType, eq(object.type, objectType.id))
         .where(
           and(
             inArray(requestService.serviceTypeId, subQuery),
-            eq(order.id, input.requestId),
+            eq(requests.id, input.requestId),
           ),
         )
         .limit(1);
@@ -191,18 +191,18 @@ export const intRouter = router({
     }),
 
   loadOrder: protectedProcedure
-    .input(typia.createAssert<{orderId: number}>())
+    .input(typia.createAssert<{requestId: number}>())
     // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
-      console.log('>>>', input.orderId);
+      console.log('>>>', input.requestId);
       /* const data = await AppDataSourceSqlite.getRepository(
         EntityOrder,
-      ).findOneByOrFail({order_id: input.orderId}); */
+      ).findOneByOrFail({order_id: input.requestId}); */
 
       const data = await drizzle
         .select()
-        .from(order)
-        .where(eq(order.userId, ctx.session.userId));
+        .from(requests)
+        .where(eq(requests.userId, ctx.session.userId));
 
       return data[0];
     }),
@@ -246,13 +246,13 @@ export const intRouter = router({
     }),
 
   createOffer: protectedProcedure
-    .input(typia.createAssert<Pick<OfferType, 'orderId' | 'time'>>())
+    .input(typia.createAssert<Pick<OfferType, 'requestId' | 'time'>>())
     .mutation(async ({ctx, input}) => {
       const userId = ctx.session?.userid;
 
       const temp = await drizzle.insert(offer).values({
         userId,
-        orderId: input.orderId,
+        requestId: input.requestId,
         time: input.time,
       });
 

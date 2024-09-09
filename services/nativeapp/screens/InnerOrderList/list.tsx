@@ -26,7 +26,7 @@ export const ListOfOrders = (): ReactElement => {
             />
           )}
           // right={() => <>{o.price || ''}</>}
-          onPress={() => navigation.navigate('OrderDetails', {orderId: o.id})}
+          onPress={() => navigation.navigate('OrderDetails', {requestId: o.id})}
         />
       ))}
     </List.Section>
