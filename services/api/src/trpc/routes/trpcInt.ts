@@ -6,10 +6,12 @@ import drizzle, {
   requestService,
   serviceOffer,
   serviceType,
+  user,
 } from '@remrob/drizzle';
-import {and, eq, inArray} from 'drizzle-orm';
+import {and, eq, getTableColumns, inArray} from 'drizzle-orm';
 import typia from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
+import {request} from 'https';
 
 type ObjectType = typeof object.$inferSelect;
 type OrderType = typeof requests.$inferSelect;
@@ -180,31 +182,40 @@ export const intRouter = router({
               eq(serviceOffer.userId, userId),
             ),
           );
-
-        /* await AppDataSourceSqlite.manager
-          .getRepository(EntityServiceOffers)
-          .delete({
-            service_type: {service_type_id: service_type_id},
-            user: {user_id: userId},
-          }); */
       }
     }),
 
   loadOrder: protectedProcedure
     .input(typia.createAssert<{requestId: number}>())
-    // .output(typia.createAssert<{newOrderId: number}>())
     .query(async ({ctx, input}) => {
-      console.log('>>>', input.requestId);
-      /* const data = await AppDataSourceSqlite.getRepository(
-        EntityOrder,
-      ).findOneByOrFail({order_id: input.requestId}); */
-
       const data = await drizzle
         .select()
         .from(requests)
-        .where(eq(requests.userId, ctx.session.userId));
+        .innerJoin(objectType, eq(requests.objectId, objectType.id))
+        .leftJoin(offer, eq(requests.objectId, objectType.id))
+        .where(
+          and(
+            eq(requests.userId, ctx.session.userId),
+            eq(requests.id, input.requestId),
+          ),
+        );
 
-      return data[0];
+      const offers = await drizzle
+        .select({
+          offer: {...getTableColumns(offer)},
+          user: {...getTableColumns(user)},
+        })
+        .from(offer)
+        .innerJoin(requests, eq(offer.requestId, requests.id))
+        .innerJoin(user, eq(offer.userId, user.id))
+        .where(
+          and(
+            eq(offer.userId, ctx.session.userId),
+            eq(offer.requestId, input.requestId),
+          ),
+        );
+
+      return {req: data[0], offers};
     }),
 
   onChannel: publicProcedure
