@@ -78,13 +78,11 @@ const main = async () => {
     await db.insert(serviceOffer).values([
       {
         id: 1,
-        price: '12',
         serviceTypeId: 1,
         userId: 2,
       },
       {
         id: 2,
-        price: '12',
         serviceTypeId: 1,
         userId: 1,
       },

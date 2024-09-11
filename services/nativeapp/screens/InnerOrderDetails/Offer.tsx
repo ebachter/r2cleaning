@@ -1,6 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import {Button, Card, Text} from '@ui-kitten/components';
+import {trpcComp} from '../../trpc';
+import {showSnackbar} from '../../redux/functionsDispatch';
 
 const Header = (
   props: {supplierName: string} & ViewProps,
@@ -11,43 +13,51 @@ const Header = (
   </View>
 );
 
-const Footer = (
-  props: ViewProps & {supplierId: number},
-): React.ReactElement => (
-  <View
-    {...props}
-    // eslint-disable-next-line react/prop-types
-    style={[props.style, styles.footerContainer]}
-  >
-    <Button style={styles.footerControl} size="small" status="basic">
-      REJECT
-    </Button>
-    <Button
-      style={styles.footerControl}
-      size="small"
-      onPress={() => console.log(props.supplierId)}
+const Footer = (props: ViewProps & {offerId: number}): React.ReactElement => {
+  const order = trpcComp.acceptOffer.useMutation({
+    onSuccess(data) {
+      showSnackbar({text: `Order accepted`});
+    },
+  });
+  return (
+    <View
+      {...props}
+      // eslint-disable-next-line react/prop-types
+      style={[props.style, styles.footerContainer]}
     >
-      ACCEPT
-    </Button>
-  </View>
-);
+      <Button style={styles.footerControl} size="small" status="basic">
+        REJECT
+      </Button>
+      <Button
+        style={styles.footerControl}
+        size="small"
+        onPress={() => order.mutate({offerId: props.offerId})}
+      >
+        ACCEPT
+      </Button>
+    </View>
+  );
+};
 
 export const OfferCard = ({
-  supplierId,
+  price,
   supplierName,
   time,
+  offerId,
 }: {
-  supplierId: number;
+  offerId: number;
   supplierName: string;
+  price: string;
   time: string;
 }): React.ReactElement => (
   <>
     <Card
       style={styles.card}
       header={(props) => <Header {...props} supplierName={supplierName} />}
-      footer={(props) => <Footer {...props} supplierId={supplierId} />}
+      footer={(props) => <Footer {...props} offerId={offerId} />}
     >
       <Text>Time: {time}</Text>
+      <Text>Price: {price}</Text>
     </Card>
   </>
 );
@@ -60,7 +70,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     margin: 2,
-    maxHeight: 200,
+    maxHeight: 220,
   },
   footerContainer: {
     flexDirection: 'row',

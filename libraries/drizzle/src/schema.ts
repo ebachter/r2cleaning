@@ -12,6 +12,20 @@ import {
   varchar,
 } from 'drizzle-orm/mysql-core';
 
+const price = decimal('price', {precision: 10, scale: 4});
+const createdAt = timestamp('createdAt', {
+  mode: 'date',
+})
+  .notNull()
+  .defaultNow();
+
+const updatedAt = timestamp('updatedAt', {
+  mode: 'date',
+})
+  .notNull()
+  .defaultNow()
+  .$onUpdateFn(() => new Date());
+
 export const user = mysqlTable('user', {
   id: int('id', {unsigned: true}).primaryKey(),
   firstName: varchar('firstName', {length: 50}).notNull(),
@@ -25,17 +39,8 @@ export const verification = mysqlTable('verification', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
   verificationId: varchar('verificationId', {length: 20}).notNull(),
-  createdAt: timestamp('createdAt', {
-    mode: 'date',
-  })
-    .notNull()
-    .defaultNow(),
-  updatedAt: timestamp('updatedAt', {
-    mode: 'date',
-  })
-    .notNull()
-    .defaultNow()
-    .$onUpdateFn(() => new Date()),
+  createdAt,
+  updatedAt,
 });
 
 export const serviceType = mysqlTable('serviceType', {
@@ -50,7 +55,6 @@ export const objectType = mysqlTable('objectType', {
 
 export const serviceOffer = mysqlTable('serviceOffer', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  price: decimal('price', {precision: 10, scale: 4}),
   userId: int('userId', {unsigned: true})
     .references(() => user.id, {
       onDelete: 'restrict',
@@ -102,17 +106,14 @@ export const requestRelations = relations(requests, ({one}) => ({
     fields: [requests.userId],
     references: [user.id],
   }),
-  type: one(objectType, {
-    fields: [requests.id],
-    references: [objectType.id],
-  }),
 }));
+
+//////////////////////////////////////////////////////////////////////
 
 export const offer = mysqlTable(
   'offer',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-    time: time('time').notNull(),
     requestId: int('requestId', {unsigned: true})
       .references(() => requests.id, {
         onDelete: 'restrict',
@@ -125,11 +126,9 @@ export const offer = mysqlTable(
         onUpdate: 'cascade',
       })
       .notNull(),
-    createdAt: timestamp('createdAt', {
-      mode: 'date',
-    })
-      .notNull()
-      .defaultNow(),
+    time: time('time').notNull(),
+    price: price.notNull(),
+    createdAt,
   },
   (t) => ({
     unq: unique('offer_uq_requestId_userId').on(t.requestId, t.userId),
@@ -137,7 +136,7 @@ export const offer = mysqlTable(
 );
 
 export const offerRelations = relations(offer, ({one}) => ({
-  object: one(requests, {
+  request: one(requests, {
     fields: [offer.requestId],
     references: [requests.id],
   }),
@@ -146,6 +145,56 @@ export const offerRelations = relations(offer, ({one}) => ({
     references: [user.id],
   }),
 }));
+
+//////////////////////////////////////////////////////////////
+export const order = mysqlTable(
+  'order',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    objectId: int('objectId', {unsigned: true})
+      .references(() => object.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    requestId: int('requestId', {unsigned: true})
+      .references(() => requests.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    offerId: int('offerId', {unsigned: true})
+      .references(() => requests.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    date: date('date').notNull(),
+    time: time('time').notNull(),
+    price: price.notNull(),
+    createdAt,
+  },
+  (t) => ({
+    unq: unique('uq_requestId_offerId').on(t.requestId, t.offerId),
+  }),
+);
+
+export const orderRelations = relations(order, ({one}) => ({
+  object: one(object, {
+    fields: [order.objectId],
+    references: [object.id],
+  }),
+  request: one(requests, {
+    fields: [order.requestId],
+    references: [requests.id],
+  }),
+  type: one(offer, {
+    fields: [order.offerId],
+    references: [offer.id],
+  }),
+}));
+
+////////////////////////////////////////////////////////
 
 export const requestService = mysqlTable('requestService', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),

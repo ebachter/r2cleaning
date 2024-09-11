@@ -30,6 +30,7 @@ export default function ScreenSupplierRequest() {
       mergeOffer({time: {hours: null, minutes: null}});
     },
   });
+  const [price, setPrice] = React.useState(null);
 
   return (
     <>
@@ -95,6 +96,12 @@ export default function ScreenSupplierRequest() {
               />
             }
           />
+          <TextInput
+            style={{marginTop: 10}}
+            label="Price"
+            value={price || ''}
+            onChangeText={(value) => setPrice(value)}
+          />
           <Button
             icon="offer"
             mode="contained"
@@ -102,6 +109,7 @@ export default function ScreenSupplierRequest() {
               createOffer.mutate({
                 requestId: Number(route.params.requestId),
                 time: `${hours}:${minutes}`,
+                price,
               })
             }
             style={{marginTop: 15}}

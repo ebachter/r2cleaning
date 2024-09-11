@@ -2,6 +2,7 @@ import drizzle, {
   object,
   objectType,
   offer,
+  order,
   requests,
   requestService,
   serviceOffer,
@@ -9,17 +10,23 @@ import drizzle, {
   user,
 } from '@remrob/drizzle';
 import {and, eq, getTableColumns, inArray} from 'drizzle-orm';
-import typia from 'typia';
+import typia, {tags} from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
-import {request} from 'https';
+import {TRPCError} from '@trpc/server';
 
 type ObjectType = typeof object.$inferSelect;
-type OrderType = typeof requests.$inferSelect;
+type RequestType = typeof requests.$inferSelect;
 type ServiceOfferType = typeof serviceOffer.$inferSelect;
 type OfferType = typeof offer.$inferSelect;
+type OrderType = typeof order.$inferSelect;
+
+type PriceType = string /* &
+  tags.Minimum<500> &
+  tags.Maximum<500000> &
+  tags.Pattern<'^d*.?d*$'> */;
 
 export const intRouter = router({
-  createOrder: protectedProcedure
+  createRequest: protectedProcedure
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
       typia.createAssert<{
@@ -34,14 +41,14 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Omit<OrderType, 'id'> = {
+      const newOrder: Omit<RequestType, 'id'> = {
         objectId: input.object_id,
         userId: userId,
         date: input.date,
       };
 
       const insertId = await drizzle.transaction(async (tx) => {
-        const temp = await tx.insert(requests).values(newOrder as OrderType);
+        const temp = await tx.insert(requests).values(newOrder as RequestType);
 
         await tx.insert(requestService).values({
           requestId: temp[0].insertId,
@@ -152,37 +159,46 @@ export const intRouter = router({
     return res;
   }),
 
-  setServiceOffer: protectedProcedure
+  createServiceOffer: protectedProcedure
     .input(
       // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
       typia.createAssert<{
         service_type_id: number;
-        value: boolean;
       }>(),
     )
     .mutation(async ({ctx, input}) => {
       // console.log('--ctx--', ctx.session);
       const userId = ctx.session?.userid;
-      const {service_type_id, value} = input;
+      const {service_type_id} = input;
 
-      if (value === true) {
-        const newOrder: Omit<ServiceOfferType, 'id'> = {
-          userId,
-          price: null,
-          serviceTypeId: service_type_id,
-        };
+      const newOrder: Omit<ServiceOfferType, 'id'> = {
+        userId,
+        serviceTypeId: service_type_id,
+      };
 
-        await drizzle.insert(serviceOffer).values(newOrder as ServiceOfferType);
-      } else {
-        await drizzle
-          .delete(serviceOffer)
-          .where(
-            and(
-              eq(serviceOffer.serviceTypeId, service_type_id),
-              eq(serviceOffer.userId, userId),
-            ),
-          );
-      }
+      await drizzle.insert(serviceOffer).values(newOrder as ServiceOfferType);
+    }),
+
+  deleteServiceOffer: protectedProcedure
+    .input(
+      // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
+      typia.createAssert<{
+        service_type_id: number;
+      }>(),
+    )
+    .mutation(async ({ctx, input}) => {
+      // console.log('--ctx--', ctx.session);
+      const userId = ctx.session?.userid;
+      const {service_type_id} = input;
+
+      await drizzle
+        .delete(serviceOffer)
+        .where(
+          and(
+            eq(serviceOffer.serviceTypeId, service_type_id),
+            eq(serviceOffer.userId, userId),
+          ),
+        );
     }),
 
   loadOrder: protectedProcedure
@@ -257,7 +273,11 @@ export const intRouter = router({
     }),
 
   createOffer: protectedProcedure
-    .input(typia.createAssert<Pick<OfferType, 'requestId' | 'time'>>())
+    .input(
+      typia.createAssert<
+        Pick<OfferType, 'requestId' | 'time'> & {price: PriceType}
+      >(),
+    )
     .mutation(async ({ctx, input}) => {
       const userId = ctx.session?.userid;
 
@@ -265,6 +285,7 @@ export const intRouter = router({
         userId,
         requestId: input.requestId,
         time: input.time,
+        price: input.price,
       });
 
       return {newObjectId: temp[0].insertId};
@@ -275,13 +296,41 @@ export const intRouter = router({
     .mutation(async ({ctx, input}) => {
       const userId = ctx.session?.userid;
 
-      try {
-        await drizzle
-          .delete(offer)
-          .where(and(eq(offer.id, input.offerId), eq(offer.userId, userId)));
-      } catch (e) {
-        console.log(e);
-      }
-      console.log('done', input.offerId, userId);
+      await drizzle
+        .delete(offer)
+        .where(and(eq(offer.id, input.offerId), eq(offer.userId, userId)));
+    }),
+
+  acceptOffer: protectedProcedure
+    .input(typia.createAssert<Pick<OrderType, 'offerId'>>())
+    .mutation(async ({ctx, input}) => {
+      const userId = ctx.session?.userid;
+
+      // TO REPLACE WITH SINGLE QUERY AFTER FEATURE IS AVAILABLE
+      const data = await drizzle.query.offer.findFirst({
+        with: {request: true},
+        where: and(eq(offer.id, input.offerId), eq(requests.userId, userId)),
+      });
+
+      console.log('>>>', data);
+
+      if (!data)
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Offer was not found.',
+          // optional: pass the original error to retain stack trace
+          // cause: theError,
+        });
+
+      const temp = await drizzle.insert(order).values({
+        objectId: data.request.objectId,
+        requestId: data.requestId,
+        offerId: input.offerId,
+        date: data.request.date,
+        time: data.time,
+        price: data.price,
+      });
+
+      return {newObjectId: temp[0].insertId};
     }),
 });

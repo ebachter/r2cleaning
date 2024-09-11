@@ -16,7 +16,8 @@ export default function ScreenSupplerServices() {
     [service_type_id: number]: true | false | null;
   }>({}); */
 
-  const serviceOffer = trpcComp.setServiceOffer.useMutation();
+  const createServiceOffer = trpcComp.createServiceOffer.useMutation();
+  const deleteServiceOffer = trpcComp.deleteServiceOffer.useMutation();
 
   return (
     <>
@@ -54,14 +55,23 @@ export default function ScreenSupplerServices() {
                 <Checkbox
                   status={o.serviceOffer ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    serviceOffer.mutate(
-                      {
-                        // service_type:o.service_type,
-                        service_type_id: o.serviceType.id,
-                        value: !o.serviceOffer,
-                      },
-                      {onSuccess: () => refetch()},
-                    );
+                    console.log('>>>', o.serviceOffer, !!o.serviceOffer);
+                    if (!o.serviceOffer)
+                      createServiceOffer.mutate(
+                        {
+                          // service_type:o.service_type,
+                          service_type_id: o.serviceType.id,
+                        },
+                        {onSuccess: () => refetch()},
+                      );
+                    else
+                      deleteServiceOffer.mutate(
+                        {
+                          // service_type:o.service_type,
+                          service_type_id: o.serviceType.id,
+                        },
+                        {onSuccess: () => refetch()},
+                      );
                   }}
                 />
               )}

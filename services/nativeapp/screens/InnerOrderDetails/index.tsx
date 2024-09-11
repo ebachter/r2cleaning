@@ -70,8 +70,9 @@ export default function ScreenOrderDetails() {
         <OfferCard
           key={i}
           supplierName={`${o.user.firstName} ${o.user.lastName}`}
-          supplierId={o.offer.userId}
+          price={o.offer.price}
           time={o.offer.time}
+          offerId={o.offer.id}
         />
       ))}
     </>
