@@ -9,7 +9,7 @@ import drizzle, {
   serviceType,
   user,
 } from '@remrob/drizzle';
-import {and, eq, getTableColumns, inArray} from 'drizzle-orm';
+import {and, count, eq, getTableColumns, inArray} from 'drizzle-orm';
 import typia, {tags} from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
 import {TRPCError} from '@trpc/server';
@@ -62,10 +62,22 @@ export const intRouter = router({
     }),
 
   loadOrders: protectedProcedure.query(async ({ctx}) => {
-    const data = await drizzle.query.requests.findMany({
-      with: {object: {with: {objectType: true}}},
-      where: eq(requests.userId, ctx.session.userId),
-    });
+    const offerCount = await drizzle
+      .select({count: count().as('numberOfOffers'), requestId: offer.requestId})
+      .from(offer)
+      .groupBy(offer.requestId)
+      .as('offerCount');
+
+    console.log(offerCount);
+
+    const data = await drizzle
+      .select()
+      .from(requests)
+      .innerJoin(object, eq(object.id, requests.objectId))
+      .innerJoin(objectType, eq(objectType.id, object.type))
+      .leftJoin(order, eq(order.requestId, requests.id))
+      .leftJoin(offerCount, eq(offerCount.requestId, requests.id))
+      .where(eq(requests.userId, ctx.session.userId));
 
     return data;
   }),
@@ -104,7 +116,6 @@ export const intRouter = router({
         })
         .from(serviceOffer)
         .where(eq(serviceOffer.userId, ctx.session.userId));
-      //.as('subQuery');
 
       const result = await drizzle
         .select()

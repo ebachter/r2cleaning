@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import _ from 'lodash';
+import _, {now} from 'lodash';
 import {TypeOrder} from '../types/typeOrder';
 
 type DeepNullable<T> = {
@@ -7,7 +7,7 @@ type DeepNullable<T> = {
 };
 
 export const initialStateCleaning: TypeOrder = {
-  date: null,
+  date: new Date(),
   object: {
     id: null,
     type: null,

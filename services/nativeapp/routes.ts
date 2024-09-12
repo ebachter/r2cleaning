@@ -2,7 +2,6 @@ import ScreenOrderDetails from './screens/InnerOrderDetails';
 import ScreenObjects from './screens/InnerObjects';
 import HomeScreen from './screens/OuterHome';
 import DetailsScreen from './screens/InnerHome';
-import OrdersScreen from './screens/InnerOrderList';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
 import {NavigationProp} from '@react-navigation/native';
 import ScreenSuppler from './screens/Supplier';
@@ -39,12 +38,6 @@ export const allRoutes: {
     component: ScreenOrderDetails,
     path: 'request/details',
     title: 'Детали',
-  },
-  Requests: {
-    name: 'Requests',
-    component: OrdersScreen,
-    path: 'requests',
-    title: 'Заявки',
   },
   Objects: {
     name: 'Objects',

@@ -6,7 +6,6 @@ import {Ionicons} from '@expo/vector-icons';
 import {ObjectTypeRadio} from './Step1ObjectTypes';
 import {Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-// import ObjectDetails from './ObjectDetails';
 import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
 import {trpcComp} from '../../trpc';
@@ -44,10 +43,6 @@ const indicatorStyles = {
 const steps = [
   {
     label: 'Select object',
-    content: () => <>OType</>,
-  },
-  {
-    label: 'Request details',
     content: () => <>OType</>,
   },
   {
@@ -119,7 +114,7 @@ export default function OrderStepper() {
       mergeOrder({orderCreated: true});
       showSnackbar({text: `Request ${data.newOrderId} created`});
       setOrderFormInit();
-      navigation.navigate('Requests');
+      navigation.navigate('HomeInt');
     },
   });
 

@@ -65,6 +65,12 @@ export default function CustomNavigationBar({
           onBackdropPress={() => setVisible(false)}
         >
           <MenuItem
+            title="My objects"
+            onPress={() => {
+              navigation.navigate('Objects');
+            }}
+          />
+          <MenuItem
             title="Supplier"
             onPress={() => {
               navigation.navigate('Supplier');
