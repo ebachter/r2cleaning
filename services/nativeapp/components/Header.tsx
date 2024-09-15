@@ -1,6 +1,5 @@
 import React from 'react';
 import {Appbar} from 'react-native-paper';
-// import {getHeaderTitle} from '@react-navigation/elements';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {logout} from '../redux/functionsDispatch';
 import {View} from 'react-native';
@@ -44,6 +43,7 @@ export default function CustomNavigationBar({
       accessoryLeft={MenuIcon}
     />
   );
+
   return (
     <Appbar.Header>
       {showBack && (
@@ -57,34 +57,36 @@ export default function CustomNavigationBar({
       )}
       <Appbar.Content title={title} />
       <View>
-        <OverflowMenu
-          anchor={renderToggleButton}
-          visible={visible}
-          selectedIndex={selectedIndex}
-          onSelect={onItemSelect}
-          onBackdropPress={() => setVisible(false)}
-        >
-          <MenuItem
-            title="My objects"
-            onPress={() => {
-              navigation.navigate('Objects');
-            }}
-          />
-          <MenuItem
-            title="Supplier"
-            onPress={() => {
-              navigation.navigate('Supplier');
-            }}
-          />
-          <MenuItem title="Настройки" />
-          <MenuItem
-            accessoryLeft={LogoutIcon}
-            title="Выход"
-            onPress={() => {
-              logout();
-            }}
-          />
-        </OverflowMenu>
+        {route.name !== 'HomeExt' && (
+          <OverflowMenu
+            anchor={renderToggleButton}
+            visible={visible}
+            selectedIndex={selectedIndex}
+            onSelect={onItemSelect}
+            onBackdropPress={() => setVisible(false)}
+          >
+            <MenuItem
+              title="My objects"
+              onPress={() => {
+                navigation.navigate('Objects');
+              }}
+            />
+            <MenuItem
+              title="Supplier"
+              onPress={() => {
+                navigation.navigate('Supplier');
+              }}
+            />
+            <MenuItem title="Настройки" />
+            <MenuItem
+              accessoryLeft={LogoutIcon}
+              title="Выход"
+              onPress={() => {
+                logout();
+              }}
+            />
+          </OverflowMenu>
+        )}
       </View>
     </Appbar.Header>
   );
