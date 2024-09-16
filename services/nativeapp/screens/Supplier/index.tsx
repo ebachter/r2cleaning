@@ -1,10 +1,16 @@
 import {View} from 'react-native';
-import {StyleSheet} from 'react-native';
 import {Button} from '@ui-kitten/components';
 import {useNavigation} from '@react-navigation/native';
+import SupplierFab from './Fab';
+import {useEffect, useState} from 'react';
 
-export default function ScreenSuppler({}) {
+export default function ScreenSuppler() {
   const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    console.log('visible >>>', visible);
+  }, [visible]);
 
   return (
     <>
@@ -26,29 +32,10 @@ export default function ScreenSuppler({}) {
           appearance="outline"
           onPress={() => navigation.navigate('SupplierRequests')}
         >
-          Search requests
-        </Button>
-        <Button
-          style={{
-            marginTop: 5,
-            width: '100%',
-          }}
-          appearance="outline"
-          onPress={() => navigation.navigate('SupplierRequests')}
-        >
           Confirmed requests
         </Button>
-        <Button
-          style={{
-            marginTop: 5,
-            width: '100%',
-          }}
-          appearance="outline"
-          onPress={() => navigation.navigate('SupplierServices')}
-        >
-          Offered services
-        </Button>
       </View>
+      <SupplierFab />
     </>
   );
 }

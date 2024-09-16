@@ -5,7 +5,6 @@ import DetailsScreen from './screens/InnerHome';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
 import {NavigationProp} from '@react-navigation/native';
 import ScreenSuppler from './screens/Supplier';
-import ScreenSupplerServices from './screens/Supplier/OfferedServices';
 import ScreenSupplierRequests from './screens/Supplier/OpenRequests';
 import ScreenSupplierRequest from './screens/Supplier/OpenRequest';
 import {RootStackParamList} from './types/typesNavigation';
@@ -56,12 +55,6 @@ export const allRoutes: {
     component: ScreenSuppler,
     path: 'supplier',
     title: 'Supplier',
-  },
-  SupplierServices: {
-    name: 'SupplierServices',
-    component: ScreenSupplerServices,
-    path: 'supplier/services',
-    title: 'Supplier services',
   },
   SupplierRequests: {
     name: 'SupplierRequests',

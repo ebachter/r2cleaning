@@ -1,9 +1,10 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {trpcComp} from '../../../trpc';
-import {List, MD3Colors} from 'react-native-paper';
+import {Divider, List, MD3Colors, Text} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+import FilterRequests from './Filter';
 
 export default function ScreenSupplierRequests() {
   const {data: res} = trpcComp.loadRequestsForSupplier.useQuery(undefined, {
@@ -14,24 +15,29 @@ export default function ScreenSupplierRequests() {
 
   return (
     <>
-      {/* <View>
-        <Header />
-      </View> */}
-
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
           backgroundColor: 'aliceblue',
           paddingLeft: 10,
           paddingRight: 10,
         }}
       >
         {/* <Text>Supplier</Text> */}
+        <Text variant="headlineSmall" style={{marginTop: 20}}>
+          Filter preferencies
+        </Text>
 
         <List.Section>
-          <List.Subheader>List of requests</List.Subheader>
+          <FilterRequests />
+
+          <Divider />
+
+          <Text variant="headlineSmall" style={{marginTop: 20}}>
+            Available orders
+          </Text>
           {res.map((o, i) => (
             <List.Item
               key={i}

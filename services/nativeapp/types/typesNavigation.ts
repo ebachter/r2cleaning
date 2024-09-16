@@ -9,7 +9,6 @@ export type RootStackParamList = {
   OrderDetails: {requestId: number};
   ObjectDetails: {objectId: number};
   Supplier: undefined;
-  SupplierServices: undefined;
   SupplierRequests: undefined;
   SupplierRequest: {requestId: string};
 };
