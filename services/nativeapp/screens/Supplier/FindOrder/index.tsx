@@ -53,7 +53,7 @@ export default function ScreenSupplierRequests() {
               // right={() => <>{o.price || ''}</>}
               onPress={() =>
                 navigation.navigate('SupplierRequest', {
-                  requestId: String(o.request.id),
+                  orderId: String(o.request.id),
                 })
               }
             />

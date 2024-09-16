@@ -1,40 +1,31 @@
-import {View} from 'react-native';
-import {Button} from '@ui-kitten/components';
 import {useNavigation} from '@react-navigation/native';
 import SupplierFab from './Fab';
-import {useEffect, useState} from 'react';
+import {trpcComp} from '../../trpc';
+import CardComponent from './card';
+import {Text} from 'react-native-paper';
 
 export default function ScreenSuppler() {
   const navigation = useNavigation();
-  const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    console.log('visible >>>', visible);
-  }, [visible]);
+  const {data} = trpcComp.loadOrdersOfSupplier.useQuery(undefined, {
+    initialData: [],
+  });
+
+  console.log('>>>', data);
 
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'aliceblue',
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      >
-        <Button
-          style={{
-            marginTop: 5,
-            width: '100%',
-          }}
-          appearance="outline"
-          onPress={() => navigation.navigate('SupplierRequests')}
-        >
-          Confirmed requests
-        </Button>
-      </View>
+      <Text variant="headlineSmall" style={{marginTop: 20}}>
+        Jobs
+      </Text>
+      {data.map((o, i) => (
+        <CardComponent
+          key={i}
+          objectType={o.objectType.name.en}
+          orderId={o.request.id}
+          data={o}
+        />
+      ))}
       <SupplierFab />
     </>
   );

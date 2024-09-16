@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Button, Card, Icon, Text} from 'react-native-paper';
 import {RouterOutputs} from '../../trpc';
 
@@ -21,11 +21,13 @@ const CardComponent = ({
   return (
     <Card
       style={{width: '100%', maxHeight: 300, marginTop: 5, marginBottom: 5}}
-      onPress={() => navigation.navigate('OrderDetails', {orderId: orderId})}
+      onPress={() =>
+        navigation.navigate('SupplierRequest', {orderId: String(orderId)})
+      }
     >
       <Card.Title
         title={`Order ${orderId} for ${data.objectType.name.en}`}
-        subtitle={`Status: ${data.order ? 'Confirmed order' : 'Request sent'}`}
+        subtitle={`Status: ${data.order ? 'Confirmed order' : 'Offer sent'}`}
         left={LeftContent}
       />
       <Card.Content>

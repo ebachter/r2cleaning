@@ -3,10 +3,9 @@ import ScreenObjects from './screens/InnerObjects';
 import HomeScreen from './screens/OuterHome';
 import DetailsScreen from './screens/InnerHome';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
-import {NavigationProp} from '@react-navigation/native';
 import ScreenSuppler from './screens/Supplier';
-import ScreenSupplierRequests from './screens/Supplier/OpenRequests';
-import ScreenSupplierRequest from './screens/Supplier/OpenRequest';
+import ScreenSupplierRequests from './screens/Supplier/FindOrder';
+import ScreenSupplierRequest from './screens/Supplier/OrderDetails';
 import {RootStackParamList} from './types/typesNavigation';
 
 export const allRoutes: {
@@ -35,7 +34,7 @@ export const allRoutes: {
   OrderDetails: {
     name: 'OrderDetails',
     component: ScreenOrderDetails,
-    path: 'request/details',
+    path: 'order',
     title: 'Детали',
   },
   Objects: {
@@ -59,14 +58,14 @@ export const allRoutes: {
   SupplierRequests: {
     name: 'SupplierRequests',
     component: ScreenSupplierRequests,
-    path: 'supplier/requests',
+    path: 'supplier/search',
     title: 'Customer requests',
   },
   SupplierRequest: {
     name: 'SupplierRequest',
     component: ScreenSupplierRequest,
-    path: 'supplier/request',
-    title: 'Request details',
+    path: 'supplier/order',
+    title: 'Order details',
   },
 };
 

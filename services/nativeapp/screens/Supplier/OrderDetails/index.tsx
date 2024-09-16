@@ -13,7 +13,7 @@ export default function ScreenSupplierRequest() {
   const route = useRoute<RouteProps<'SupplierRequest'>>();
   const {data: res, refetch} = trpcComp.loadRequestForSupplier.useQuery(
     {
-      requestId: Number(route.params.requestId),
+      requestId: Number(route.params.orderId),
     },
     {initialData: {request: {id: 0}, objectType: {name: {en: ''}}}},
   );
@@ -35,7 +35,7 @@ export default function ScreenSupplierRequest() {
   return (
     <>
       <Text variant="titleMedium" style={{margin: 5}}>
-        Request {route.params.requestId} details
+        Request {route.params.orderId} details
       </Text>
       <View style={{marginTop: 15}} />
       <TextInput
@@ -107,7 +107,7 @@ export default function ScreenSupplierRequest() {
             mode="contained"
             onPress={() =>
               createOffer.mutate({
-                requestId: Number(route.params.requestId),
+                requestId: Number(route.params.orderId),
                 time: `${hours}:${minutes}`,
                 price,
               })

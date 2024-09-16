@@ -6,11 +6,11 @@ export type RootStackParamList = {
   HomeExt: undefined;
   HomeInt: undefined;
   Objects: undefined;
-  OrderDetails: {requestId: number};
+  OrderDetails: {orderId: number};
   ObjectDetails: {objectId: number};
   Supplier: undefined;
   SupplierRequests: undefined;
-  SupplierRequest: {requestId: string};
+  SupplierRequest: {orderId: string};
 };
 
 // export type StackNavigation = NavigationProp<RootStackParamList>;

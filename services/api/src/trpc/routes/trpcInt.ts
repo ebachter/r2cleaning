@@ -62,7 +62,7 @@ export const intRouter = router({
     }),
 
   loadOrders: protectedProcedure.query(async ({ctx}) => {
-    const offerCount = await drizzle
+    const offerCount = drizzle
       .select({count: count().as('numberOfOffers'), requestId: offer.requestId})
       .from(offer)
       .groupBy(offer.requestId)
@@ -78,6 +78,19 @@ export const intRouter = router({
       .leftJoin(order, eq(order.requestId, requests.id))
       .leftJoin(offerCount, eq(offerCount.requestId, requests.id))
       .where(eq(requests.userId, ctx.session.userId));
+
+    return data;
+  }),
+
+  loadOrdersOfSupplier: protectedProcedure.query(async ({ctx}) => {
+    const data = await drizzle
+      .select()
+      .from(requests)
+      .innerJoin(object, eq(object.id, requests.objectId))
+      .innerJoin(objectType, eq(objectType.id, object.type))
+      .leftJoin(order, eq(order.requestId, requests.id))
+      .innerJoin(offer, eq(offer.requestId, requests.id))
+      .where(eq(offer.userId, ctx.session.userId));
 
     return data;
   }),
@@ -213,7 +226,7 @@ export const intRouter = router({
     }),
 
   loadOrder: protectedProcedure
-    .input(typia.createAssert<{requestId: number}>())
+    .input(typia.createAssert<{orderId: number}>())
     .query(async ({ctx, input}) => {
       const data = await drizzle
         .select()
@@ -223,7 +236,7 @@ export const intRouter = router({
         .where(
           and(
             eq(requests.userId, ctx.session.userId),
-            eq(requests.id, input.requestId),
+            eq(requests.id, input.orderId),
           ),
         );
 
@@ -238,7 +251,7 @@ export const intRouter = router({
         .where(
           and(
             eq(offer.userId, ctx.session.userId),
-            eq(offer.requestId, input.requestId),
+            eq(offer.requestId, input.orderId),
           ),
         );
 

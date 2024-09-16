@@ -12,7 +12,7 @@ export const ListOfOrders = (): ReactElement => {
 
   return (
     <>
-      {(data || []).map((o, i) => (
+      {data.map((o, i) => (
         <CardComponent
           key={i}
           objectType={o.objectType.name.en}

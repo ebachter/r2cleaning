@@ -11,7 +11,7 @@ export default function ScreenOrderDetails() {
   const route = useRoute<RouteProps<'OrderDetails'>>();
   const {data} = trpcComp.loadOrder.useQuery(
     {
-      requestId: Number(route.params.requestId),
+      orderId: Number(route.params.orderId),
     },
     {
       initialData: {
@@ -28,7 +28,7 @@ export default function ScreenOrderDetails() {
   return (
     <>
       <Text variant="titleMedium" style={{margin: 5}}>
-        Request {route.params.requestId} details
+        Request {route.params.orderId} details
       </Text>
       <View style={{marginTop: 15}} />
       <TextInput
