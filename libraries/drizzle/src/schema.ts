@@ -94,7 +94,9 @@ export const requests = mysqlTable('request', {
       onUpdate: 'cascade',
     })
     .notNull(),
-  date: date('date').notNull(),
+  cleaningDate: date('cleaningDate').notNull(),
+  createdAt,
+  updatedAt,
 });
 
 export const requestRelations = relations(requests, ({one}) => ({
@@ -126,9 +128,10 @@ export const offer = mysqlTable(
         onUpdate: 'cascade',
       })
       .notNull(),
-    time: time('time').notNull(),
+    cleaningTime: time('cleaningTime').notNull(),
     price: price.notNull(),
     createdAt,
+    updatedAt,
   },
   (t) => ({
     unq: unique('offer_uq_requestId_userId').on(t.requestId, t.userId),
@@ -173,6 +176,7 @@ export const order = mysqlTable(
     time: time('time').notNull(),
     price: price.notNull(),
     createdAt,
+    updatedAt,
   },
   (t) => ({
     unq: unique('uq_requestId_offerId').on(t.requestId, t.offerId),

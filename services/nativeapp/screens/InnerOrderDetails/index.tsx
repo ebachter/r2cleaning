@@ -71,7 +71,7 @@ export default function ScreenOrderDetails() {
           key={i}
           supplierName={`${o.user.firstName} ${o.user.lastName}`}
           price={o.offer.price}
-          time={o.offer.time}
+          time={o.offer.cleaningTime}
           offerId={o.offer.id}
         />
       ))}

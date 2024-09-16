@@ -150,14 +150,14 @@ const main = async () => {
         // price: '1.23',
         userId: 2,
         objectId: 1,
-        date: new Date(),
+        cleaningDate: new Date(),
       },
       {
         id: 2,
         // price: '2.34',
         userId: 1,
         objectId: 2,
-        date: new Date(),
+        cleaningDate: new Date(),
       },
     ]);
 

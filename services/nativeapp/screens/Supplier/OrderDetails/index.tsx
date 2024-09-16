@@ -67,7 +67,7 @@ export default function ScreenSupplierRequest() {
         <>
           <TextInput
             label="Time"
-            value={`${res.offer.time.substring(0, 5)}`}
+            value={`${res.offer.cleaningTime.substring(0, 5)}`}
             disabled
           />
           <Button

@@ -9,13 +9,10 @@ import {ListOfOrders} from './list';
 export default function DetailsScreen({}) {
   return (
     <>
-      {/* <View>
-        <Header />
-      </View> */}
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'flex-start',
           backgroundColor: 'aliceblue',
           paddingLeft: 10,
