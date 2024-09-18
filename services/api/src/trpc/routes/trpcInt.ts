@@ -41,14 +41,12 @@ export const intRouter = router({
       const userId = ctx.session?.userid;
       // const {objectType} = input;
 
-      const newOrder: Omit<RequestType, 'id'> = {
-        objectId: input.object_id,
-        userId: userId,
-        date: input.date,
-      };
-
       const insertId = await drizzle.transaction(async (tx) => {
-        const temp = await tx.insert(requests).values(newOrder as RequestType);
+        const temp = await tx.insert(requests).values({
+          objectId: input.object_id,
+          userId: userId,
+          cleaningDate: input.date,
+        });
 
         await tx.insert(requestService).values({
           requestId: temp[0].insertId,
@@ -299,7 +297,7 @@ export const intRouter = router({
   createOffer: protectedProcedure
     .input(
       typia.createAssert<
-        Pick<OfferType, 'requestId' | 'time'> & {price: PriceType}
+        Pick<OfferType, 'requestId' | 'cleaningTime'> & {price: PriceType}
       >(),
     )
     .mutation(async ({ctx, input}) => {
@@ -308,7 +306,7 @@ export const intRouter = router({
       const temp = await drizzle.insert(offer).values({
         userId,
         requestId: input.requestId,
-        time: input.time,
+        cleaningTime: input.cleaningTime,
         price: input.price,
       });
 
@@ -350,8 +348,8 @@ export const intRouter = router({
         objectId: data.request.objectId,
         requestId: data.requestId,
         offerId: input.offerId,
-        date: data.request.date,
-        time: data.time,
+        cleaningDate: data.request.cleaningDate,
+        cleaningTime: data.cleaningTime,
         price: data.price,
       });
 

@@ -172,8 +172,8 @@ export const order = mysqlTable(
         onUpdate: 'cascade',
       })
       .notNull(),
-    date: date('date').notNull(),
-    time: time('time').notNull(),
+    cleaningDate: date('cleaningDate').notNull(),
+    cleaningTime: time('cleaningTime').notNull(),
     price: price.notNull(),
     createdAt,
     updatedAt,
