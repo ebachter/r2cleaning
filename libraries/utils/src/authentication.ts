@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
 import {LanguageOptions, UserToken} from './typesMisc';
 
 const SECRET = process.env.WS_JWT_SECRET || '';
@@ -33,7 +32,11 @@ export const verifyUserAuthToken = (userAuthToken: string) => {
 };
 
 export const createUserAuthToken = async (password: string) => {
-  const passwordHash = await bcrypt.hash(password, saltRounds);
+  //const passwordHash = await bcrypt.hash(password, saltRounds);
+  const passwordHash = await Bun.password.hash(password, {
+    algorithm: 'bcrypt',
+    cost: 4, // number between 4-31
+  });
   return passwordHash;
 };
 
@@ -41,7 +44,8 @@ export const checkUserPassword = async (
   plainPassword: string,
   userPasswordHash: string,
 ) => {
-  const match = await bcrypt.compare(plainPassword, userPasswordHash);
+  // const match = await bcrypt.compare(plainPassword, userPasswordHash);
+  const match = await Bun.password.verify(plainPassword, userPasswordHash);
   return match;
 };
 
