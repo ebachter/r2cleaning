@@ -108,7 +108,7 @@ export default function ScreenSupplierRequest() {
             onPress={() =>
               createOffer.mutate({
                 requestId: Number(route.params.orderId),
-                time: `${hours}:${minutes}`,
+                cleaningTime: `${hours}:${minutes}`,
                 price,
               })
             }

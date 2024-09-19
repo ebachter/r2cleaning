@@ -6,12 +6,6 @@ import {Button, Layout} from '@ui-kitten/components';
 import {mergeLocal} from '../redux/functionsDispatch';
 
 export default function HomeScreen() {
-  var source = new EventSource(
-    'https://isrtmr54nfnuwginhlc2knkyym0snjuc.lambda-url.eu-central-1.on.aws/',
-  );
-  source.onmessage = function (event) {
-    console.log(event.data);
-  };
   return (
     <View
       style={{
