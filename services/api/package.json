@@ -26,12 +26,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun run clean; tsc -b",
+    "build": "bun run clean; bun run Build.ts",
     "clean": "rm -rf dist node_modules ../../.build-cache/services-api.tsbuildinfo",
     "prepack": "bun run build",
     "prepare": "ts-patch install && typia patch",
     "sort-json-files": "sortjson *.json && prettier -w *.json",
-    "start": "bun run --env-file=../../.env --watch src/server.ts"
+    "start": "bun run --env-file=../../.env --watch src/server.ts",
+    "prod": "bun run --env-file=../../.env dist/server.js"
   },
   "dependencies": {
     "@remrob/aws": "workspace:*",
@@ -55,7 +56,7 @@
     "request": "^2.88.2",
     "serialize-error": "^2.1.0",
     "superjson": "^2.2.1",
-    "typia": "^6.9.0",
+    "typia": "^6.10.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -72,6 +73,6 @@
     "prettier": "^2",
     "supertest": "^3.4.2",
     "ts-patch": "^3.2.1",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   }
 }

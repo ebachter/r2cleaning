@@ -20,6 +20,7 @@
     "sort-json-files": "sortjson *.json && prettier -w *.json && bun run --filter='*' sort-json-files",
     "start:all": "bun run --filter=@remrob/api --filter=@remrob/nativeapp start",
     "start:api": "bun run --filter @remrob/api start",
+    "start:prod": "bun run --filter @remrob/api prod",
     "start:nativeapp": "bun run --filter @remrob/nativeapp start",
     "update-references": "update-ts-references && sortjson tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json && prettier -w tsconfig.base.json tsconfig.json localstack/tsconfig.json {libraries,services}/*/tsconfig.json"
   },
