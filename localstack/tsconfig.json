@@ -8,9 +8,6 @@
   "include": ["./src/**/*"],
   "references": [
     {
-      "path": "../libraries/log"
-    },
-    {
       "path": "../libraries/shuttle"
     },
     {

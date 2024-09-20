@@ -1,4 +1,3 @@
-import log from '@remrob/log';
 import {getRedisClient} from '@remrob/redis';
 
 export const setGrid = async (
@@ -11,7 +10,7 @@ export const setGrid = async (
   const actor = actorID.split(':');
   const reactor = reactorID.split(':');
   if (!user || actor.length < 3 || reactor.length < 3) {
-    log.error('vars error setGrid');
+    console.error('vars error setGrid');
     return;
   }
   const prms = await redisCon
@@ -36,7 +35,7 @@ export const delGrid = async (
   const actor = actorID.split(':');
   const reactor = reactorID.split(':');
   if (actor.length < 3 || reactor.length < 3) {
-    log.error('vars error delGrid');
+    console.error('vars error delGrid');
     return;
   }
   const prms = await redisCon

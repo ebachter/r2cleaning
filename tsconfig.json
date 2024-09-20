@@ -9,9 +9,6 @@
       "path": "libraries/drizzle"
     },
     {
-      "path": "libraries/log"
-    },
-    {
       "path": "libraries/redis"
     },
     {

@@ -1,4 +1,3 @@
-import log from '@remrob/log';
 import {register} from '@remrob/shuttle';
 import {
   S3Client,

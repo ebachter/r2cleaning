@@ -1,9 +1,5 @@
-import log from '@remrob/log';
 import {getTerminator} from '@remrob/t800';
 import {register, setup} from '@remrob/shuttle';
-import '@remrob/aws';
-import '@remrob/utils';
-import '@remrob/redis';
 import express from 'express';
 import {createServer} from 'http';
 import bearerToken from 'express-bearer-token';
@@ -70,17 +66,17 @@ register(async () => {
 
   /* ************** PROTECTED *************** */
   const listener = httpServer.listen(WEB_PORT, WEB_ADDR, () => {
-    log.info(`API server listening on ${WEB_ADDR}:${WEB_PORT}`);
+    console.info(`API server listening on ${WEB_ADDR}:${WEB_PORT}`);
   });
 
   const terminator = getTerminator(listener);
 
   return async () => {
-    log.info('Shutting down HTTP server');
+    console.info('Shutting down HTTP server');
     await terminator();
-    log.info('HTTP shutdown finished');
+    console.info('HTTP shutdown finished');
   };
 });
 
 // Setup server
-setup(); // .catch((err) => log.error(err, 'app init failed'));
+setup(); // .catch((err) => console.error(err, 'app init failed'));

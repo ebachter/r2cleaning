@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "ES2020",
     "outDir": "./dist",
     "rootDir": "./src",
     "tsBuildInfoFile": "../../.build-cache/redis.tsbuildinfo"
@@ -9,9 +10,6 @@
   "references": [
     {
       "path": "../drizzle"
-    },
-    {
-      "path": "../log"
     }
   ]
 }

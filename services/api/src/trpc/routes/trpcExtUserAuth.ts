@@ -1,10 +1,5 @@
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import {
-  checkUserPassword,
-  createUserAuthToken,
-  createUserSessionToken,
-} from '@remrob/utils';
-import log from '@remrob/log';
+import {createUserSessionToken} from '@remrob/utils';
 import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia from 'typia';

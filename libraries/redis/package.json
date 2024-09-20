@@ -16,14 +16,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun run clean; tsc -b",
+    "build": "bun run clean; bun build --target bun --entrypoint ./src/index.ts",
     "clean": "rm -rf dist node_modules ../../.build-cache/redis.tsbuildinfo",
     "prepack": "bun run build",
     "sort-json-files": "sortjson *.json && prettier -w *.json"
   },
   "dependencies": {
     "@remrob/drizzle": "^0.0.0",
-    "@remrob/log": "^0.0.2",
     "ioredis": "^5.4.1"
   },
   "devDependencies": {

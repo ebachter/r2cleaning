@@ -26,7 +26,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun run clean; tsc -b",
+    "build": "bun run clean; bun build --target bun --entrypoint ./src/utils.ts",
     "clean": "rm -rf dist node_modules ../../.build-cache/utils.tsbuildinfo",
     "prepack": "bun run build",
     "sort-json-files": "sortjson *.json && prettier -w *.json"

@@ -1,5 +1,4 @@
 import Redis from 'ioredis';
-import log from '@remrob/log';
 
 let numberOfRedisConnections = 0;
 
@@ -9,19 +8,19 @@ export const getRedisClient = () => {
   );
 
   redisClient.on('connect', function () {
-    log.info('connected to redis successfully');
+    console.info('connected to redis successfully');
     numberOfRedisConnections++;
-    log.info({numberOfRedisConnections: numberOfRedisConnections});
+    console.info({numberOfRedisConnections: numberOfRedisConnections});
   });
 
   redisClient.on('end', function () {
-    log.info('disconnected from redis successfully');
+    console.info('disconnected from redis successfully');
     numberOfRedisConnections--;
-    log.info({numberOfRedisConnections: numberOfRedisConnections});
+    console.info({numberOfRedisConnections: numberOfRedisConnections});
   });
 
   redisClient.on('error', function (err) {
-    log.error(err, 'could not establish a connection with redis');
+    console.error(err, 'could not establish a connection with redis');
   });
 
   return redisClient;

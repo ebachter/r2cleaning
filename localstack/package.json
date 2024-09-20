@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
-    "@remrob/log": "workspace:*",
     "@remrob/shuttle": "workspace:*",
     "@remrob/t800": "workspace:*",
     "fastify": "^3.29.5"

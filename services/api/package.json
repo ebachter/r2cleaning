@@ -37,7 +37,6 @@
   "dependencies": {
     "@remrob/aws": "workspace:*",
     "@remrob/drizzle": "workspace:*",
-    "@remrob/log": "workspace:*",
     "@remrob/redis": "workspace:*",
     "@remrob/shuttle": "workspace:*",
     "@remrob/t800": "workspace:*",
@@ -56,7 +55,7 @@
     "request": "^2.88.2",
     "serialize-error": "^2.1.0",
     "superjson": "^2.2.1",
-    "typia": "^6.10.0",
+    "typia": "^6.10.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
