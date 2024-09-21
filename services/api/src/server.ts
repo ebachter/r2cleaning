@@ -1,4 +1,3 @@
-import {setup} from '@remrob/shuttle';
 import express from 'express';
 import {createServer} from 'http';
 import bearerToken from 'express-bearer-token';
@@ -87,6 +86,3 @@ router.get('/session/valid', (req, res) => {
 const listener = httpServer.listen(WEB_PORT, WEB_ADDR, () => {
   console.info(`API server listening on ${WEB_ADDR}:${WEB_PORT}`);
 });
-
-// Setup server
-setup(); // .catch((err) => console.error(err, 'app init failed'));

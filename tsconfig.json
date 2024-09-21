@@ -12,15 +12,6 @@
       "path": "libraries/redis"
     },
     {
-      "path": "libraries/retry"
-    },
-    {
-      "path": "libraries/shuttle"
-    },
-    {
-      "path": "libraries/t800"
-    },
-    {
       "path": "libraries/utils"
     },
     {

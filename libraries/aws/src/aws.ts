@@ -1,4 +1,3 @@
-import {register} from '@remrob/shuttle';
 import {
   S3Client,
   S3ClientConfig,
@@ -27,37 +26,33 @@ export {
   sendSMS,
 };
 
-register(async () => {
-  console.info('Initializing AWS...');
-
-  /* AWS.config.update({
+/* AWS.config.update({
     region: 'eu-central-1',
     httpOptions: {agent: new https.Agent({rejectUnauthorized: false})},
   }); */
 
-  const config: S3ClientConfig = {
-    credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.S3_ACCESS_SECRET_KEY!,
-    },
-    region: process.env.AWS_DEF_REGION,
-  };
+const config: S3ClientConfig = {
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.S3_ACCESS_SECRET_KEY!,
+  },
+  region: process.env.AWS_DEF_REGION,
+};
 
-  // endpoint & s3ForcePathStyle are only required for local development with localstack
-  if (process.env.S3_ENDPOINT_URL) {
-    config.endpoint = process.env.S3_ENDPOINT_URL;
-  }
-  if (process.env.S3_FORCE_PATH_STYLE) {
-    config.forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
-  }
+// endpoint & s3ForcePathStyle are only required for local development with localstack
+if (process.env.S3_ENDPOINT_URL) {
+  config.endpoint = process.env.S3_ENDPOINT_URL;
+}
+if (process.env.S3_FORCE_PATH_STYLE) {
+  config.forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
+}
 
-  s3 = new S3Client(config); // new S3(config);
+s3 = new S3Client(config); // new S3(config);
 
-  ses = new SESClient({
-    region: process.env.SES_REGION,
-    credentials: {
-      accessKeyId: process.env.SES_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.SES_ACCESS_SECRET_KEY!,
-    },
-  });
+ses = new SESClient({
+  region: process.env.SES_REGION,
+  credentials: {
+    accessKeyId: process.env.SES_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.SES_ACCESS_SECRET_KEY!,
+  },
 });

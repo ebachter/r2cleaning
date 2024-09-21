@@ -5,13 +5,5 @@
     "tsBuildInfoFile": "../.build-cache/localstack.tsbuildinfo"
   },
   "extends": "../tsconfig.base.json",
-  "include": ["./src/**/*"],
-  "references": [
-    {
-      "path": "../libraries/shuttle"
-    },
-    {
-      "path": "../libraries/t800"
-    }
-  ]
+  "include": ["./src/**/*"]
 }

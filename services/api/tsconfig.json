@@ -24,12 +24,6 @@
       "path": "../../libraries/redis"
     },
     {
-      "path": "../../libraries/shuttle"
-    },
-    {
-      "path": "../../libraries/t800"
-    },
-    {
       "path": "../../libraries/utils"
     }
   ],

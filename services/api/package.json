@@ -38,8 +38,6 @@
     "@remrob/aws": "workspace:*",
     "@remrob/drizzle": "workspace:*",
     "@remrob/redis": "workspace:*",
-    "@remrob/shuttle": "workspace:*",
-    "@remrob/t800": "workspace:*",
     "@remrob/utils": "workspace:*",
     "@ryoppippi/unplugin-typia": "npm:@jsr/ryoppippi__unplugin-typia",
     "@trpc/server": "next",
