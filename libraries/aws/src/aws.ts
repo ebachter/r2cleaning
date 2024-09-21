@@ -28,7 +28,7 @@ export {
 };
 
 register(async () => {
-  log.info('Initializing AWS...');
+  console.info('Initializing AWS...');
 
   /* AWS.config.update({
     region: 'eu-central-1',
