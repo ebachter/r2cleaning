@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 
-const WEB_ADDR = process.env.WEB_ADDR || '0.0.0.0';
-const WEB_PORT = process.env.WEB_PORT ? parseInt(process.env.WEB_PORT) : 3000;
+const WEB_ADDR = Bun.env.WEB_ADDR || '0.0.0.0';
+const WEB_PORT = Bun.env.WEB_PORT ? parseInt(Bun.env.WEB_PORT) : 3000;
 
 // const app = fastify({logger: log});
 const app = fastify();

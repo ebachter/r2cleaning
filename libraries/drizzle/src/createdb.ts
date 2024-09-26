@@ -4,25 +4,25 @@ import {sql} from 'drizzle-orm';
 
 const main = async () => {
   try {
-    const client = await createConnection(process.env.DB_SERVER!);
+    const client = await createConnection(Bun.env.DB_SERVER!);
     const db = drizzle(client, {logger: false});
 
     const res1 = await db.execute(
-      sql.raw(`drop database if exists ${process.env.DB_NAME};`),
+      sql.raw(`drop database if exists ${Bun.env.DB_NAME};`),
     );
     console.log('Database dropped', res1);
     const res2 = await db.execute(
-      sql.raw(`create database ${process.env.DB_NAME};`),
+      sql.raw(`create database ${Bun.env.DB_NAME};`),
     );
     console.log('Database created', res2);
     const res3 = await db.execute(
-      sql`CREATE USER IF NOT EXISTS 'remrob'@'localhost' IDENTIFIED WITH mysql_native_password BY ${process.env.DB_PASSWORD};`,
+      sql`CREATE USER IF NOT EXISTS 'remrob'@'localhost' IDENTIFIED WITH mysql_native_password BY ${Bun.env.DB_PASSWORD};`,
     );
     console.log('Privileges are given', res3);
 
     const res4 = await db.execute(
       sql.raw(
-        `GRANT ALL PRIVILEGES ON ${process.env.DB_NAME}.* TO 'remrob'@'localhost';`,
+        `GRANT ALL PRIVILEGES ON ${Bun.env.DB_NAME}.* TO 'remrob'@'localhost';`,
       ),
     );
     console.log('Privileges are given', res4);

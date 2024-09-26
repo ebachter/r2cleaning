@@ -33,26 +33,26 @@ export {
 
 const config: S3ClientConfig = {
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.S3_ACCESS_SECRET_KEY!,
+    accessKeyId: Bun.env.S3_ACCESS_KEY_ID!,
+    secretAccessKey: Bun.env.S3_ACCESS_SECRET_KEY!,
   },
-  region: process.env.AWS_DEF_REGION,
+  region: Bun.env.AWS_DEF_REGION,
 };
 
 // endpoint & s3ForcePathStyle are only required for local development with localstack
-if (process.env.S3_ENDPOINT_URL) {
-  config.endpoint = process.env.S3_ENDPOINT_URL;
+if (Bun.env.S3_ENDPOINT_URL) {
+  config.endpoint = Bun.env.S3_ENDPOINT_URL;
 }
-if (process.env.S3_FORCE_PATH_STYLE) {
-  config.forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
+if (Bun.env.S3_FORCE_PATH_STYLE) {
+  config.forcePathStyle = Bun.env.S3_FORCE_PATH_STYLE === 'true';
 }
 
 s3 = new S3Client(config); // new S3(config);
 
 ses = new SESClient({
-  region: process.env.SES_REGION,
+  region: Bun.env.SES_REGION,
   credentials: {
-    accessKeyId: process.env.SES_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.SES_ACCESS_SECRET_KEY!,
+    accessKeyId: Bun.env.SES_ACCESS_KEY_ID!,
+    secretAccessKey: Bun.env.SES_ACCESS_SECRET_KEY!,
   },
 });

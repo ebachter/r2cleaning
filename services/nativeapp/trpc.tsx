@@ -33,7 +33,6 @@ type CallbackOrValue<TValue> = TValue | (() => MaybePromise<TValue>);
 // console.log(
 //   '>>>',
 //   process.env.EXPO_PUBLIC_APP_API_HOST,
-//   process.env.EXPO_PUBLIC_APP_API_PORT,
 // );
 import {TRPCLink} from '@trpc/client';
 import {observable} from '@trpc/server/observable';
@@ -84,7 +83,7 @@ export const trpcClientOptions = {
     splitLink({
       condition: (op) => op.type === 'subscription',
       true: unstable_httpSubscriptionLink({
-        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}:${process.env.EXPO_PUBLIC_APP_API_PORT}/trpc`,
+        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}/trpc`,
         // options to pass to the EventSourcePolyfill constructor
         eventSourceOptions: (async () => {
           return {
@@ -96,7 +95,7 @@ export const trpcClientOptions = {
         transformer: superjson,
       }),
       false: httpBatchLink({
-        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}:${process.env.EXPO_PUBLIC_APP_API_PORT}/trpc`,
+        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}/trpc`,
 
         headers() {
           const authToken = getAppState().session.sessionToken;

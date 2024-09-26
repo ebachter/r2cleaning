@@ -5,7 +5,7 @@ import _ from 'lodash';
 export const sessionInitialState: Session = {
   sessionToken: null,
   refreshToken: null,
-  phone: '+491633649875',
+  phone: null,
   smsSent: false,
 };
 
@@ -14,10 +14,8 @@ const slice = createSlice({
   initialState: sessionInitialState,
   reducers: {
     mergeSession: (state, action: PayloadAction<Partial<Session>>) => {
+      console.log(action.payload);
       _.merge(state, action.payload);
-    },
-    setPhone: (state, action: PayloadAction<Session['phone']>) => {
-      state.phone = action.payload;
     },
   },
 });

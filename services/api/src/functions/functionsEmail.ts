@@ -7,7 +7,7 @@ const createSendEmailCommand = (
   bodyText?: string,
 ) => {
   return new SendEmailCommand({
-    Source: process.env.SES_NOREPLY_EMAIL || '',
+    Source: Bun.env.SES_NOREPLY_EMAIL || '',
     Destination: {
       ToAddresses: recepients, // email
     },
@@ -48,19 +48,19 @@ export const sendEmailForReset = async (
   }
   try {
     const text: INameToValueMap = {
-      en: `Hello,\n\nto reset your password please follow the link:\n${process.env.FRONTEND_ORIGIN}/reset/${sidForEmail}\n\nREMROB Team`,
-      de: `Hallo,\n\num Ihr Passwort zurückzusetzen, klicken Sie bitte auf den folgenden Link:\n${process.env.FRONTEND_ORIGIN}/reset/${sidForEmail}\n\nREMROB Team`,
+      en: `Hello,\n\nto reset your password please follow the link:\n${Bun.env.FRONTEND_ORIGIN}/reset/${sidForEmail}\n\nREMROB Team`,
+      de: `Hallo,\n\num Ihr Passwort zurückzusetzen, klicken Sie bitte auf den folgenden Link:\n${Bun.env.FRONTEND_ORIGIN}/reset/${sidForEmail}\n\nREMROB Team`,
     };
     const html = {
       en: `
             Hello,<br/><br/>
             to reset your password please follow the link:<br/>
-            <a href="${process.env.FRONTEND_ORIGIN}/reset/${sidForEmail}">Reset password</a><br/><br/>
+            <a href="${Bun.env.FRONTEND_ORIGIN}/reset/${sidForEmail}">Reset password</a><br/><br/>
             REMROB Team`,
       de: `
             Hallo,<br/><br/>
             um Ihr Passwort zurückzusetzen, klicken Sie bitte auf den folgenden Link:<br/>
-            <a href="${process.env.FRONTEND_ORIGIN}/reset/${sidForEmail}">Passwort zurücksetzen</a><br/><br/>
+            <a href="${Bun.env.FRONTEND_ORIGIN}/reset/${sidForEmail}">Passwort zurücksetzen</a><br/><br/>
             REMROB Team
           `,
     };
@@ -100,20 +100,20 @@ export const sendEmailForSignup = async (
       de: 'Registrierung bestätigen',
     };
     const text = {
-      en: `Hello,\n\nto complete your registration please follow the link: \n${process.env.FRONTEND_ORIGIN}/signup/${sidForEmail}\n\nREMROB Team`,
-      de: `Hallo,\n\num den Registierungsprozess abzuschließen, klicken Sie auf den folgenden Link:\nn${process.env.FRONTEND_ORIGIN}/signup/${sidForEmail}\n\nREMROB Team`,
+      en: `Hello,\n\nto complete your registration please follow the link: \n${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}\n\nREMROB Team`,
+      de: `Hallo,\n\num den Registierungsprozess abzuschließen, klicken Sie auf den folgenden Link:\nn${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}\n\nREMROB Team`,
     };
 
     const html = {
       en: `
             Hello,<br/><br/>
             to complete your registration please follow the link:<br/>
-            <a href="${process.env.FRONTEND_ORIGIN}/signup/${sidForEmail}">Confirm account</a><br/><br/>
+            <a href="${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}">Confirm account</a><br/><br/>
             REMROB Team`,
       de: `
             Hallo,<br/><br/>
             uum den Registierungsprozess abzuschließen, klicken Sie auf den folgenden Link:<br/>
-            <a href="${process.env.FRONTEND_ORIGIN}/signup/${sidForEmail}">Account bestätigen</a><br/><br/>
+            <a href="${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}">Account bestätigen</a><br/><br/>
             REMROB Team
           `,
     };

@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import {LanguageOptions, UserToken} from './typesMisc';
 
-const SECRET = process.env.WS_JWT_SECRET || '';
+const SECRET = Bun.env.WS_JWT_SECRET || '';
 const saltRounds = 10;
 
 const userSessionExpireTime = '5h'; // https://github.com/vercel/ms
@@ -23,7 +23,7 @@ export const verifyUserAuthToken = (userAuthToken: string) => {
   try {
     const session = jwt.verify(
       userAuthToken,
-      process.env.WS_JWT_SECRET || '',
+      Bun.env.WS_JWT_SECRET || '',
     ) as UserToken | null;
     return session;
   } catch (_) {

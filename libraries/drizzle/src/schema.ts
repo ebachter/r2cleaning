@@ -27,11 +27,11 @@ const updatedAt = timestamp('updatedAt', {
   .$onUpdateFn(() => new Date());
 
 export const user = mysqlTable('user', {
-  id: int('id', {unsigned: true}).primaryKey(),
-  firstName: varchar('firstName', {length: 50}).notNull(),
-  lastName: varchar('lastName', {length: 50}).notNull(),
-  age: int('age', {unsigned: true}).notNull(),
-  balance: decimal('balance', {precision: 10, scale: 4}),
+  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+  firstName: varchar('firstName', {length: 50}).notNull().default(''),
+  lastName: varchar('lastName', {length: 50}).notNull().default(''),
+  age: int('age', {unsigned: true}),
+  balance: decimal('balance', {precision: 10, scale: 4}).default('0'),
   phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
 });
 

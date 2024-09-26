@@ -20,7 +20,7 @@ const rootPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
-  whitelist: ['session'],
+  whitelist: [],
 };
 
 type RootReducer = ReturnType<typeof rootReducer>;

@@ -103,17 +103,13 @@ export default function App() {
                   initialRouteName={'HomeInt'}
                 >
                   <>
-                    {Object.entries(allRoutes).map(([Screen, o], i) => {
+                    {Object.entries(allRoutes).map(([, o], i) => {
                       // {component, path, showback}
                       return (
                         <Stack.Screen
                           key={i}
                           name={o.name}
-                          component={() => (
-                            <ScreenTemplate>
-                              {createElement(o.component)}
-                            </ScreenTemplate>
-                          )}
+                          component={o.component}
                           options={({navigation}) => {
                             return {
                               header: () => (

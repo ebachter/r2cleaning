@@ -44,9 +44,7 @@ export const extUserAuthRouter = router({
 
       let sessionToken: string = '';
       if (!userData) {
-        const newUser = await drizzle
-          .insert(user)
-          .values({phoneNumber} as User);
+        const newUser = await drizzle.insert(user).values({phoneNumber});
         sessionToken = createUserSessionToken({
           userId: newUser[0].insertId,
           lang: 'en',
@@ -57,7 +55,6 @@ export const extUserAuthRouter = router({
           lang: 'en',
         });
       }
-      console.log('--userData--', userData);
       return {isValid: true, session: sessionToken};
     }),
 

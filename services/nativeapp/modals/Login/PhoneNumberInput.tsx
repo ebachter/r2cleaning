@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import {TouchableWithoutFeedback, StyleSheet, View} from 'react-native';
 import {Icon, IconElement, Input, Text} from '@ui-kitten/components';
 import CountryFlag from 'react-native-country-flag';
-import {phone} from 'phone';
+import {phone as phoneCheck} from 'phone';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 import {trpcComp} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
-import {sessionActions} from '../../redux/sliceSession';
 import {Session} from '../../types/typeSession';
 
 const AlertIcon = (props): IconElement => {
@@ -46,8 +45,6 @@ const PhoneNumberInput = (): React.ReactElement => {
     );
   };
 
-  const dispatch = useAppDispatch();
-
   const extUserSignupSMSverify = trpcComp.extUserSignupSMSverify.useMutation({
     onSuccess(data, variables, context) {
       if ('session' in data) {
@@ -83,18 +80,21 @@ const PhoneNumberInput = (): React.ReactElement => {
     />
   ) : (
     <Input
-      value={phoneNumber}
+      value={phoneNumber || ''}
       label="Номер телефона:"
       placeholder="Введите номер"
       caption={renderCaption}
       accessoryLeft={renderIcon}
+      status={
+        phoneNumber?.length < 5 ? 'basic' : isPhoneValid ? 'success' : 'danger'
+      }
       onChangeText={(nextValue) => {
-        if (/^\+[\d]*$/.test(nextValue)) {
-          dispatch(sessionActions.setPhone(nextValue as Session['phone']));
-          // setPhone(nextValue);
-        }
-        setPhoneValid(phone(nextValue).isValid);
-        console.log(nextValue, phone(nextValue));
+        mergeSession({
+          phone: nextValue.substring(0, 15) as Session['phone'],
+          // .replace(/^[0-9+-]+$/g, '') ,
+        });
+        setPhoneValid(phoneCheck(nextValue).isValid);
+        console.log(nextValue, phoneCheck(nextValue));
       }}
     />
   );

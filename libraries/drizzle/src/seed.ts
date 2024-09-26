@@ -10,7 +10,7 @@ import {
 } from './schema';
 
 const main = async () => {
-  const client = await createConnection(process.env.DB_URL!);
+  const client = await createConnection(Bun.env.DB_URL!);
   const db = drizzle(client, {logger: true});
 
   try {

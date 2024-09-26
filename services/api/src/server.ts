@@ -32,8 +32,6 @@ if (Bun.env.NODE_ENV !== 'development') {
       cert: certificate,
       // ca: ca,
     };
-
-    console.log('##>', serverParams);
   } catch (e) {
     console.log(e);
   }

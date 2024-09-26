@@ -13,7 +13,7 @@
     "drizzle:createdb": "bun run --filter='*' drizzle:createdb",
     "drizzle:generate": "bun run --filter='*' drizzle:generate",
     "drizzle:migrate": "bun run --filter='*' drizzle:migrate",
-    "drizzle:push": "bun run --env-file=.env  --filter='*' drizzle:push",
+    "drizzle:push": "bun run --env-file=.env --filter='*' drizzle:push",
     "drizzle:seed": "bun run --env-file=.env --filter='*' drizzle:seed",
     "localstack-setup": "(cd localstack/terraform/ && terraform apply -auto-approve)",
     "mrproper": "bun run clean; bun run --filter='*' clean; rm -rf .build-cache node_modules",

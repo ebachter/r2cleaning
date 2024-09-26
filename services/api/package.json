@@ -26,12 +26,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun run clean; bun run Build.ts",
+    "build": "NODE_ENV=production bun run clean; bun run Build.ts",
     "clean": "rm -rf dist node_modules ../../.build-cache/services-api.tsbuildinfo",
     "prepack": "bun run build",
     "prepare": "ts-patch install && typia patch",
     "sort-json-files": "sortjson *.json && prettier -w *.json",
-    "start": "bun run --env-file=../../.env --watch src/server.ts",
+    "start": "NODE_ENV=development bun run --watch src/server.ts",
     "prod": "bun run --env-file=../../.env dist/server.js"
   },
   "dependencies": {

@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "android": "expo start --android",
-    "build": "expo export --platform web",
+    "build": "NODE_ENV=production expo export --platform web",
     "clean": "rm -rf node_modules",
     "ios": "expo start --ios",
-    "start": "expo start",
+    "start": "NODE_ENV=development expo start",
     "startrn": "REACT_NATIVE_PACKAGER_HOSTNAME=DESKTOP-SATGRE5 expo start",
     "startrn_tunnel": "expo start --tunnel",
     "web": "expo start --web"

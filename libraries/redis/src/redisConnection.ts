@@ -4,7 +4,7 @@ let numberOfRedisConnections = 0;
 
 export const getRedisClient = () => {
   const redisClient = new Redis(
-    `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+    `redis://${Bun.env.REDIS_HOST}:${Bun.env.REDIS_PORT}`,
   );
 
   redisClient.on('connect', function () {
