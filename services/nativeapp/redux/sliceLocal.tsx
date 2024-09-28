@@ -4,7 +4,7 @@ import {TypeLocal} from '../types/typeLocal';
 
 export const localInitialState: TypeLocal = {
   modals: {
-    login: false,
+    login: {open: false, emailOrPhoneValue: null, loginType: null},
     signup: false,
     addObject: false,
     addOrder: false,

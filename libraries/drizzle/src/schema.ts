@@ -32,12 +32,14 @@ export const user = mysqlTable('user', {
   lastName: varchar('lastName', {length: 50}).notNull().default(''),
   age: int('age', {unsigned: true}),
   balance: decimal('balance', {precision: 10, scale: 4}).default('0'),
-  phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
+  phoneNumber: varchar('phoneNumber', {length: 20}),
+  email: varchar('email', {length: 40}),
 });
 
 export const verification = mysqlTable('verification', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  phoneNumber: varchar('phoneNumber', {length: 20}).notNull(),
+  phoneNumber: varchar('phoneNumber', {length: 20}),
+  email: varchar('email', {length: 40}),
   verificationId: varchar('verificationId', {length: 20}).notNull(),
   createdAt,
   updatedAt,

@@ -2,7 +2,11 @@ import {RootStackParamList} from './typesNavigation';
 
 export type TypeLocal = {
   modals: {
-    login: boolean;
+    login: {
+      open: boolean;
+      emailOrPhoneValue: string; //`+${number | ''}`
+      loginType: 'phone' | 'email';
+    };
     signup: boolean;
     addObject: boolean;
     addOrder: boolean;

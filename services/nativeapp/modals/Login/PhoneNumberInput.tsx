@@ -3,11 +3,12 @@ import {TouchableWithoutFeedback, StyleSheet, View} from 'react-native';
 import {Icon, IconElement, Input, Text} from '@ui-kitten/components';
 import CountryFlag from 'react-native-country-flag';
 import {phone as phoneCheck} from 'phone';
-import {useAppDispatch, useAppSelector} from '../../redux/store';
+import {useAppSelector} from '../../redux/store';
 import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
 import {trpcComp} from '../../trpc';
 import {useNavigation} from '@react-navigation/native';
 import {Session} from '../../types/typeSession';
+import isEmail from 'validator/es/lib/isEmail';
 
 const AlertIcon = (props): IconElement => {
   const {marginRight, ...rest} = props;
@@ -21,7 +22,9 @@ const AlertIcon = (props): IconElement => {
 const PhoneNumberInput = (): React.ReactElement => {
   const [isPhoneValid, setPhoneValid] = useState(false);
   const [veritionCode, setVeritionCode] = useState('');
-  const phoneNumber = useAppSelector((state) => state.session.phone);
+  const {emailOrPhoneValue, loginType} = useAppSelector(
+    (state) => state.local.modals.login,
+  );
 
   const smsSent = useAppSelector((state) => state.session.smsSent);
   const navigation = useNavigation();
@@ -31,7 +34,12 @@ const PhoneNumberInput = (): React.ReactElement => {
     <TouchableWithoutFeedback onPress={() => console.log('>>>')}>
       <View>
         {/* <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} /> */}
-        <CountryFlag isoCode="ru" size={20} />
+        {phoneCheck(emailOrPhoneValue).isValid ? (
+          <CountryFlag
+            isoCode={phoneCheck(emailOrPhoneValue).countryIso2}
+            size={20}
+          />
+        ) : null}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -53,7 +61,7 @@ const PhoneNumberInput = (): React.ReactElement => {
         });
         mergeLocal({
           modals: {
-            login: false,
+            login: {open: false},
             signup: false,
           },
         });
@@ -72,31 +80,52 @@ const PhoneNumberInput = (): React.ReactElement => {
         setVeritionCode(nextValue);
         if (nextValue.length === 6) {
           extUserSignupSMSverify.mutate({
-            phoneNumber,
+            phoneNumber: emailOrPhoneValue,
             verificationCode: nextValue,
+            loginType,
           });
         }
       }}
     />
   ) : (
-    <Input
-      value={phoneNumber || ''}
-      label="Номер телефона:"
-      placeholder="Введите номер"
-      caption={renderCaption}
-      accessoryLeft={renderIcon}
-      status={
-        phoneNumber?.length < 5 ? 'basic' : isPhoneValid ? 'success' : 'danger'
-      }
-      onChangeText={(nextValue) => {
-        mergeSession({
-          phone: nextValue.substring(0, 15) as Session['phone'],
-          // .replace(/^[0-9+-]+$/g, '') ,
-        });
-        setPhoneValid(phoneCheck(nextValue).isValid);
-        console.log(nextValue, phoneCheck(nextValue));
-      }}
-    />
+    <>
+      <Input
+        value={emailOrPhoneValue || ''}
+        label="Номер телефона:"
+        placeholder="Введите номер"
+        caption={renderCaption}
+        accessoryLeft={renderIcon}
+        status={
+          emailOrPhoneValue?.length < 5
+            ? 'basic'
+            : isPhoneValid
+            ? 'success'
+            : 'danger'
+        }
+        onChangeText={(nextValue) => {
+          mergeLocal({
+            modals: {login: {emailOrPhoneValue: nextValue.substring(0, 35)}},
+            // .replace(/^[0-9+-]+$/g, '') ,
+          });
+          setPhoneValid(phoneCheck(nextValue).isValid);
+
+          if (phoneCheck(nextValue).isValid) {
+            mergeLocal({modals: {login: {loginType: 'phone'}}});
+          } else if (isEmail(nextValue)) {
+            mergeLocal({modals: {login: {loginType: 'email'}}});
+          } else {
+            mergeLocal({modals: {login: {loginType: null}}});
+          }
+        }}
+      />
+      <Text style={{marginTop: 10}}>
+        {emailOrPhoneValue && phoneCheck(emailOrPhoneValue).isValid
+          ? 'Valid phone number'
+          : emailOrPhoneValue && isEmail(emailOrPhoneValue)
+          ? 'Valid email'
+          : ''}
+      </Text>
+    </>
   );
 };
 

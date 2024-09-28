@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "9bbf88fd-88f2-4591-b020-5016a4b33287",
+  "id": "c22ea97c-a482-4e8b-a762-01dadd44e6ec",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "object": {
@@ -667,7 +667,14 @@
           "name": "phoneNumber",
           "type": "varchar(20)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
@@ -697,7 +704,14 @@
           "name": "phoneNumber",
           "type": "varchar(20)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "verificationId": {

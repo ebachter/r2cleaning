@@ -78,13 +78,15 @@ CREATE TABLE `user` (
 	`lastName` varchar(50) NOT NULL DEFAULT '',
 	`age` int unsigned,
 	`balance` decimal(10,4) DEFAULT '0',
-	`phoneNumber` varchar(20) NOT NULL,
+	`phoneNumber` varchar(20),
+	`email` varchar(40),
 	CONSTRAINT `user_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `verification` (
 	`id` int unsigned AUTO_INCREMENT NOT NULL,
-	`phoneNumber` varchar(20) NOT NULL,
+	`phoneNumber` varchar(20),
+	`email` varchar(40),
 	`verificationId` varchar(20) NOT NULL,
 	`createdAt` timestamp NOT NULL DEFAULT (now()),
 	`updatedAt` timestamp NOT NULL DEFAULT (now()),

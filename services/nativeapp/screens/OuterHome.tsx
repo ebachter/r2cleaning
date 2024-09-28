@@ -97,7 +97,7 @@ export default function HomeScreen() {
             <Button2
               icon="file-sign"
               mode="contained"
-              onPress={() => mergeLocal({modals: {login: true}})}
+              onPress={() => mergeLocal({modals: {login: {open: true}}})}
               style={{minWidth: 150}}
             >
               Заявка
@@ -110,7 +110,7 @@ export default function HomeScreen() {
         <Layout style={styles.container3} level="1">
           <Button
             style={styles.button}
-            onPress={() => mergeLocal({modals: {login: true}})}
+            onPress={() => mergeLocal({modals: {login: {open: true}}})}
           >
             Войти
           </Button>

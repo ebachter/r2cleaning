@@ -4,6 +4,7 @@ import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia from 'typia';
 import {and, eq} from 'drizzle-orm';
+import {sendEmailForSignup} from '../../functions/functionsEmail';
 
 type User = typeof user.$inferSelect;
 type Verification_ = typeof verification.$inferSelect;
@@ -18,12 +19,15 @@ export const extUserAuthRouter = router({
   extUserSignupSMSverify: publicProcedure
     .input(
       typia.createAssert<{
-        phoneNumber: Verification_['phoneNumber'];
+        phoneNumber:
+          | NonNullable<Verification_['phoneNumber']>
+          | NonNullable<Verification_['email']>;
         verificationCode: Verification_['verificationId'];
+        loginType: 'email' | 'phone';
       }>(),
     )
     .mutation(async ({ctx, input}) => {
-      const {phoneNumber, verificationCode} = input;
+      const {phoneNumber, loginType, verificationCode} = input;
       console.log({verificationCode});
 
       const data = await drizzle
@@ -31,20 +35,32 @@ export const extUserAuthRouter = router({
         .from(verification)
         .where(
           and(
-            eq(verification.phoneNumber, phoneNumber),
+            loginType === 'email'
+              ? eq(verification.email, phoneNumber)
+              : eq(verification.phoneNumber, phoneNumber),
             eq(verification.verificationId, verificationCode),
           ),
         );
-      console.log('data', data);
+
       if (!data) return {isValid: false};
 
       const userData = await drizzle.query.user.findFirst({
-        where: eq(user.phoneNumber, data[0].phoneNumber),
+        where:
+          loginType === 'email'
+            ? eq(user.email, phoneNumber)
+            : eq(user.phoneNumber, phoneNumber),
+        // eq(user.phoneNumber, data[0].phoneNumber),
       });
 
       let sessionToken: string = '';
       if (!userData) {
-        const newUser = await drizzle.insert(user).values({phoneNumber});
+        const newUser = await drizzle
+          .insert(user)
+          .values(
+            loginType === 'email'
+              ? {email: phoneNumber}
+              : {phoneNumber: phoneNumber},
+          );
         sessionToken = createUserSessionToken({
           userId: newUser[0].insertId,
           lang: 'en',
@@ -55,13 +71,19 @@ export const extUserAuthRouter = router({
           lang: 'en',
         });
       }
+
       return {isValid: true, session: sessionToken};
     }),
 
   extUserSignupSMS: publicProcedure
-    .input(typia.createAssert<{phone: User['phoneNumber']}>())
+    .input(
+      typia.createAssert<{
+        phone: NonNullable<User['phoneNumber']>;
+        loginType: 'email' | 'phone';
+      }>(),
+    )
     .mutation(async ({ctx, input}) => {
-      const {phone} = input;
+      const {phone, loginType} = input;
 
       // let genCode = (Math.random() + 1).toString(36).substring(2, 8); //.toUpperCase();
       let genCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -74,16 +96,23 @@ export const extUserAuthRouter = router({
       // await AppDataSourceSqlite.manager.save(verification);
 
       type Vrf = typeof verification.$inferInsert;
-      const obj: Omit<Vrf, 'id'> = {
-        phoneNumber: phone,
-        verificationId: genCode,
-      };
 
-      const data = await drizzle.insert(verification).values(obj as Vrf); //.query.order.findMany({with: {object: true}});
+      /* const obj: Omit<Vrf, 'id'> = {
+        ...{phoneNumber: phone},
+        verificationId: genCode,
+      }; */
+
+      await drizzle.insert(verification).values({
+        ...(loginType === 'email' ? {email: phone} : {phoneNumber: phone}),
+        verificationId: genCode,
+      }); //.query.order.findMany({with: {object: true}});
 
       console.log('###', genCode);
 
       const message = `Verification code: ${genCode}`;
+      if (loginType === 'email') {
+        sendEmailForSignup(phone, genCode, 'en');
+      }
       // await sendSMS(phone, message);
     }),
 

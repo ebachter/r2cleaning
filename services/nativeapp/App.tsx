@@ -60,7 +60,7 @@ export default function App() {
       !sessionToken
     ) {
       navigationRef.current?.navigate('HomeExt');
-      mergeLocal({modals: {login: true, forwardTo: currentRouteName}});
+      mergeLocal({modals: {login: {open: true}, forwardTo: currentRouteName}});
     }
     if (currentRouteName === 'HomeExt' && sessionToken) {
       navigationRef.current?.navigate('HomeInt');

@@ -5,7 +5,6 @@ import _ from 'lodash';
 export const sessionInitialState: Session = {
   sessionToken: null,
   refreshToken: null,
-  phone: null,
   smsSent: false,
 };
 

@@ -96,25 +96,23 @@ export const sendEmailForSignup = async (
   }
   try {
     const subject: any = {
-      en: 'Confirm registration',
-      de: 'Registrierung bestätigen',
+      en: 'Verification',
+      de: 'Verifizierung',
     };
     const text = {
-      en: `Hello,\n\nto complete your registration please follow the link: \n${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}\n\nREMROB Team`,
-      de: `Hallo,\n\num den Registierungsprozess abzuschließen, klicken Sie auf den folgenden Link:\nn${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}\n\nREMROB Team`,
+      en: `Hello,\n\nyour code is: ${sidForEmail}\n\nCleaning team`,
+      de: `Hallo,\n\ndein Code ist: ${sidForEmail}\n\nCleaning Team`,
     };
 
     const html = {
       en: `
             Hello,<br/><br/>
-            to complete your registration please follow the link:<br/>
-            <a href="${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}">Confirm account</a><br/><br/>
-            REMROB Team`,
+            your code is: ${sidForEmail}<br/><br/>
+            Cleaning team`,
       de: `
             Hallo,<br/><br/>
-            uum den Registierungsprozess abzuschließen, klicken Sie auf den folgenden Link:<br/>
-            <a href="${Bun.env.FRONTEND_ORIGIN}/signup/${sidForEmail}">Account bestätigen</a><br/><br/>
-            REMROB Team
+            dein Code ist:<br/><br/>${sidForEmail}
+            Cleaning Team
           `,
     };
 
@@ -128,7 +126,12 @@ export const sendEmailForSignup = async (
       htmlStr = html.en;
     }
 
-    const sendCmd = createSendEmailCommand(subject, [email], htmlStr, textStr);
+    const sendCmd = createSendEmailCommand(
+      subject[lang],
+      [email],
+      htmlStr,
+      textStr,
+    );
     await ses.send(sendCmd);
   } catch (err) {
     console.log('sendEmail Error:', err);

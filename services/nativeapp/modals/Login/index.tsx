@@ -3,11 +3,17 @@ import {Appbar, Button, Dialog, Text} from 'react-native-paper';
 import {useAppSelector} from '../../redux/store';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {trpcComp} from '../../trpc';
-import {mergeLocal, mergeSession} from '../../redux/functionsDispatch';
+import {
+  mergeLocal,
+  mergeSession,
+  showSnackbar,
+} from '../../redux/functionsDispatch';
 
 export default function ModalLogin() {
-  const visibleLogin = useAppSelector((state) => state.local.modals.login);
-  const phoneNumber = useAppSelector((state) => state.session.phone);
+  const visibleLogin = useAppSelector((state) => state.local.modals.login.open);
+  const {emailOrPhoneValue, loginType} = useAppSelector(
+    (state) => state.local.modals.login,
+  );
   const smsSent = useAppSelector((state) => state.session.smsSent);
 
   const extUserSignupSMS = trpcComp.extUserSignupSMS.useMutation({
@@ -27,7 +33,7 @@ export default function ModalLogin() {
         <Appbar.Action
           icon="close"
           onPress={() => {
-            mergeLocal({modals: {login: false}});
+            mergeLocal({modals: {login: {open: false}}});
             mergeSession({smsSent: false});
           }}
         />
@@ -43,8 +49,13 @@ export default function ModalLogin() {
           <Button
             mode="contained"
             onPress={() => {
+              if (!loginType) {
+                showSnackbar({text: `No valid login method`});
+                return;
+              }
               extUserSignupSMS.mutate({
-                phone: phoneNumber,
+                phone: emailOrPhoneValue,
+                loginType,
               });
             }}
             style={{borderRadius: 5, marginTop: 20}}

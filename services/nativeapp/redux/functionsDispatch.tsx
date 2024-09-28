@@ -14,7 +14,6 @@ import {TypeOffer} from '../types/typeOffer';
 
 // DO NOT CHANGE TYPE -> TYPE CHECK WILL NOT WORK
 export const mergeSession = (args: DeepPartial<Session>) => {
-  console.log('mergeSession', args);
   store.dispatch(sessionActions.mergeSession(args));
 };
 
