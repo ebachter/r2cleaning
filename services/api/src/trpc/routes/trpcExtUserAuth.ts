@@ -1,5 +1,5 @@
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import {createUserSessionToken} from '@remrob/utils';
+import {createUserAuthToken, createUserSessionToken} from '@remrob/utils';
 import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia from 'typia';
@@ -9,20 +9,115 @@ import {sendEmailForSignup} from '../../functions/functionsEmail';
 type User = typeof user.$inferSelect;
 type Verification_ = typeof verification.$inferSelect;
 
-type SessionReturn = {
-  sessionToken?: string;
-  refreshToken?: string;
-  error?: {status: 401 | 500};
-};
-
 export const extUserAuthRouter = router({
+  extUserSignupEmail: publicProcedure
+    .input(
+      typia.createAssert<{
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string; //promocode, reCapString
+      }>(),
+    )
+    .output(typia.createAssert<{status: 'exists' | 'verify' | 'error'}>())
+    .mutation(async ({input}) => {
+      const {firstName, lastName, email, password} = input;
+
+      const res = await drizzle.transaction(
+        async (tx): Promise<{status: 'exists' | 'verify' | 'error'}> => {
+          const users = await tx
+            .select()
+            .from(user)
+            .where(eq(user.email, email));
+          if (users.length > 0) {
+            // This throws an exception that rollbacks the transaction.
+            // tx.rollback();
+            return {status: 'exists'};
+          }
+
+          let verificationId = Math.floor(
+            100000 + Math.random() * 900000,
+          ).toString();
+
+          const passwordHash = await createUserAuthToken(password);
+          try {
+            await tx
+              .insert(verification)
+              .values({
+                firstName,
+                lastName,
+                email,
+                passwordHash,
+                verificationId,
+              })
+              .onDuplicateKeyUpdate({set: {verificationId, passwordHash}});
+
+            sendEmailForSignup(email, verificationId, 'en');
+            return {status: 'verify'};
+          } catch (e) {
+            return {status: 'error'};
+          }
+        },
+      );
+
+      return res;
+    }),
+
+  extUserSignupEmailVerify: publicProcedure
+    .input(
+      typia.createAssert<{
+        email: string;
+        verificationCode: string; //promocode, reCapString
+      }>(),
+    )
+    .mutation(async ({ctx, input}) => {
+      const {email, verificationCode} = input;
+
+      const res = await drizzle.transaction(
+        async (tx): Promise<{status: 'notfound' | 'created' | 'error'}> => {
+          const data = await tx.query.verification.findFirst({
+            where: and(
+              eq(verification.email, email),
+              eq(verification.verificationId, verificationCode),
+            ),
+          });
+
+          console.log({email, verificationCode});
+          console.log(data);
+
+          if (data) {
+            await tx.insert(user).values({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              email: data.email,
+              passwordHash: data.passwordHash,
+            });
+
+            await tx
+              .delete(verification)
+              .where(
+                and(
+                  eq(verification.email, email),
+                  eq(verification.verificationId, verificationCode),
+                ),
+              );
+
+            return {status: 'created'};
+          } else {
+            return {status: 'notfound'};
+          }
+        },
+      );
+      return res;
+    }),
+
   extUserSignupSMSverify: publicProcedure
     .input(
       typia.createAssert<{
         phoneNumber:
           | NonNullable<Verification_['phoneNumber']>
           | NonNullable<Verification_['email']>;
-        verificationCode: Verification_['verificationId'];
+        verificationCode: NonNullable<Verification_['verificationId']>;
         loginType: 'email' | 'phone';
       }>(),
     )
@@ -88,24 +183,10 @@ export const extUserAuthRouter = router({
       // let genCode = (Math.random() + 1).toString(36).substring(2, 8); //.toUpperCase();
       let genCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-      // const verification = new Verification();
-      // verification.phoneNumber = phone;
-      // verification.verificationID = genCode;
-      //
-      // console.log(verification);
-      // await AppDataSourceSqlite.manager.save(verification);
-
-      type Vrf = typeof verification.$inferInsert;
-
-      /* const obj: Omit<Vrf, 'id'> = {
-        ...{phoneNumber: phone},
-        verificationId: genCode,
-      }; */
-
-      await drizzle.insert(verification).values({
+      /* await drizzle.insert(verification).values({
         ...(loginType === 'email' ? {email: phone} : {phoneNumber: phone}),
         verificationId: genCode,
-      }); //.query.order.findMany({with: {object: true}});
+      }); */ //.query.order.findMany({with: {object: true}});
 
       console.log('###', genCode);
 

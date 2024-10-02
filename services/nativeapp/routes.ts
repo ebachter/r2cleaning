@@ -7,6 +7,7 @@ import ScreenSuppler from './screens/Supplier';
 import ScreenSupplierRequests from './screens/Supplier/FindOrder';
 import ScreenSupplierRequest from './screens/Supplier/OrderDetails';
 import {RootStackParamList} from './types/typesNavigation';
+import ScreenSignup from './screens/Signup';
 
 export const allRoutes: {
   [file in keyof RootStackParamList]: {
@@ -23,6 +24,13 @@ export const allRoutes: {
     component: HomeScreen,
     path: '',
     showBack: false,
+    protected: false,
+  },
+  Signup: {
+    name: 'Signup',
+    component: ScreenSignup,
+    path: 'signup',
+    showBack: true,
     protected: false,
   },
   HomeInt: {

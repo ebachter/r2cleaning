@@ -6,7 +6,7 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import * as material from '@eva-design/material';
 import {default as evaTheme} from './eva-custom-theme.json'; // <-- Import app theme
 import {trpcComp, trpcClientOptions} from './trpc';
-import {createElement, useState} from 'react';
+import {useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ModalLogin from './modals/Login';
@@ -15,7 +15,6 @@ import AppHeader from './components/Header';
 import {mergeLocal} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
-import {ScreenTemplate} from './components/Wrapper';
 
 import {allRoutes, screens} from './routes';
 import ModalAddObject from './modals/AddObject';
@@ -51,7 +50,7 @@ export default function App() {
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {
-    console.log('--currentRouteName--', currentRouteName);
+    // console.log('--currentRouteName--', currentRouteName);
     // console.log('--sessionToken--', sessionToken);
     if (currentRouteName === 'HomeInt' && !sessionToken) {
       navigationRef.current?.navigate('HomeExt');
@@ -128,8 +127,8 @@ export default function App() {
                 <ModalSignup />
                 <ModalAddObject />
                 <ModalAddOrder />
-                <SnackbarComp />
               </NavigationContainer>
+              <SnackbarComp />
             </ApplicationProvider>
           </PaperProvider>
         </QueryClientProvider>

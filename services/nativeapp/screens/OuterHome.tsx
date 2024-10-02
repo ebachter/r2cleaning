@@ -4,6 +4,7 @@ import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
 import {Button, Layout} from '@ui-kitten/components';
 import {mergeLocal} from '../redux/functionsDispatch';
+import {navigate} from '../RootNavigation';
 
 export default function HomeScreen() {
   return (
@@ -112,14 +113,17 @@ export default function HomeScreen() {
             style={styles.button}
             onPress={() => mergeLocal({modals: {login: {open: true}}})}
           >
-            Войти
+            Логин
           </Button>
           <Button
             appearance="outline"
             style={styles.button}
-            onPress={() => mergeLocal({modals: {signup: true}})}
+            onPress={() => {
+              // mergeLocal({modals: {signup: true}})
+              navigate('Signup', {});
+            }}
           >
-            Создать
+            Регистрация
           </Button>
           {/*  onPress={() => navigation.navigate('HomeInt')} */}
         </Layout>

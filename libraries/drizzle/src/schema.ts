@@ -26,24 +26,42 @@ const updatedAt = timestamp('updatedAt', {
   .defaultNow()
   .$onUpdateFn(() => new Date());
 
-export const user = mysqlTable('user', {
-  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  firstName: varchar('firstName', {length: 50}).notNull().default(''),
-  lastName: varchar('lastName', {length: 50}).notNull().default(''),
-  age: int('age', {unsigned: true}),
-  balance: decimal('balance', {precision: 10, scale: 4}).default('0'),
-  phoneNumber: varchar('phoneNumber', {length: 20}),
-  email: varchar('email', {length: 40}),
-});
+export const user = mysqlTable(
+  'user',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    firstName: varchar('firstName', {length: 50}).notNull().default(''),
+    lastName: varchar('lastName', {length: 50}).notNull().default(''),
+    age: int('age', {unsigned: true}),
+    balance: decimal('balance', {precision: 10, scale: 4}).default('0'),
+    phoneNumber: varchar('phoneNumber', {length: 20}),
+    email: varchar('email', {length: 40}),
+    passwordHash: varchar('passwordHash', {length: 100}),
+    createdAt,
+    updatedAt,
+  },
+  (t) => ({
+    unq: unique('uq_email').on(t.email),
+  }),
+);
 
-export const verification = mysqlTable('verification', {
-  id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  phoneNumber: varchar('phoneNumber', {length: 20}),
-  email: varchar('email', {length: 40}),
-  verificationId: varchar('verificationId', {length: 20}).notNull(),
-  createdAt,
-  updatedAt,
-});
+export const verification = mysqlTable(
+  'verification',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    firstName: varchar('firstName', {length: 40}).notNull(),
+    lastName: varchar('lastName', {length: 40}).notNull(),
+    passwordHash: varchar('passwordHash', {length: 100}).notNull(),
+    phoneNumber: varchar('phoneNumber', {length: 20}),
+    email: varchar('email', {length: 40}),
+    verificationId: varchar('verificationId', {length: 20}),
+    createdAt,
+    updatedAt,
+  },
+  (t) => ({
+    unq: unique('uq_email').on(t.email),
+  }),
+);
 
 export const serviceType = mysqlTable('serviceType', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),

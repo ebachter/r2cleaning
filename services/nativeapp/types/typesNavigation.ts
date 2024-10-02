@@ -4,6 +4,7 @@ import {RouteProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
   HomeExt: undefined;
+  Signup: undefined;
   HomeInt: undefined;
   Objects: undefined;
   OrderDetails: {orderId: number};
