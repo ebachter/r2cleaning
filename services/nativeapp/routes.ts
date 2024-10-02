@@ -8,6 +8,7 @@ import ScreenSupplierRequests from './screens/Supplier/FindOrder';
 import ScreenSupplierRequest from './screens/Supplier/OrderDetails';
 import {RootStackParamList} from './types/typesNavigation';
 import ScreenSignup from './screens/Signup';
+import ScreenLogin from './screens/Login';
 
 export const allRoutes: {
   [file in keyof RootStackParamList]: {
@@ -30,6 +31,13 @@ export const allRoutes: {
     name: 'Signup',
     component: ScreenSignup,
     path: 'signup',
+    showBack: true,
+    protected: false,
+  },
+  Login: {
+    name: 'Login',
+    component: ScreenLogin,
+    path: 'login',
     showBack: true,
     protected: false,
   },

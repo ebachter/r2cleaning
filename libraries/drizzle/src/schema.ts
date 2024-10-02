@@ -36,7 +36,7 @@ export const user = mysqlTable(
     balance: decimal('balance', {precision: 10, scale: 4}).default('0'),
     phoneNumber: varchar('phoneNumber', {length: 20}),
     email: varchar('email', {length: 40}),
-    passwordHash: varchar('passwordHash', {length: 100}),
+    passwordHash: varchar('passwordHash', {length: 100}).notNull(),
     createdAt,
     updatedAt,
   },

@@ -22,6 +22,8 @@ const main = async () => {
         age: 24,
         balance: '21.3',
         phoneNumber: '+491633649875',
+        passwordHash:
+          '$2b$04$kCu7zdh5P/27bae5X.G5QeJD61hactK/ZYOA4JYi0ApMMSCScUVF2',
       },
       {
         id: 2,
@@ -30,6 +32,8 @@ const main = async () => {
         age: 21,
         balance: '2.5',
         phoneNumber: '+491633649875',
+        passwordHash:
+          '$2b$04$kCu7zdh5P/27bae5X.G5QeJD61hactK/ZYOA4JYi0ApMMSCScUVF2',
       },
     ]);
 

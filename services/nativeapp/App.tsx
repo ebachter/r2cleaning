@@ -9,8 +9,6 @@ import {trpcComp, trpcClientOptions} from './trpc';
 import {useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import ModalLogin from './modals/Login';
-import ModalSignup from './modals/Signup';
 import AppHeader from './components/Header';
 import {mergeLocal} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
@@ -123,8 +121,6 @@ export default function App() {
                     })}
                   </>
                 </Stack.Navigator>
-                <ModalLogin />
-                <ModalSignup />
                 <ModalAddObject />
                 <ModalAddOrder />
               </NavigationContainer>

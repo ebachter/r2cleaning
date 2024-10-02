@@ -1,5 +1,9 @@
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import {createUserAuthToken, createUserSessionToken} from '@remrob/utils';
+import {
+  checkUserPassword,
+  createUserAuthToken,
+  createUserSessionToken,
+} from '@remrob/utils';
 import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia from 'typia';
@@ -82,9 +86,6 @@ export const extUserAuthRouter = router({
             ),
           });
 
-          console.log({email, verificationCode});
-          console.log(data);
-
           if (data) {
             await tx.insert(user).values({
               firstName: data.firstName,
@@ -111,7 +112,44 @@ export const extUserAuthRouter = router({
       return res;
     }),
 
-  extUserSignupSMSverify: publicProcedure
+  extUserLoginVerify: publicProcedure
+    .input(
+      typia.createAssert<{
+        email: NonNullable<Verification_['email']>;
+        password: string;
+      }>(),
+    )
+    .output(
+      typia.createAssert<{
+        error: 'credentialsNotValid' | 'none';
+        sessionToken?: string;
+      }>(),
+    )
+    .mutation(async ({input}) => {
+      const {email, password} = input;
+
+      const userData = await drizzle.query.user.findFirst({
+        where: eq(user.email, email),
+      });
+
+      if (!userData) {
+        return {error: 'credentialsNotValid'};
+      }
+
+      const match = await checkUserPassword(password, userData.passwordHash);
+      if (!match) {
+        return {error: 'credentialsNotValid'}; // { success: 0, info:'false credentials' }
+      }
+
+      let sessionToken = createUserSessionToken({
+        userId: userData.id,
+        lang: 'en',
+      });
+
+      return {error: 'none', sessionToken};
+    }),
+
+  /* extUserSignupSMSverify: publicProcedure
     .input(
       typia.createAssert<{
         phoneNumber:
@@ -168,7 +206,7 @@ export const extUserAuthRouter = router({
       }
 
       return {isValid: true, session: sessionToken};
-    }),
+    }), */
 
   extUserSignupSMS: publicProcedure
     .input(

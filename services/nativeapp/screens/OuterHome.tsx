@@ -111,7 +111,10 @@ export default function HomeScreen() {
         <Layout style={styles.container3} level="1">
           <Button
             style={styles.button}
-            onPress={() => mergeLocal({modals: {login: {open: true}}})}
+            onPress={() => {
+              // mergeLocal({modals: {login: {open: true}}});
+              navigate('Login', {});
+            }}
           >
             Логин
           </Button>
