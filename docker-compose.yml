@@ -38,7 +38,7 @@ services:
       - LOCALSTACK_HOSTNAME=localstack.cleaning
       - EDGE_PORT=4566
       - LS_LOG=error
-    env_file: .env
+    env_file: .env.api.dev
     ports:
       - '4566:4566'
     volumes:
@@ -58,7 +58,7 @@ services:
       cleaning:
         aliases:
           - db.cleaning
-    env_file: .env
+    env_file: .env.api.dev
     volumes:
       - db:/var/lib/mysql
     cap_add:

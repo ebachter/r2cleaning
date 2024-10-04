@@ -31,8 +31,8 @@
     "prepack": "bun run build",
     "prepare": "ts-patch install && typia patch",
     "sort-json-files": "sortjson *.json && prettier -w *.json",
-    "start": "NODE_ENV=development bun run --watch src/server.ts",
-    "prod": "bun run --env-file=../../.env dist/server.js"
+    "start": "NODE_ENV=development bun run --env-file=../../.env.api.dev --watch src/server.ts",
+    "prod": "bun run --env-file=../../.env.api.dev dist/server.js"
   },
   "dependencies": {
     "@remrob/aws": "workspace:*",
