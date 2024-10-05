@@ -151,7 +151,7 @@ export const intRouter = router({
     // const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
     const data = await drizzle.query.object.findMany({
       columns: {userId: false},
-      with: {objectType: true},
+      with: {objectType: true, city: true},
       where: eq(object.userId, userId),
     });
     return data;

@@ -294,6 +294,10 @@ export const objectRelations = relations(object, ({one}) => ({
     fields: [object.type],
     references: [objectType.id],
   }),
+  city: one(city, {
+    fields: [object.addressCity],
+    references: [city.id],
+  }),
 }));
 
 export const city = mysqlTable(

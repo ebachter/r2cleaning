@@ -28,7 +28,7 @@ const ObjectTypeRadio = () => {
             id && data
               ? `${data[selectedIndex.row].id}. ${
                   data[selectedIndex.row].objectType.name.en
-                } in ${data[selectedIndex.row].addressCity}`
+                } in ${data[selectedIndex.row].city.nameEn}`
               : ''
           }
           onSelect={(index: IndexPath) => {
@@ -43,7 +43,7 @@ const ObjectTypeRadio = () => {
           {data.map((o, i) => (
             <SelectItem
               key={i}
-              title={`${o.id}. ${o.objectType.name.en} in ${o.addressCity}`}
+              title={`${o.id}. ${o.objectType.name.en} in ${o.city.nameEn}`}
             />
           ))}
         </Select>
