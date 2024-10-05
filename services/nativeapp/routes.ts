@@ -9,6 +9,7 @@ import ScreenSupplierRequest from './screens/Supplier/OrderDetails';
 import {RootStackParamList} from './types/typesNavigation';
 import ScreenSignup from './screens/Signup';
 import ScreenLogin from './screens/Login';
+import ScreenAdmin from './screens/InnerAdmin';
 
 export const allRoutes: {
   [file in keyof RootStackParamList]: {
@@ -46,6 +47,12 @@ export const allRoutes: {
     component: DetailsScreen,
     path: 'intro',
     title: 'Главная',
+  },
+  Admin: {
+    name: 'Admin',
+    component: ScreenAdmin,
+    path: 'admin',
+    title: 'Admin',
   },
   OrderDetails: {
     name: 'OrderDetails',

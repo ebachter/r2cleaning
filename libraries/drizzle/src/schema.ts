@@ -1,5 +1,6 @@
 import {relations} from 'drizzle-orm';
 import {
+  boolean,
   date,
   decimal,
   int,
@@ -37,6 +38,7 @@ export const user = mysqlTable(
     phoneNumber: varchar('phoneNumber', {length: 20}),
     email: varchar('email', {length: 40}),
     passwordHash: varchar('passwordHash', {length: 100}).notNull(),
+    isAdmin: boolean('isAdmin').notNull().default(false),
     createdAt,
     updatedAt,
   },
@@ -259,11 +261,12 @@ export const requestServiceRelations = relations(requestService, ({one}) => ({
 
 export const object = mysqlTable('object', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-  addressCity: mysqlEnum('addressCity', [
-    'grosny',
-    'argun',
-    'gudermes',
-  ]).notNull(),
+  addressCity: int('city', {unsigned: true})
+    .references(() => city.id, {
+      onDelete: 'restrict',
+      onUpdate: 'cascade',
+    })
+    .notNull(),
   addressStreet: varchar('addressStreet', {length: 255}).notNull(),
   type: int('objectType', {unsigned: true})
     .references(() => objectType.id, {
@@ -292,3 +295,51 @@ export const objectRelations = relations(object, ({one}) => ({
     references: [objectType.id],
   }),
 }));
+
+export const city = mysqlTable(
+  'city',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    // name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
+    country: int('country', {unsigned: true})
+      .references(() => country.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull()
+      .default(1),
+    nameEn: varchar('nameEn', {length: 100}).notNull(),
+    nameDe: varchar('nameDe', {length: 100}).notNull(),
+    nameRu: varchar('nameRu', {length: 100}).notNull(),
+    userId: int('userId', {unsigned: true})
+      .references(() => user.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    createdAt,
+    updatedAt,
+  },
+  (t) => ({
+    unqEn: unique('uq_city_en').on(t.country, t.nameEn),
+    unqDe: unique('uq_city_de').on(t.country, t.nameDe),
+    unqRu: unique('uq_city_ru').on(t.country, t.nameRu),
+  }),
+);
+
+export const country = mysqlTable(
+  'country',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    nameEn: varchar('nameEn', {length: 100}).notNull(),
+    nameDe: varchar('nameDe', {length: 100}).notNull(),
+    nameRu: varchar('nameRu', {length: 100}).notNull(),
+    createdAt,
+    updatedAt,
+  },
+  (t) => ({
+    unqEn: unique('uq_country_nameEn').on(t.nameEn),
+    unqDe: unique('uq_country_nameDe').on(t.nameDe),
+    unqRu: unique('uq_country_nameRu').on(t.nameRu),
+  }),
+);

@@ -1,6 +1,8 @@
 import {drizzle} from 'drizzle-orm/mysql2';
 import {createConnection} from 'mysql2/promise';
 import {
+  city,
+  country,
   object,
   objectType,
   requests,
@@ -19,9 +21,11 @@ const main = async () => {
         id: 1,
         firstName: 'Max',
         lastName: 'Mustermann',
+        email: 'bach1@remrob.com',
         age: 24,
         balance: '21.3',
         phoneNumber: '+491633649875',
+        isAdmin: true,
         passwordHash:
           '$2b$04$kCu7zdh5P/27bae5X.G5QeJD61hactK/ZYOA4JYi0ApMMSCScUVF2',
       },
@@ -29,6 +33,7 @@ const main = async () => {
         id: 2,
         firstName: 'Cleaning',
         lastName: 'Company',
+        email: 'bach2@remrob.com',
         age: 21,
         balance: '2.5',
         phoneNumber: '+491633649875',
@@ -92,10 +97,46 @@ const main = async () => {
       },
     ]);
 
+    await db.insert(country).values([
+      {
+        id: 1,
+        nameEn: 'Russia',
+        nameDe: 'Russland',
+        nameRu: 'Россия',
+      },
+    ]);
+
+    await db.insert(city).values([
+      {
+        id: 1,
+        country: 1,
+        nameEn: 'Grosny',
+        nameRu: 'Грозный',
+        nameDe: 'Grosny',
+        userId: 1,
+      },
+      {
+        id: 2,
+        country: 1,
+        nameEn: 'Argun',
+        nameRu: 'Аргун',
+        nameDe: 'Argun',
+        userId: 1,
+      },
+      {
+        id: 3,
+        country: 1,
+        nameEn: 'Gudermes',
+        nameRu: 'Гудермес',
+        nameDe: 'Gudermes',
+        userId: 1,
+      },
+    ]);
+
     await db.insert(object).values([
       {
         id: 1,
-        addressCity: 'grosny',
+        addressCity: 1,
         addressStreet: 'Kasiora 16',
         type: 1,
         area: '12.00',
@@ -133,7 +174,7 @@ const main = async () => {
       },
       {
         id: 2,
-        addressCity: 'argun',
+        addressCity: 2,
         addressStreet: 'Ioanisiani 124',
         type: 2,
         area: '83.00',

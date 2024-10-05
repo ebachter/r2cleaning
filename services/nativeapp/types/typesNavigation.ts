@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Signup: undefined;
   Login: undefined;
   HomeInt: undefined;
+  Admin: undefined;
   Objects: undefined;
   OrderDetails: {orderId: number};
   ObjectDetails: {objectId: number};

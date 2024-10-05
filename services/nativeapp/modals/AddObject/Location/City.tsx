@@ -9,18 +9,14 @@ import drizzle, {
   serviceType,
   user,
 } from '@remrob/drizzle';
+import {trpcComp} from '../../../trpc';
 
 type ObjectType = typeof object.$inferSelect;
-
-const ix: {id: ObjectType['addressCity']; label: string}[] = [
-  {id: 'grosny', label: 'Грозный'},
-  {id: 'argun', label: 'Аргун'},
-  {id: 'gudermes', label: 'Гудермес'},
-];
 
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
   // const city = useAppSelector((state) => state.request.object.city);
+  const {data: ix} = trpcComp.loadCities.useQuery(undefined, {initialData: []});
 
   return (
     <Layout style={styles.container} level="1">
@@ -33,12 +29,12 @@ export const MenuComponent = (): React.ReactElement => {
         }}
         value={
           Number.isInteger(selectedIndex?.row)
-            ? ix[selectedIndex?.row].label
+            ? ix[selectedIndex?.row].nameEn
             : 'Select city...'
         }
       >
         {ix.map((v, i) => (
-          <SelectItem key={i} title={v.label} />
+          <SelectItem key={i} title={v.nameEn} />
         ))}
       </Select>
     </Layout>

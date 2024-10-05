@@ -4,7 +4,7 @@ import {
   createUserAuthToken,
   createUserSessionToken,
 } from '@remrob/utils';
-import {sendSMS} from '@remrob/aws';
+// import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia from 'typia';
 import {and, eq} from 'drizzle-orm';
@@ -86,11 +86,14 @@ export const extUserAuthRouter = router({
             ),
           });
 
+          const isAdmin = ['bach1', 'bakhtarov@remrob.com'].includes(email);
+
           if (data) {
             await tx.insert(user).values({
               firstName: data.firstName,
               lastName: data.lastName,
               email: data.email,
+              isAdmin: isAdmin,
               passwordHash: data.passwordHash,
             });
 

@@ -77,6 +77,12 @@ export default function CustomNavigationBar({
                 navigation.navigate('Supplier');
               }}
             />
+            <MenuItem
+              title="Admin"
+              onPress={() => {
+                navigation.navigate('Admin');
+              }}
+            />
             <MenuItem title="Настройки" />
             <MenuItem
               accessoryLeft={LogoutIcon}
