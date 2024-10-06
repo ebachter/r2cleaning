@@ -15,7 +15,6 @@ import {protectedProcedure, publicProcedure, router} from '../middleware';
 import {TRPCError} from '@trpc/server';
 
 type ObjectType = typeof object.$inferSelect;
-type RequestType = typeof requests.$inferSelect;
 type ServiceOfferType = typeof serviceOffer.$inferSelect;
 type OfferType = typeof offer.$inferSelect;
 type OrderType = typeof order.$inferSelect;

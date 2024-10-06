@@ -6,7 +6,7 @@ import {
 } from '@remrob/utils';
 // import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
-import typia from 'typia';
+import typia, {tags} from 'typia';
 import {and, eq} from 'drizzle-orm';
 import {sendEmailForSignup} from '../../functions/functionsEmail';
 
@@ -17,10 +17,10 @@ export const extUserAuthRouter = router({
   extUserSignupEmail: publicProcedure
     .input(
       typia.createAssert<{
-        firstName: string;
-        lastName: string;
-        email: string;
-        password: string; //promocode, reCapString
+        firstName: string & tags.MinLength<1> & tags.MaxLength<50>;
+        lastName: string & tags.MinLength<1> & tags.MaxLength<50>;
+        email: string & tags.Format<'email'>;
+        password: string & tags.MaxLength<50>; //promocode, reCapString
       }>(),
     )
     .output(typia.createAssert<{status: 'exists' | 'verify' | 'error'}>())
@@ -70,8 +70,8 @@ export const extUserAuthRouter = router({
   extUserSignupEmailVerify: publicProcedure
     .input(
       typia.createAssert<{
-        email: string;
-        verificationCode: string; //promocode, reCapString
+        email: string & tags.Format<'email'>;
+        verificationCode: string & tags.MaxLength<50>; //promocode, reCapString
       }>(),
     )
     .mutation(async ({ctx, input}) => {

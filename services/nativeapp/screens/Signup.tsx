@@ -4,9 +4,7 @@ import {
   Button,
   Card,
   Chip,
-  MD3Colors,
   ProgressBar,
-  Surface,
   Text,
   TextInput,
 } from 'react-native-paper';
@@ -15,10 +13,9 @@ import {trpcComp} from '../trpc';
 import {showSnackbar} from '../redux/functionsDispatch';
 import {useState} from 'react';
 import {navigate} from '../RootNavigation';
-import {zxcvbnAsync, debounce, zxcvbn, zxcvbnOptions} from '@zxcvbn-ts/core';
+import {zxcvbn, zxcvbnOptions} from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
-import {FeedbackType} from '@zxcvbn-ts/core/dist/types';
 
 const options = {
   translations: zxcvbnEnPackage.translations,
@@ -132,7 +129,7 @@ export default function ScreenSignup() {
             <Button
               mode="text"
               onPress={() => {
-                setState(initData);
+                setState(() => initData);
                 navigate('HomeExt', {});
               }}
             >
@@ -236,6 +233,10 @@ export default function ScreenSignup() {
             mode="contained"
             style={{marginTop: 35}}
             onPress={async () => {
+              if (state.firstName.length < 1 || state.lastName.length < 1) {
+                showSnackbar({text: 'First and last name can not be empty'});
+                return;
+              }
               if (state.passwordCheck.score < 2) {
                 showSnackbar({text: state.passwordCheck.feedback.join()});
                 return;
