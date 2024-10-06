@@ -4,6 +4,8 @@ import {
   Button,
   Card,
   Chip,
+  MD3Colors,
+  ProgressBar,
   Surface,
   Text,
   TextInput,
@@ -13,26 +15,41 @@ import {trpcComp} from '../trpc';
 import {showSnackbar} from '../redux/functionsDispatch';
 import {useState} from 'react';
 import {navigate} from '../RootNavigation';
+import {zxcvbnAsync, debounce, zxcvbn, zxcvbnOptions} from '@zxcvbn-ts/core';
+import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
+import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
+import {FeedbackType} from '@zxcvbn-ts/core/dist/types';
+
+const options = {
+  translations: zxcvbnEnPackage.translations,
+  graphs: zxcvbnCommonPackage.adjacencyGraphs,
+  dictionary: {
+    ...zxcvbnCommonPackage.dictionary,
+    ...zxcvbnEnPackage.dictionary,
+  },
+};
+
+zxcvbnOptions.setOptions(options);
 
 const initData = {
   firstName: '',
   lastName: '',
   email: '',
-  password1: '',
-  password2: '',
+  password: '',
   verificationCode: '',
-  showVerifyMessage: 'none',
-} as const;
+  showVerifyMessage: 'none' as 'none',
+  passwordCheck: {score: 0, feedback: []},
+};
 
 export default function ScreenSignup() {
-  const [user, setUser] = useImmer<{
+  const [state, setState] = useImmer<{
     firstName: string;
     lastName: string;
     email: string;
-    password1: string;
-    password2: string;
+    password: string;
     verificationCode: string;
     showVerifyMessage: 'none' | 'error' | 'success';
+    passwordCheck: {score: number; feedback: string[]};
   }>(initData);
 
   const [showView, setShowView] = useState<'userdata' | 'message' | 'verify'>(
@@ -68,41 +85,41 @@ export default function ScreenSignup() {
             <TextInput
               label="Код"
               style={{marginTop: 25}}
-              value={user.verificationCode}
+              value={state.verificationCode}
               onChangeText={(text) => {
-                setUser((d) => {
+                setState((d) => {
                   d.verificationCode = text.replace(/[^0-9]/g, '');
                 });
               }}
               mode="outlined"
               maxLength={6}
-              disabled={user.showVerifyMessage === 'success'}
+              disabled={state.showVerifyMessage === 'success'}
             />
-            {user.showVerifyMessage === 'error' && (
+            {state.showVerifyMessage === 'error' && (
               <Chip style={{marginTop: 15}} mode="flat">
                 <Text style={{color: 'red'}}>Wrong verification code</Text>
               </Chip>
             )}
-            {user.showVerifyMessage === 'success' && (
+            {state.showVerifyMessage === 'success' && (
               <Chip style={{marginTop: 15}} mode="flat">
                 <Text style={{color: 'green'}}>User created</Text>
               </Chip>
             )}
-            {user.showVerifyMessage !== 'success' && (
+            {state.showVerifyMessage !== 'success' && (
               <Button
                 style={{marginTop: 25}}
                 mode="contained"
                 onPress={async () => {
                   const {status} = await extUserSignupEmailVerify.mutateAsync({
-                    email: user.email,
-                    verificationCode: user.verificationCode,
+                    email: state.email,
+                    verificationCode: state.verificationCode,
                   });
                   if (status === 'notfound')
-                    setUser((d) => {
+                    setState((d) => {
                       d.showVerifyMessage = 'error';
                     });
                   if (status === 'created')
-                    setUser((d) => {
+                    setState((d) => {
                       d.showVerifyMessage = 'success';
                     });
                 }}
@@ -115,7 +132,7 @@ export default function ScreenSignup() {
             <Button
               mode="text"
               onPress={() => {
-                setUser(initData);
+                setState(initData);
                 navigate('HomeExt', {});
               }}
             >
@@ -140,16 +157,16 @@ export default function ScreenSignup() {
       )}
 
       {showView === 'userdata' && (
-        <>
+        <View>
           <Text style={{marginTop: 30}} variant="titleLarge">
             Личные данные
           </Text>
           <TextInput
             label="First name"
             style={{marginTop: 25}}
-            value={user.firstName}
+            value={state.firstName}
             onChangeText={(text) =>
-              setUser((d) => {
+              setState((d) => {
                 d.firstName = text;
               })
             }
@@ -158,9 +175,9 @@ export default function ScreenSignup() {
           <TextInput
             label="Last name"
             style={{marginTop: 25}}
-            value={user.lastName}
+            value={state.lastName}
             onChangeText={(text) =>
-              setUser((d) => {
+              setState((d) => {
                 d.lastName = text;
               })
             }
@@ -173,9 +190,9 @@ export default function ScreenSignup() {
           <TextInput
             label="Email"
             style={{marginTop: 25}}
-            value={user.email}
+            value={state.email}
             onChangeText={(text) =>
-              setUser((d) => {
+              setState((d) => {
                 d.email = text;
               })
             }
@@ -185,40 +202,45 @@ export default function ScreenSignup() {
           <TextInput
             label="Пароль"
             style={{marginTop: 25}}
-            value={user.password1}
-            onChangeText={(text) =>
-              setUser((d) => {
-                d.password1 = text;
-              })
-            }
+            value={state.password}
+            onChangeText={(text) => {
+              const pwdCheck = zxcvbn(text);
+              setState((d) => {
+                d.password = text;
+                d.passwordCheck.score = pwdCheck.score;
+                d.passwordCheck.feedback = pwdCheck.feedback.suggestions;
+              });
+            }}
             mode="outlined"
             secureTextEntry={true}
           />
 
-          <TextInput
-            label="Повторить пароль"
-            style={{marginTop: 25}}
-            value={user.password2}
-            onChangeText={(text) =>
-              setUser((d) => {
-                d.password2 = text;
-              })
-            }
-            mode="outlined"
-            secureTextEntry={true}
-          />
+          <View>
+            <ProgressBar
+              style={{marginTop: 10}}
+              progress={state.passwordCheck.score / 5}
+              theme={{
+                colors: {
+                  primary:
+                    state.passwordCheck.score < 2
+                      ? 'red'
+                      : state.passwordCheck.score < 3
+                      ? 'yellow'
+                      : 'green',
+                },
+              }}
+            />
+          </View>
 
           <Button
             mode="contained"
             style={{marginTop: 35}}
             onPress={async () => {
-              console.log('Pressed', user);
-              if (user.password1 !== user.password2) {
-                console.log('showSnackbar');
-                showSnackbar({text: "Passwords don't match"});
+              if (state.passwordCheck.score < 2) {
+                showSnackbar({text: state.passwordCheck.feedback.join()});
                 return;
               }
-              const {firstName, lastName, email, password1: password} = user;
+              const {firstName, lastName, email, password} = state;
               const {status} = await signupUser.mutateAsync({
                 firstName,
                 lastName,
@@ -231,7 +253,7 @@ export default function ScreenSignup() {
           >
             Continue
           </Button>
-        </>
+        </View>
       )}
     </View>
   );
