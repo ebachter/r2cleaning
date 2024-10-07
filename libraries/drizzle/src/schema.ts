@@ -57,11 +57,14 @@ export const verification = mysqlTable(
     phoneNumber: varchar('phoneNumber', {length: 20}),
     email: varchar('email', {length: 40}),
     verificationId: varchar('verificationId', {length: 20}),
+    ip: varchar('ip', {length: 20}),
+    counter: int('counter').default(0).notNull(),
     createdAt,
     updatedAt,
   },
   (t) => ({
-    unq: unique('uq_email').on(t.email),
+    unq1: unique('uq_email').on(t.email),
+    unq2: unique('uq_ip').on(t.ip),
   }),
 );
 

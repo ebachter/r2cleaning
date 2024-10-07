@@ -65,8 +65,6 @@ export const intRouter = router({
       .groupBy(offer.requestId)
       .as('offerCount');
 
-    console.log(offerCount);
-
     const data = await drizzle
       .select()
       .from(requests)

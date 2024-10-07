@@ -66,10 +66,6 @@ export default function ScreenLogin() {
 
       {state.showView === 'userdata' && (
         <>
-          <Text style={{marginTop: 30}} variant="titleLarge">
-            Login
-          </Text>
-
           <Input
             style={{marginTop: 35}}
             value={state.email}

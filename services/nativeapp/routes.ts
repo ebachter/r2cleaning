@@ -34,6 +34,7 @@ export const allRoutes: {
     path: 'signup',
     showBack: true,
     protected: false,
+    title: 'Регистрация',
   },
   Login: {
     name: 'Login',
@@ -41,6 +42,7 @@ export const allRoutes: {
     path: 'login',
     showBack: true,
     protected: false,
+    title: 'Логин',
   },
   HomeInt: {
     name: 'HomeInt',

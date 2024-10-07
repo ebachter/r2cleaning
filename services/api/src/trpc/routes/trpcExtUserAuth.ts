@@ -7,8 +7,9 @@ import {
 // import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia, {tags} from 'typia';
-import {and, eq} from 'drizzle-orm';
+import {and, eq, getTableColumns, or, sql} from 'drizzle-orm';
 import {sendEmailForSignup} from '../../functions/functionsEmail';
+import {TRPCError} from '@trpc/server';
 
 type User = typeof user.$inferSelect;
 type Verification_ = typeof verification.$inferSelect;
@@ -20,32 +21,59 @@ export const extUserAuthRouter = router({
         firstName: string & tags.MinLength<1> & tags.MaxLength<50>;
         lastName: string & tags.MinLength<1> & tags.MaxLength<50>;
         email: string & tags.Format<'email'>;
-        password: string & tags.MaxLength<50>; //promocode, reCapString
+        password: string & tags.MinLength<5> & tags.MaxLength<50>; //promocode, reCapString
       }>(),
     )
-    .output(typia.createAssert<{status: 'exists' | 'verify' | 'error'}>())
-    .mutation(async ({input}) => {
+    .output(typia.createAssert<{status: 'exists' | 'success' | 'error'}>())
+    .mutation(async ({ctx, input}) => {
       const {firstName, lastName, email, password} = input;
 
       const res = await drizzle.transaction(
-        async (tx): Promise<{status: 'exists' | 'verify' | 'error'}> => {
+        async (tx): Promise<{status: 'exists' | 'success' | 'error'}> => {
           const users = await tx
             .select()
             .from(user)
             .where(eq(user.email, email));
+
           if (users.length > 0) {
             // This throws an exception that rollbacks the transaction.
             // tx.rollback();
             return {status: 'exists'};
           }
 
+          const record = await tx
+            .select({
+              ...getTableColumns(verification),
+              minutesSinceLastUpdate: sql<number>`TIMESTAMPDIFF(MINUTE, ${verification.updatedAt}, now())`,
+            })
+            .from(verification)
+            .where(
+              or(
+                eq(verification.email, email),
+                eq(verification.ip, ctx.req.ip || ''),
+              ),
+            );
+
+          console.log('record', record);
+
+          if (record.length && record[0].counter > 5)
+            if (record[0].minutesSinceLastUpdate < 2) {
+              throw new TRPCError({
+                code: 'BAD_REQUEST',
+                // message: 'An unexpected error occurred, please try again later.',
+                // optional: pass the original error to retain stack trace
+                // cause: theError,
+              });
+            }
+
           let verificationId = Math.floor(
             100000 + Math.random() * 900000,
           ).toString();
 
           const passwordHash = await createUserAuthToken(password);
+
           try {
-            await tx
+            const res = await tx
               .insert(verification)
               .values({
                 firstName,
@@ -53,12 +81,27 @@ export const extUserAuthRouter = router({
                 email,
                 passwordHash,
                 verificationId,
+                ip: ctx.req.ip,
               })
-              .onDuplicateKeyUpdate({set: {verificationId, passwordHash}});
+              .onDuplicateKeyUpdate({
+                set: {
+                  firstName,
+                  lastName,
+                  email,
+                  passwordHash,
+                  verificationId,
+                  counter:
+                    record[0] && record[0].minutesSinceLastUpdate > 180
+                      ? 1
+                      : sql`${verification.counter}+1`, // reset counter after 3h
+                  ip: ctx.req.ip,
+                },
+              });
 
             sendEmailForSignup(email, verificationId, 'en');
-            return {status: 'verify'};
+            return {status: 'success'};
           } catch (e) {
+            console.log(e);
             return {status: 'error'};
           }
         },
@@ -71,7 +114,7 @@ export const extUserAuthRouter = router({
     .input(
       typia.createAssert<{
         email: string & tags.Format<'email'>;
-        verificationCode: string & tags.MaxLength<50>; //promocode, reCapString
+        verificationCode: string & tags.MinLength<6> & tags.MaxLength<50>; //promocode, reCapString
       }>(),
     )
     .mutation(async ({ctx, input}) => {
