@@ -113,7 +113,7 @@ export default function HomeScreen() {
             style={styles.button}
             onPress={() => {
               // mergeLocal({modals: {login: {open: true}}});
-              navigate('Login', {});
+              navigate({Login: {}});
             }}
           >
             Логин
@@ -123,7 +123,7 @@ export default function HomeScreen() {
             style={styles.button}
             onPress={() => {
               // mergeLocal({modals: {signup: true}})
-              navigate('Signup', {});
+              navigate({Signup: {}});
             }}
           >
             Регистрация

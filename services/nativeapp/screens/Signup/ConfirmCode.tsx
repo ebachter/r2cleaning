@@ -14,10 +14,6 @@ export const ConfirmCode = ({
   const extUserSignupEmailVerify =
     trpcComp.extUserSignupEmailVerify.useMutation();
 
-  const [showVerifyMessage, setShowVerifyMessage] = useState<
-    'none' | 'error' | 'success'
-  >('none');
-
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [message, setMessage] = useState<{
     type: 'error' | 'success' | null;
@@ -108,7 +104,7 @@ export const ConfirmCode = ({
           mode="text"
           onPress={() => {
             setState(() => signupInitData);
-            navigate('HomeExt', {});
+            navigate({HomeExt: {}});
           }}
         >
           Close

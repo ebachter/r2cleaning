@@ -3,18 +3,25 @@
 import {RouteProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
-  HomeExt: undefined;
-  Signup: undefined;
-  Login: undefined;
-  HomeInt: undefined;
-  Admin: undefined;
-  Objects: undefined;
+  HomeExt: {};
+  Signup: {};
+  Login: {};
+  HomeInt: {};
+  Admin: {};
+  Objects: {};
   OrderDetails: {orderId: number};
   ObjectDetails: {objectId: number};
-  Supplier: undefined;
-  SupplierRequests: undefined;
+  Supplier: {};
+  SupplierRequests: {};
   SupplierRequest: {orderId: string};
 };
+
+type ValueOf<T> = T[keyof T];
+type Split<T extends object> = ValueOf<{
+  [K in keyof T]: {[P in K]: T[P]};
+}>;
+
+export type RouteParamList = Split<RootStackParamList>;
 
 // export type StackNavigation = NavigationProp<RootStackParamList>;
 

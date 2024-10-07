@@ -37,12 +37,6 @@ export default function ScreenLogin() {
         <Avatar.Image size={80} source={{uri: '/assets/cleaning_icon.png'}} />
       </View>
 
-      {/* {user.showVerifyMessage === 'error' && (
-        <Chip style={{marginTop: 15}} mode="flat">
-          <Text style={{color: 'red'}}>Wrong verification code</Text>
-        </Chip>
-      )} */}
-
       {state.showView === 'message' && (
         <Card style={{marginTop: 30}}>
           <Card.Content>
@@ -122,7 +116,7 @@ export default function ScreenLogin() {
                     signup: false,
                   },
                 });
-                navigate('HomeInt', {});
+                navigate({HomeInt: {}});
               }
             }}
           >
