@@ -1,5 +1,4 @@
 import * as trpcExpress from '@trpc/server/adapters/express';
-import {inferAsyncReturnType} from '@trpc/server';
 import {verifyUserAuthToken} from '@remrob/utils';
 
 export const createContext = async ({
@@ -36,4 +35,4 @@ export const createContext = async ({
   return {req, session};
 }; // no context
 
-export type Context = inferAsyncReturnType<typeof createContext>;
+export type Context = Awaited<ReturnType<typeof createContext>>;
