@@ -11,7 +11,7 @@ import {RouteProps} from '../../../types/typesNavigation';
 
 export default function ScreenSupplierRequest() {
   const route = useRoute<RouteProps<'SupplierRequest'>>();
-  const {data: res, refetch} = trpc.user.loadRequestForSupplier.useQuery(
+  const {data: res, refetch} = trpc.supplier.loadRequestForSupplier.useQuery(
     {
       requestId: Number(route.params.orderId),
     },

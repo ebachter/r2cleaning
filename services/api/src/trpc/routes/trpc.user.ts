@@ -19,10 +19,7 @@ type ServiceOfferType = typeof serviceOffer.$inferSelect;
 type OfferType = typeof offer.$inferSelect;
 type OrderType = typeof order.$inferSelect;
 
-type PriceType = string /* &
-  tags.Minimum<500> &
-  tags.Maximum<500000> &
-  tags.Pattern<'^d*.?d*$'> */;
+type PriceType = string;
 
 export const intRouter = router({
   createRequest: protectedProcedure
@@ -77,71 +74,11 @@ export const intRouter = router({
     return data;
   }),
 
-  loadOrdersOfSupplier: protectedProcedure.query(async ({ctx}) => {
-    const data = await drizzle
-      .select()
-      .from(requests)
-      .innerJoin(object, eq(object.id, requests.objectId))
-      .innerJoin(objectType, eq(objectType.id, object.type))
-      .leftJoin(order, eq(order.requestId, requests.id))
-      .innerJoin(offer, eq(offer.requestId, requests.id))
-      .where(eq(offer.userId, ctx.session.userId));
-
-    return data;
-  }),
-
   loadObjectTypes: protectedProcedure.query(async ({ctx}) => {
     const data = await drizzle.select().from(objectType);
 
     return data;
   }),
-
-  loadRequestsForSupplier: protectedProcedure.query(async ({ctx}) => {
-    const subQuery = drizzle
-      .select({
-        data: serviceOffer.serviceTypeId,
-      })
-      .from(serviceOffer)
-      .where(eq(serviceOffer.userId, ctx.session.userId));
-    //.as('subQuery');
-
-    const result = await drizzle
-      .select()
-      .from(requests)
-      .innerJoin(requestService, eq(requests.id, requestService.requestId))
-      .innerJoin(object, eq(object.id, requests.objectId))
-      .where(inArray(requestService.serviceTypeId, subQuery));
-
-    return result;
-  }),
-
-  loadRequestForSupplier: protectedProcedure
-    .input(typia.createAssert<{requestId: number}>())
-    .query(async ({ctx, input}) => {
-      const subQuery = drizzle
-        .select({
-          data: serviceOffer.serviceTypeId,
-        })
-        .from(serviceOffer)
-        .where(eq(serviceOffer.userId, ctx.session.userId));
-
-      const result = await drizzle
-        .select()
-        .from(requests)
-        .innerJoin(requestService, eq(requests.id, requestService.requestId))
-        .innerJoin(object, eq(object.id, requests.objectId))
-        .leftJoin(offer, eq(offer.requestId, requests.id))
-        .innerJoin(objectType, eq(object.type, objectType.id))
-        .where(
-          and(
-            inArray(requestService.serviceTypeId, subQuery),
-            eq(requests.id, input.requestId),
-          ),
-        )
-        .limit(1);
-
-      return result[0];
-    }),
 
   loadObjects: protectedProcedure.query(async ({ctx}) => {
     const userId = ctx.session?.userid;

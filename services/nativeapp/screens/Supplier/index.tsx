@@ -4,7 +4,7 @@ import CardComponent from './card';
 import {Text} from 'react-native-paper';
 
 export default function ScreenSuppler() {
-  const {data} = trpc.user.loadOrdersOfSupplier.useQuery(undefined, {
+  const {data} = trpc.supplier.loadOrdersOfSupplier.useQuery(undefined, {
     initialData: [],
   });
 
