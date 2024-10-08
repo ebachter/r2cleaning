@@ -1,15 +1,15 @@
 import {router, publicProcedure, protectedProcedure} from '../middleware';
-import {
-  checkUserPassword,
-  createUserAuthToken,
-  createUserSessionToken,
-} from '@remrob/utils';
 // import {sendSMS} from '@remrob/aws';
 import drizzle, {user, verification} from '@remrob/drizzle';
 import typia, {tags} from 'typia';
 import {and, eq, getTableColumns, or, sql} from 'drizzle-orm';
 import {sendEmailForSignup} from '../../functions/functionsEmail';
 import {TRPCError} from '@trpc/server';
+import {
+  checkUserPassword,
+  createUserAuthToken,
+  createUserSessionToken,
+} from '../../authentication';
 
 type User = typeof user.$inferSelect;
 type Verification_ = typeof verification.$inferSelect;

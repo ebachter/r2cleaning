@@ -22,9 +22,6 @@
     },
     {
       "path": "../../libraries/redis"
-    },
-    {
-      "path": "../../libraries/utils"
     }
   ],
   "strictNullChecks": true

@@ -1,5 +1,5 @@
 import * as trpcExpress from '@trpc/server/adapters/express';
-import {verifyUserAuthToken} from '@remrob/utils';
+import {verifyUserAuthToken} from '../authentication';
 
 export const createContext = async ({
   req,

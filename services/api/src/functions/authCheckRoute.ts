@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import {verifyUserAuthToken} from '@remrob/utils';
+import {verifyUserAuthToken} from '../authentication';
 
 interface UserAuthInfoRequest extends Request {
   token: string; // or any other type

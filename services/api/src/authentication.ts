@@ -1,6 +1,12 @@
+export type LanguageOptions = 'en' | 'de';
+export type UserToken = {
+  userid: number;
+  userId: number;
+  language: LanguageOptions;
+  lang: LanguageOptions;
+};
+
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
-import {LanguageOptions, UserToken} from './typesMisc';
 
 const SECRET = Bun.env.WS_JWT_SECRET || '';
 const saltRounds = 10;
@@ -48,6 +54,3 @@ export const checkUserPassword = async (
   const match = await Bun.password.verify(plainPassword, userPasswordHash);
   return match;
 };
-
-export const generateObjectPasswordHash = (password: string) =>
-  crypto.createHash('sha256').update(password, 'utf8').digest('hex');
