@@ -19,12 +19,12 @@ export default function ScreenSupplierRequest() {
   );
   const {hours, minutes} = useAppSelector((state) => state.offer.time);
   const [timeVisible, setTimeVisible] = React.useState(false);
-  const createOffer = trpc.user.createOffer.useMutation({
+  const createOffer = trpc.supplier.offer.create.useMutation({
     onSuccess: () => {
       refetch();
     },
   });
-  const cancelOffer = trpc.user.cancelOffer.useMutation({
+  const cancelOffer = trpc.supplier.offer.cancel.useMutation({
     onSuccess: () => {
       refetch();
       mergeOffer({time: {hours: null, minutes: null}});

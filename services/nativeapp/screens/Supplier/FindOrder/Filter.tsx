@@ -4,10 +4,10 @@ import {Checkbox, List, MD3Colors, Text} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 
 export default function FilterRequests() {
-  const {data: sTypes, refetch} = trpc.user.loadServiceOffers.useQuery();
+  const {data: sTypes, refetch} = trpc.user.serviceOffer.get.all.useQuery();
 
-  const createServiceOffer = trpc.user.createServiceOffer.useMutation();
-  const deleteServiceOffer = trpc.user.deleteServiceOffer.useMutation();
+  const createServiceOffer = trpc.user.serviceOffer.create.useMutation();
+  const deleteServiceOffer = trpc.user.serviceOffer.delete.useMutation();
 
   return (
     <>

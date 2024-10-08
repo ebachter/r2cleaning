@@ -11,6 +11,9 @@ import {protectedProcedure, router} from '../middleware';
 import {and, eq, inArray} from 'drizzle-orm';
 import typia from 'typia';
 
+type OfferType = typeof offer.$inferSelect;
+type PriceType = string;
+
 export const supplierRouter = router({
   loadOrdersOfSupplier: protectedProcedure.query(async ({ctx}) => {
     const data = await drizzle
@@ -71,4 +74,35 @@ export const supplierRouter = router({
 
       return result[0];
     }),
+
+  offer: {
+    create: protectedProcedure
+      .input(
+        typia.createAssert<
+          Pick<OfferType, 'requestId' | 'cleaningTime'> & {price: PriceType}
+        >(),
+      )
+      .mutation(async ({ctx, input}) => {
+        const userId = ctx.session?.userid;
+
+        const temp = await drizzle.insert(offer).values({
+          userId,
+          requestId: input.requestId,
+          cleaningTime: input.cleaningTime,
+          price: input.price,
+        });
+
+        return {newObjectId: temp[0].insertId};
+      }),
+
+    cancel: protectedProcedure
+      .input(typia.createAssert<{offerId: OfferType['id']}>())
+      .mutation(async ({ctx, input}) => {
+        const userId = ctx.session?.userid;
+
+        await drizzle
+          .delete(offer)
+          .where(and(eq(offer.id, input.offerId), eq(offer.userId, userId)));
+      }),
+  },
 });

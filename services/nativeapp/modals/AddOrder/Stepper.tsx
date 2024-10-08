@@ -109,7 +109,7 @@ export default function OrderStepper() {
     );
   };
 
-  const request = trpc.user.createRequest.useMutation({
+  const request = trpc.user.order.create.useMutation({
     onSuccess(data, variables, context) {
       mergeOrder({orderCreated: true});
       showSnackbar({text: `Request ${data.newOrderId} created`});

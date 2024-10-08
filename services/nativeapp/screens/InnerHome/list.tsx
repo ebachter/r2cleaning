@@ -6,7 +6,7 @@ import {trpc} from '../../trpc';
 import CardComponent from './card';
 
 export const ListOfOrders = (): ReactElement => {
-  const {data} = trpc.user.loadOrders.useQuery(undefined, {
+  const {data} = trpc.user.order.get.all.useQuery(undefined, {
     initialData: [],
   });
 
