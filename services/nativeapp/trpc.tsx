@@ -12,12 +12,12 @@ import {
   createTRPCReact,
   inferReactQueryProcedureOptions,
 } from '@trpc/react-query';
-// import {EventSourcePolyfill} from 'event-source-polyfill';
+import {EventSourcePolyfill} from 'event-source-polyfill';
 import superjson from 'superjson';
 import {getAppState} from './redux/store';
 
 // polyfill EventSource
-// globalThis.EventSource = EventSourcePolyfill;
+globalThis.EventSource = EventSourcePolyfill;
 
 /* declare global {
   interface EventSource extends RNEventSource {}
@@ -86,9 +86,12 @@ export const trpcClientOptions = {
         url: `${process.env.EXPO_PUBLIC_APP_API_HOST}/trpc`,
         // options to pass to the EventSourcePolyfill constructor
         eventSourceOptions: (async () => {
+          const authToken = getAppState().session.sessionToken;
+
           return {
+            // withCredentials: true,
             headers: {
-              authorization: 'Bearer supersecret',
+              authorization: `Bearer ${authToken}`,
             },
           }; // you either need to typecast to `EventSourceInit` or use `as any` or override the types by a `declare global` statement
         }) as CallbackOrValue<EventSourceInit>,
