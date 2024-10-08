@@ -1,17 +1,12 @@
-import {useNavigation} from '@react-navigation/native';
 import SupplierFab from './Fab';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import CardComponent from './card';
 import {Text} from 'react-native-paper';
 
 export default function ScreenSuppler() {
-  const navigation = useNavigation();
-
-  const {data} = trpcComp.user.loadOrdersOfSupplier.useQuery(undefined, {
+  const {data} = trpc.user.loadOrdersOfSupplier.useQuery(undefined, {
     initialData: [],
   });
-
-  console.log('>>>', data);
 
   return (
     <>

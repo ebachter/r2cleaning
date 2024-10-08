@@ -126,6 +126,6 @@ export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
-export const trpcComp = createTRPCReact<AppRouter>();
+export const trpc = createTRPCReact<AppRouter>();
 // trpc.createClient(clientOptions);
 // export {trpc};

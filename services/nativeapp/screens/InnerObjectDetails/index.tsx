@@ -3,7 +3,7 @@ import * as React from 'react';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {Text, TextInput} from 'react-native-paper';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {RouteProps} from '../../types/typesNavigation';
 // import Header from '../components/Header';
 
@@ -11,7 +11,7 @@ export default function ScreenObjectDetails({}) {
   // const {message} = useAppSelector((state) => state.message);
   const route = useRoute<RouteProps<'ObjectDetails'>>();
 
-  const {data} = trpcComp.user.loadObject.useQuery(
+  const {data} = trpc.user.loadObject.useQuery(
     {
       objectId: Number(route.params.objectId),
     },
@@ -19,7 +19,7 @@ export default function ScreenObjectDetails({}) {
   );
 
   const [foo, setFoo] = React.useState([]);
-  trpcComp.user.onChannel.useSubscription(
+  trpc.user.onChannel.useSubscription(
     {},
     {
       onData(data) {

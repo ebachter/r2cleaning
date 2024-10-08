@@ -3,13 +3,13 @@ import {View} from 'react-native';
 import {Input} from '@ui-kitten/components';
 import {useRoute} from '@react-navigation/native';
 import {Divider, Text, TextInput} from 'react-native-paper';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {RouteProps} from '../../types/typesNavigation';
 import {OfferCard} from './Offer';
 
 export default function ScreenOrderDetails() {
   const route = useRoute<RouteProps<'OrderDetails'>>();
-  const {data} = trpcComp.user.loadOrder.useQuery(
+  const {data} = trpc.user.loadOrder.useQuery(
     {
       orderId: Number(route.params.orderId),
     },

@@ -5,7 +5,7 @@ import {Button} from 'react-native-paper';
 import {useAppSelector} from '../../redux/store';
 import Appartment from './Step2Details/appartment';
 import House from './Step2Details/house';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {mergeLocal, showSnackbar} from '../../redux/functionsDispatch';
 import {Location} from './Location';
 import {Card, Divider} from '@ui-kitten/components';
@@ -20,7 +20,7 @@ export default function OrderStepper() {
     addressStreet,
   } = useAppSelector((state) => state.object);
 
-  const object = trpcComp.user.addObject.useMutation({
+  const object = trpc.user.addObject.useMutation({
     onSuccess(data) {
       mergeLocal({modals: {addObject: false}});
       showSnackbar({text: `Object ${data.newObjectId} created`});

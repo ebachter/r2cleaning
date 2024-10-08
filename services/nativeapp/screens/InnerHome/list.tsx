@@ -2,11 +2,11 @@ import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import {ReactElement} from 'react';
 import {List, MD3Colors} from 'react-native-paper';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import CardComponent from './card';
 
 export const ListOfOrders = (): ReactElement => {
-  const {data} = trpcComp.user.loadOrders.useQuery(undefined, {
+  const {data} = trpc.user.loadOrders.useQuery(undefined, {
     initialData: [],
   });
 

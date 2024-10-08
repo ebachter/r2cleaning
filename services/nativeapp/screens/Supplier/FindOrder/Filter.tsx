@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {trpcComp} from '../../../trpc';
+import {trpc} from '../../../trpc';
 import {Checkbox, List, MD3Colors, Text} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 
 export default function FilterRequests() {
-  const {data: sTypes, refetch} = trpcComp.user.loadServiceOffers.useQuery();
+  const {data: sTypes, refetch} = trpc.user.loadServiceOffers.useQuery();
 
-  const createServiceOffer = trpcComp.user.createServiceOffer.useMutation();
-  const deleteServiceOffer = trpcComp.user.deleteServiceOffer.useMutation();
+  const createServiceOffer = trpc.user.createServiceOffer.useMutation();
+  const deleteServiceOffer = trpc.user.deleteServiceOffer.useMutation();
 
   return (
     <>

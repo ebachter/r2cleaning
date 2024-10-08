@@ -5,7 +5,7 @@ import {MD3LightTheme as DefaultTheme, PaperProvider} from 'react-native-paper';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import * as material from '@eva-design/material';
 import {default as evaTheme} from './eva-custom-theme.json'; // <-- Import app theme
-import {trpcComp, trpcClientOptions} from './trpc';
+import {trpc, trpcClientOptions} from './trpc';
 import {useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
@@ -44,7 +44,7 @@ export default function App() {
         defaultOptions: {queries: {retry: false, refetchOnWindowFocus: false}},
       }),
   );
-  const [trpcClient] = useState(() => trpcComp.createClient(trpcClientOptions));
+  const [trpcClient] = useState(() => trpc.createClient(trpcClientOptions));
   const sessionToken = useAppSelector((state) => state.session.sessionToken);
 
   const auth = (currentRouteName: keyof RootStackParamList) => {
@@ -66,7 +66,7 @@ export default function App() {
 
   return (
     <>
-      <trpcComp.Provider client={trpcClient} queryClient={queryClient}>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           <PaperProvider theme={paperTheme}>
             <IconRegistry icons={EvaIconsPack} />
@@ -128,7 +128,7 @@ export default function App() {
             </ApplicationProvider>
           </PaperProvider>
         </QueryClientProvider>
-      </trpcComp.Provider>
+      </trpc.Provider>
     </>
   );
 }

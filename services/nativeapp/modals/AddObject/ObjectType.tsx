@@ -3,16 +3,13 @@ import {useAppSelector} from '../../redux/store';
 import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {mergeObject} from '../../redux/functionsDispatch';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 
 const ObjectTypeRadio = () => {
   const objectType = useAppSelector((state) => state.object.type);
-  const {data: objectTypes} = trpcComp.user.loadObjectTypes.useQuery(
-    undefined,
-    {
-      initialData: [],
-    },
-  );
+  const {data: objectTypes} = trpc.user.loadObjectTypes.useQuery(undefined, {
+    initialData: [],
+  });
 
   return (
     <RadioButton.Group

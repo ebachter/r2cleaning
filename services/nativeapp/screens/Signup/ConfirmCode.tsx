@@ -1,6 +1,6 @@
 import {Button, Card, Chip, Text, TextInput} from 'react-native-paper';
 import {signupInitData, SignupSetState, SignupState} from './localShared';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {navigate} from '../../RootNavigation';
 import {useState} from 'react';
 
@@ -11,8 +11,7 @@ export const ConfirmCode = ({
   state: SignupState;
   setState: SignupSetState;
 }) => {
-  const extUserSignupEmailVerify =
-    trpcComp.auth.extUserSignupEmailVerify.useMutation();
+  const extUserSignupEmailVerify = trpc.auth.signup.confirm.useMutation();
 
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [message, setMessage] = useState<{

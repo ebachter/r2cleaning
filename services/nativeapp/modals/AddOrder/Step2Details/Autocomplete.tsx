@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import {Autocomplete, AutocompleteItem} from '@ui-kitten/components';
-import {trpcComp} from '../../../trpc';
+import {trpc} from '../../../trpc';
 import {mergeOrder} from '../../../redux/functionsDispatch';
 
 const filter = (item, query): boolean => {
@@ -8,7 +8,7 @@ const filter = (item, query): boolean => {
 };
 
 export const AutocompleteElem = (): React.ReactElement => {
-  const {data: data2} = trpcComp.user.loadServiceTypes.useQuery();
+  const {data: data2} = trpc.user.loadServiceTypes.useQuery();
 
   const [value, setValue] = React.useState('');
   const [data5, setData] = React.useState([]);

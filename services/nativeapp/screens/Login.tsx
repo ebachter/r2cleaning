@@ -1,7 +1,7 @@
 import {View} from 'react-native';
 import {Avatar, Button, Card, Text} from 'react-native-paper';
 import {useImmer} from 'use-immer';
-import {trpcComp} from '../trpc';
+import {trpc} from '../trpc';
 import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 import {navigate} from '../RootNavigation';
 import {Input} from '@ui-kitten/components';
@@ -21,7 +21,7 @@ export default function ScreenLogin() {
     showView: 'userdata' | 'message' | 'verify';
   }>(initData);
 
-  const extUserLoginVerify = trpcComp.auth.extUserLoginVerify.useMutation();
+  const login = trpc.auth.login.useMutation();
 
   return (
     <View style={{margin: 10}}>
@@ -96,11 +96,10 @@ export default function ScreenLogin() {
             style={{marginTop: 35}}
             onPress={async () => {
               const {email, password} = state;
-              const {error, sessionToken} =
-                await extUserLoginVerify.mutateAsync({
-                  email,
-                  password,
-                });
+              const {error, sessionToken} = await login.mutateAsync({
+                email,
+                password,
+              });
               if (error === 'credentialsNotValid') {
                 setState((d) => {
                   d.showView = 'message';

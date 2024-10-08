@@ -1,11 +1,11 @@
 import React from 'react';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {List, MD3Colors} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 export const ListOfOrders = (): React.ReactElement => {
-  const {data} = trpcComp.user.loadObjects.useQuery(undefined, {
+  const {data} = trpc.user.loadObjects.useQuery(undefined, {
     initialData: [],
   });
 

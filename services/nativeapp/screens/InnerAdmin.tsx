@@ -10,7 +10,7 @@ import {
   TextInput,
 } from 'react-native-paper';
 import {useImmer} from 'use-immer';
-import {trpcComp} from '../trpc';
+import {trpc} from '../trpc';
 import {showSnackbar} from '../redux/functionsDispatch';
 
 const initData = {
@@ -28,11 +28,11 @@ export default function ScreenAdmin() {
     newCityName: {nameEn: string; nameDe: string; nameRu: string};
   }>(initData);
 
-  const {data, refetch} = trpcComp.admin.loadCities.useQuery(undefined, {
+  const {data, refetch} = trpc.admin.loadCities.useQuery(undefined, {
     initialData: [],
   });
-  const addLocation = trpcComp.admin.addLocation.useMutation();
-  const deleteLocation = trpcComp.admin.deleteLocation.useMutation();
+  const addLocation = trpc.admin.addLocation.useMutation();
+  const deleteLocation = trpc.admin.deleteLocation.useMutation();
 
   return (
     <>

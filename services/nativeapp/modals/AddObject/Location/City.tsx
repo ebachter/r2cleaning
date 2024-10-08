@@ -9,14 +9,14 @@ import drizzle, {
   serviceType,
   user,
 } from '@remrob/drizzle';
-import {trpcComp} from '../../../trpc';
+import {trpc} from '../../../trpc';
 
 type ObjectType = typeof object.$inferSelect;
 
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
   // const city = useAppSelector((state) => state.request.object.city);
-  const {data: ix} = trpcComp.admin.loadCities.useQuery(undefined, {
+  const {data: ix} = trpc.admin.loadCities.useQuery(undefined, {
     initialData: [],
   });
 

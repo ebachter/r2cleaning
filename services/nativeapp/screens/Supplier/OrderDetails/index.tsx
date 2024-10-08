@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Input} from '@ui-kitten/components';
 import {useRoute} from '@react-navigation/native';
 import {Button, Divider, Text, TextInput} from 'react-native-paper';
-import {trpcComp} from '../../../trpc';
+import {trpc} from '../../../trpc';
 import SupplierTimePicker from './timePicker';
 import {useAppSelector} from '../../../redux/store';
 import {mergeOffer} from '../../../redux/functionsDispatch';
@@ -11,7 +11,7 @@ import {RouteProps} from '../../../types/typesNavigation';
 
 export default function ScreenSupplierRequest() {
   const route = useRoute<RouteProps<'SupplierRequest'>>();
-  const {data: res, refetch} = trpcComp.user.loadRequestForSupplier.useQuery(
+  const {data: res, refetch} = trpc.user.loadRequestForSupplier.useQuery(
     {
       requestId: Number(route.params.orderId),
     },
@@ -19,12 +19,12 @@ export default function ScreenSupplierRequest() {
   );
   const {hours, minutes} = useAppSelector((state) => state.offer.time);
   const [timeVisible, setTimeVisible] = React.useState(false);
-  const createOffer = trpcComp.user.createOffer.useMutation({
+  const createOffer = trpc.user.createOffer.useMutation({
     onSuccess: () => {
       refetch();
     },
   });
-  const cancelOffer = trpcComp.user.cancelOffer.useMutation({
+  const cancelOffer = trpc.user.cancelOffer.useMutation({
     onSuccess: () => {
       refetch();
       mergeOffer({time: {hours: null, minutes: null}});

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import {Button, Card, Text} from '@ui-kitten/components';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {showSnackbar} from '../../redux/functionsDispatch';
 
 const Header = (
@@ -14,7 +14,7 @@ const Header = (
 );
 
 const Footer = (props: ViewProps & {offerId: number}): React.ReactElement => {
-  const order = trpcComp.user.acceptOffer.useMutation({
+  const order = trpc.user.acceptOffer.useMutation({
     onSuccess(data) {
       showSnackbar({text: `Order accepted`});
     },

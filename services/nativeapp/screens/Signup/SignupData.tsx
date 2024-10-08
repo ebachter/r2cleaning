@@ -10,7 +10,7 @@ import {
 import {zxcvbn, zxcvbnOptions} from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {SignupSetState, SignupState} from './localShared';
 import {useState} from 'react';
 import {useImmer} from 'use-immer';
@@ -33,7 +33,7 @@ export const MainCard = ({
   state: SignupState;
   setState: SignupSetState;
 }) => {
-  const signupUser = trpcComp.auth.extUserSignupEmail.useMutation();
+  const signupUser = trpc.auth.signup.add.useMutation();
 
   const [localState, setLocalState] = useImmer<{
     passwordCheck: {score: number; feedback: string[]};

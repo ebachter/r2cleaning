@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {mergeOrder, mergeSession} from '../../../redux/functionsDispatch';
 import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import {useState} from 'react';
-import {trpcComp} from '../../../trpc';
+import {trpc} from '../../../trpc';
 
 const ObjectTypeRadio = () => {
   const {id, type} = useAppSelector((state) => state.request.object);
@@ -15,7 +15,7 @@ const ObjectTypeRadio = () => {
   const handleMenuItemClick = (index: number) => {
     console.log(index, data[index].id);
   };
-  const {data} = trpcComp.user.loadObjects.useQuery(undefined, {
+  const {data} = trpc.user.loadObjects.useQuery(undefined, {
     initialData: [],
   });
 

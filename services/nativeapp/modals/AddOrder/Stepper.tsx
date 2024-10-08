@@ -8,7 +8,7 @@ import {Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import OrderSummary from './Step3Review';
 import {useAppSelector} from '../../redux/store';
-import {trpcComp} from '../../trpc';
+import {trpc} from '../../trpc';
 import {
   mergeOrder,
   setOrderFormInit,
@@ -109,7 +109,7 @@ export default function OrderStepper() {
     );
   };
 
-  const request = trpcComp.user.createRequest.useMutation({
+  const request = trpc.user.createRequest.useMutation({
     onSuccess(data, variables, context) {
       mergeOrder({orderCreated: true});
       showSnackbar({text: `Request ${data.newOrderId} created`});
