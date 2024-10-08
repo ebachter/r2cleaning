@@ -12,7 +12,7 @@ export const ConfirmCode = ({
   setState: SignupSetState;
 }) => {
   const extUserSignupEmailVerify =
-    trpcComp.extUserSignupEmailVerify.useMutation();
+    trpcComp.auth.extUserSignupEmailVerify.useMutation();
 
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [message, setMessage] = useState<{

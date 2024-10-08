@@ -33,7 +33,7 @@ export const MainCard = ({
   state: SignupState;
   setState: SignupSetState;
 }) => {
-  const signupUser = trpcComp.extUserSignupEmail.useMutation();
+  const signupUser = trpcComp.auth.extUserSignupEmail.useMutation();
 
   const [localState, setLocalState] = useImmer<{
     passwordCheck: {score: number; feedback: string[]};

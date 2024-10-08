@@ -21,7 +21,7 @@ export default function ScreenLogin() {
     showView: 'userdata' | 'message' | 'verify';
   }>(initData);
 
-  const extUserLoginVerify = trpcComp.extUserLoginVerify.useMutation();
+  const extUserLoginVerify = trpcComp.auth.extUserLoginVerify.useMutation();
 
   return (
     <View style={{margin: 10}}>

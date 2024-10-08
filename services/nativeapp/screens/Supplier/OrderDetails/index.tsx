@@ -11,7 +11,7 @@ import {RouteProps} from '../../../types/typesNavigation';
 
 export default function ScreenSupplierRequest() {
   const route = useRoute<RouteProps<'SupplierRequest'>>();
-  const {data: res, refetch} = trpcComp.loadRequestForSupplier.useQuery(
+  const {data: res, refetch} = trpcComp.user.loadRequestForSupplier.useQuery(
     {
       requestId: Number(route.params.orderId),
     },
@@ -19,12 +19,12 @@ export default function ScreenSupplierRequest() {
   );
   const {hours, minutes} = useAppSelector((state) => state.offer.time);
   const [timeVisible, setTimeVisible] = React.useState(false);
-  const createOffer = trpcComp.createOffer.useMutation({
+  const createOffer = trpcComp.user.createOffer.useMutation({
     onSuccess: () => {
       refetch();
     },
   });
-  const cancelOffer = trpcComp.cancelOffer.useMutation({
+  const cancelOffer = trpcComp.user.cancelOffer.useMutation({
     onSuccess: () => {
       refetch();
       mergeOffer({time: {hours: null, minutes: null}});

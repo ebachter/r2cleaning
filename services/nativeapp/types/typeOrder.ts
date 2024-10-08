@@ -11,5 +11,5 @@ export type TypeOrder = {
   price: number;
   service: {type: number; label: number};
 
-  object: RouterOutputs['loadObjects'][number];
+  object: RouterOutputs['user']['loadObjects'][number];
 };

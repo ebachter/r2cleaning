@@ -7,9 +7,12 @@ import {trpcComp} from '../../trpc';
 
 const ObjectTypeRadio = () => {
   const objectType = useAppSelector((state) => state.object.type);
-  const {data: objectTypes} = trpcComp.loadObjectTypes.useQuery(undefined, {
-    initialData: [],
-  });
+  const {data: objectTypes} = trpcComp.user.loadObjectTypes.useQuery(
+    undefined,
+    {
+      initialData: [],
+    },
+  );
 
   return (
     <RadioButton.Group

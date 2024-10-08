@@ -11,7 +11,7 @@ export default function ScreenObjectDetails({}) {
   // const {message} = useAppSelector((state) => state.message);
   const route = useRoute<RouteProps<'ObjectDetails'>>();
 
-  const {data} = trpcComp.loadObject.useQuery(
+  const {data} = trpcComp.user.loadObject.useQuery(
     {
       objectId: Number(route.params.objectId),
     },
@@ -19,7 +19,7 @@ export default function ScreenObjectDetails({}) {
   );
 
   const [foo, setFoo] = React.useState([]);
-  trpcComp.onChannel.useSubscription(
+  trpcComp.user.onChannel.useSubscription(
     {},
     {
       onData(data) {

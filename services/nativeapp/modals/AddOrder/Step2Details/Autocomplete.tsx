@@ -8,7 +8,7 @@ const filter = (item, query): boolean => {
 };
 
 export const AutocompleteElem = (): React.ReactElement => {
-  const {data: data2} = trpcComp.loadServiceTypes.useQuery();
+  const {data: data2} = trpcComp.user.loadServiceTypes.useQuery();
 
   const [value, setValue] = React.useState('');
   const [data5, setData] = React.useState([]);

@@ -28,11 +28,11 @@ export default function ScreenAdmin() {
     newCityName: {nameEn: string; nameDe: string; nameRu: string};
   }>(initData);
 
-  const {data, refetch} = trpcComp.loadCities.useQuery(undefined, {
+  const {data, refetch} = trpcComp.admin.loadCities.useQuery(undefined, {
     initialData: [],
   });
-  const addLocation = trpcComp.addLocation.useMutation();
-  const deleteLocation = trpcComp.deleteLocation.useMutation();
+  const addLocation = trpcComp.admin.addLocation.useMutation();
+  const deleteLocation = trpcComp.admin.deleteLocation.useMutation();
 
   return (
     <>

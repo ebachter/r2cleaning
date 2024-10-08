@@ -16,7 +16,9 @@ type ObjectType = typeof object.$inferSelect;
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
   // const city = useAppSelector((state) => state.request.object.city);
-  const {data: ix} = trpcComp.loadCities.useQuery(undefined, {initialData: []});
+  const {data: ix} = trpcComp.admin.loadCities.useQuery(undefined, {
+    initialData: [],
+  });
 
   return (
     <Layout style={styles.container} level="1">

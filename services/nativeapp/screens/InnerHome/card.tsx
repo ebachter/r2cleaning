@@ -14,7 +14,7 @@ const CardComponent = ({
 }: {
   orderId: number;
   objectType: string;
-  data: RouterOutputs['loadOrders'][number];
+  data: RouterOutputs['user']['loadOrders'][number];
 }) => {
   const navigation = useNavigation();
 

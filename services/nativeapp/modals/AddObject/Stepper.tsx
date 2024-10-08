@@ -20,7 +20,7 @@ export default function OrderStepper() {
     addressStreet,
   } = useAppSelector((state) => state.object);
 
-  const object = trpcComp.addObject.useMutation({
+  const object = trpcComp.user.addObject.useMutation({
     onSuccess(data) {
       mergeLocal({modals: {addObject: false}});
       showSnackbar({text: `Object ${data.newObjectId} created`});

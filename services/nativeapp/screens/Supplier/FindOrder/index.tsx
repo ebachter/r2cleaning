@@ -7,9 +7,12 @@ import {useNavigation} from '@react-navigation/native';
 import FilterRequests from './Filter';
 
 export default function ScreenSupplierRequests() {
-  const {data: res} = trpcComp.loadRequestsForSupplier.useQuery(undefined, {
-    initialData: [],
-  });
+  const {data: res} = trpcComp.user.loadRequestsForSupplier.useQuery(
+    undefined,
+    {
+      initialData: [],
+    },
+  );
 
   const navigation = useNavigation();
 

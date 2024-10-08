@@ -14,7 +14,7 @@ const Header = (
 );
 
 const Footer = (props: ViewProps & {offerId: number}): React.ReactElement => {
-  const order = trpcComp.acceptOffer.useMutation({
+  const order = trpcComp.user.acceptOffer.useMutation({
     onSuccess(data) {
       showSnackbar({text: `Order accepted`});
     },

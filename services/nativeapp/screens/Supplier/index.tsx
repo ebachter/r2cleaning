@@ -7,7 +7,7 @@ import {Text} from 'react-native-paper';
 export default function ScreenSuppler() {
   const navigation = useNavigation();
 
-  const {data} = trpcComp.loadOrdersOfSupplier.useQuery(undefined, {
+  const {data} = trpcComp.user.loadOrdersOfSupplier.useQuery(undefined, {
     initialData: [],
   });
 
