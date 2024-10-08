@@ -1,4 +1,5 @@
-import {ses, SendEmailCommand} from '@remrob/aws';
+import {SendEmailCommand} from '@aws-sdk/client-ses';
+import {ses} from '../aws/email';
 
 const createSendEmailCommand = (
   subject: string,

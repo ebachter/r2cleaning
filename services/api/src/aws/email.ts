@@ -1,30 +1,9 @@
-import {
-  S3Client,
-  S3ClientConfig,
-  ListObjectsV2Command,
-  DeleteObjectsCommand,
-  DeleteObjectCommand,
-  CopyObjectCommand,
-  PutObjectCommand,
-} from '@aws-sdk/client-s3';
-import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
-import {Upload} from '@aws-sdk/lib-storage';
-import {sendSMS} from './sms';
+import {S3Client, S3ClientConfig} from '@aws-sdk/client-s3';
+import {SESClient} from '@aws-sdk/client-ses';
 
 let s3: S3Client, ses: SESClient;
 
-export {
-  s3,
-  ses,
-  SendEmailCommand,
-  Upload,
-  ListObjectsV2Command,
-  DeleteObjectsCommand,
-  DeleteObjectCommand,
-  CopyObjectCommand,
-  PutObjectCommand,
-  sendSMS,
-};
+export {s3, ses};
 
 /* AWS.config.update({
     region: 'eu-central-1',

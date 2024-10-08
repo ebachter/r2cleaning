@@ -1,6 +1,4 @@
-//app.js
-
-import {SNSClient, PublishCommand} from '@aws-sdk/client-sns'; //npm install aws-sdk
+import {SNSClient, PublishCommand} from '@aws-sdk/client-sns';
 
 export const snsClient = new SNSClient({});
 
@@ -23,7 +21,7 @@ export const sendSMS = async (phoneNumber: string, message: string) => {
         },
       }),
     );
-    console.log(response);
+    // console.log(response);
     // {
     //   '$metadata': {
     //     httpStatusCode: 200,

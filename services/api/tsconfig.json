@@ -15,9 +15,6 @@
   "include": ["./src/**/*", "service.js"],
   "references": [
     {
-      "path": "../../libraries/aws"
-    },
-    {
       "path": "../../libraries/drizzle"
     },
     {
