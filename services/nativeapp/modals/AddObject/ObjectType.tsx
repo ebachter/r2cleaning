@@ -7,7 +7,7 @@ import {trpc} from '../../trpc';
 
 const ObjectTypeRadio = () => {
   const objectType = useAppSelector((state) => state.object.type);
-  const {data: objectTypes} = trpc.user.loadObjectTypes.useQuery(undefined, {
+  const {data: objectTypes} = trpc.master.loadObjectTypes.useQuery(undefined, {
     initialData: [],
   });
 

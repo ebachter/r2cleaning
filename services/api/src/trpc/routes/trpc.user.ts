@@ -9,7 +9,7 @@ import drizzle, {
   serviceType,
   user,
 } from '@remrob/drizzle';
-import {and, count, eq, getTableColumns, inArray} from 'drizzle-orm';
+import {and, count, eq, getTableColumns} from 'drizzle-orm';
 import typia, {tags} from 'typia';
 import {protectedProcedure, publicProcedure, router} from '../middleware';
 import {TRPCError} from '@trpc/server';
@@ -74,12 +74,6 @@ export const intRouter = router({
     return data;
   }),
 
-  loadObjectTypes: protectedProcedure.query(async ({ctx}) => {
-    const data = await drizzle.select().from(objectType);
-
-    return data;
-  }),
-
   loadObjects: protectedProcedure.query(async ({ctx}) => {
     const userId = ctx.session?.userid;
     // const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
@@ -87,13 +81,6 @@ export const intRouter = router({
       columns: {userId: false},
       with: {objectType: true, city: true},
       where: eq(object.userId, userId),
-    });
-    return data;
-  }),
-
-  loadServiceTypes: protectedProcedure.query(async ({ctx}) => {
-    const data = await drizzle.query.serviceType.findMany({
-      columns: {id: true, name: true},
     });
     return data;
   }),

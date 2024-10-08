@@ -28,7 +28,7 @@ export default function ScreenAdmin() {
     newCityName: {nameEn: string; nameDe: string; nameRu: string};
   }>(initData);
 
-  const {data, refetch} = trpc.admin.loadCities.useQuery(undefined, {
+  const {data, refetch} = trpc.master.loadCities.useQuery(undefined, {
     initialData: [],
   });
   const addLocation = trpc.admin.addLocation.useMutation();
