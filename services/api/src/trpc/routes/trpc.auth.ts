@@ -102,7 +102,7 @@ export const extUserAuthRouter = router({
                 });
               }
 
-            let verificationId = Math.floor(
+            let verificationCode = Math.floor(
               100000 + Math.random() * 900000,
             ).toString();
 
@@ -116,7 +116,7 @@ export const extUserAuthRouter = router({
                   lastName,
                   email,
                   passwordHash,
-                  verificationId,
+                  verificationCode,
                   ip: ctx.req.ip,
                 })
                 .onDuplicateKeyUpdate({
@@ -125,7 +125,7 @@ export const extUserAuthRouter = router({
                     lastName,
                     email,
                     passwordHash,
-                    verificationId,
+                    verificationCode,
                     counter:
                       record[0] && record[0].minutesSinceLastUpdate > 180
                         ? 1
@@ -134,7 +134,7 @@ export const extUserAuthRouter = router({
                   },
                 });
 
-              sendEmailForSignup(email, verificationId, 'en');
+              sendEmailForSignup(email, verificationCode, 'en');
               return {status: 'success'};
             } catch (e) {
               console.log(e);
@@ -161,7 +161,7 @@ export const extUserAuthRouter = router({
             const data = await tx.query.verification.findFirst({
               where: and(
                 eq(verification.email, email),
-                eq(verification.verificationId, verificationCode),
+                eq(verification.verificationCode, verificationCode),
               ),
             });
 
@@ -181,7 +181,7 @@ export const extUserAuthRouter = router({
                 .where(
                   and(
                     eq(verification.email, email),
-                    eq(verification.verificationId, verificationCode),
+                    eq(verification.verificationCode, verificationCode),
                   ),
                 );
 
@@ -201,7 +201,7 @@ export const extUserAuthRouter = router({
         phoneNumber:
           | NonNullable<Verification_['phoneNumber']>
           | NonNullable<Verification_['email']>;
-        verificationCode: NonNullable<Verification_['verificationId']>;
+        verificationCode: NonNullable<Verification_['verificationCode']>;
         loginType: 'email' | 'phone';
       }>(),
     )
@@ -217,7 +217,7 @@ export const extUserAuthRouter = router({
             loginType === 'email'
               ? eq(verification.email, phoneNumber)
               : eq(verification.phoneNumber, phoneNumber),
-            eq(verification.verificationId, verificationCode),
+            eq(verification.verificationCode, verificationCode),
           ),
         );
 
@@ -269,7 +269,7 @@ export const extUserAuthRouter = router({
 
       /* await drizzle.insert(verification).values({
         ...(loginType === 'email' ? {email: phone} : {phoneNumber: phone}),
-        verificationId: genCode,
+        verificationCode: genCode,
       }); */ //.query.order.findMany({with: {object: true}});
 
       console.log('###', genCode);

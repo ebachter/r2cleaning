@@ -1,6 +1,34 @@
+CREATE TABLE `city` (
+	`id` int unsigned AUTO_INCREMENT NOT NULL,
+	`country` int unsigned NOT NULL DEFAULT 1,
+	`nameEn` varchar(100) NOT NULL,
+	`nameDe` varchar(100) NOT NULL,
+	`nameRu` varchar(100) NOT NULL,
+	`userId` int unsigned NOT NULL,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `city_id` PRIMARY KEY(`id`),
+	CONSTRAINT `uq_city_en` UNIQUE(`country`,`nameEn`),
+	CONSTRAINT `uq_city_de` UNIQUE(`country`,`nameDe`),
+	CONSTRAINT `uq_city_ru` UNIQUE(`country`,`nameRu`)
+);
+--> statement-breakpoint
+CREATE TABLE `country` (
+	`id` int unsigned AUTO_INCREMENT NOT NULL,
+	`nameEn` varchar(100) NOT NULL,
+	`nameDe` varchar(100) NOT NULL,
+	`nameRu` varchar(100) NOT NULL,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `country_id` PRIMARY KEY(`id`),
+	CONSTRAINT `uq_country_nameEn` UNIQUE(`nameEn`),
+	CONSTRAINT `uq_country_nameDe` UNIQUE(`nameDe`),
+	CONSTRAINT `uq_country_nameRu` UNIQUE(`nameRu`)
+);
+--> statement-breakpoint
 CREATE TABLE `object` (
 	`id` int unsigned AUTO_INCREMENT NOT NULL,
-	`addressCity` enum('grosny','argun','gudermes') NOT NULL,
+	`city` int unsigned NOT NULL,
 	`addressStreet` varchar(255) NOT NULL,
 	`objectType` int unsigned NOT NULL,
 	`area` decimal(10,4) NOT NULL,
@@ -80,19 +108,34 @@ CREATE TABLE `user` (
 	`balance` decimal(10,4) DEFAULT '0',
 	`phoneNumber` varchar(20),
 	`email` varchar(40),
-	CONSTRAINT `user_id` PRIMARY KEY(`id`)
+	`passwordHash` varchar(100) NOT NULL,
+	`isAdmin` boolean NOT NULL DEFAULT false,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `user_id` PRIMARY KEY(`id`),
+	CONSTRAINT `uq_email` UNIQUE(`email`)
 );
 --> statement-breakpoint
 CREATE TABLE `verification` (
 	`id` int unsigned AUTO_INCREMENT NOT NULL,
+	`firstName` varchar(40) NOT NULL,
+	`lastName` varchar(40) NOT NULL,
+	`passwordHash` varchar(100) NOT NULL,
 	`phoneNumber` varchar(20),
 	`email` varchar(40),
-	`verificationId` varchar(20) NOT NULL,
+	`verificationCode` varchar(20),
+	`ip` varchar(20),
+	`counter` int NOT NULL DEFAULT 0,
 	`createdAt` timestamp NOT NULL DEFAULT (now()),
 	`updatedAt` timestamp NOT NULL DEFAULT (now()),
-	CONSTRAINT `verification_id` PRIMARY KEY(`id`)
+	CONSTRAINT `verification_id` PRIMARY KEY(`id`),
+	CONSTRAINT `uq_email` UNIQUE(`email`),
+	CONSTRAINT `uq_ip` UNIQUE(`ip`)
 );
 --> statement-breakpoint
+ALTER TABLE `city` ADD CONSTRAINT `city_country_country_id_fk` FOREIGN KEY (`country`) REFERENCES `country`(`id`) ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `city` ADD CONSTRAINT `city_userId_user_id_fk` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `object` ADD CONSTRAINT `object_city_city_id_fk` FOREIGN KEY (`city`) REFERENCES `city`(`id`) ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `object` ADD CONSTRAINT `object_objectType_objectType_id_fk` FOREIGN KEY (`objectType`) REFERENCES `objectType`(`id`) ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `object` ADD CONSTRAINT `object_userId_user_id_fk` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `offer` ADD CONSTRAINT `offer_requestId_request_id_fk` FOREIGN KEY (`requestId`) REFERENCES `request`(`id`) ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint

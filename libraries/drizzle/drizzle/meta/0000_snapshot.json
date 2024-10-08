@@ -1,9 +1,212 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c22ea97c-a482-4e8b-a762-01dadd44e6ec",
+  "id": "fad3bf95-1245-49cc-9844-54cb64b86041",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "city": {
+      "name": "city",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "country": {
+          "name": "country",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "nameEn": {
+          "name": "nameEn",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nameDe": {
+          "name": "nameDe",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nameRu": {
+          "name": "nameRu",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "city_country_country_id_fk": {
+          "name": "city_country_country_id_fk",
+          "tableFrom": "city",
+          "tableTo": "country",
+          "columnsFrom": [
+            "country"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "city_userId_user_id_fk": {
+          "name": "city_userId_user_id_fk",
+          "tableFrom": "city",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "city_id": {
+          "name": "city_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "uq_city_en": {
+          "name": "uq_city_en",
+          "columns": [
+            "country",
+            "nameEn"
+          ]
+        },
+        "uq_city_de": {
+          "name": "uq_city_de",
+          "columns": [
+            "country",
+            "nameDe"
+          ]
+        },
+        "uq_city_ru": {
+          "name": "uq_city_ru",
+          "columns": [
+            "country",
+            "nameRu"
+          ]
+        }
+      }
+    },
+    "country": {
+      "name": "country",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nameEn": {
+          "name": "nameEn",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nameDe": {
+          "name": "nameDe",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nameRu": {
+          "name": "nameRu",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "country_id": {
+          "name": "country_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "uq_country_nameEn": {
+          "name": "uq_country_nameEn",
+          "columns": [
+            "nameEn"
+          ]
+        },
+        "uq_country_nameDe": {
+          "name": "uq_country_nameDe",
+          "columns": [
+            "nameDe"
+          ]
+        },
+        "uq_country_nameRu": {
+          "name": "uq_country_nameRu",
+          "columns": [
+            "nameRu"
+          ]
+        }
+      }
+    },
     "object": {
       "name": "object",
       "columns": {
@@ -14,9 +217,9 @@
           "notNull": true,
           "autoincrement": true
         },
-        "addressCity": {
-          "name": "addressCity",
-          "type": "enum('grosny','argun','gudermes')",
+        "city": {
+          "name": "city",
+          "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -59,6 +262,19 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "object_city_city_id_fk": {
+          "name": "object_city_city_id_fk",
+          "tableFrom": "object",
+          "tableTo": "city",
+          "columnsFrom": [
+            "city"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
         "object_objectType_objectType_id_fk": {
           "name": "object_objectType_objectType_id_fk",
           "tableFrom": "object",
@@ -676,6 +892,37 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "passwordHash": {
+          "name": "passwordHash",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "isAdmin": {
+          "name": "isAdmin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
@@ -688,7 +935,14 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "uq_email": {
+          "name": "uq_email",
+          "columns": [
+            "email"
+          ]
+        }
+      }
     },
     "verification": {
       "name": "verification",
@@ -699,6 +953,27 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
+        },
+        "firstName": {
+          "name": "firstName",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lastName": {
+          "name": "lastName",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "passwordHash": {
+          "name": "passwordHash",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "phoneNumber": {
           "name": "phoneNumber",
@@ -714,12 +989,27 @@
           "notNull": false,
           "autoincrement": false
         },
-        "verificationId": {
-          "name": "verificationId",
+        "verificationCode": {
+          "name": "verificationCode",
           "type": "varchar(20)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
+        },
+        "ip": {
+          "name": "ip",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "counter": {
+          "name": "counter",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         },
         "createdAt": {
           "name": "createdAt",
@@ -748,7 +1038,20 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "uq_email": {
+          "name": "uq_email",
+          "columns": [
+            "email"
+          ]
+        },
+        "uq_ip": {
+          "name": "uq_ip",
+          "columns": [
+            "ip"
+          ]
+        }
+      }
     }
   },
   "_meta": {

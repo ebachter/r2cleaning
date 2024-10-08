@@ -56,7 +56,7 @@ export const verification = mysqlTable(
     passwordHash: varchar('passwordHash', {length: 100}).notNull(),
     phoneNumber: varchar('phoneNumber', {length: 20}),
     email: varchar('email', {length: 40}),
-    verificationId: varchar('verificationId', {length: 20}),
+    verificationCode: varchar('verificationCode', {length: 20}),
     ip: varchar('ip', {length: 20}),
     counter: int('counter').default(0).notNull(),
     createdAt,
