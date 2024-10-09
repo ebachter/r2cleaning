@@ -22,7 +22,7 @@ export default function HomeScreen() {
       <View
         style={{
           width: '100%',
-          minHeight: 500,
+          // minHeight: 500,
           // height: 'auto',
         }}
       >
@@ -47,7 +47,7 @@ export default function HomeScreen() {
               height: '100%',
               width: '100%',
               // opacity: 0.6,
-              backgroundColor: 'rgba(0,0,0,.5)',
+              backgroundColor: 'rgba(0,0,0,.4)',
               flex: 1,
               paddingTop: 40,
               paddingBottom: 40,
@@ -73,14 +73,16 @@ export default function HomeScreen() {
                 width: 60,
               }}
             />
-            {/* <Text>Профессиональный клининг</Text> */}
             <Text
               style={{
                 color: 'white',
                 fontSize: 38,
-                lineHeight: 84,
+                // lineHeight: 84,
                 fontWeight: 'bold',
+                marginTop: 20,
                 marginBottom: 10,
+                marginLeft: 10,
+                marginRight: 10,
                 textAlign: 'center',
               }}
               numberOfLines={2}
@@ -99,47 +101,39 @@ export default function HomeScreen() {
             <Text style={{color: 'white', fontSize: 20, marginBottom: 30}}>
               {'- подготовленные специалисты'}
             </Text>
+          </View>
 
-            <Button2
-              icon="file-sign"
-              mode="contained"
-              onPress={() => mergeLocal({modals: {login: {open: true}}})}
-              style={{minWidth: 150}}
-            >
-              Заявка
-            </Button2>
+          <View style={{marginBottom: 30, alignItems: 'center'}}>
+            <View style={{flexDirection: 'row'}}>
+              <View>
+                <Button2
+                  mode="contained"
+                  style={styles.button}
+                  onPress={() => {
+                    navigate({Login: {}});
+                  }}
+                >
+                  Логин
+                </Button2>
+              </View>
+              <Button2
+                mode="contained"
+                style={styles.button}
+                onPress={() => {
+                  navigate({Signup: {}});
+                }}
+              >
+                Регистрация
+              </Button2>
+            </View>
           </View>
         </ImageBackground>
       </View>
 
-      <View style={{marginTop: 8, alignItems: 'center'}}>
-        <Layout style={styles.container3} level="1">
-          <Button
-            style={styles.button}
-            onPress={() => {
-              // mergeLocal({modals: {login: {open: true}}});
-              navigate({Login: {}});
-            }}
-          >
-            Логин
-          </Button>
-          <Button
-            appearance="outline"
-            style={styles.button}
-            onPress={() => {
-              // mergeLocal({modals: {signup: true}})
-              navigate({Signup: {}});
-            }}
-          >
-            Регистрация
-          </Button>
-          {/*  onPress={() => navigation.navigate('HomeInt')} */}
-        </Layout>
-      </View>
       <View
         style={{
           flex: 1,
-          marginTop: 60,
+          marginTop: 20,
           alignItems: 'center',
         }}
       >
@@ -190,11 +184,6 @@ const styles = StyleSheet.create({
     maxWidth: 500,
   }, */
 
-  container3: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
   image: {
     flex: 1,
     flexDirection: 'column',
@@ -207,6 +196,6 @@ const styles = StyleSheet.create({
 
   button: {
     margin: 2,
-    width: 100,
+    width: 140,
   },
 });
