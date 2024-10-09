@@ -3,10 +3,15 @@ import {ImageBackground} from 'react-native';
 import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
 import {Button, Layout} from '@ui-kitten/components';
-import {mergeLocal} from '../redux/functionsDispatch';
+import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 import {navigate} from '../RootNavigation';
+import {useTranslation} from 'react-i18next';
+import {Link} from '@react-navigation/native';
+import i18n from '../i18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
+  const {t} = useTranslation();
   return (
     <View
       style={{
@@ -80,7 +85,7 @@ export default function HomeScreen() {
               }}
               numberOfLines={2}
             >
-              {'Профессиональный клининг'}
+              {t('landingPage:headerProfCleaning')}
             </Text>
             <Text style={{color: 'white', fontSize: 20, marginBottom: 10}}>
               {'- гарантия качества'}
@@ -107,7 +112,7 @@ export default function HomeScreen() {
         </ImageBackground>
       </View>
 
-      <View style={styles.container2}>
+      <View style={{marginTop: 8, alignItems: 'center'}}>
         <Layout style={styles.container3} level="1">
           <Button
             style={styles.button}
@@ -131,20 +136,42 @@ export default function HomeScreen() {
           {/*  onPress={() => navigation.navigate('HomeInt')} */}
         </Layout>
       </View>
-
-      <View style={styles.container2}>
-        <View style={[styles.box, {backgroundColor: 'powderblue'}]} />
-        <View style={[styles.box, {backgroundColor: 'skyblue'}]} />
-        <View
-          style={[
-            styles.box,
-            {
-              backgroundColor: 'steelblue',
-              width: 'auto',
-              minWidth: 50,
-            },
-          ]}
-        />
+      <View
+        style={{
+          flex: 1,
+          marginTop: 60,
+          alignItems: 'center',
+        }}
+      >
+        <View style={{flexDirection: 'row'}}>
+          <Button2
+            mode="text"
+            onPress={() => {
+              i18n.changeLanguage('en');
+              AsyncStorage.setItem('language', 'en');
+            }}
+          >
+            English
+          </Button2>
+          <Button2
+            mode="text"
+            onPress={() => {
+              i18n.changeLanguage('de');
+              AsyncStorage.setItem('language', 'de');
+            }}
+          >
+            Deutsch
+          </Button2>
+          <Button2
+            mode="text"
+            onPress={() => {
+              i18n.changeLanguage('ru');
+              AsyncStorage.setItem('language', 'ru');
+            }}
+          >
+            Русский
+          </Button2>
+        </View>
       </View>
     </View>
   );
@@ -176,18 +203,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 'auto',
     opacity: 0.9,
-  },
-
-  box: {
-    width: 50,
-    height: 50,
-  },
-
-  container2: {
-    marginTop: 8,
-    backgroundColor: 'aliceblue',
-    // minHeight: 200,
-    alignItems: 'center',
   },
 
   button: {

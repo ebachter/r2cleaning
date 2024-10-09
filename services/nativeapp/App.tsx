@@ -13,11 +13,11 @@ import AppHeader from './components/Header';
 import {mergeLocal} from './redux/functionsDispatch';
 import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
-
 import {allRoutes, screens} from './routes';
 import ModalAddObject from './modals/AddObject';
 import ModalAddOrder from './modals/AddOrder';
 import {RootStackParamList} from './types/typesNavigation';
+import './i18n';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

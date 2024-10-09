@@ -30,7 +30,6 @@ export const mergeOffer = (args: DeepPartial<TypeOffer>) => {
 };
 
 export const mergeObject = (args: DeepPartial<TypeObject>) => {
-  console.log(args);
   store.dispatch(actionObject.mergeObject(args));
 };
 
