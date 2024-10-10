@@ -1,12 +1,10 @@
-// import {NavigationProp} from '@react-navigation/native';
-
 import {RouteProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
-  HomeExt: {};
+  Start: {};
   Signup: {};
   Login: {};
-  HomeInt: {};
+  Intro: {};
   Admin: {};
   Objects: {};
   OrderDetails: {orderId: number};
@@ -22,8 +20,6 @@ type Split<T extends object> = ValueOf<{
 }>;
 
 export type RouteParamList = Split<RootStackParamList>;
-
-// export type StackNavigation = NavigationProp<RootStackParamList>;
 
 export type RouteProps<RouteName extends keyof RootStackParamList> = RouteProp<
   RootStackParamList,

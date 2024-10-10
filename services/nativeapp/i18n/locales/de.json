@@ -1,4 +1,15 @@
 {
+  "routes": {
+    "signup": "Registrierung",
+    "login": "Anmeldung",
+    "orders": "Bestellungen",
+    "order": "Bestellungsdaten",
+    "objects": "Objekte",
+    "object": "Objektdetails",
+    "supplier": "Dienstleister",
+    "supplierRequests": "Bestellungen",
+    "supplierRequest": "Bestellungsdetails"
+  },
   "start": {
     "header1ProfCleaning": "Professionelle Reinigung",
     "header2Quality": "garantierte Qualität",

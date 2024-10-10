@@ -50,17 +50,17 @@ export default function App() {
   const auth = (currentRouteName: keyof RootStackParamList) => {
     // console.log('--currentRouteName--', currentRouteName);
     // console.log('--sessionToken--', sessionToken);
-    if (currentRouteName === 'HomeInt' && !sessionToken) {
-      navigationRef.current?.navigate('HomeExt');
+    if (currentRouteName === 'Intro' && !sessionToken) {
+      navigationRef.current?.navigate('Start');
     } else if (
       allRoutes[currentRouteName].protected !== false &&
       !sessionToken
     ) {
-      navigationRef.current?.navigate('HomeExt');
+      navigationRef.current?.navigate('Start');
       mergeLocal({modals: {login: {open: true}, forwardTo: currentRouteName}});
     }
-    if (currentRouteName === 'HomeExt' && sessionToken) {
-      navigationRef.current?.navigate('HomeInt');
+    if (currentRouteName === 'Start' && sessionToken) {
+      navigationRef.current?.navigate('Intro');
     }
   };
 
@@ -97,15 +97,14 @@ export default function App() {
               >
                 <Stack.Navigator
                   /* screenOptions={{ headerShown: false, }} */
-                  initialRouteName={'HomeInt'}
+                  initialRouteName={'Intro'}
                 >
                   <>
-                    {Object.entries(allRoutes).map(([, o], i) => {
-                      // {component, path, showback}
+                    {Object.entries(allRoutes).map(([name, o], i) => {
                       return (
                         <Stack.Screen
                           key={i}
-                          name={o.name}
+                          name={name as keyof RootStackParamList}
                           component={o.component}
                           options={({navigation}) => {
                             return {

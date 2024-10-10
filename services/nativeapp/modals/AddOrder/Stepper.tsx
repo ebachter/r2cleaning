@@ -114,7 +114,7 @@ export default function OrderStepper() {
       mergeOrder({orderCreated: true});
       showSnackbar({text: `Request ${data.newOrderId} created`});
       setOrderFormInit();
-      navigation.navigate('HomeInt');
+      navigation.navigate('Intro');
     },
   });
 
@@ -156,7 +156,7 @@ export default function OrderStepper() {
         <View>
           <Button
             // mode="outlined"
-            onPress={() => navigation.navigate('HomeInt')}
+            onPress={() => navigation.navigate('Intro')}
             style={{width: 90, borderRadius: 5, marginLeft: 10}}
             compact={true}
             labelStyle={{marginTop: 2, marginBottom: 2}}

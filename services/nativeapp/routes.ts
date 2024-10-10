@@ -1,7 +1,7 @@
 import ScreenOrderDetails from './screens/InnerOrderDetails';
 import ScreenObjects from './screens/InnerObjects';
-import HomeScreen from './screens/OuterHome';
-import DetailsScreen from './screens/InnerHome';
+import HomeScreen from './screens/Start';
+import DetailsScreen from './screens/Intro';
 import ScreenObjectDetails from './screens/InnerObjectDetails';
 import ScreenSuppler from './screens/Supplier';
 import ScreenSupplierRequests from './screens/Supplier/FindOrder';
@@ -10,91 +10,111 @@ import {RootStackParamList} from './types/typesNavigation';
 import ScreenSignup from './screens/Signup';
 import ScreenLogin from './screens/Login';
 import ScreenAdmin from './screens/InnerAdmin';
+import i18n from './i18n';
+
+const t = i18n.t;
 
 export const allRoutes: {
   [file in keyof RootStackParamList]: {
-    name: keyof RootStackParamList;
     component: (k: any) => React.JSX.Element;
     path: string;
     showBack?: boolean;
-    title?: string;
     protected?: boolean;
   };
 } = {
-  HomeExt: {
-    name: 'HomeExt',
+  Start: {
     component: HomeScreen,
     path: '',
     showBack: false,
     protected: false,
   },
   Signup: {
-    name: 'Signup',
     component: ScreenSignup,
     path: 'signup',
     showBack: true,
     protected: false,
-    title: 'Регистрация',
   },
   Login: {
-    name: 'Login',
     component: ScreenLogin,
     path: 'login',
     showBack: true,
     protected: false,
-    title: 'Логин',
   },
-  HomeInt: {
-    name: 'HomeInt',
+  Intro: {
     component: DetailsScreen,
     path: 'intro',
-    title: 'Главная',
-  },
-  Admin: {
-    name: 'Admin',
-    component: ScreenAdmin,
-    path: 'admin',
-    title: 'Admin',
   },
   OrderDetails: {
-    name: 'OrderDetails',
     component: ScreenOrderDetails,
     path: 'order',
-    title: 'Детали',
   },
+
+  Admin: {
+    component: ScreenAdmin,
+    path: 'admin',
+  },
+
   Objects: {
-    name: 'Objects',
     component: ScreenObjects,
     path: 'objects/list',
-    title: 'Объекты',
   },
   ObjectDetails: {
-    name: 'ObjectDetails',
     component: ScreenObjectDetails,
     path: 'object/details',
-    title: 'Object details',
   },
   Supplier: {
-    name: 'Supplier',
     component: ScreenSuppler,
     path: 'supplier',
-    title: 'Supplier',
   },
   SupplierRequests: {
-    name: 'SupplierRequests',
     component: ScreenSupplierRequests,
     path: 'supplier/search',
-    title: 'Customer requests',
   },
   SupplierRequest: {
-    name: 'SupplierRequest',
     component: ScreenSupplierRequest,
     path: 'supplier/order',
-    title: 'Order details',
   },
 };
 
 export const screens = Object.entries(allRoutes).reduce((o, [k, v]) => {
   return {...o, [k]: v.path};
 }, {});
-console.log(screens);
+
+export const allRoutesTrans: (t: typeof i18n.t) => {
+  [file in keyof RootStackParamList]: {
+    title?: string;
+  };
+} = (t) => ({
+  Start: {},
+  Signup: {
+    title: t('routes:signup'),
+  },
+  Login: {
+    title: t('routes:login'),
+  },
+  Intro: {
+    title: t('routes:orders'),
+  },
+  OrderDetails: {
+    title: t('routes:order'),
+  },
+  Admin: {
+    title: 'Admin',
+  },
+
+  Objects: {
+    title: t('routes:objects'),
+  },
+  ObjectDetails: {
+    title: t('routes:object'),
+  },
+  Supplier: {
+    title: t('routes:supplier'),
+  },
+  SupplierRequests: {
+    title: t('routes:supplierRequests'),
+  },
+  SupplierRequest: {
+    title: t('routes:supplierRequest'),
+  },
+});

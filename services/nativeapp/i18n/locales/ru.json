@@ -1,4 +1,15 @@
 {
+  "routes": {
+    "signup": "Registration",
+    "login": "Логин",
+    "orders": "Заказы",
+    "order": "Детали заказа",
+    "objects": "Объекты",
+    "object": "Детали объекта",
+    "supplier": "Поставщик",
+    "supplierRequests": "Заказы",
+    "supplierRequest": "Детали заказа"
+  },
   "start": {
     "header1ProfCleaning": "Профессиональный клининг",
     "header2Quality": "гарантия качества",

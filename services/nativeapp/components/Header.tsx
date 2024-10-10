@@ -10,7 +10,8 @@ import {
   MenuItem,
   OverflowMenu,
 } from '@ui-kitten/components';
-import {allRoutes} from '../routes';
+import {allRoutes, allRoutesTrans} from '../routes';
+import {useTranslation} from 'react-i18next';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -25,8 +26,10 @@ export default function CustomNavigationBar({
 }) {
   const route = useRoute();
   const navigation = useNavigation();
+  const {t} = useTranslation();
 
-  const title = allRoutes[route.name].title;
+  const temp = allRoutesTrans(t);
+  const title = temp[route.name].title;
 
   const [selectedIndex, setSelectedIndex] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
@@ -51,13 +54,13 @@ export default function CustomNavigationBar({
           onPress={
             navigation.canGoBack()
               ? navigation.goBack
-              : () => navigation.navigate('HomeInt')
+              : () => navigation.navigate('Intro')
           }
         />
       )}
       <Appbar.Content title={title} />
       <View>
-        {route.name !== 'HomeExt' && (
+        {route.name !== 'Start' && (
           <OverflowMenu
             anchor={renderToggleButton}
             visible={visible}

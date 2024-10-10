@@ -114,7 +114,7 @@ export default function ScreenLogin() {
                   signup: false,
                 },
               });
-              navigate({HomeInt: {}});
+              navigate({Intro: {}});
             }
           }}
         >

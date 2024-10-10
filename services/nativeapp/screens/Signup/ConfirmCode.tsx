@@ -106,7 +106,7 @@ export const ConfirmCode = ({
           mode="text"
           onPress={() => {
             setState(() => signupInitData);
-            navigate({HomeExt: {}});
+            navigate({Start: {}});
           }}
         >
           {t('signup:close')}

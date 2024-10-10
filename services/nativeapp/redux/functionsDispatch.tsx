@@ -35,7 +35,7 @@ export const mergeObject = (args: DeepPartial<TypeObject>) => {
 
 export const logout = () => {
   mergeSession(sessionInitialState);
-  navigate({HomeExt: {}});
+  navigate({Start: {}});
   store.dispatch(requestActions.setOrderFormInit());
 };
 
