@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import {Avatar, Button, Card, Text, TextInput} from 'react-native-paper';
+import {Avatar, Button, Card, Icon, Text, TextInput} from 'react-native-paper';
 import {useImmer} from 'use-immer';
 import {trpc} from '../trpc';
 import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
@@ -9,7 +9,8 @@ import {useTranslation} from 'react-i18next';
 const initData = {
   email: '',
   password: '',
-  message: {show: true},
+  message: {show: false},
+  secureTextEntry: false,
 } as const;
 
 export default function ScreenLogin() {
@@ -17,6 +18,7 @@ export default function ScreenLogin() {
     email: string;
     password: string;
     message: {show: boolean};
+    secureTextEntry: boolean;
   }>(initData);
 
   const login = trpc.auth.login.useMutation();
@@ -48,20 +50,32 @@ export default function ScreenLogin() {
             });
           }}
         />
-        <TextInput
-          style={{marginTop: 35}}
-          value={state.password}
-          label={t('login:password')}
-          // accessoryLeft={renderIcon}
-          mode="outlined"
-          onChangeText={(nextValue) => {
-            setState((d) => {
-              d.message.show = false;
-              d.password = nextValue;
-            });
-          }}
-          secureTextEntry={true}
-        />
+        <View>
+          <TextInput
+            style={{marginTop: 35}}
+            value={state.password}
+            label={t('login:password')}
+            // accessoryLeft={renderIcon}
+            mode="outlined"
+            onChangeText={(nextValue) => {
+              setState((d) => {
+                d.message.show = false;
+                d.password = nextValue;
+              });
+            }}
+            right={
+              <TextInput.Icon
+                icon="eye"
+                onPress={() =>
+                  setState((d) => {
+                    d.secureTextEntry = !state.secureTextEntry;
+                  })
+                }
+              />
+            }
+            secureTextEntry={state.secureTextEntry}
+          />
+        </View>
 
         {state.message.show && (
           <Card style={{marginTop: 30}}>

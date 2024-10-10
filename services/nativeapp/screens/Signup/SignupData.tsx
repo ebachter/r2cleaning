@@ -33,7 +33,8 @@ export const MainCard = ({
 
   const [localState, setLocalState] = useImmer<{
     passwordCheck: {score: number; feedback: string[]};
-  }>({passwordCheck: {score: 0, feedback: []}});
+    secureTextEntry: boolean;
+  }>({passwordCheck: {score: 0, feedback: []}, secureTextEntry: true});
 
   const [message, setMessage] = useState<{
     type: 'error' | 'success';
@@ -95,7 +96,17 @@ export const MainCard = ({
           });
         }}
         mode="outlined"
-        secureTextEntry={true}
+        secureTextEntry={localState.secureTextEntry}
+        right={
+          <TextInput.Icon
+            icon="eye"
+            onPress={() =>
+              setLocalState((d) => {
+                d.secureTextEntry = !localState.secureTextEntry;
+              })
+            }
+          />
+        }
       />
 
       <View>
