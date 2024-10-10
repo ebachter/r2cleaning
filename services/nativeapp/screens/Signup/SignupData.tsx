@@ -1,12 +1,5 @@
 import {View} from 'react-native';
-import {
-  Button,
-  Card,
-  Chip,
-  ProgressBar,
-  Text,
-  TextInput,
-} from 'react-native-paper';
+import {Button, Card, ProgressBar, Text, TextInput} from 'react-native-paper';
 import {zxcvbn, zxcvbnOptions} from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
@@ -14,6 +7,7 @@ import {trpc} from '../../trpc';
 import {SignupSetState, SignupState} from './localShared';
 import {useState} from 'react';
 import {useImmer} from 'use-immer';
+import {useTranslation} from 'react-i18next';
 
 const options = {
   translations: zxcvbnEnPackage.translations,
@@ -33,6 +27,8 @@ export const MainCard = ({
   state: SignupState;
   setState: SignupSetState;
 }) => {
+  const {t} = useTranslation();
+
   const signupUser = trpc.auth.signup.add.useMutation();
 
   const [localState, setLocalState] = useImmer<{
@@ -47,7 +43,7 @@ export const MainCard = ({
   return (
     <View>
       <TextInput
-        label="First name"
+        label={t('signup:firstName')}
         style={{marginTop: 25}}
         value={state.firstName}
         onChangeText={(text) => {
@@ -59,7 +55,7 @@ export const MainCard = ({
         mode="outlined"
       />
       <TextInput
-        label="Last name"
+        label={t('signup:lastName')}
         style={{marginTop: 25}}
         value={state.lastName}
         onChangeText={(text) => {
@@ -71,7 +67,7 @@ export const MainCard = ({
         mode="outlined"
       />
       <TextInput
-        label="Email"
+        label={t('signup:email')}
         style={{marginTop: 25}}
         value={state.email}
         onChangeText={(text) => {
@@ -84,7 +80,7 @@ export const MainCard = ({
       />
 
       <TextInput
-        label="Пароль"
+        label={t('signup:password')}
         style={{marginTop: 25}}
         value={state.password}
         onChangeText={(text) => {
@@ -169,7 +165,7 @@ export const MainCard = ({
           }
         }}
       >
-        Send
+        {t('signup:buttonContinue')}
       </Button>
     </View>
   );

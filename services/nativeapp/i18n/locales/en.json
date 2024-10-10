@@ -1,5 +1,28 @@
 {
-  "landingPage": {
-    "headerProfCleaning": "Professional cleaning"
+  "start": {
+    "header1ProfCleaning": "Professional cleaning",
+    "header2Quality": "assured quality",
+    "header3Pricing": "dynamic pricing",
+    "header4Objects": "private & commercial objects",
+    "header5specialists": "qualified specialists",
+    "buttonLogin": "Log in",
+    "buttonSignup": "Sign up"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "buttonLogin": "Log in",
+    "wrongCredentials": "Wrong credentials"
+  },
+  "signup": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "buttonContinue": "Continue",
+    "enterCode": "Enter the code sent to your email",
+    "code": "Code",
+    "buttonSend": "Send",
+    "close": "Close"
   }
 }

@@ -2,11 +2,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import {ImageBackground} from 'react-native';
 import * as React from 'react';
 import {Button as Button2} from 'react-native-paper';
-import {Button, Layout} from '@ui-kitten/components';
-import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 import {navigate} from '../RootNavigation';
 import {useTranslation} from 'react-i18next';
-import {Link} from '@react-navigation/native';
 import i18n from '../i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,20 +12,16 @@ export default function HomeScreen() {
   return (
     <View
       style={{
-        // flex: 1,
         flexDirection: 'column',
       }}
     >
       <View
         style={{
           width: '100%',
-          // minHeight: 500,
-          // height: 'auto',
         }}
       >
         <ImageBackground
           source={require('../assets/cl_start_bg.webp')}
-          // style={{width: '100%', height: 'auto'}}
           resizeMode="cover"
           style={{
             flex: 1,
@@ -51,14 +44,12 @@ export default function HomeScreen() {
               flex: 1,
               paddingTop: 40,
               paddingBottom: 40,
-              // minHeight: 200,
               alignItems: 'center',
             }}
           >
             <ImageBackground
               source={require('../assets/cl_logo_2_white.png')}
               style={{
-                // width: 30, height: 40,
                 width: 100,
                 height: 40,
                 maxWidth: '100%',
@@ -77,7 +68,6 @@ export default function HomeScreen() {
               style={{
                 color: 'white',
                 fontSize: 38,
-                // lineHeight: 84,
                 fontWeight: 'bold',
                 marginTop: 20,
                 marginBottom: 10,
@@ -87,44 +77,44 @@ export default function HomeScreen() {
               }}
               numberOfLines={2}
             >
-              {t('landingPage:headerProfCleaning')}
+              {t('start:header1ProfCleaning')}
             </Text>
             <Text style={{color: 'white', fontSize: 20, marginBottom: 10}}>
-              {'- гарантия качества'}
+              {`- ${t('start:header2Quality')}`}
             </Text>
             <Text style={{color: 'white', fontSize: 20, marginBottom: 10}}>
-              {'- фиксированная цена'}
+              {`- ${t('start:header3Pricing')}`}
             </Text>
             <Text style={{color: 'white', fontSize: 20, marginBottom: 10}}>
-              {'- частные и коммерческие объекты'}
+              {`- ${t('start:header4Objects')}`}
             </Text>
             <Text style={{color: 'white', fontSize: 20, marginBottom: 30}}>
-              {'- подготовленные специалисты'}
+              {`- ${t('start:header5specialists')}`}
             </Text>
-          </View>
 
-          <View style={{marginBottom: 30, alignItems: 'center'}}>
-            <View style={{flexDirection: 'row'}}>
-              <View>
+            <View style={{marginBottom: 30, alignItems: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
+                <View>
+                  <Button2
+                    mode="contained"
+                    style={styles.button}
+                    onPress={() => {
+                      navigate({Login: {}});
+                    }}
+                  >
+                    {t('start:buttonLogin')}
+                  </Button2>
+                </View>
                 <Button2
                   mode="contained"
                   style={styles.button}
                   onPress={() => {
-                    navigate({Login: {}});
+                    navigate({Signup: {}});
                   }}
                 >
-                  Логин
+                  {t('start:buttonSignup')}
                 </Button2>
               </View>
-              <Button2
-                mode="contained"
-                style={styles.button}
-                onPress={() => {
-                  navigate({Signup: {}});
-                }}
-              >
-                Регистрация
-              </Button2>
             </View>
           </View>
         </ImageBackground>

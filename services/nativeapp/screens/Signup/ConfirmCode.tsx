@@ -3,6 +3,7 @@ import {signupInitData, SignupSetState, SignupState} from './localShared';
 import {trpc} from '../../trpc';
 import {navigate} from '../../RootNavigation';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 export const ConfirmCode = ({
   state,
@@ -19,14 +20,16 @@ export const ConfirmCode = ({
     text: string;
   }>({type: null, text: ''});
 
+  const {t} = useTranslation();
+
   return (
     <Card style={{marginTop: 30}}>
       <Card.Content>
         <Text style={{marginTop: 30}} variant="titleLarge">
-          Введите код полученный на электронный адрес
+          {t('signup:enterCode')}
         </Text>
         <TextInput
-          label="Код"
+          label={t('signup:code')}
           style={{marginTop: 25}}
           value={verificationCode}
           onChangeText={(text) => {
@@ -94,7 +97,7 @@ export const ConfirmCode = ({
               }
             }}
           >
-            Send
+            {t('signup:buttonSend')}
           </Button>
         )}
       </Card.Content>
@@ -106,7 +109,7 @@ export const ConfirmCode = ({
             navigate({HomeExt: {}});
           }}
         >
-          Close
+          {t('signup:close')}
         </Button>
       </Card.Actions>
     </Card>

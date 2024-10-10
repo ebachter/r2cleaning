@@ -1,5 +1,28 @@
 {
-  "landingPage": {
-    "headerProfCleaning": "Профессиональный клининг"
+  "start": {
+    "header1ProfCleaning": "Профессиональный клининг",
+    "header2Quality": "гарантия качества",
+    "header3Pricing": "динамическое ценообразование",
+    "header4Objects": "частные и коммерческие объекты",
+    "header5specialists": "подготовленные специалисты",
+    "buttonLogin": "Логин",
+    "buttonSignup": "Регистрация"
+  },
+  "login": {
+    "email": "Почта",
+    "password": "Пароль",
+    "buttonLogin": "Войти",
+    "wrongCredentials": "Неправильные данные"
+  },
+  "signup": {
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Почта",
+    "password": "Пароль",
+    "buttonContinue": "Продолжить",
+    "enterCode": "Введите код высланный на Ваш электронный адрес",
+    "code": "Код",
+    "buttonSend": "Отправить",
+    "close": "Закрыть"
   }
 }

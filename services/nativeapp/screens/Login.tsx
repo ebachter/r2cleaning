@@ -1,27 +1,26 @@
 import {View} from 'react-native';
-import {Avatar, Button, Card, Text} from 'react-native-paper';
+import {Avatar, Button, Card, Text, TextInput} from 'react-native-paper';
 import {useImmer} from 'use-immer';
 import {trpc} from '../trpc';
 import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
 import {navigate} from '../RootNavigation';
-import {Input} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
 
 const initData = {
   email: '',
   password: '',
-  showVerifyMessage: 'none',
-  showView: 'userdata',
+  message: {show: true},
 } as const;
 
 export default function ScreenLogin() {
   const [state, setState] = useImmer<{
     email: string;
     password: string;
-    showVerifyMessage: 'none' | 'error' | 'success';
-    showView: 'userdata' | 'message' | 'verify';
+    message: {show: boolean};
   }>(initData);
 
   const login = trpc.auth.login.useMutation();
+  const {t} = useTranslation();
 
   return (
     <View style={{margin: 10}}>
@@ -36,93 +35,78 @@ export default function ScreenLogin() {
       >
         <Avatar.Image size={80} source={{uri: '/assets/cleaning_icon.png'}} />
       </View>
+      <>
+        <TextInput
+          style={{marginTop: 35}}
+          value={state.email}
+          label={t('login:email')}
+          mode="outlined"
+          onChangeText={(nextValue) => {
+            setState((d) => {
+              d.message.show = false;
+              d.email = nextValue;
+            });
+          }}
+        />
+        <TextInput
+          style={{marginTop: 35}}
+          value={state.password}
+          label={t('login:password')}
+          // accessoryLeft={renderIcon}
+          mode="outlined"
+          onChangeText={(nextValue) => {
+            setState((d) => {
+              d.message.show = false;
+              d.password = nextValue;
+            });
+          }}
+          secureTextEntry={true}
+        />
 
-      {state.showView === 'message' && (
-        <Card style={{marginTop: 30}}>
-          <Card.Content>
-            <Text variant="titleLarge">Error</Text>
-            <Text variant="bodyMedium">Wrong credentials</Text>
-          </Card.Content>
-          <Card.Actions>
-            <Button
-              mode="text"
-              onPress={() =>
-                setState((d) => {
-                  d.showView = 'userdata';
-                })
-              }
-            >
-              Repeat
-            </Button>
-          </Card.Actions>
-        </Card>
-      )}
+        {state.message.show && (
+          <Card style={{marginTop: 30}}>
+            <Card.Content>
+              <Text
+                variant="bodyMedium"
+                style={{color: 'red', fontWeight: 'bold', textAlign: 'center'}}
+              >
+                {t('login:wrongCredentials')}
+              </Text>
+            </Card.Content>
+          </Card>
+        )}
 
-      {state.showView === 'userdata' && (
-        <>
-          <Input
-            style={{marginTop: 35}}
-            value={state.email}
-            label="Email"
-            placeholder="Введите электронный адрес"
-            // caption={renderCaption}
-            // accessoryLeft={renderIcon}
-            status={'basic'}
-            onChangeText={(nextValue) => {
+        <Button
+          mode="contained"
+          style={{marginTop: 35}}
+          onPress={async () => {
+            const {email, password} = state;
+            const {error, sessionToken} = await login.mutateAsync({
+              email,
+              password,
+            });
+            if (error === 'credentialsNotValid') {
               setState((d) => {
-                d.email = nextValue;
+                d.message.show = true;
               });
-            }}
-          />
-
-          <Input
-            style={{marginTop: 35}}
-            value={state.password}
-            label="Пароль"
-            placeholder="Введите пароль"
-            // caption={renderCaption}
-            // accessoryLeft={renderIcon}
-            status={'basic'}
-            onChangeText={(nextValue) => {
-              setState((d) => {
-                d.password = nextValue;
+              return;
+            } else {
+              mergeSession({
+                sessionToken,
               });
-            }}
-            secureTextEntry={true}
-          />
-
-          <Button
-            mode="contained"
-            style={{marginTop: 35}}
-            onPress={async () => {
-              const {email, password} = state;
-              const {error, sessionToken} = await login.mutateAsync({
-                email,
-                password,
+              mergeLocal({
+                modals: {
+                  login: {open: false},
+                  signup: false,
+                },
               });
-              if (error === 'credentialsNotValid') {
-                setState((d) => {
-                  d.showView = 'message';
-                });
-                return;
-              } else {
-                mergeSession({
-                  sessionToken,
-                });
-                mergeLocal({
-                  modals: {
-                    login: {open: false},
-                    signup: false,
-                  },
-                });
-                navigate({HomeInt: {}});
-              }
-            }}
-          >
-            Login
-          </Button>
-        </>
-      )}
+              navigate({HomeInt: {}});
+            }
+          }}
+        >
+          {t('login:buttonLogin')}
+        </Button>
+      </>
     </View>
   );
 }
