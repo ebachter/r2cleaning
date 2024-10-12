@@ -1,13 +1,13 @@
 import {View} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {trpc} from '../../../trpc';
-import {Divider, List, MD3Colors, Text} from 'react-native-paper';
+import {Button, Divider, List, MD3Colors, Text} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import FilterRequests from './Filter';
 
 export default function ScreenSupplierRequests() {
-  const {data: res} = trpc.supplier.loadRequestsForSupplier.useQuery(
+  const {data: res, refetch} = trpc.supplier.request.get.all.useQuery(
     undefined,
     {
       initialData: [],
@@ -22,8 +22,8 @@ export default function ScreenSupplierRequests() {
         style={{
           flex: 1,
           justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          backgroundColor: 'aliceblue',
+          alignItems: 'center',
+          // backgroundColor: 'aliceblue',
           paddingLeft: 10,
           paddingRight: 10,
         }}
@@ -36,7 +36,11 @@ export default function ScreenSupplierRequests() {
         <List.Section>
           <FilterRequests />
 
-          <Divider />
+          <Button mode="contained" onPress={() => refetch()}>
+            Reload
+          </Button>
+
+          <Divider style={{marginTop: 20}} />
 
           <Text variant="headlineSmall" style={{marginTop: 20}}>
             Available orders
@@ -44,7 +48,7 @@ export default function ScreenSupplierRequests() {
           {res.map((o, i) => (
             <List.Item
               key={i}
-              title={`Заявка ${o.request.id}. ${o.object.type}`}
+              title={`Заказ ${o.request.id}. ${o.objectType.name.en}`}
               left={() => (
                 <List.Icon
                   color={MD3Colors.tertiary70}

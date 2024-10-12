@@ -209,7 +209,7 @@ export default function OrderStepper() {
                 request.mutate({
                   object_id,
                   // price: String(price),
-                  serviceTypeId: serviceType,
+                  serviceId: serviceType,
                   date,
                 });
               }}

@@ -68,7 +68,7 @@ export const verification = mysqlTable(
   }),
 );
 
-export const serviceType = mysqlTable('serviceType', {
+export const service = mysqlTable('service', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
@@ -78,7 +78,7 @@ export const objectType = mysqlTable('objectType', {
   name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
 
-export const serviceOffer = mysqlTable('serviceOffer', {
+export const supplierService = mysqlTable('supplierService', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   userId: int('userId', {unsigned: true})
     .references(() => user.id, {
@@ -86,22 +86,22 @@ export const serviceOffer = mysqlTable('serviceOffer', {
       onUpdate: 'cascade',
     })
     .notNull(),
-  serviceTypeId: int('serviceTypeId', {unsigned: true})
-    .references(() => serviceType.id, {
+  serviceId: int('serviceId', {unsigned: true})
+    .references(() => service.id, {
       onDelete: 'restrict',
       onUpdate: 'cascade',
     })
     .notNull(),
 });
 
-export const serviceOfferRelations = relations(serviceOffer, ({one}) => ({
+export const supplierServiceRelations = relations(supplierService, ({one}) => ({
   user: one(user, {
-    fields: [serviceOffer.userId],
+    fields: [supplierService.userId],
     references: [user.id],
   }),
-  serviceType: one(serviceType, {
-    fields: [serviceOffer.serviceTypeId],
-    references: [serviceType.id],
+  service: one(service, {
+    fields: [supplierService.serviceId],
+    references: [service.id],
   }),
 }));
 
@@ -154,12 +154,14 @@ export const offer = mysqlTable(
       })
       .notNull(),
     cleaningTime: time('cleaningTime').notNull(),
+    cleaningDate: date('cleaningDate').notNull(),
+
     price: price.notNull(),
     createdAt,
     updatedAt,
   },
   (t) => ({
-    unq: unique('offer_uq_requestId_userId').on(t.requestId, t.userId),
+    unq: unique('uq_requestId_userId').on(t.requestId, t.userId),
   }),
 );
 
@@ -179,12 +181,6 @@ export const order = mysqlTable(
   'order',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
-    objectId: int('objectId', {unsigned: true})
-      .references(() => object.id, {
-        onDelete: 'restrict',
-        onUpdate: 'cascade',
-      })
-      .notNull(),
     requestId: int('requestId', {unsigned: true})
       .references(() => requests.id, {
         onDelete: 'restrict',
@@ -197,26 +193,16 @@ export const order = mysqlTable(
         onUpdate: 'cascade',
       })
       .notNull(),
-    cleaningDate: date('cleaningDate').notNull(),
-    cleaningTime: time('cleaningTime').notNull(),
-    price: price.notNull(),
     createdAt,
     updatedAt,
   },
   (t) => ({
-    unq: unique('uq_requestId_offerId').on(t.requestId, t.offerId),
+    unqReq: unique('uq_requestId').on(t.requestId),
+    unqOffer: unique('uq_offerId').on(t.offerId),
   }),
 );
 
 export const orderRelations = relations(order, ({one}) => ({
-  object: one(object, {
-    fields: [order.objectId],
-    references: [object.id],
-  }),
-  request: one(requests, {
-    fields: [order.requestId],
-    references: [requests.id],
-  }),
   type: one(offer, {
     fields: [order.offerId],
     references: [offer.id],
@@ -233,8 +219,8 @@ export const requestService = mysqlTable('requestService', {
       onUpdate: 'cascade',
     })
     .notNull(),
-  serviceTypeId: int('serviceTypeId', {unsigned: true})
-    .references(() => serviceType.id, {
+  serviceId: int('serviceId', {unsigned: true})
+    .references(() => service.id, {
       onDelete: 'restrict',
       onUpdate: 'cascade',
     })
@@ -252,9 +238,9 @@ export const requestServiceRelations = relations(requestService, ({one}) => ({
     fields: [requestService.requestId],
     references: [requests.id],
   }),
-  serviceType: one(serviceType, {
-    fields: [requestService.serviceTypeId],
-    references: [serviceType.id],
+  service: one(service, {
+    fields: [requestService.serviceId],
+    references: [service.id],
   }),
   user: one(user, {
     fields: [requestService.userId],
@@ -348,5 +334,26 @@ export const country = mysqlTable(
     unqEn: unique('uq_country_nameEn').on(t.nameEn),
     unqDe: unique('uq_country_nameDe').on(t.nameDe),
     unqRu: unique('uq_country_nameRu').on(t.nameRu),
+  }),
+);
+
+export const supplierCity = mysqlTable(
+  'supplierCity',
+  {
+    id: int('id', {unsigned: true}).primaryKey().autoincrement(),
+    cityId: int('cityId', {unsigned: true})
+      .references(() => city.id)
+      .notNull(),
+    userId: int('userId', {unsigned: true})
+      .references(() => user.id, {
+        onDelete: 'restrict',
+        onUpdate: 'cascade',
+      })
+      .notNull(),
+    createdAt,
+    updatedAt,
+  },
+  (t) => ({
+    uq_supplieCity: unique('uq_supplierCity').on(t.cityId, t.userId),
   }),
 );

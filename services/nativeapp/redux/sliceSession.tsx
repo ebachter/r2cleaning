@@ -13,7 +13,6 @@ const slice = createSlice({
   initialState: sessionInitialState,
   reducers: {
     mergeSession: (state, action: PayloadAction<Partial<Session>>) => {
-      console.log(action.payload);
       _.merge(state, action.payload);
     },
   },

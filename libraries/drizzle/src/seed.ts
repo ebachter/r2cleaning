@@ -6,9 +6,13 @@ import {
   object,
   objectType,
   requests,
-  serviceOffer,
-  serviceType,
+  supplierService,
+  service,
   user,
+  offer,
+  requestService,
+  order,
+  supplierCity,
 } from './schema';
 
 const main = async () => {
@@ -42,7 +46,7 @@ const main = async () => {
       },
     ]);
 
-    await db.insert(serviceType).values([
+    await db.insert(service).values([
       {
         id: 1,
         name: {
@@ -84,19 +88,6 @@ const main = async () => {
       },
     ]);
 
-    await db.insert(serviceOffer).values([
-      {
-        id: 1,
-        serviceTypeId: 1,
-        userId: 2,
-      },
-      {
-        id: 2,
-        serviceTypeId: 1,
-        userId: 1,
-      },
-    ]);
-
     await db.insert(country).values([
       {
         id: 1,
@@ -129,6 +120,32 @@ const main = async () => {
         nameEn: 'Gudermes',
         nameRu: 'Гудермес',
         nameDe: 'Gudermes',
+        userId: 1,
+      },
+    ]);
+
+    await db.insert(supplierService).values([
+      {
+        id: 1,
+        serviceId: 1,
+        userId: 2,
+      },
+      {
+        id: 2,
+        serviceId: 1,
+        userId: 1,
+      },
+    ]);
+
+    await db.insert(supplierCity).values([
+      {
+        id: 1,
+        cityId: 1,
+        userId: 1,
+      },
+      {
+        id: 2,
+        cityId: 2,
         userId: 1,
       },
     ]);
@@ -189,11 +206,12 @@ const main = async () => {
       },
     ]);
 
+    // //////////// REQUEST / OFFER / ORDER //////////// //
     await db.insert(requests).values([
       {
         id: 1,
         // price: '1.23',
-        userId: 2,
+        userId: 1,
         objectId: 1,
         cleaningDate: new Date(),
       },
@@ -203,6 +221,112 @@ const main = async () => {
         userId: 1,
         objectId: 2,
         cleaningDate: new Date(),
+      },
+      {
+        id: 3,
+        // price: '200.30',
+        userId: 1,
+        objectId: 2,
+        cleaningDate: new Date(),
+      },
+      {
+        id: 4,
+        // price: '200.30',
+        userId: 1,
+        objectId: 1,
+        cleaningDate: new Date(),
+      },
+      {
+        id: 5,
+        // price: '200.30',
+        userId: 1,
+        objectId: 2,
+        cleaningDate: new Date(),
+      },
+    ]);
+
+    await db.insert(requestService).values([
+      {
+        id: 1,
+        requestId: 1,
+        serviceId: 1,
+        userId: 1,
+      },
+      {
+        id: 2,
+        requestId: 1,
+        serviceId: 2,
+        userId: 1,
+      },
+      {
+        id: 3,
+        requestId: 2,
+        serviceId: 1,
+        userId: 1,
+      },
+      {
+        id: 4,
+        requestId: 3,
+        serviceId: 2,
+        userId: 1,
+      },
+    ]);
+
+    const date = new Date();
+
+    await db.insert(offer).values([
+      {
+        id: 1,
+        requestId: 1,
+        userId: 1,
+        cleaningDate: new Date(),
+        cleaningTime: date.getHours() + ':' + date.getMinutes(),
+        price: '220',
+      },
+      {
+        id: 2,
+        requestId: 2,
+        userId: 1,
+        cleaningDate: new Date(),
+        cleaningTime: date.getHours() + ':' + date.getMinutes(),
+        price: '244.34',
+      },
+      {
+        id: 3,
+        requestId: 2,
+        userId: 2,
+        cleaningDate: new Date(),
+        cleaningTime: date.getHours() + ':' + date.getMinutes(),
+        price: '280',
+      },
+      {
+        id: 4,
+        requestId: 3,
+        userId: 1,
+        cleaningDate: new Date(),
+        cleaningTime: date.getHours() + ':' + date.getMinutes(),
+        price: '285',
+      },
+      {
+        id: 5,
+        requestId: 3,
+        userId: 2,
+        cleaningDate: new Date(),
+        cleaningTime: date.getHours() + ':' + date.getMinutes(),
+        price: '270',
+      },
+    ]);
+
+    await db.insert(order).values([
+      {
+        id: 1,
+        requestId: 1,
+        offerId: 1,
+      },
+      {
+        id: 2,
+        requestId: 2,
+        offerId: 2,
       },
     ]);
 

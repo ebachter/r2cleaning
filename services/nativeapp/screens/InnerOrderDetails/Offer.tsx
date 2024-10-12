@@ -44,11 +44,13 @@ export const OfferCard = ({
   supplierName,
   time,
   offerId,
+  status,
 }: {
   offerId: number;
   supplierName: string;
   price: string;
   time: string;
+  status: string;
 }): React.ReactElement => (
   <>
     <Card
@@ -58,6 +60,7 @@ export const OfferCard = ({
     >
       <Text>Time: {time}</Text>
       <Text>Price: {price}</Text>
+      <Text>Status: {status}</Text>
     </Card>
   </>
 );
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     margin: 2,
-    maxHeight: 220,
+    maxHeight: 230,
   },
   footerContainer: {
     flexDirection: 'row',

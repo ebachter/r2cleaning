@@ -1,17 +1,7 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 import {mergeObject} from '../../../redux/functionsDispatch';
-import drizzle, {
-  object,
-  requests,
-  serviceOffer,
-  serviceType,
-  user,
-} from '@remrob/drizzle';
 import {trpc} from '../../../trpc';
-
-type ObjectType = typeof object.$inferSelect;
 
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
@@ -21,7 +11,7 @@ export const MenuComponent = (): React.ReactElement => {
   });
 
   return (
-    <Layout style={styles.container} level="1">
+    <Layout level="1">
       <Select
         selectedIndex={selectedIndex}
         onSelect={(index: IndexPath) => {
@@ -42,11 +32,5 @@ export const MenuComponent = (): React.ReactElement => {
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    //minHeight: 128,
-  },
-});
 
 export default MenuComponent;

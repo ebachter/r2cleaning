@@ -4,7 +4,6 @@ import {protectedProcedure, router} from '../middleware';
 export const masterdataRouter = router({
   loadObjectTypes: protectedProcedure.query(async ({ctx}) => {
     const data = await drizzle.select().from(objectType);
-
     return data;
   }),
 
@@ -14,7 +13,7 @@ export const masterdataRouter = router({
   }),
 
   loadServiceTypes: protectedProcedure.query(async ({ctx}) => {
-    const data = await drizzle.query.serviceType.findMany({
+    const data = await drizzle.query.service.findMany({
       columns: {id: true, name: true},
     });
     return data;

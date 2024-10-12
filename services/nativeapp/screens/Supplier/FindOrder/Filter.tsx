@@ -4,23 +4,49 @@ import {Checkbox, List, MD3Colors, Text} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
 
 export default function FilterRequests() {
-  const {data: sTypes, refetch} = trpc.user.serviceOffer.get.all.useQuery();
+  const {data: cities, refetch: refetchCities} =
+    trpc.supplier.cities.get.useQuery(undefined, {initialData: []});
 
-  const createServiceOffer = trpc.user.serviceOffer.create.useMutation();
-  const deleteServiceOffer = trpc.user.serviceOffer.delete.useMutation();
+  const {data: sTypes, refetch} = trpc.supplier.service.get.all.useQuery(
+    undefined,
+    {initialData: []},
+  );
+
+  const addService = trpc.supplier.service.add.useMutation();
+  const removeService = trpc.supplier.service.delete.useMutation();
+
+  const addCity = trpc.supplier.cities.add.useMutation();
+  const removeCity = trpc.supplier.cities.remove.useMutation();
 
   return (
     <>
       <Text variant="titleMedium">City</Text>
-      <Text variant="bodyLarge">- Grosny</Text>
-      <Text variant="bodyLarge">- Argun</Text>
-      <Text variant="titleMedium">By service type</Text>
-
       <List.Section>
-        {(sTypes || []).map((o, i) => (
+        {cities.map((o, i) => (
           <List.Item
             key={i}
-            title={`${o.serviceType.id}. ${o.serviceType.name.en}`}
+            title={`${o.city.nameEn}`}
+            right={() => (
+              <Checkbox
+                status={o.supplierCity ? 'checked' : 'unchecked'}
+                onPress={async () => {
+                  o.supplierCity
+                    ? await removeCity.mutateAsync({cityId: o.city.id})
+                    : await addCity.mutateAsync({cityId: o.city.id});
+                  refetchCities();
+                }}
+              />
+            )}
+          />
+        ))}
+      </List.Section>
+
+      <Text variant="titleMedium">By service type</Text>
+      <List.Section>
+        {sTypes.map((o, i) => (
+          <List.Item
+            key={i}
+            title={`${o.service.id}. ${o.service.name.en}`}
             style={{
               marginTop: 0,
               marginBottom: 0,
@@ -37,43 +63,30 @@ export default function FilterRequests() {
             )}
             right={() => (
               <Checkbox
-                status={o.serviceOffer ? 'checked' : 'unchecked'}
+                status={o.supplierService ? 'checked' : 'unchecked'}
                 onPress={() => {
-                  console.log('>>>', o.serviceOffer, !!o.serviceOffer);
-                  if (!o.serviceOffer)
-                    createServiceOffer.mutate(
+                  console.log('>>>', o.supplierService, !!o.supplierService);
+                  if (!o.supplierService)
+                    addService.mutate(
                       {
                         // service_type:o.service_type,
-                        service_type_id: o.serviceType.id,
+                        service_type_id: o.service.id,
                       },
                       {onSuccess: () => refetch()},
                     );
                   else
-                    deleteServiceOffer.mutate(
+                    removeService.mutate(
                       {
-                        // service_type:o.service_type,
-                        service_type_id: o.serviceType.id,
+                        service_id: o.service.id,
                       },
                       {onSuccess: () => refetch()},
                     );
                 }}
               />
             )}
-            // onPress={() =>
-            //   navigation.navigate('ObjectDetails', {objectId: o.object_id})
-            // }
           />
         ))}
       </List.Section>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-});

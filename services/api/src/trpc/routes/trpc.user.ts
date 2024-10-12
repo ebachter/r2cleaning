@@ -5,17 +5,14 @@ import drizzle, {
   order,
   requests,
   requestService,
-  serviceOffer,
-  serviceType,
   user,
 } from '@remrob/drizzle';
 import {and, count, eq, getTableColumns} from 'drizzle-orm';
-import typia, {tags} from 'typia';
-import {protectedProcedure, publicProcedure, router} from '../middleware';
+import typia from 'typia';
+import {protectedProcedure, router} from '../middleware';
 import {TRPCError} from '@trpc/server';
 
 type ObjectType = typeof object.$inferSelect;
-type ServiceOfferType = typeof serviceOffer.$inferSelect;
 type OrderType = typeof order.$inferSelect;
 
 export const intRouter = router({
@@ -62,13 +59,15 @@ export const intRouter = router({
             .select({
               offer: {...getTableColumns(offer)},
               user: {...getTableColumns(user)},
+              order: {id: order.id},
             })
             .from(offer)
             .innerJoin(requests, eq(offer.requestId, requests.id))
             .innerJoin(user, eq(offer.userId, user.id))
+            .leftJoin(order, eq(order.offerId, offer.id))
             .where(
               and(
-                eq(offer.userId, ctx.session.userId),
+                eq(requests.userId, ctx.session.userId),
                 eq(offer.requestId, input.orderId),
               ),
             );
@@ -97,12 +96,8 @@ export const intRouter = router({
           });
 
         const temp = await drizzle.insert(order).values({
-          objectId: data.request.objectId,
           requestId: data.requestId,
           offerId: input.offerId,
-          cleaningDate: data.request.cleaningDate,
-          cleaningTime: data.cleaningTime,
-          price: data.price,
         });
 
         return {newObjectId: temp[0].insertId};
@@ -113,7 +108,7 @@ export const intRouter = router({
         // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
         typia.createAssert<{
           object_id: ObjectType['id'];
-          serviceTypeId: number;
+          serviceId: number;
           date: Date;
         }>(),
       )
@@ -132,7 +127,7 @@ export const intRouter = router({
 
           await tx.insert(requestService).values({
             requestId: temp[0].insertId,
-            serviceTypeId: input.serviceTypeId,
+            serviceId: input.serviceId,
             userId,
           });
           return temp[0].insertId;
@@ -184,69 +179,6 @@ export const intRouter = router({
         const temp = await drizzle.insert(object).values(newObject);
 
         return {newObjectId: temp[0].insertId};
-      }),
-  },
-
-  serviceOffer: {
-    get: {
-      all: protectedProcedure.query(async ({ctx}) => {
-        const userId = ctx.session.userId;
-
-        const res = await drizzle
-          .select()
-          .from(serviceType)
-          .leftJoin(
-            serviceOffer,
-            and(
-              eq(serviceType.id, serviceOffer.serviceTypeId),
-              eq(serviceOffer.userId, userId),
-            ),
-          );
-
-        return res;
-      }),
-    },
-
-    create: protectedProcedure
-      .input(
-        // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
-        typia.createAssert<{
-          service_type_id: number;
-        }>(),
-      )
-      .mutation(async ({ctx, input}) => {
-        // console.log('--ctx--', ctx.session);
-        const userId = ctx.session?.userid;
-        const {service_type_id} = input;
-
-        const newOrder: Omit<ServiceOfferType, 'id'> = {
-          userId,
-          serviceTypeId: service_type_id,
-        };
-
-        await drizzle.insert(serviceOffer).values(newOrder as ServiceOfferType);
-      }),
-
-    delete: protectedProcedure
-      .input(
-        // typia.createAssert<Omit<TypeOrder, 'user_fk'>>(),
-        typia.createAssert<{
-          service_type_id: number;
-        }>(),
-      )
-      .mutation(async ({ctx, input}) => {
-        // console.log('--ctx--', ctx.session);
-        const userId = ctx.session?.userid;
-        const {service_type_id} = input;
-
-        await drizzle
-          .delete(serviceOffer)
-          .where(
-            and(
-              eq(serviceOffer.serviceTypeId, service_type_id),
-              eq(serviceOffer.userId, userId),
-            ),
-          );
       }),
   },
 });

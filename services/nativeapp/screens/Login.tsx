@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import {Avatar, Button, Card, Icon, Text, TextInput} from 'react-native-paper';
+import {Avatar, Button, Card, Text, TextInput} from 'react-native-paper';
 import {useImmer} from 'use-immer';
 import {trpc} from '../trpc';
 import {mergeLocal, mergeSession} from '../redux/functionsDispatch';
@@ -10,7 +10,7 @@ const initData = {
   email: '',
   password: '',
   message: {show: false},
-  secureTextEntry: false,
+  secureTextEntry: true,
 } as const;
 
 export default function ScreenLogin() {

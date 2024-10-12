@@ -27,7 +27,7 @@ const CardComponent = ({
     >
       <Card.Title
         title={`Order ${orderId} for ${data.objectType.name.en}`}
-        subtitle={`Status: ${data.order ? 'Confirmed order' : 'Offer sent'}`}
+        subtitle={`Status: ${data.order ? 'Accepted order' : 'Offer sent'}`}
         left={LeftContent}
       />
       <Card.Content>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Button, Card, Icon, Text} from 'react-native-paper';
 import {RouterOutputs} from '../../trpc';
 
@@ -25,7 +25,13 @@ const CardComponent = ({
     >
       <Card.Title
         title={`Order ${orderId} for ${data.objectType.name.en}`}
-        subtitle={`Status: ${data.order ? 'Confirmed order' : 'Request sent'}`}
+        subtitle={`Status: ${
+          data.order
+            ? 'Accepted order'
+            : data.offerCount
+            ? 'Offers received'
+            : 'Waiting for offers...'
+        }`}
         left={LeftContent}
       />
       <Card.Content>

@@ -73,6 +73,7 @@ export default function ScreenOrderDetails() {
           price={o.offer.price}
           time={o.offer.cleaningTime}
           offerId={o.offer.id}
+          status={o.order ? 'Accecpted' : 'Open'}
         />
       ))}
     </>
