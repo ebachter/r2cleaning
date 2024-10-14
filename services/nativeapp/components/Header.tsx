@@ -1,4 +1,3 @@
-import React from 'react';
 import {Appbar} from 'react-native-paper';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {logout} from '../redux/functionsDispatch';
@@ -10,8 +9,9 @@ import {
   MenuItem,
   OverflowMenu,
 } from '@ui-kitten/components';
-import {allRoutes, allRoutesTrans} from '../routes';
+import {allRoutesTrans} from '../routes';
 import {useTranslation} from 'react-i18next';
+import {useState} from 'react';
 
 const MenuIcon = (props): IconElement => (
   <Icon {...props} name="more-vertical" />
@@ -31,8 +31,8 @@ export default function CustomNavigationBar({
   const temp = allRoutesTrans(t);
   const title = temp[route.name].title;
 
-  const [selectedIndex, setSelectedIndex] = React.useState(null);
-  const [visible, setVisible] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   const onItemSelect = (index): void => {
     setSelectedIndex(index);

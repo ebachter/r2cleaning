@@ -37,6 +37,9 @@ const CardComponent = ({
       <Card.Content>
         <Text variant="titleMedium">{`Object: ${objectType} in ${data.cities.nameEn}`}</Text>
         <Text variant="titleMedium">{`Address: ${data.objects.addressStreet}`}</Text>
+        <Text variant="bodyMedium">{`Date: ${
+          data.requests.cleaningDate || 0
+        } offer(s)`}</Text>
         <Text variant="bodyMedium">{`Offers: ${
           data.offerCount?.count || 0
         } offer(s)`}</Text>

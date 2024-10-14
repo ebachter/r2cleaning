@@ -118,7 +118,7 @@ export const requests = mysqlTable('requests', {
       onUpdate: 'cascade',
     })
     .notNull(),
-  cleaningDate: date('cleaningDate').notNull(),
+  cleaningDate: date('cleaningDate', {mode: 'string'}).notNull(),
   createdAt,
   updatedAt,
 });
@@ -153,7 +153,7 @@ export const offer = mysqlTable(
       })
       .notNull(),
     cleaningTime: time('cleaningTime').notNull(),
-    cleaningDate: date('cleaningDate').notNull(),
+    cleaningDate: date('cleaningDate', {mode: 'string'}).notNull(),
     price: price.notNull(),
     cancelledAt: timestamp('cancelledAt'),
     createdAt,
