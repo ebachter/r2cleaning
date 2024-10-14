@@ -1,8 +1,5 @@
-import * as React from 'react';
-import {Text, StyleSheet, View} from 'react-native';
-import {Button} from '@ui-kitten/components';
+import {Text, View, ScrollView} from 'react-native';
 import {ListOfOrders} from './list';
-import {ScreenTemplate} from '../../components/Wrapper';
 import {mergeLocal} from '../../redux/functionsDispatch';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {IconButton} from 'react-native-paper';
@@ -11,7 +8,7 @@ export default function ScreenObjects({navigation}) {
   // const {message} = useAppSelector((state) => state.message);
 
   return (
-    <>
+    <ScrollView style={{backgroundColor: '#c7ddf2', padding: 5}}>
       <View
         style={{
           padding: 10,
@@ -34,6 +31,6 @@ export default function ScreenObjects({navigation}) {
       </View>
 
       <ListOfOrders />
-    </>
+    </ScrollView>
   );
 }

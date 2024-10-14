@@ -9,7 +9,6 @@ export const ListOfOrders = (): React.ReactElement => {
     initialData: [],
   });
 
-  console.log('requests', data);
   const navigation = useNavigation();
 
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {Card, Divider, Icon, Text} from 'react-native-paper';
 import {trpc} from '../../trpc';
@@ -28,7 +28,7 @@ export default function ScreenOrderDetails() {
   );
 
   return (
-    <>
+    <ScrollView style={{backgroundColor: '#c7ddf2', padding: 5}}>
       <Text variant="titleMedium" style={{margin: 5}}>
         Order details
       </Text>
@@ -81,6 +81,6 @@ export default function ScreenOrderDetails() {
           refetch={refetch}
         />
       ))}
-    </>
+    </ScrollView>
   );
 }

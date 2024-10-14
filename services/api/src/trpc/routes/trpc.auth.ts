@@ -46,7 +46,7 @@ export const extUserAuthRouter = router({
 
       let sessionToken = createUserSessionToken({
         userId: userData.id,
-        lang: 'en',
+        language: 'en',
       });
 
       return {error: 'none', sessionToken};

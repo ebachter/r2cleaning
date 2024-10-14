@@ -88,7 +88,7 @@ export const intRouter = router({
     accept: protectedProcedure
       .input(typia.createAssert<Pick<OrderType, 'offerId'>>())
       .mutation(async ({ctx, input}) => {
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
 
         // TO REPLACE WITH SINGLE QUERY AFTER FEATURE IS AVAILABLE
         /* const data = await drizzle.query.offer.findFirst({
@@ -146,7 +146,7 @@ export const intRouter = router({
       .output(typia.createAssert<{newOrderId: number}>())
       .mutation(async ({ctx, input}) => {
         // console.log('--ctx--', ctx.session);
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
         // const {objectType} = input;
 
         const insertId = await drizzle.transaction(async (tx) => {
@@ -171,7 +171,7 @@ export const intRouter = router({
   objects: {
     get: {
       all: protectedProcedure.query(async ({ctx}) => {
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
         // const data = await AppDataSourceSqlite.getRepository(EntityObject).find();
         const data = await drizzle.query.object.findMany({
           columns: {userId: false},
@@ -200,7 +200,7 @@ export const intRouter = router({
       .input(typia.createAssert<Omit<ObjectType, 'id' | 'userId'>>())
       .output(typia.createAssert<{newObjectId: number}>())
       .mutation(async ({ctx, input}) => {
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
 
         const newObject = {
           ...input,

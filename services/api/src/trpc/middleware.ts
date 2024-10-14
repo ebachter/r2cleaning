@@ -9,7 +9,7 @@ const t = initTRPC.context<Context>().create({
 });
 
 const isAuthed = t.middleware(({next, ctx}) => {
-  if (!ctx.session || !ctx.session.userid) {
+  if (!ctx.session || !ctx.session.userId) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
     });
@@ -23,7 +23,7 @@ const isAuthed = t.middleware(({next, ctx}) => {
 });
 
 const isAdmin = t.middleware(async ({next, ctx}) => {
-  if (!ctx.session || !ctx.session.userid) {
+  if (!ctx.session || !ctx.session.userId) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
     });

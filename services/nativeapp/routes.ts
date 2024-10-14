@@ -1,4 +1,4 @@
-import ScreenOrderDetails from './screens/InnerOrderDetails';
+import ScreenOrderDetails from './screens/Order';
 import ScreenObjects from './screens/InnerObjects';
 import HomeScreen from './screens/Start';
 import DetailsScreen from './screens/Intro';
@@ -31,18 +31,17 @@ export const allRoutes: {
   Signup: {
     component: ScreenSignup,
     path: 'signup',
-    showBack: true,
     protected: false,
   },
   Login: {
     component: ScreenLogin,
     path: 'login',
-    showBack: true,
     protected: false,
   },
   Intro: {
     component: DetailsScreen,
     path: 'intro',
+    showBack: false,
   },
   OrderDetails: {
     component: ScreenOrderDetails,

@@ -175,7 +175,7 @@ export const supplierRouter = router({
         >(),
       )
       .mutation(async ({ctx, input}) => {
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
 
         const temp = await drizzle.insert(offer).values({
           userId,
@@ -191,7 +191,7 @@ export const supplierRouter = router({
     cancel: protectedProcedure
       .input(typia.createAssert<{offerId: OfferType['id']}>())
       .mutation(async ({ctx, input}) => {
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
 
         await drizzle
           .delete(offer)
@@ -228,7 +228,7 @@ export const supplierRouter = router({
       )
       .mutation(async ({ctx, input}) => {
         // console.log('--ctx--', ctx.session);
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
         const {service_type_id} = input;
 
         const newOrder: Omit<ServiceOfferType, 'id'> = {
@@ -250,7 +250,7 @@ export const supplierRouter = router({
       )
       .mutation(async ({ctx, input}) => {
         // console.log('--ctx--', ctx.session);
-        const userId = ctx.session?.userid;
+        const userId = ctx.session?.userId;
         const {service_id} = input;
 
         await drizzle
