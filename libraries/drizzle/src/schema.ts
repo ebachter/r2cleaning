@@ -155,8 +155,8 @@ export const offer = mysqlTable(
       .notNull(),
     cleaningTime: time('cleaningTime').notNull(),
     cleaningDate: date('cleaningDate').notNull(),
-
     price: price.notNull(),
+    cancelledAt: timestamp('cancelledAt'),
     createdAt,
     updatedAt,
   },

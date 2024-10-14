@@ -5,7 +5,6 @@ import {trpc} from '../../../trpc';
 
 export const MenuComponent = (): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
-  // const city = useAppSelector((state) => state.request.object.city);
   const {data: ix} = trpc.master.loadCities.useQuery(undefined, {
     initialData: [],
   });

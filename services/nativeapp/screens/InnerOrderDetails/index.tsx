@@ -1,65 +1,72 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {Input} from '@ui-kitten/components';
 import {useRoute} from '@react-navigation/native';
-import {Divider, Text, TextInput} from 'react-native-paper';
+import {Card, Divider, Icon, Text} from 'react-native-paper';
 import {trpc} from '../../trpc';
 import {RouteProps} from '../../types/typesNavigation';
 import {OfferCard} from './Offer';
 
 export default function ScreenOrderDetails() {
   const route = useRoute<RouteProps<'OrderDetails'>>();
-  const {data} = trpc.user.order.get.one.useQuery(
+  const {data, refetch} = trpc.user.order.get.one.useQuery(
     {
       orderId: Number(route.params.orderId),
     },
     {
       initialData: {
-        req: {
+        /* req: {
           request: {id: null},
           objectType: {id: null, name: {en: null}},
-        },
+        }, */
         offers: [],
       },
     },
   );
-  const [text, setText] = React.useState('_');
+
+  const LeftContent = (props) => (
+    <Icon {...props} source={require('../../assets/cleaning_icon.png')} />
+  );
 
   return (
     <>
       <Text variant="titleMedium" style={{margin: 5}}>
-        Request {route.params.orderId} details
+        Order details
       </Text>
-      <View style={{marginTop: 15}} />
-      <TextInput
-        style={{margin: 5}}
-        label="Request ID"
-        value={String(data.req.request.id) || ''}
-        onChangeText={(text) => setText(text)}
-        disabled
-      />
+      {data.req && (
+        <>
+          <Card
+            style={{
+              width: '100%',
+              maxHeight: 300,
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          >
+            <Card.Title
+              title={`Order ${String(data.req.request.id)}`}
+              subtitle={`Status: ${
+                data.req.order
+                  ? 'Accepted order'
+                  : data.offers.length
+                  ? 'Offers received'
+                  : 'Waiting for offers...'
+              }`}
+              left={LeftContent}
+            />
+            <Card.Content>
+              <Text variant="titleMedium">{`Object: ${data.req.objectType.name.en} in ${data.req.city.nameEn}`}</Text>
+              <Text variant="titleMedium">{`Address: ${data.req.object.addressStreet}`}</Text>
+              <Text variant="titleMedium">{`Cleaning date: ${
+                new Date(data.req.offer.cleaningDate)
+                  .toISOString()
+                  .split('T')[0]
+              }`}</Text>
+            </Card.Content>
+          </Card>
 
-      <View style={{marginTop: 15}} />
-      <Input
-        style={{margin: 5}}
-        value={
-          `${String(data?.req.objectType.id)}. ${
-            data.req.objectType.name.en
-          }` || ''
-        }
-        label="Object type"
-        onChangeText={(nextValue) => setText(nextValue)}
-        disabled
-      />
-
-      <View style={{marginTop: 15}} />
-      <Input
-        style={{margin: 5}}
-        value={'Private cleaner inc.'}
-        label="Исполнитель"
-        onChangeText={(nextValue) => setText(nextValue)}
-        disabled
-      />
+          <View style={{marginTop: 15}} />
+        </>
+      )}
 
       <Divider />
       <Text variant="titleMedium" style={{margin: 5}}>
@@ -68,12 +75,10 @@ export default function ScreenOrderDetails() {
 
       {data.offers.map((o, i) => (
         <OfferCard
+          data={o}
           key={i}
-          supplierName={`${o.user.firstName} ${o.user.lastName}`}
-          price={o.offer.price}
-          time={o.offer.cleaningTime}
-          offerId={o.offer.id}
-          status={o.order ? 'Accecpted' : 'Open'}
+          orderExists={!!data.req.order}
+          refetch={refetch}
         />
       ))}
     </>

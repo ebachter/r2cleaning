@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Button, Card, Icon, Text} from 'react-native-paper';
-import {RouterOutputs} from '../../trpc';
+import {RouterOutputs} from '@remrob/api';
 
 const LeftContent = (props) => (
   <Icon {...props} source={require('../../assets/cleaning_icon.png')} />
@@ -24,7 +24,7 @@ const CardComponent = ({
       onPress={() => navigation.navigate('OrderDetails', {orderId: orderId})}
     >
       <Card.Title
-        title={`Order ${orderId} for ${data.objectType.name.en}`}
+        title={`Order ${orderId}`}
         subtitle={`Status: ${
           data.order
             ? 'Accepted order'
@@ -35,7 +35,8 @@ const CardComponent = ({
         left={LeftContent}
       />
       <Card.Content>
-        <Text variant="titleLarge">{`${objectType} in ${data.object.addressCity} ${data.object.addressStreet}`}</Text>
+        <Text variant="titleMedium">{`Object: ${objectType} in ${data.city.nameEn}`}</Text>
+        <Text variant="titleMedium">{`Address: ${data.object.addressStreet}`}</Text>
         <Text variant="bodyMedium">{`Offers: ${
           data.offerCount?.count || 0
         } offer(s)`}</Text>

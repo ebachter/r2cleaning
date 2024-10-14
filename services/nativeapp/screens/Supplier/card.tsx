@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Button, Card, Icon, Text} from 'react-native-paper';
-import {RouterOutputs} from '../../trpc';
+import {RouterOutputs} from '@remrob/api';
 
 const LeftContent = (props) => (
   <Icon {...props} source={require('../../assets/cleaning_icon.png')} />

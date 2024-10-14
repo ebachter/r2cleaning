@@ -1,4 +1,5 @@
 import drizzle, {
+  city,
   object,
   objectType,
   offer,
@@ -7,7 +8,7 @@ import drizzle, {
   requestService,
   user,
 } from '@remrob/drizzle';
-import {and, count, eq, getTableColumns} from 'drizzle-orm';
+import {and, count, eq, getTableColumns, isNull, ne, sql} from 'drizzle-orm';
 import typia from 'typia';
 import {protectedProcedure, router} from '../middleware';
 import {TRPCError} from '@trpc/server';
@@ -25,6 +26,7 @@ export const intRouter = router({
             requestId: offer.requestId,
           })
           .from(offer)
+          .where(isNull(offer.cancelledAt))
           .groupBy(offer.requestId)
           .as('offerCount');
 
@@ -32,6 +34,7 @@ export const intRouter = router({
           .select()
           .from(requests)
           .innerJoin(object, eq(object.id, requests.objectId))
+          .innerJoin(city, eq(city.id, object.addressCity))
           .innerJoin(objectType, eq(objectType.id, object.type))
           .leftJoin(order, eq(order.requestId, requests.id))
           .leftJoin(offerCount, eq(offerCount.requestId, requests.id))
@@ -47,11 +50,16 @@ export const intRouter = router({
             .select()
             .from(requests)
             .innerJoin(objectType, eq(requests.objectId, objectType.id))
+            .innerJoin(object, eq(object.id, requests.objectId))
+            .innerJoin(city, eq(city.id, object.addressCity))
             .leftJoin(offer, eq(requests.objectId, objectType.id))
+            .leftJoin(order, eq(order.requestId, requests.id))
+            .innerJoin(user, eq(offer.userId, user.id))
             .where(
               and(
                 eq(requests.userId, ctx.session.userId),
                 eq(requests.id, input.orderId),
+                isNull(offer.cancelledAt),
               ),
             );
 
@@ -69,6 +77,7 @@ export const intRouter = router({
               and(
                 eq(requests.userId, ctx.session.userId),
                 eq(offer.requestId, input.orderId),
+                isNull(offer.cancelledAt),
               ),
             );
 
@@ -82,10 +91,18 @@ export const intRouter = router({
         const userId = ctx.session?.userid;
 
         // TO REPLACE WITH SINGLE QUERY AFTER FEATURE IS AVAILABLE
-        const data = await drizzle.query.offer.findFirst({
+        /* const data = await drizzle.query.offer.findFirst({
           with: {request: true},
           where: and(eq(offer.id, input.offerId), eq(requests.userId, userId)),
-        });
+        });  */
+
+        const offerData = await drizzle
+          .select()
+          .from(offer)
+          .innerJoin(requests, eq(requests.id, offer.requestId))
+          .where(and(eq(offer.id, input.offerId), eq(requests.userId, userId)));
+
+        const data = offerData[0];
 
         if (!data)
           throw new TRPCError({
@@ -95,12 +112,26 @@ export const intRouter = router({
             // cause: theError,
           });
 
-        const temp = await drizzle.insert(order).values({
-          requestId: data.requestId,
-          offerId: input.offerId,
+        const txRes = await drizzle.transaction(async (tx) => {
+          const temp = await tx.insert(order).values({
+            requestId: data.offer.requestId,
+            offerId: input.offerId,
+          });
+
+          await tx
+            .update(offer)
+            .set({cancelledAt: sql`now()`})
+            .where(
+              and(
+                eq(offer.requestId, data.offer.requestId),
+                ne(offer.id, input.offerId),
+              ),
+            );
+
+          return {newObjectId: temp[0].insertId};
         });
 
-        return {newObjectId: temp[0].insertId};
+        return {newObjectId: txRes};
       }),
 
     create: protectedProcedure

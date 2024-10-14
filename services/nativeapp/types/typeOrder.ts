@@ -1,4 +1,4 @@
-import {RouterOutputs} from '../trpc';
+import {RouterOutputs} from '@remrob/api';
 
 export type TypeOrder = {
   date: Date;
