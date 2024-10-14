@@ -1,6 +1,6 @@
 import {useAppSelector} from '../../../redux/store';
 import {View} from 'react-native';
-import {mergeOrder, mergeSession} from '../../../redux/functionsDispatch';
+import {mergeOrder} from '../../../redux/functionsDispatch';
 import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import {useState} from 'react';
 import {trpc} from '../../../trpc';

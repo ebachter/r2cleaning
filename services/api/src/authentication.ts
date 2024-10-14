@@ -20,7 +20,7 @@ export const createUserSessionToken = ({
   userId: number;
   lang: LanguageOptions;
 }) => {
-  return jwt.sign({userid: userId, userId, language: lang, lang}, SECRET, {
+  return jwt.sign({userId, language: lang}, SECRET, {
     expiresIn: userSessionExpireTime,
   }); // 60 * 60 * 5
 };
