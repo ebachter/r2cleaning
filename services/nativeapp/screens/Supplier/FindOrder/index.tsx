@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import FilterRequests from './Filter';
 
 export default function ScreenSupplierRequests() {
-  const {data: res, refetch} = trpc.supplier.request.get.all.useQuery(
+  const {data: res, refetch} = trpc.supplier.requests.get.all.useQuery(
     undefined,
     {
       initialData: [],

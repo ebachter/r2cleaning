@@ -10,7 +10,7 @@ export default function ScreenObjectDetails() {
   // const {message} = useAppSelector((state) => state.message);
   const route = useRoute<RouteProps<'ObjectDetails'>>();
 
-  const {data} = trpc.user.object.get.one.useQuery(
+  const {data} = trpc.user.objects.get.one.useQuery(
     {
       objectId: Number(route.params.objectId),
     },

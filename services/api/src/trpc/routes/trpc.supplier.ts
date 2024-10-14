@@ -67,7 +67,7 @@ export const supplierRouter = router({
       }),
   },
 
-  request: {
+  requests: {
     get: {
       all: protectedProcedure.query(async ({ctx}) => {
         const subQueryServices = drizzle
@@ -165,7 +165,7 @@ export const supplierRouter = router({
       return result[0];
     }),
 
-  offer: {
+  offers: {
     create: protectedProcedure
       .input(
         typia.createAssert<
@@ -199,7 +199,7 @@ export const supplierRouter = router({
       }),
   },
 
-  service: {
+  services: {
     get: {
       all: protectedProcedure.query(async ({ctx}) => {
         const userId = ctx.session.userId;

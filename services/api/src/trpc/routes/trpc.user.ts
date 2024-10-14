@@ -17,7 +17,7 @@ type ObjectType = typeof object.$inferSelect;
 type OrderType = typeof order.$inferSelect;
 
 export const intRouter = router({
-  order: {
+  orders: {
     get: {
       all: protectedProcedure.query(async ({ctx}) => {
         const offerCount = drizzle
@@ -114,7 +114,7 @@ export const intRouter = router({
 
         const txRes = await drizzle.transaction(async (tx) => {
           const temp = await tx.insert(order).values({
-            requestId: data.offer.requestId,
+            requestId: data.offers.requestId,
             offerId: input.offerId,
           });
 
@@ -123,7 +123,7 @@ export const intRouter = router({
             .set({cancelledAt: sql`now()`})
             .where(
               and(
-                eq(offer.requestId, data.offer.requestId),
+                eq(offer.requestId, data.offers.requestId),
                 ne(offer.id, input.offerId),
               ),
             );
@@ -168,7 +168,7 @@ export const intRouter = router({
       }),
   },
 
-  object: {
+  objects: {
     get: {
       all: protectedProcedure.query(async ({ctx}) => {
         const userId = ctx.session?.userid;

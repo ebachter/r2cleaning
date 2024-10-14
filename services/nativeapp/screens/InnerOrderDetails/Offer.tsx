@@ -17,10 +17,10 @@ export const OfferCard = ({
   refetch,
 }: {
   orderExists: boolean;
-  data: RouterOutputs['user']['order']['get']['one']['offers'][number];
+  data: RouterOutputs['user']['orders']['get']['one']['offers'][number];
   refetch: () => void;
 }): React.ReactElement => {
-  const order = trpc.user.order.accept.useMutation();
+  const order = trpc.user.orders.accept.useMutation();
   const [visible, setVisible] = useState(false);
 
   return (

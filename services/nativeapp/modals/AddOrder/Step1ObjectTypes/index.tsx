@@ -15,7 +15,7 @@ const ObjectTypeRadio = () => {
   const handleMenuItemClick = (index: number) => {
     console.log(index, data[index].id);
   };
-  const {data} = trpc.user.object.get.all.useQuery(undefined, {
+  const {data} = trpc.user.objects.get.all.useQuery(undefined, {
     initialData: [],
   });
 

@@ -7,13 +7,13 @@ export default function FilterRequests() {
   const {data: cities, refetch: refetchCities} =
     trpc.supplier.cities.get.useQuery(undefined, {initialData: []});
 
-  const {data: sTypes, refetch} = trpc.supplier.service.get.all.useQuery(
+  const {data: sTypes, refetch} = trpc.supplier.services.get.all.useQuery(
     undefined,
     {initialData: []},
   );
 
-  const addService = trpc.supplier.service.add.useMutation();
-  const removeService = trpc.supplier.service.delete.useMutation();
+  const addService = trpc.supplier.services.add.useMutation();
+  const removeService = trpc.supplier.services.delete.useMutation();
 
   const addCity = trpc.supplier.cities.add.useMutation();
   const removeCity = trpc.supplier.cities.remove.useMutation();

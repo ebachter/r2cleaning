@@ -5,7 +5,7 @@ import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 export const ListOfOrders = (): React.ReactElement => {
-  const {data} = trpc.user.object.get.all.useQuery(undefined, {
+  const {data} = trpc.user.objects.get.all.useQuery(undefined, {
     initialData: [],
   });
 

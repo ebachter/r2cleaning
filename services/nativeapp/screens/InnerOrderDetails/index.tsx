@@ -8,7 +8,7 @@ import {OfferCard} from './Offer';
 
 export default function ScreenOrderDetails() {
   const route = useRoute<RouteProps<'OrderDetails'>>();
-  const {data, refetch} = trpc.user.order.get.one.useQuery(
+  const {data, refetch} = trpc.user.orders.get.one.useQuery(
     {
       orderId: Number(route.params.orderId),
     },
