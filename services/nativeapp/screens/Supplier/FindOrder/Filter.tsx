@@ -25,14 +25,14 @@ export default function FilterRequests() {
         {cities.map((o, i) => (
           <List.Item
             key={i}
-            title={`${o.city.nameEn}`}
+            title={`${o.cities.nameEn}`}
             right={() => (
               <Checkbox
-                status={o.supplierCity ? 'checked' : 'unchecked'}
+                status={o.supplierCities ? 'checked' : 'unchecked'}
                 onPress={async () => {
-                  o.supplierCity
-                    ? await removeCity.mutateAsync({cityId: o.city.id})
-                    : await addCity.mutateAsync({cityId: o.city.id});
+                  o.supplierCities
+                    ? await removeCity.mutateAsync({cityId: o.cities.id})
+                    : await addCity.mutateAsync({cityId: o.cities.id});
                   refetchCities();
                 }}
               />
@@ -46,7 +46,7 @@ export default function FilterRequests() {
         {sTypes.map((o, i) => (
           <List.Item
             key={i}
-            title={`${o.service.id}. ${o.service.name.en}`}
+            title={`${o.services.id}. ${o.services.name.en}`}
             style={{
               marginTop: 0,
               marginBottom: 0,
@@ -63,21 +63,21 @@ export default function FilterRequests() {
             )}
             right={() => (
               <Checkbox
-                status={o.supplierService ? 'checked' : 'unchecked'}
+                status={o.supplierServices ? 'checked' : 'unchecked'}
                 onPress={() => {
-                  console.log('>>>', o.supplierService, !!o.supplierService);
-                  if (!o.supplierService)
+                  console.log('>>>', o.supplierServices, !!o.supplierServices);
+                  if (!o.supplierServices)
                     addService.mutate(
                       {
                         // service_type:o.service_type,
-                        service_type_id: o.service.id,
+                        service_type_id: o.services.id,
                       },
                       {onSuccess: () => refetch()},
                     );
                   else
                     removeService.mutate(
                       {
-                        service_id: o.service.id,
+                        service_id: o.services.id,
                       },
                       {onSuccess: () => refetch()},
                     );

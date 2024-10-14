@@ -5,7 +5,6 @@ import {
   decimal,
   int,
   json,
-  mysqlEnum,
   mysqlTable,
   time,
   timestamp,
@@ -28,7 +27,7 @@ const updatedAt = timestamp('updatedAt', {
   .$onUpdateFn(() => new Date());
 
 export const user = mysqlTable(
-  'user',
+  'users',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     firstName: varchar('firstName', {length: 50}).notNull().default(''),
@@ -68,17 +67,17 @@ export const verification = mysqlTable(
   }),
 );
 
-export const service = mysqlTable('service', {
+export const service = mysqlTable('services', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
 
-export const objectType = mysqlTable('objectType', {
+export const objectType = mysqlTable('objectTypes', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
 });
 
-export const supplierService = mysqlTable('supplierService', {
+export const supplierService = mysqlTable('supplierServices', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   userId: int('userId', {unsigned: true})
     .references(() => user.id, {
@@ -105,7 +104,7 @@ export const supplierServiceRelations = relations(supplierService, ({one}) => ({
   }),
 }));
 
-export const requests = mysqlTable('request', {
+export const requests = mysqlTable('requests', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   objectId: int('objectId', {unsigned: true})
     .references(() => object.id, {
@@ -138,7 +137,7 @@ export const requestRelations = relations(requests, ({one}) => ({
 //////////////////////////////////////////////////////////////////////
 
 export const offer = mysqlTable(
-  'offer',
+  'offers',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     requestId: int('requestId', {unsigned: true})
@@ -178,7 +177,7 @@ export const offerRelations = relations(offer, ({one}) => ({
 
 //////////////////////////////////////////////////////////////
 export const order = mysqlTable(
-  'order',
+  'orders',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     requestId: int('requestId', {unsigned: true})
@@ -211,7 +210,7 @@ export const orderRelations = relations(order, ({one}) => ({
 
 ////////////////////////////////////////////////////////
 
-export const requestService = mysqlTable('requestService', {
+export const requestService = mysqlTable('requestServices', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   requestId: int('requestId', {unsigned: true})
     .references(() => requests.id, {
@@ -248,7 +247,7 @@ export const requestServiceRelations = relations(requestService, ({one}) => ({
   }),
 }));
 
-export const object = mysqlTable('object', {
+export const object = mysqlTable('objects', {
   id: int('id', {unsigned: true}).primaryKey().autoincrement(),
   addressCity: int('city', {unsigned: true})
     .references(() => city.id, {
@@ -290,7 +289,7 @@ export const objectRelations = relations(object, ({one}) => ({
 }));
 
 export const city = mysqlTable(
-  'city',
+  'cities',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     // name: json('name').$type<{en: string; de: string; ru: string}>().notNull(),
@@ -321,7 +320,7 @@ export const city = mysqlTable(
 );
 
 export const country = mysqlTable(
-  'country',
+  'countries',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     nameEn: varchar('nameEn', {length: 100}).notNull(),
@@ -338,7 +337,7 @@ export const country = mysqlTable(
 );
 
 export const supplierCity = mysqlTable(
-  'supplierCity',
+  'supplierCities',
   {
     id: int('id', {unsigned: true}).primaryKey().autoincrement(),
     cityId: int('cityId', {unsigned: true})

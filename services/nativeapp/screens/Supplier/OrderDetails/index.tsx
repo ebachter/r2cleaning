@@ -15,7 +15,7 @@ export default function ScreenSupplierRequest() {
     {
       requestId: Number(route.params.orderId),
     },
-    {initialData: {request: {id: 0}, objectType: {name: {en: ''}}}},
+    {initialData: {requests: {id: 0}, objectTypes: {name: {en: ''}}}},
   );
   const {hours, minutes} = useAppSelector((state) => state.offer.time);
   const [timeVisible, setTimeVisible] = React.useState(false);
@@ -41,14 +41,14 @@ export default function ScreenSupplierRequest() {
       <TextInput
         style={{margin: 5}}
         label="Request ID"
-        value={String(res.request.id)}
+        value={String(res.requests.id)}
         disabled
       />
 
       <View style={{marginTop: 15}} />
       <Input
         style={{margin: 5}}
-        value={String(res.objectType.name.en)}
+        value={String(res.objectTypes.name.en)}
         label="Object type"
         disabled
       />
@@ -63,11 +63,11 @@ export default function ScreenSupplierRequest() {
 
       <Divider style={{marginTop: 10, marginBottom: 10}} />
 
-      {res.offer ? (
+      {res.offers ? (
         <>
           <TextInput
             label="Time"
-            value={`${res.offer.cleaningTime.substring(0, 5)}`}
+            value={`${res.offers.cleaningTime.substring(0, 5)}`}
             disabled
           />
           <Button
@@ -75,7 +75,7 @@ export default function ScreenSupplierRequest() {
             mode="outlined"
             onPress={() =>
               cancelOffer.mutate({
-                offerId: res.offer.id,
+                offerId: res.offers.id,
               })
             }
             style={{marginTop: 15}}
@@ -108,7 +108,7 @@ export default function ScreenSupplierRequest() {
             onPress={() =>
               createOffer.mutate({
                 requestId: Number(route.params.orderId),
-                cleaningDate: new Date(res.offer.cleaningDate),
+                cleaningDate: new Date(res.offers.cleaningDate),
                 cleaningTime: `${hours}:${minutes}`,
                 price,
               })

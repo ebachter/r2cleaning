@@ -26,19 +26,19 @@ const CardComponent = ({
       }
     >
       <Card.Title
-        title={`Order ${orderId} for ${data.objectType.name.en}`}
-        subtitle={`Status: ${data.order ? 'Accepted order' : 'Offer sent'}`}
+        title={`Order ${orderId} for ${data.objectTypes.name.en}`}
+        subtitle={`Status: ${data.orders ? 'Accepted order' : 'Offer sent'}`}
         left={LeftContent}
       />
       <Card.Content>
-        <Text variant="titleLarge">{`${objectType} in ${data.object.addressCity} ${data.object.addressStreet}`}</Text>
+        <Text variant="titleLarge">{`${objectType} in ${data.objects.addressCity} ${data.objects.addressStreet}`}</Text>
         <Text variant="bodyMedium">{`Offers: ${
           data.offerCount?.count || 0
         } offer(s)`}</Text>
       </Card.Content>
       {/* <Card.Cover source={{uri: 'https://picsum.photos/700'}} /> */}
       <Card.Actions>
-        {!data.order && <Button mode="text">Cancel</Button>}
+        {!data.orders && <Button mode="text">Cancel</Button>}
         {/* <Button>Ok</Button> */}
       </Card.Actions>
     </Card>

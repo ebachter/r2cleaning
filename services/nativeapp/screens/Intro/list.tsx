@@ -17,8 +17,8 @@ export const ListOfOrders = (): ReactElement => {
       {data.map((o, i) => (
         <CardComponent
           key={i}
-          objectType={o.objectType.name.en}
-          orderId={o.request.id}
+          objectType={o.objectTypes.name.en}
+          orderId={o.requests.id}
           data={o}
         />
       ))}

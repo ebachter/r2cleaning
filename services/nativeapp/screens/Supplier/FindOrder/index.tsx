@@ -48,7 +48,7 @@ export default function ScreenSupplierRequests() {
           {res.map((o, i) => (
             <List.Item
               key={i}
-              title={`Заказ ${o.request.id}. ${o.objectType.name.en}`}
+              title={`Заказ ${o.requests.id}. ${o.objectTypes.name.en}`}
               left={() => (
                 <List.Icon
                   color={MD3Colors.tertiary70}
@@ -60,7 +60,7 @@ export default function ScreenSupplierRequests() {
               // right={() => <>{o.price || ''}</>}
               onPress={() =>
                 navigation.navigate('SupplierRequest', {
-                  orderId: String(o.request.id),
+                  orderId: String(o.requests.id),
                 })
               }
             />

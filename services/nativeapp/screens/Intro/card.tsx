@@ -26,7 +26,7 @@ const CardComponent = ({
       <Card.Title
         title={`Order ${orderId}`}
         subtitle={`Status: ${
-          data.order
+          data.orders
             ? 'Accepted order'
             : data.offerCount
             ? 'Offers received'
@@ -35,15 +35,15 @@ const CardComponent = ({
         left={LeftContent}
       />
       <Card.Content>
-        <Text variant="titleMedium">{`Object: ${objectType} in ${data.city.nameEn}`}</Text>
-        <Text variant="titleMedium">{`Address: ${data.object.addressStreet}`}</Text>
+        <Text variant="titleMedium">{`Object: ${objectType} in ${data.cities.nameEn}`}</Text>
+        <Text variant="titleMedium">{`Address: ${data.objects.addressStreet}`}</Text>
         <Text variant="bodyMedium">{`Offers: ${
           data.offerCount?.count || 0
         } offer(s)`}</Text>
       </Card.Content>
       {/* <Card.Cover source={{uri: 'https://picsum.photos/700'}} /> */}
       <Card.Actions>
-        {!data.order && <Button mode="text">Cancel</Button>}
+        {!data.orders && <Button mode="text">Cancel</Button>}
         {/* <Button>Ok</Button> */}
       </Card.Actions>
     </Card>

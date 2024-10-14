@@ -43,9 +43,9 @@ export default function ScreenOrderDetails() {
             }}
           >
             <Card.Title
-              title={`Order ${String(data.req.request.id)}`}
+              title={`Order ${String(data.req.requests.id)}`}
               subtitle={`Status: ${
-                data.req.order
+                data.req.orders
                   ? 'Accepted order'
                   : data.offers.length
                   ? 'Offers received'
@@ -54,10 +54,10 @@ export default function ScreenOrderDetails() {
               left={LeftContent}
             />
             <Card.Content>
-              <Text variant="titleMedium">{`Object: ${data.req.objectType.name.en} in ${data.req.city.nameEn}`}</Text>
-              <Text variant="titleMedium">{`Address: ${data.req.object.addressStreet}`}</Text>
+              <Text variant="titleMedium">{`Object: ${data.req.objectTypes.name.en} in ${data.req.cities.nameEn}`}</Text>
+              <Text variant="titleMedium">{`Address: ${data.req.objects.addressStreet}`}</Text>
               <Text variant="titleMedium">{`Cleaning date: ${
-                new Date(data.req.offer.cleaningDate)
+                new Date(data.req.offers.cleaningDate)
                   .toISOString()
                   .split('T')[0]
               }`}</Text>
@@ -77,7 +77,7 @@ export default function ScreenOrderDetails() {
         <OfferCard
           data={o}
           key={i}
-          orderExists={!!data.req.order}
+          orderExists={!!data.req.orders}
           refetch={refetch}
         />
       ))}
