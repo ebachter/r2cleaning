@@ -9,7 +9,6 @@ export type TypeLocal = {
     };
     signup: boolean;
     addObject: boolean;
-    addOrder: boolean;
     forwardTo?: keyof RootStackParamList;
   };
   snackbarVisible: {text: string; value?: boolean};

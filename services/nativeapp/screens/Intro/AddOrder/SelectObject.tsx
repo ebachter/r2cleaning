@@ -5,7 +5,7 @@ import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import {useState} from 'react';
 import {trpc} from '../../../trpc';
 
-const ObjectTypeRadio = () => {
+const SelectObject = () => {
   const {id, type} = useAppSelector((state) => state.request.object);
 
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
@@ -23,6 +23,7 @@ const ObjectTypeRadio = () => {
     <View>
       <View>
         <Select
+          label={'Select object'}
           style={{width: '100%'}}
           value={
             id && data
@@ -52,4 +53,4 @@ const ObjectTypeRadio = () => {
   );
 };
 
-export {ObjectTypeRadio};
+export {SelectObject};

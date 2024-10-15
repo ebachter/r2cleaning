@@ -1,28 +1,19 @@
-import * as React from 'react';
 import {ScrollView, View} from 'react-native';
-import {mergeLocal} from '../../redux/functionsDispatch';
-// import Header from '../components/Header';
 import {StyleSheet} from 'react-native';
-import {FAB, Text} from 'react-native-paper';
+import {FAB, Portal, Text} from 'react-native-paper';
 import {trpc} from '../../trpc';
 import CardComponent from './card';
+import ModalAddOrder from './AddOrder';
+import {useState} from 'react';
 
 export default function DetailsScreen() {
-  const {data} = trpc.user.orders.get.all.useQuery(undefined, {
+  const {data, refetch} = trpc.user.orders.get.all.useQuery(undefined, {
     initialData: [],
   });
+  const [visible, setVisible] = useState(false);
+
   return (
     <>
-      {/* <View
-        style={{
-          flex: 1,
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          backgroundColor: 'aliceblue',
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      > */}
       <ScrollView style={{backgroundColor: '#c7ddf2', padding: 5}}>
         <Text variant="titleLarge" style={{marginTop: 10, marginBottom: 10}}>
           My orders
@@ -40,11 +31,17 @@ export default function DetailsScreen() {
       <FAB
         icon="plus"
         style={styles.fab}
-        onPress={() => mergeLocal({modals: {addOrder: true}})}
+        onPress={() => setVisible(true)}
         label="New order"
         size="small"
       />
-      {/* </View> */}
+      <Portal>
+        <ModalAddOrder
+          visible={visible}
+          setVisible={setVisible}
+          refetch={refetch}
+        />
+      </Portal>
     </>
   );
 }

@@ -15,7 +15,6 @@ import {navigationRef} from './RootNavigation';
 import SnackbarComp from './components/Snackbar';
 import {allRoutes, screens} from './routes';
 import ModalAddObject from './modals/AddObject';
-import ModalAddOrder from './modals/AddOrder';
 import {RootStackParamList} from './types/typesNavigation';
 import './i18n';
 
@@ -68,12 +67,12 @@ export default function App() {
     <>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
-          <PaperProvider theme={paperTheme}>
-            <IconRegistry icons={EvaIconsPack} />
-            <ApplicationProvider
-              {...material}
-              theme={{...material.light, ...evaTheme}}
-            >
+          <ApplicationProvider
+            {...material}
+            theme={{...material.light, ...evaTheme}}
+          >
+            <PaperProvider theme={paperTheme}>
+              <IconRegistry icons={EvaIconsPack} />
               <NavigationContainer
                 ref={navigationRef}
                 linking={linking}
@@ -121,11 +120,10 @@ export default function App() {
                   </>
                 </Stack.Navigator>
                 <ModalAddObject />
-                <ModalAddOrder />
               </NavigationContainer>
               <SnackbarComp />
-            </ApplicationProvider>
-          </PaperProvider>
+            </PaperProvider>
+          </ApplicationProvider>
         </QueryClientProvider>
       </trpc.Provider>
     </>

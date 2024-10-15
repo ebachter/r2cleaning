@@ -4,19 +4,18 @@ import {Datepicker, Layout} from '@ui-kitten/components';
 import {useAppSelector} from '../../../redux/store';
 import {mergeOrder} from '../../../redux/functionsDispatch';
 
-export const OrderDate = (): React.ReactElement => {
+export const SelectDate = (): React.ReactElement => {
   const orderDate = useAppSelector((state) => state.request.date);
   const now = new Date();
 
   return (
-    <Layout level="1">
-      <Datepicker
-        date={orderDate}
-        onSelect={(nextDate) => mergeOrder({date: nextDate})}
-        placeholder={'Pick a date'}
-        min={now}
-      />
-    </Layout>
+    <Datepicker
+      label={'Pick a date'}
+      date={orderDate}
+      onSelect={(nextDate) => mergeOrder({date: nextDate})}
+      placeholder={'Pick a date'}
+      min={now}
+    />
   );
 };
 

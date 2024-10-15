@@ -140,10 +140,12 @@ export const intRouter = router({
         typia.createAssert<{
           object_id: ObjectType['id'];
           serviceId: number;
-          date: Date;
+          date: string;
         }>(),
       )
-      .output(typia.createAssert<{newOrderId: number}>())
+      .output(
+        typia.createAssert<{status: 'success' | 'error'; newOrderId: number}>(),
+      )
       .mutation(async ({ctx, input}) => {
         // console.log('--ctx--', ctx.session);
         const userId = ctx.session?.userId;
@@ -164,7 +166,7 @@ export const intRouter = router({
           return temp[0].insertId;
         });
 
-        return {newOrderId: insertId};
+        return {status: 'success', newOrderId: insertId};
       }),
   },
 
