@@ -1,21 +1,14 @@
-import '@azure/core-asynciterator-polyfill';
-// RNEventSource extends EventSource's functionality, you can add this to make the typing reflect this but it's not a requirement
-
 import type {AppRouter} from '@remrob/api';
 import {
   createWSClient,
-  httpBatchLink,
+  httpLink,
   loggerLink,
   splitLink,
   wsLink,
 } from '@trpc/client';
 import {createTRPCReact} from '@trpc/react-query';
-import {EventSourcePolyfill} from 'event-source-polyfill';
 import superjson from 'superjson';
 import {getAppState} from './redux/store';
-
-// polyfill EventSource
-globalThis.EventSource = EventSourcePolyfill;
 
 import {TRPCLink} from '@trpc/client';
 import {observable} from '@trpc/server/observable';
@@ -88,7 +81,7 @@ export const trpcClientOptions = {
         transformer: superjson,
       }),
 
-      false: httpBatchLink({
+      false: httpLink({
         url: `${process.env.EXPO_PUBLIC_APP_API_HOST}`,
         headers() {
           const authToken = getAppState().session.sessionToken;

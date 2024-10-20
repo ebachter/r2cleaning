@@ -1,15 +1,8 @@
-import express from 'express';
-import {createServer} from 'http';
-import bearerToken from 'express-bearer-token';
-import helmet from 'helmet';
 import cors from 'cors';
 import {appRouter} from './trpc/router';
 import {createContext} from './trpc/context';
-import {checkRoute} from './functions/authCheckRoute';
 import {inferReactQueryProcedureOptions} from '@trpc/react-query';
 import {inferRouterInputs, inferRouterOutputs} from '@trpc/server';
-import fs from 'node:fs';
-import healthcheck from './healthcheck';
 import ws from 'ws';
 import {applyWSSHandler} from '@trpc/server/adapters/ws';
 import {createHTTPServer} from '@trpc/server/adapters/standalone';
