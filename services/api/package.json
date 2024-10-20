@@ -55,7 +55,8 @@
     "serialize-error": "^2.1.0",
     "superjson": "^2.2.1",
     "typia": "^6.10.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/bun": "^1.1.8",

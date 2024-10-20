@@ -12,7 +12,7 @@
     "tsBuildInfoFile": "../../.build-cache/services-api.tsbuildinfo"
   },
   "extends": "../../tsconfig.base.json",
-  "include": ["./src/**/*", "service.js"],
+  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../../libraries/drizzle"

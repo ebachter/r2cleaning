@@ -20,17 +20,23 @@ export default function ScreenObjectDetails() {
   const [foo, setFoo] = React.useState([]);
 
   trpc.channel.onChannel.useSubscription(
-    {},
+    {testParam: 123},
     {
       onData(data) {
-        console.log({data});
+        console.log('>>>', {data});
         setFoo([...foo, data]);
       },
       enabled: true,
+
+      onError(err) {
+        console.error('error', err);
+      },
     },
   );
 
-  console.log('Some foo', foo);
+  // wsClient.close();
+
+  // console.log('Some foo', foo);
   const [text, setText] = React.useState('_');
 
   return (
@@ -76,9 +82,9 @@ export default function ScreenObjectDetails() {
         disabled
       />
 
-      {foo.map((item, i) => (
-        <li key={i}>{item}</li>
-      ))}
+      {foo.map((item, i) => {
+        return <li key={i}>{item}</li>;
+      })}
     </>
   );
 }

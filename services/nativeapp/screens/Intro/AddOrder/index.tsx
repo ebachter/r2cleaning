@@ -43,6 +43,7 @@ export default function ModalAddOrder({
     },
   });
   return (
+    // https://github.com/callstack/react-native-paper/issues/3575
     <Modal
       animationType="fade"
       onRequestClose={() => setVisible(false)}

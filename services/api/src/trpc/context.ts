@@ -1,18 +1,19 @@
-import * as trpcExpress from '@trpc/server/adapters/express';
+import type {CreateNextContextOptions} from '@trpc/server/adapters/next';
 import {verifyUserAuthToken} from '../authentication';
 
 export const createContext = async ({
   req,
   res,
-}: trpcExpress.CreateExpressContextOptions) => {
+  info,
+}: CreateNextContextOptions) => {
   let accessToken;
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     accessToken = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies?.access_token) {
-    accessToken = req.cookies.access_token;
+  } else if (info.connectionParams?.token) {
+    accessToken = info.connectionParams?.token;
   }
 
   const notAuthenticated = {

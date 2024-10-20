@@ -1,5 +1,5 @@
 export type Session = {
-  sessionToken: string | null;
-  refreshToken?: string | null;
+  sessionToken: string;
+  refreshToken?: string;
   smsSent?: boolean;
 };

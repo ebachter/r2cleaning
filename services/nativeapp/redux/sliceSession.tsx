@@ -3,8 +3,8 @@ import {Session} from '../types/typeSession';
 import _ from 'lodash';
 
 export const sessionInitialState: Session = {
-  sessionToken: null,
-  refreshToken: null,
+  sessionToken: '',
+  refreshToken: '',
   smsSent: false,
 };
 
