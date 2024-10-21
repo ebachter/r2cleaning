@@ -9,9 +9,12 @@ import {
 import {createTRPCReact} from '@trpc/react-query';
 import superjson from 'superjson';
 import {getAppState} from './redux/store';
-
 import {TRPCLink} from '@trpc/client';
 import {observable} from '@trpc/server/observable';
+
+const NODE_ENV = process.env.NODE_ENV;
+const EXPO_PUBLIC_APP_API_HOST = process.env.EXPO_PUBLIC_APP_API_HOST;
+const EXPO_PUBLIC_APP_WS_HOST = process.env.EXPO_PUBLIC_APP_WS_HOST;
 
 export const trpc = createTRPCReact<AppRouter>();
 // trpc.createClient(clientOptions);
@@ -53,8 +56,7 @@ export const trpcClientOptions = {
   links: [
     loggerLink({
       enabled: (opts) =>
-        (process.env.NODE_ENV === 'development' &&
-          typeof window !== 'undefined') ||
+        (NODE_ENV === 'development' && typeof window !== 'undefined') ||
         (opts.direction === 'down' && opts.result instanceof Error),
     }),
     customLink,
@@ -64,7 +66,7 @@ export const trpcClientOptions = {
       true: wsLink({
         client: createWSClient({
           lazy: {enabled: true, closeMs: 0}, // https://github.com/trpc/trpc/discussions/2672
-          url: `${process.env.EXPO_PUBLIC_APP_API_HOST}`,
+          url: `${EXPO_PUBLIC_APP_WS_HOST}`,
           connectionParams: async () => {
             const authToken = getAppState().session.sessionToken;
             return {
@@ -82,7 +84,7 @@ export const trpcClientOptions = {
       }),
 
       false: httpLink({
-        url: `${process.env.EXPO_PUBLIC_APP_API_HOST}`,
+        url: `${EXPO_PUBLIC_APP_API_HOST}`,
         headers() {
           const authToken = getAppState().session.sessionToken;
           return {
